@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>밀도 탐정 사건 파일 : I. 물질의 특성 - 1. 밀도 탐정</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Black+Han+Sans&family=Gugi&display=swap" rel="stylesheet">
+    <style>
+        *{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;box-sizing:border-box}
+        html,body{margin:0;padding:0;overflow-x:hidden}
+        body{font-family:'Noto Sans KR',sans-serif;background:#1a1f3a;min-height:100vh;color:#1e293b}
+        .detective-font{font-family:'Black Han Sans','Gugi',sans-serif;letter-spacing:.5px}
+        .case-bg{background:
+            radial-gradient(ellipse at top left,rgba(252,211,77,.08) 0%,transparent 40%),
+            radial-gradient(ellipse at bottom right,rgba(96,165,250,.08) 0%,transparent 40%),
+            linear-gradient(135deg,#1e293b 0%,#0f172a 50%,#1e293b 100%);
+            min-height:100vh}
+        .paper-bg{background:#fefce8;
+            background-image:
+                linear-gradient(90deg,rgba(120,53,15,.04) 1px,transparent 1px),
+                linear-gradient(rgba(120,53,15,.04) 1px,transparent 1px);
+            background-size:20px 20px}
+        .cork-bg{background:
+            radial-gradient(circle at 20% 30%,#a16207 1px,transparent 2px),
+            radial-gradient(circle at 70% 60%,#854d0e 1px,transparent 2px),
+            radial-gradient(circle at 40% 80%,#92400e 1px,transparent 2px),
+            #b45309;
+            background-size:30px 30px,40px 40px,35px 35px,100% 100%}
+        .tape{position:absolute;width:60px;height:18px;background:rgba(253,224,71,.7);box-shadow:0 1px 3px rgba(0,0,0,.2);transform:rotate(-3deg)}
+        .tape-tr{top:-8px;right:10px;transform:rotate(8deg)}
+        .tape-tl{top:-8px;left:10px;transform:rotate(-8deg)}
+        .magnify-cursor{cursor:crosshair}
+        .cylinder-gradient{background:linear-gradient(90deg,rgba(255,255,255,.4) 0%,rgba(255,255,255,.1) 50%,rgba(255,255,255,.4) 100%);border-left:1px solid rgba(255,255,255,.5);border-right:1px solid rgba(255,255,255,.5)}
+        .water-surface{transition:height .5s cubic-bezier(.4,0,.2,1)}
+        .liquid-layer{transition:all .8s ease-in-out}
+        .ocean-gradient{background:linear-gradient(to bottom,#bae6fd 0%,#7dd3fc 10%,#38bdf8 20%,#0284c7 50%,#075985 75%,#0c4a6e 100%)}
+        .diver-anim{transition:top 1.2s cubic-bezier(.45,.05,.55,.95)}
+        .ship-float{animation:ship-move 4s ease-in-out infinite}
+        @keyframes ship-move{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-4px) rotate(1.5deg)}}
+        @keyframes bubble-rise{0%{transform:translateY(0) translateX(0) scale(1);opacity:.7}50%{transform:translateY(-80px) translateX(-8px) scale(1.2);opacity:.5}100%{transform:translateY(-160px) translateX(4px) scale(.6);opacity:0}}
+        .bubble{animation:bubble-rise var(--dur,3s) var(--delay,0s) infinite ease-out}
+        @keyframes wave-move{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        .wave-anim{animation:wave-move 6s linear infinite}
+        @keyframes fish-swim{0%{transform:translateX(-40px) scaleX(1)}49%{transform:translateX(180px) scaleX(1)}50%{transform:translateX(180px) scaleX(-1)}99%{transform:translateX(-40px) scaleX(-1)}100%{transform:translateX(-40px) scaleX(1)}}
+        .fish-anim{animation:fish-swim 8s linear infinite}
+        .fish-anim-2{animation:fish-swim 11s 2s linear infinite}
+        @keyframes seaweed-sway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+        .seaweed{animation:seaweed-sway 3s ease-in-out infinite;transform-origin:bottom center}
+        @keyframes float-person{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+        .float-person{animation:float-person 3s ease-in-out infinite}
+        @keyframes gentle-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+        .gentle-bob{animation:gentle-bob 2s ease-in-out infinite}
+        @keyframes fade-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        .fade-in{animation:fade-in .3s ease-out forwards}
+        @keyframes slide-down{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+        .slide-down{animation:slide-down .4s ease-out forwards}
+        @keyframes pulse-glow{0%,100%{box-shadow:0 0 0 0 rgba(252,211,77,.5)}50%{box-shadow:0 0 0 12px rgba(252,211,77,0)}}
+        .clue-highlight{animation:pulse-glow 2s ease-in-out infinite}
+        @keyframes confetti-fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+        .confetti{animation:confetti-fall 3s ease-in forwards}
+        @keyframes achievement-pop{0%{transform:scale(0);opacity:0}50%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+        .achievement-pop{animation:achievement-pop .5s ease-out forwards}
+        @keyframes stamp{0%{transform:scale(3) rotate(-15deg);opacity:0}60%{transform:scale(.9) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0deg);opacity:1}}
+        .stamp-anim{animation:stamp .6s ease-out forwards}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+        .shake{animation:shake .3s ease-in-out}
+        @keyframes spotlight{0%,100%{opacity:.4}50%{opacity:.7}}
+        .spotlight{animation:spotlight 3s ease-in-out infinite}
+        .scale-plate{transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+        .locked-overlay{position:absolute;inset:0;background:rgba(15,23,42,.85);border-radius:inherit;display:flex;align-items:center;justify-content:center;z-index:2;flex-direction:column;gap:4px}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        .shimmer{background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.4) 50%,transparent 100%);background-size:200% 100%;animation:shimmer 2s infinite}
+        .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+        .cert-bg{background:linear-gradient(135deg,#fef3c7 0%,#fffbeb 30%,#fef9c3 60%,#fefce8 100%)}
+        .glass-cup{background:linear-gradient(to right,rgba(255,255,255,.5),rgba(255,255,255,.1) 30%,rgba(255,255,255,.1) 70%,rgba(255,255,255,.5));border-left:2px solid rgba(255,255,255,.8);border-right:2px solid rgba(255,255,255,.8)}
+        @keyframes drink-shine{0%,100%{opacity:0}50%{opacity:.6}}
+        .drink-shine{animation:drink-shine 2s ease-in-out infinite}
+        .draggable{touch-action:none;user-select:none}
+        .drag-over{transform:scale(1.05);box-shadow:0 0 0 3px rgba(252,211,77,.8)}
+        .sticker{position:absolute;font-size:24px;cursor:move;user-select:none;touch-action:none;filter:drop-shadow(2px 2px 3px rgba(0,0,0,.3));transition:transform .2s}
+        .sticker:active{transform:scale(1.2)}
+        .notebook-line{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 23px,rgba(59,130,246,.15) 24px)}
+        .stamp-red{color:#dc2626;border:3px solid #dc2626;font-family:'Black Han Sans',sans-serif;letter-spacing:2px;padding:4px 12px;display:inline-block;transform:rotate(-8deg);background:rgba(254,242,242,.5)}
+        /* mobile tweaks */
+        @media (max-width:640px){
+            .modal-backdrop{padding:8px}
+        }
+        input[type="range"]{-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
+        input[type="range"]::-webkit-slider-runnable-track{background:#fbbf24;height:6px;border-radius:3px}
+        input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;background:#dc2626;border-radius:50%;margin-top:-6px;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+        input[type="range"]::-moz-range-track{background:#fbbf24;height:6px;border-radius:3px}
+        input[type="range"]::-moz-range-thumb{width:18px;height:18px;background:#dc2626;border-radius:50%;border:2px solid white}
+    </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const{useState,useEffect,useRef,useCallback}=React;
+
+/* ===== SOUND ENGINE ===== */
+const SFX={
+    _ctx:null,
+    _getCtx(){if(!this._ctx)try{this._ctx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}return this._ctx},
+    play(type){
+        try{
+            const c=this._getCtx();if(!c)return;
+            if(c.state==='suspended')c.resume();
+            const now=c.currentTime;
+            switch(type){
+                case'click':{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(880,now);g.gain.setValueAtTime(.08,now);g.gain.exponentialRampToValueAtTime(.001,now+.1);o.start(now);o.stop(now+.1);break}
+                case'place':{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='triangle';o.frequency.setValueAtTime(440,now);o.frequency.exponentialRampToValueAtTime(220,now+.2);g.gain.setValueAtTime(.1,now);g.gain.exponentialRampToValueAtTime(.001,now+.25);o.start(now);o.stop(now+.25);break}
+                case'splash':{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sawtooth';o.frequency.setValueAtTime(600,now);o.frequency.exponentialRampToValueAtTime(100,now+.4);g.gain.setValueAtTime(.06,now);g.gain.exponentialRampToValueAtTime(.001,now+.4);o.start(now);o.stop(now+.4);break}
+                case'success':{[523,659,784].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(f,now+i*.12);g.gain.setValueAtTime(.12,now+i*.12);g.gain.exponentialRampToValueAtTime(.001,now+i*.12+.3);o.start(now+i*.12);o.stop(now+i*.12+.3)});break}
+                case'error':{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='square';o.frequency.setValueAtTime(180,now);g.gain.setValueAtTime(.06,now);g.gain.exponentialRampToValueAtTime(.001,now+.3);o.start(now);o.stop(now+.3);break}
+                case'achievement':{[523,659,784,1047].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(f,now+i*.15);g.gain.setValueAtTime(.15,now+i*.15);g.gain.exponentialRampToValueAtTime(.001,now+i*.15+.4);o.start(now+i*.15);o.stop(now+i*.15+.4)});break}
+                case'fanfare':{const notes=[523,659,784,659,784,1047];notes.forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(f,now+i*.18);g.gain.setValueAtTime(.15,now+i*.18);g.gain.exponentialRampToValueAtTime(.001,now+i*.18+.35);o.start(now+i*.18);o.stop(now+i*.18+.35)});break}
+                case'reset':{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(600,now);o.frequency.exponentialRampToValueAtTime(300,now+.15);g.gain.setValueAtTime(.07,now);g.gain.exponentialRampToValueAtTime(.001,now+.15);o.start(now);o.stop(now+.15);break}
+                case'dive':{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(800,now);o.frequency.exponentialRampToValueAtTime(200,now+.4);g.gain.setValueAtTime(.08,now);g.gain.exponentialRampToValueAtTime(.001,now+.4);o.start(now);o.stop(now+.4);break}
+                case'camera':{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='triangle';o.frequency.setValueAtTime(1500,now);o.frequency.exponentialRampToValueAtTime(400,now+.15);g.gain.setValueAtTime(.15,now);g.gain.exponentialRampToValueAtTime(.001,now+.15);o.start(now);o.stop(now+.15);break}
+                case'mystery':{[392,494,587,494].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(f,now+i*.2);g.gain.setValueAtTime(.1,now+i*.2);g.gain.exponentialRampToValueAtTime(.001,now+i*.2+.4);o.start(now+i*.2);o.stop(now+i*.2+.4)});break}
+            }
+        }catch(e){}
+    }
+};
+
+/* ===== ICONS ===== */
+const Icon=({size=24,color="currentColor",children,className,...p})=>(
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...p}>{children}</svg>
+);
+const Magnify=p=>(<Icon {...p}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></Icon>);
+const FlaskConical=p=>(<Icon {...p}><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></Icon>);
+const InfoIcon=p=>(<Icon {...p}><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></Icon>);
+const RefreshCcw=p=>(<Icon {...p}><path d="M3 2v6h6"/><path d="M21 12A9 9 0 0 0 6 5.3L3 8"/><path d="M21 22v-6h-6"/><path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"/></Icon>);
+const Droplets=p=>(<Icon {...p}><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.8-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.35"/></Icon>);
+const Waves=p=>(<Icon {...p}><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></Icon>);
+const Thermometer=p=>(<Icon {...p}><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></Icon>);
+const Trophy=p=>(<Icon {...p}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></Icon>);
+const Camera=p=>(<Icon {...p}><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></Icon>);
+const Award=p=>(<Icon {...p}><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></Icon>);
+const FileText=p=>(<Icon {...p}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></Icon>);
+const X=p=>(<Icon {...p}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></Icon>);
+const AlertTriangle=p=>(<Icon {...p}><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></Icon>);
+
+/* ===== DATA ===== */
+const MATERIALS=[
+    {id:'iron_s',name:'철 조각 (소)',color:'#64748b',mass:39.35,volume:5,density:7.87,size:'small',group:'iron',code:'증거 #001'},
+    {id:'iron_l',name:'철 조각 (대)',color:'#475569',mass:78.7,volume:10,density:7.87,size:'large',group:'iron',code:'증거 #002'},
+    {id:'alu_s',name:'알루미늄 (소)',color:'#cbd5e1',mass:13.5,volume:5,density:2.70,size:'small',group:'alu',code:'증거 #003'},
+    {id:'alu_l',name:'알루미늄 (대)',color:'#94a3b8',mass:27.0,volume:10,density:2.70,size:'large',group:'alu',code:'증거 #004'},
+    {id:'mystery_a',name:'미지의 물질 A',color:'#fbbf24',mass:96.5,volume:5,density:19.30,size:'small',group:'mystery',code:'미지 X-1'},
+    {id:'mystery_b',name:'미지의 물질 B',color:'#10b981',mass:89.6,volume:10,density:8.96,size:'large',group:'mystery',code:'미지 X-2'},
+];
+const MAT_ORDER=['iron_s','iron_l','alu_s','alu_l','mystery_a','mystery_b'];
+
+/* 칵테일 시럽 재료 (밀도 큰 → 작은 순) */
+const SYRUPS=[
+    {id:'grenadine',name:'그레나딘 시럽',density:1.18,color:'#dc2626',textColor:'white',emoji:'🍒'},
+    {id:'blackcurrant',name:'블랙커런트 시럽',density:1.14,color:'#7c2d12',textColor:'white',emoji:'🍇'},
+    {id:'kahlua',name:'깔루아 (커피)',density:1.09,color:'#451a03',textColor:'white',emoji:'☕'},
+    {id:'bluecuracao',name:'블루 큐라소',density:1.04,color:'#0284c7',textColor:'white',emoji:'💙'},
+    {id:'water_drink',name:'정제수',density:1.00,color:'#7dd3fc',textColor:'#0c4a6e',emoji:'💧'},
+    {id:'rum',name:'화이트 럼',density:0.94,color:'#fef3c7',textColor:'#78350f',emoji:'🥃'},
+    {id:'oil_drink',name:'오렌지 오일',density:0.85,color:'#fb923c',textColor:'white',emoji:'🍊'},
+];
+
+const STICKERS=['⭐','✨','💎','🎀','🌸','🍀','🦋','🌈','💖','🌟','🎉','🧪','🔬','🔍','🍒','🍋','🥝','🌺','🎨','👑'];
+
+const DENSITY_REF=[
+    {name:'금',d:19.30},{name:'납',d:11.34},{name:'은',d:10.49},
+    {name:'구리',d:8.96},{name:'철',d:7.87},{name:'알루미늄',d:2.70},
+];
+
+/* ===== UTILITY: viewport detection ===== */
+const useViewport=()=>{
+    const[w,setW]=useState(typeof window!=='undefined'?window.innerWidth:1024);
+    useEffect(()=>{
+        const onR=()=>setW(window.innerWidth);
+        window.addEventListener('resize',onR);
+        return()=>window.removeEventListener('resize',onR);
+    },[]);
+    return{w,isMobile:w<640,isTablet:w>=640&&w<1024,isDesktop:w>=1024};
+};
+
+/* ===== GRAPHICS ===== */
+const Bubbles=({count=6})=>(<>{[...Array(count)].map((_,i)=><div key={i} className="bubble absolute rounded-full bg-white bg-opacity-30" style={{width:4+Math.random()*8,height:4+Math.random()*8,left:`${10+Math.random()*80}%`,bottom:`${Math.random()*30}%`,'--dur':`${2.5+Math.random()*3}s`,'--delay':`${Math.random()*3}s`}}/>)}</>);
+const OceanWaves=()=>(<div className="absolute top-[14%] left-0 w-full h-6 overflow-hidden z-10 pointer-events-none"><svg className="wave-anim" width="200%" height="24" viewBox="0 0 1200 24" preserveAspectRatio="none"><path d="M0 12 Q30 4 60 12 T120 12 T180 12 T240 12 T300 12 T360 12 T420 12 T480 12 T540 12 T600 12 T660 12 T720 12 T780 12 T840 12 T900 12 T960 12 T1020 12 T1080 12 T1140 12 T1200 12 V24 H0Z" fill="#7dd3fc" opacity=".5"/></svg></div>);
+const Fish=({className,color="#f59e0b",y="60%"})=>(<div className={`absolute ${className}`} style={{top:y,left:0}}><svg width="28" height="16" viewBox="0 0 28 16"><ellipse cx="12" cy="8" rx="10" ry="6" fill={color} opacity=".7"/><polygon points="22,8 28,3 28,13" fill={color} opacity=".7"/><circle cx="7" cy="7" r="1.5" fill="white"/><circle cx="7" cy="7" r=".8" fill="black"/></svg></div>);
+const Seaweed=({x,h=40})=>(<div className="seaweed absolute bottom-0" style={{left:x}}><svg width="16" height={h} viewBox={`0 0 16 ${h}`}><path d={`M8 ${h} Q2 ${h*.7} 10 ${h*.5} Q4 ${h*.3} 8 0`} fill="none" stroke="#16a34a" strokeWidth="3" opacity=".6"/></svg></div>);
+const RealisticDiver=({weightCount})=>(<svg width="70" height="90" viewBox="0 0 100 120"><rect x="35" y="30" width="20" height="45" rx="10" fill="#fbbf24" stroke="#d97706" strokeWidth="1"/><path d="M40 25 Q50 20 60 25 L65 70 Q50 80 35 70 Z" fill="#1e293b"/><circle cx="50" cy="20" r="12" fill="#334155"/><rect x="42" y="15" width="16" height="8" rx="2" fill="#94a3b8"/><path d="M40 30 L25 50" stroke="#1e293b" strokeWidth="8" strokeLinecap="round"/><path d="M60 30 L75 50" stroke="#1e293b" strokeWidth="8" strokeLinecap="round"/><path d="M42 70 L35 95" stroke="#1e293b" strokeWidth="8" strokeLinecap="round"/><path d="M58 70 L65 95" stroke="#1e293b" strokeWidth="8" strokeLinecap="round"/><rect x="38" y="65" width="24" height="6" fill="#475569" rx="1"/>{[...Array(weightCount)].map((_,i)=><rect key={i} x={40+i*4} y={66} width="3" height="4" fill="#fef08a" rx=".5" stroke="#854d0e" strokeWidth=".3"/>)}</svg>);
+const SimpleShip=()=>(<div className="ship-float"><svg width="90" height="46" viewBox="0 0 120 60"><path d="M10 40 L110 40 L100 58 L20 58 Z" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1.5"/><rect x="40" y="18" width="40" height="22" rx="2" fill="white" stroke="#94a3b8" strokeWidth="1.5"/><rect x="48" y="22" width="8" height="8" rx="1" fill="#bfdbfe"/><rect x="62" y="22" width="8" height="8" rx="1" fill="#bfdbfe"/><rect x="55" y="5" width="6" height="15" fill="#64748b"/><rect x="52" y="4" width="12" height="4" rx="1" fill="#ef4444"/></svg></div>);
+const LifeJacketPerson=()=>(<div className="float-person"><svg width="44" height="58" viewBox="0 0 60 80"><circle cx="30" cy="18" r="9" fill="#fecaca"/><circle cx="27" cy="17" r="1" fill="#44403c"/><circle cx="33" cy="17" r="1" fill="#44403c"/><rect x="16" y="28" width="28" height="22" rx="6" fill="#f97316"/><rect x="20" y="30" width="20" height="18" rx="3" fill="#fb923c"/><path d="M16 38 L8 45" stroke="#fecaca" strokeWidth="4" strokeLinecap="round"/><path d="M44 38 L52 45" stroke="#fecaca" strokeWidth="4" strokeLinecap="round"/></svg></div>);
+
+/* ===== CONFETTI ===== */
+const Confetti=()=>{
+    const colors=['#ef4444','#3b82f6','#10b981','#f59e0b','#8b5cf6','#ec4899','#fbbf24'];
+    return <div className="fixed inset-0 pointer-events-none z-50">{[...Array(50)].map((_,i)=><div key={i} className="confetti absolute" style={{left:`${Math.random()*100}%`,top:'-10px',width:8+Math.random()*8,height:8+Math.random()*8,background:colors[i%colors.length],borderRadius:Math.random()>.5?'50%':'0',animationDelay:`${Math.random()*1.5}s`,animationDuration:`${2+Math.random()*2}s`}}/>)}</div>;
+};
+
+/* ===== TEMPERATURE WARNING MODAL ===== */
+const TempWarningModal=({onClose,temperature})=>(
+    <div className="modal-backdrop fade-in" onClick={onClose}>
+        <div onClick={e=>e.stopPropagation()} className="bg-white rounded-2xl max-w-md w-full shadow-2xl relative slide-down">
+            <div className="bg-gradient-to-r from-amber-500 to-orange-500 p-4 rounded-t-2xl flex items-center gap-3">
+                <AlertTriangle className="text-white" size={28}/>
+                <div>
+                    <h2 className="text-white font-bold detective-font text-lg">🔍 탐정 노트: 중요 단서!</h2>
+                    <p className="text-orange-100 text-xs">물의 부피가 변했습니다!</p>
+                </div>
+            </div>
+            <div className="p-5 text-sm text-gray-700 space-y-3">
+                <div className="bg-amber-50 border-l-4 border-amber-500 p-3 rounded">
+                    <p className="font-bold text-amber-900 mb-1">🌡️ 현재 온도: {temperature}°C</p>
+                    <p className="text-xs text-amber-800">실린더 안의 물의 부피가 미세하게 달라졌습니다. 발견했나요?</p>
+                </div>
+                <div>
+                    <h3 className="font-bold text-gray-800 mb-1">❓ 왜 부피가 변할까요?</h3>
+                    <p className="text-xs leading-relaxed">물(액체)은 <strong className="text-blue-600">온도가 올라가면 부피가 늘어나고</strong>, 온도가 내려가면 부피가 줄어듭니다. 입자들의 운동이 활발해지면서 입자 사이 거리가 멀어지기 때문이지요.</p>
+                </div>
+                <div>
+                    <h3 className="font-bold text-gray-800 mb-1">🔬 그렇다면 밀도는?</h3>
+                    <p className="text-xs leading-relaxed">질량은 그대로지만 부피가 변하면 <strong className="text-red-600">밀도(=질량÷부피)도 변합니다.</strong> 그래서 정확한 밀도를 측정하려면 <strong className="text-blue-700">반드시 같은 온도 조건</strong>에서 비교해야 합니다.</p>
+                </div>
+                <div className="bg-blue-50 border border-blue-200 p-3 rounded">
+                    <p className="text-xs text-blue-900"><strong>📌 탐정의 결론:</strong><br/>물질의 밀도를 비교할 때는 항상 <strong>표준 온도(보통 20°C)</strong>를 기준으로 합니다. 그래야 공정한 비교가 가능해요!</p>
+                </div>
+            </div>
+            <div className="px-5 pb-5">
+                <button onClick={onClose} className="w-full bg-amber-600 hover:bg-amber-700 text-white py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2">
+                    <Magnify size={16}/> 사건 파일에 메모하기
+                </button>
+            </div>
+        </div>
+    </div>
+);
+
+/* ===== INFO MODAL ===== */
+const InfoModal=({onClose})=>(
+    <div className="modal-backdrop" onClick={onClose}>
+        <div onClick={e=>e.stopPropagation()} className="bg-white rounded-2xl p-5 max-w-md w-full shadow-2xl fade-in">
+            <div className="flex items-center gap-3 mb-4">
+                <div className="bg-amber-600 p-2 rounded-lg"><Magnify className="text-white" size={20}/></div>
+                <div><h2 className="font-bold text-gray-800 detective-font">🔍 밀도 탐정 사건 파일</h2><p className="text-xs text-gray-500">I. 물질의 특성 - 1. 밀도 탐정</p></div>
+            </div>
+            <div className="space-y-3 text-sm text-gray-700 max-h-[60vh] overflow-y-auto">
+                <div className="bg-amber-50 p-3 rounded-lg border border-amber-200">
+                    <h3 className="font-bold text-amber-900 mb-1">🎯 사건 개요</h3>
+                    <p className="text-xs leading-relaxed">신원 미상의 두 금속이 발견되었습니다! 탐정이 되어 밀도를 측정하고 정체를 밝혀내세요.</p>
+                </div>
+                <div className="bg-gray-50 p-3 rounded-lg">
+                    <h3 className="font-bold text-gray-800 mb-1">🔬 사건 파일 (3개 미션)</h3>
+                    <ul className="text-xs space-y-1.5 leading-relaxed">
+                        <li><strong className="text-amber-700">파일 1.</strong> 여러 물질의 밀도 측정하고 미지의 금속 정체 찾기</li>
+                        <li><strong className="text-purple-700">파일 2.</strong> 간이 밀도탑 쌓기 (나만의 밀도 음료 만들기)</li>
+                        <li><strong className="text-cyan-700">파일 3.</strong> 생활 속 밀도 - 잠수부와 수심 15m 인증</li>
+                    </ul>
+                </div>
+                <div className="bg-gray-50 p-3 rounded-lg">
+                    <h3 className="font-bold text-gray-800 mb-1">🏆 최종 미션</h3>
+                    <p className="text-xs leading-relaxed">3개 사건을 모두 해결하면 <strong>'선생님께 자랑하기' 페이지</strong>에서 자격증과 인증샷을 모아 볼 수 있어요!</p>
+                </div>
+                <div className="bg-gray-50 p-3 rounded-lg">
+                    <h3 className="font-bold text-gray-800 mb-1">ℹ️ 정보</h3>
+                    <p className="text-xs text-gray-500">대상: 중학교 1학년 과학</p>
+                    <p className="text-xs text-gray-500">버전: 4.0 (탐정 컨셉) | 최종 수정: 2026-05-11</p>
+                    <p className="text-xs text-gray-500">제작: 과학이조선생(조승재)</p>
+                </div>
+            </div>
+            <button onClick={onClose} className="mt-4 w-full bg-gray-800 text-white py-2 rounded-lg font-bold text-sm">닫기</button>
+        </div>
+    </div>
+);
+
+/* ===== ACHIEVEMENT BAR ===== */
+const AchievementBar=({achievements,onShowBrag,isMobile})=>{
+    const total=Object.values(achievements).filter(Boolean).length;
+    return(
+        <div className="flex items-center gap-1.5 flex-wrap">
+            {[{key:'explore',icon:'🔍',label:'미지 물질'},{key:'tower',icon:'🍹',label:'밀도음료'},{key:'diver',icon:'📸',label:'15m 인증'}].map(a=>(
+                <div key={a.key} className={`flex items-center gap-1 px-1.5 py-1 rounded-full text-[9px] font-bold border ${achievements[a.key]?'bg-amber-300 border-amber-500 text-amber-900':'bg-slate-700 border-slate-600 text-slate-400'}`} title={a.label}>
+                    <span>{a.icon}</span>
+                    {!isMobile&&<span>{a.label}</span>}
+                    {achievements[a.key]&&<span>✓</span>}
+                </div>
+            ))}
+            <button onClick={onShowBrag} className={`ml-0.5 px-2 py-1 rounded-full text-[10px] font-black ${total===3?'bg-yellow-400 text-yellow-900 animate-bounce':'bg-slate-700 text-slate-300 border border-slate-600'}`}>
+                🎓 자랑하기 ({total}/3)
+            </button>
+        </div>
+    );
+};
+
+/* ===== TAB 1: EXPLORE - 미지의 금속 탐정 ===== */
+const ExperimentLab=({onAchieve,isMobile})=>{
+    const[selectedObj,setSelectedObj]=useState(null);
+    const[scaleValue,setScaleValue]=useState(0);
+    const[onScale,setOnScale]=useState(null);
+    const[inCylinder,setInCylinder]=useState(null);
+    const[temperature,setTemperature]=useState(20);
+    const[showTempWarn,setShowTempWarn]=useState(false);
+    const[tempWarnShown,setTempWarnShown]=useState(false);
+    const baseWaterVolume=50.0;
+
+    const[completed,setCompleted]=useState({});
+    const[userInputs,setUserInputs]=useState({});
+    const[inputErrors,setInputErrors]=useState({});
+
+    // Step gating: 0=select obj, 1=measure mass, 2=input mass, 3=measure volume, 4=input volume → next obj
+    const[currentStep,setCurrentStep]=useState(0);
+
+    const[quizA,setQuizA]=useState('');
+    const[quizB,setQuizB]=useState('');
+    const[quizResult,setQuizResult]=useState(null);
+    const[showConclusion,setShowConclusion]=useState(false);
+
+    const currentWaterVolume=baseWaterVolume+(baseWaterVolume*0.0004*(temperature-20));
+    const totalVolume=currentWaterVolume+(inCylinder?inCylinder.volume:0);
+
+    // 온도 변경 시 경고 (한 번만)
+    const handleTempChange=(v)=>{
+        setTemperature(v);
+        if(!tempWarnShown&&Math.abs(v-20)>=10){
+            setShowTempWarn(true);
+            setTempWarnShown(true);
+            SFX.play('mystery');
+        }
+    };
+
+    const getUnlockedIndex=()=>{
+        for(let i=0;i<MAT_ORDER.length;i++){
+            const c=completed[MAT_ORDER[i]];
+            const inp=userInputs[MAT_ORDER[i]];
+            if(!c||!c.mass||!c.volume||!inp?.mass||!inp?.volume) return i;
+        }
+        return MAT_ORDER.length;
+    };
+    const unlockedIdx=getUnlockedIndex();
+    const isUnlocked=(matId)=>{
+        const idx=MAT_ORDER.indexOf(matId);
+        return idx<=unlockedIdx;
+    };
+    const isCurrent=(matId)=>MAT_ORDER.indexOf(matId)===unlockedIdx;
+
+    const handleSelect=(obj)=>{
+        if(inCylinder||onScale)return;
+        if(!isUnlocked(obj.id))return;
+        SFX.play('click');
+        setSelectedObj(obj);
+        if(currentStep===0)setCurrentStep(1);
+    };
+
+    const placeOnScale=()=>{
+        if(!selectedObj||completed[selectedObj.id]?.mass)return;
+        SFX.play('place');
+        const m=selectedObj;
+        setOnScale(m);
+        setSelectedObj(null);
+        setTimeout(()=>setScaleValue(m.mass.toFixed(2)),400);
+        setCompleted(p=>({...p,[m.id]:{...p[m.id],mass:true}}));
+        setCurrentStep(2);
+    };
+
+    const placeInCylinder=()=>{
+        if(!selectedObj)return;
+        SFX.play('splash');
+        const m=selectedObj;
+        setInCylinder(m);
+        setSelectedObj(null);
+        setCompleted(p=>({...p,[m.id]:{...p[m.id],volume:true}}));
+        setCurrentStep(4);
+    };
+
+    const resetExperiment=()=>{
+        SFX.play('reset');
+        setOnScale(null);setInCylinder(null);setSelectedObj(null);setScaleValue(0);
+    };
+
+    const handleInput=(matId,field,val)=>{
+        setUserInputs(p=>({...p,[matId]:{...p[matId],[field]:val}}));
+        setInputErrors(p=>{const n={...p};delete n[`${matId}_${field}`];return n});
+    };
+
+    const validateInput=(matId,field)=>{
+        const mat=MATERIALS.find(m=>m.id===matId);
+        const val=parseFloat(userInputs[matId]?.[field]||'');
+        const actual=field==='mass'?mat.mass:mat.volume;
+        if(isNaN(val)){setInputErrors(p=>({...p,[`${matId}_${field}`]:'숫자를 입력하세요'}));return false}
+        if(Math.abs(val-actual)>0.5){setInputErrors(p=>({...p,[`${matId}_${field}`]:'다시 측정 결과 확인!'}));SFX.play('error');return false}
+        SFX.play('success');
+        if(field==='mass'&&currentStep===2)setCurrentStep(3);
+        if(field==='volume'&&currentStep===4){
+            // 다음 물질로 자동 이동을 위해 도구 초기화
+            setTimeout(()=>{setOnScale(null);setInCylinder(null);setScaleValue(0);setCurrentStep(0)},400);
+        }
+        return true;
+    };
+
+    const getUserDensity=(matId)=>{
+        const inp=userInputs[matId];
+        if(!inp?.mass||!inp?.volume)return null;
+        const m=parseFloat(inp.mass),v=parseFloat(inp.volume);
+        if(isNaN(m)||isNaN(v)||v===0)return null;
+        return(m/v).toFixed(2);
+    };
+
+    const allBaseComplete=['iron_s','iron_l','alu_s','alu_l'].every(id=>getUserDensity(id)!==null);
+    const mysteryComplete=['mystery_a','mystery_b'].every(id=>getUserDensity(id)!==null);
+
+    const handleQuizSubmit=()=>{
+        if(quizA==='금'&&quizB==='구리'){
+            SFX.play('achievement');
+            setQuizResult('correct');
+            onAchieve('explore');
+        }else{
+            SFX.play('error');
+            setQuizResult('wrong');
+        }
+    };
+
+    const stepGuide=()=>{
+        const cur=MATERIALS[unlockedIdx];
+        if(!cur)return{title:"🎉 모든 물질 측정 완료!",text:"미지의 물질 정체를 추리해보세요!",icon:"🏆"};
+        const c=completed[cur.id]||{};
+        const inp=userInputs[cur.id]||{};
+        if(!c.mass)return{title:`STEP ${unlockedIdx*4+1}: ${cur.code} 선택`,text:`'${cur.name}'을(를) 클릭하고 '⚖️ 저울에 올리기'를 눌러 질량을 측정하세요.`,icon:"👆"};
+        if(!inp.mass)return{title:`STEP ${unlockedIdx*4+2}: 질량 기록`,text:`저울에 표시된 ${cur.name}의 질량을 측정 결과표에 입력하세요.`,icon:"✏️"};
+        if(!c.volume)return{title:`STEP ${unlockedIdx*4+3}: 부피 측정`,text:`'실험 도구 비우기' 후, ${cur.name}을(를) 다시 선택해 '💧 실린더에 넣기'를 누르세요.`,icon:"💧"};
+        if(!inp.volume)return{title:`STEP ${unlockedIdx*4+4}: 부피 기록`,text:`실린더 눈금 변화(${cur.volume}mL)를 측정 결과표에 입력하세요!`,icon:"📐"};
+        return{title:"다음 물질로!",text:"다음 증거물을 측정해보세요.",icon:"➡️"};
+    };
+    const guide=stepGuide();
+
+    return(
+        <div className="flex flex-col xl:flex-row gap-3 p-3">
+            {showTempWarn&&<TempWarningModal onClose={()=>setShowTempWarn(false)} temperature={temperature}/>}
+
+            {/* Left: Lab */}
+            <div className="flex-1 bg-white rounded-2xl shadow-lg p-4 flex flex-col relative">
+                <div className="flex flex-wrap justify-between items-center mb-3 gap-2">
+                    <h2 className="text-sm sm:text-base font-bold text-gray-800 flex items-center gap-2 detective-font">
+                        <Magnify className="text-amber-600" size={20}/>
+                        파일 1: 미지의 금속 정체 찾기
+                    </h2>
+                    <div className="bg-orange-50 p-1.5 rounded-lg border border-orange-200 flex items-center gap-2">
+                        <Thermometer className="text-orange-500" size={16}/>
+                        <div className="flex flex-col">
+                            <span className="text-[10px] text-orange-800 font-bold">물 온도: {temperature}°C</span>
+                            <input type="range" min="0" max="80" value={temperature} onChange={e=>handleTempChange(parseInt(e.target.value))} className="w-24 sm:w-28"/>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Guide */}
+                <div className="bg-amber-50 border-2 border-amber-300 rounded-xl p-2.5 mb-3 fade-in relative" key={`${unlockedIdx}-${guide.title}`}>
+                    <div className="tape tape-tl"></div>
+                    <div className="flex items-start gap-2">
+                        <span className="text-2xl">{guide.icon}</span>
+                        <div>
+                            <h4 className="font-bold text-amber-900 text-xs detective-font">🔍 {guide.title}</h4>
+                            <p className="text-amber-800 text-[11px] leading-relaxed">{guide.text}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Cylinder reading tip */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-2 mb-3 text-[10px] text-blue-900 flex items-start gap-2">
+                    <span className="text-base">📏</span>
+                    <div>
+                        <strong>실린더 읽는 법:</strong> 오목한 면(메니스커스)의 가장 낮은 부분을 읽으세요. 넣기 전(50mL)과 넣은 후 눈금의 차이가 물질의 부피입니다.
+                    </div>
+                </div>
+
+                {/* Instruments */}
+                <div className="flex-1 flex flex-row justify-around items-end gap-4 sm:gap-6 pb-2">
+                    {/* Scale */}
+                    <div className="flex flex-col items-center relative z-10 w-36 sm:w-44">
+                        <div className="w-full h-6 sm:h-7 bg-gray-400 rounded-lg shadow-md mt-auto"></div>
+                        <div className={`w-28 sm:w-36 h-3.5 bg-gray-300 rounded-t-lg mx-auto relative -mt-10 mb-2 scale-plate ${onScale?'translate-y-0.5':''}`}>
+                            {onScale&&<div className="absolute bottom-full left-1/2 transform -translate-x-1/2 shadow-lg mb-0 border border-gray-500" style={{backgroundColor:onScale.color,width:onScale.size==='large'?'40px':'26px',height:onScale.size==='large'?'40px':'26px',borderRadius:'4px'}}></div>}
+                        </div>
+                        <div className="bg-gray-800 text-green-400 font-mono text-lg sm:text-xl px-3 py-1.5 rounded-lg border-4 border-gray-300 shadow-inner w-full text-center mt-3">{scaleValue}<span className="text-xs ml-1">g</span></div>
+                        <span className="text-gray-500 text-xs mt-1.5 font-medium">전자 저울</span>
+                        {selectedObj&&!onScale&&!inCylinder&&!completed[selectedObj.id]?.mass&&<button onClick={placeOnScale} className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-amber-500 text-white px-3 py-1 rounded-lg shadow-lg text-xs animate-pulse whitespace-nowrap font-medium">⚖️ 저울에 올리기</button>}
+                    </div>
+                    {/* Cylinder */}
+                    <div className="flex flex-col items-center relative w-24 sm:w-28">
+                        <div className="relative w-16 sm:w-20 h-48 sm:h-56 border-l-2 border-r-2 border-b-4 border-gray-400 rounded-b-xl bg-white bg-opacity-50 overflow-hidden cylinder-gradient">
+                            {[...Array(10)].map((_,i)=><div key={i} className="absolute w-full border-t border-gray-300" style={{bottom:`${(i+1)*10}%`}}><span className="absolute right-0.5 -top-2.5 text-[8px] sm:text-[9px] text-gray-400">{(i+1)*10}</span></div>)}
+                            <div className="absolute bottom-0 w-full bg-blue-400 bg-opacity-60 water-surface" style={{height:`${(totalVolume/100)*100}%`}}></div>
+                            {inCylinder&&<div className="absolute left-1/2 transform -translate-x-1/2 shadow-lg border border-gray-600" style={{bottom:'2%',backgroundColor:inCylinder.color,width:inCylinder.size==='large'?'26px':'16px',height:inCylinder.size==='large'?'26px':'16px',borderRadius:'3px',transition:'bottom 1s ease-out'}}></div>}
+                        </div>
+                        <div className="mt-1.5 text-center">
+                            <div className="font-bold text-blue-800 text-xs sm:text-sm">{totalVolume.toFixed(2)} mL</div>
+                            {inCylinder&&<div className="text-[9px] sm:text-[10px] text-gray-500">물질 부피: {(totalVolume-currentWaterVolume).toFixed(2)} mL</div>}
+                            <span className="text-gray-500 text-xs font-medium">눈금 실린더</span>
+                        </div>
+                        {selectedObj&&!onScale&&!inCylinder&&!completed[selectedObj.id]?.volume&&<button onClick={placeInCylinder} className="absolute top-1/2 -right-2 sm:-right-10 bg-blue-500 text-white px-2 py-1 rounded-lg shadow-lg text-[10px] sm:text-xs animate-pulse whitespace-nowrap font-medium">💧 넣기</button>}
+                    </div>
+                </div>
+
+                {(onScale||inCylinder)&&<button onClick={resetExperiment} className="mt-2 w-full bg-red-50 text-red-600 py-1.5 rounded-lg hover:bg-red-100 font-medium flex items-center justify-center gap-2 border border-red-200 text-sm"><RefreshCcw size={14}/> 실험 도구 비우기</button>}
+            </div>
+
+            {/* Right panel */}
+            <div className="xl:w-[420px] flex flex-col gap-3">
+                {/* Materials */}
+                <div className="bg-white p-3 rounded-xl shadow-lg cork-bg border-4 border-amber-800 relative">
+                    <h3 className="font-bold text-amber-50 mb-2 pb-1.5 text-sm detective-font flex items-center gap-1 bg-amber-900 bg-opacity-70 px-2 py-1 rounded -mx-1">
+                        🗂️ 사건 증거물 보관함
+                    </h3>
+                    <div className="grid grid-cols-3 gap-1.5 bg-amber-50 bg-opacity-90 p-2 rounded">
+                        {MATERIALS.map((mat,idx)=>{
+                            const unlocked=isUnlocked(mat.id);
+                            const c=completed[mat.id];
+                            const inp=userInputs[mat.id];
+                            const done=c?.mass&&c?.volume&&inp?.mass&&inp?.volume;
+                            const isCur=isCurrent(mat.id);
+                            return(
+                                <div key={mat.id} onClick={()=>unlocked&&handleSelect(mat)} className={`relative flex flex-col items-center p-1.5 rounded-lg border-2 transition-all ${!unlocked?'opacity-50 cursor-not-allowed bg-gray-200':'cursor-pointer hover:scale-105'} ${selectedObj?.id===mat.id?'bg-yellow-100 border-amber-600 ring-2 ring-amber-400':done?'bg-green-50 border-green-400':isCur&&unlocked?'bg-amber-50 border-amber-500 clue-highlight':'bg-white border-gray-300'}`}>
+                                    {!unlocked&&<div className="locked-overlay"><span className="text-xl">🔒</span><span className="text-[8px] text-slate-300">잠김</span></div>}
+                                    <div className="text-[8px] font-bold text-amber-700 mb-0.5">{mat.code}</div>
+                                    <div className="rounded border border-gray-400 mb-0.5" style={{backgroundColor:mat.color,width:mat.size==='large'?'28px':'18px',height:mat.size==='large'?'28px':'18px'}}></div>
+                                    <span className="text-[9px] font-medium text-center leading-tight">{mat.name}</span>
+                                    <div className="flex gap-0.5 mt-0.5 min-h-[10px]">
+                                        {c?.mass&&<span className="text-[7px] bg-green-100 text-green-700 px-0.5 rounded">m✓</span>}
+                                        {c?.volume&&<span className="text-[7px] bg-blue-100 text-blue-700 px-0.5 rounded">V✓</span>}
+                                    </div>
+                                    {done&&<span className="absolute top-0.5 right-0.5 text-[10px]">✅</span>}
+                                    {isCur&&unlocked&&!done&&<span className="absolute top-0.5 right-0.5 text-[10px]">⭐</span>}
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <p className="text-[9px] text-amber-100 mt-2 px-1 italic">⭐ 현재 조사 중 | 🔒 이전 증거물을 먼저 조사하세요</p>
+                </div>
+
+                {/* Manual Input Table */}
+                <div className="bg-white p-3 rounded-xl shadow-lg paper-bg border border-gray-300">
+                    <h3 className="font-bold text-gray-800 mb-2 border-b-2 border-amber-600 pb-1.5 text-sm detective-font">📝 탐정 수첩: 측정 결과</h3>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-[11px] border-collapse">
+                            <thead><tr className="bg-amber-100 text-amber-900">
+                                <th className="py-1 px-1.5 text-left rounded-tl-lg">증거물</th>
+                                <th className="py-1 px-1 text-center">질량(g)</th>
+                                <th className="py-1 px-1 text-center">부피(cm³)</th>
+                                <th className="py-1 px-1.5 text-center rounded-tr-lg">밀도(g/cm³)</th>
+                            </tr></thead>
+                            <tbody>
+                                {MATERIALS.map(mat=>{
+                                    const c=completed[mat.id];
+                                    const unlocked=c?.mass||c?.volume;
+                                    const d=getUserDensity(mat.id);
+                                    if(!unlocked)return null;
+                                    return(
+                                        <tr key={mat.id} className="border-t border-amber-100">
+                                            <td className="py-1 px-1 flex items-center gap-1">
+                                                <div className="w-2.5 h-2.5 rounded flex-shrink-0" style={{backgroundColor:mat.color}}></div>
+                                                <span className="text-[9px] leading-tight">{mat.name}</span>
+                                            </td>
+                                            <td className="py-1 px-0.5">
+                                                {c?.mass?<div>
+                                                    <input type="number" step="0.01" inputMode="decimal" value={userInputs[mat.id]?.mass||''} onChange={e=>handleInput(mat.id,'mass',e.target.value)} onBlur={()=>userInputs[mat.id]?.mass&&validateInput(mat.id,'mass')} className={`w-14 sm:w-16 text-center border rounded px-1 py-0.5 text-[10px] font-mono ${inputErrors[`${mat.id}_mass`]?'border-red-400 bg-red-50 shake':'border-gray-300'}`} placeholder="?"/>
+                                                    {inputErrors[`${mat.id}_mass`]&&<div className="text-[7px] text-red-500 mt-0.5">{inputErrors[`${mat.id}_mass`]}</div>}
+                                                </div>:<span className="text-gray-300 text-[10px]">-</span>}
+                                            </td>
+                                            <td className="py-1 px-0.5">
+                                                {c?.volume?<div>
+                                                    <input type="number" step="0.1" inputMode="decimal" value={userInputs[mat.id]?.volume||''} onChange={e=>handleInput(mat.id,'volume',e.target.value)} onBlur={()=>userInputs[mat.id]?.volume&&validateInput(mat.id,'volume')} className={`w-14 sm:w-16 text-center border rounded px-1 py-0.5 text-[10px] font-mono ${inputErrors[`${mat.id}_volume`]?'border-red-400 bg-red-50 shake':'border-gray-300'}`} placeholder="?"/>
+                                                    {inputErrors[`${mat.id}_volume`]&&<div className="text-[7px] text-red-500 mt-0.5">{inputErrors[`${mat.id}_volume`]}</div>}
+                                                </div>:<span className="text-gray-300 text-[10px]">-</span>}
+                                            </td>
+                                            <td className="py-1 px-1 text-center">
+                                                {d?<span className="font-mono font-bold text-amber-700">{d}</span>:<span className="text-gray-300">-</span>}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {allBaseComplete&&!showConclusion&&<button onClick={()=>{setShowConclusion(true);SFX.play('success')}} className="mt-2 w-full bg-amber-600 text-white py-1.5 rounded-lg text-xs font-bold hover:bg-amber-700">🔍 단서 분석하기</button>}
+                    {showConclusion&&(
+                        <div className="mt-2 bg-green-50 border-2 border-green-300 rounded-lg p-2.5 fade-in relative">
+                            <div className="tape tape-tr"></div>
+                            <h4 className="font-bold text-green-900 text-xs mb-1.5 detective-font">🎯 추리 결과: 밀도는 물질의 특성!</h4>
+                            <div className="text-[10px] text-green-900 space-y-1">
+                                <p>• 철 (소): <strong>{getUserDensity('iron_s')||'?'}</strong> | 철 (대): <strong>{getUserDensity('iron_l')||'?'}</strong> → <strong>같다!</strong></p>
+                                <p>• 알루미늄 (소): <strong>{getUserDensity('alu_s')||'?'}</strong> | 알루미늄 (대): <strong>{getUserDensity('alu_l')||'?'}</strong> → <strong>같다!</strong></p>
+                                <p className="bg-green-100 p-1.5 rounded font-bold text-green-800 mt-1">📌 결론: 같은 물질은 양(크기)이 달라도 밀도가 같다!<br/>→ <span className="underline">밀도는 물질의 특성</span>이다.</p>
+                            </div>
+                        </div>
+                    )}
+
+                    {mysteryComplete&&(
+                        <div className="mt-2 bg-amber-50 border-2 border-amber-400 rounded-lg p-3 fade-in relative">
+                            <div className="tape tape-tl"></div>
+                            <h4 className="font-bold text-amber-900 text-xs mb-2 detective-font">🔎 최종 추리: 미지의 물질 정체는?</h4>
+                            <div className="space-y-2">
+                                <div>
+                                    <p className="text-[10px] text-amber-800 mb-1"><strong>미지 X-1</strong> (밀도: <span className="font-mono font-bold">{getUserDensity('mystery_a')}</span> g/cm³)의 정체는?</p>
+                                    <div className="flex flex-wrap gap-1">
+                                        {DENSITY_REF.map(r=><button key={r.name} onClick={()=>{SFX.play('click');setQuizA(r.name);setQuizResult(null)}} className={`px-2 py-0.5 rounded border text-[10px] font-medium ${quizA===r.name?'bg-amber-300 border-amber-500':'bg-white border-gray-200 hover:bg-amber-100'}`}>{r.name}</button>)}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="text-[10px] text-amber-800 mb-1"><strong>미지 X-2</strong> (밀도: <span className="font-mono font-bold">{getUserDensity('mystery_b')}</span> g/cm³)의 정체는?</p>
+                                    <div className="flex flex-wrap gap-1">
+                                        {DENSITY_REF.map(r=><button key={r.name} onClick={()=>{SFX.play('click');setQuizB(r.name);setQuizResult(null)}} className={`px-2 py-0.5 rounded border text-[10px] font-medium ${quizB===r.name?'bg-emerald-200 border-emerald-400':'bg-white border-gray-200 hover:bg-emerald-50'}`}>{r.name}</button>)}
+                                    </div>
+                                </div>
+                                <button onClick={handleQuizSubmit} disabled={!quizA||!quizB} className="w-full bg-amber-700 text-white py-2 rounded text-xs font-bold hover:bg-amber-800 disabled:opacity-40 detective-font">🔍 정답 추리!</button>
+                                {quizResult==='correct'&&<div className="bg-green-100 text-green-800 p-2 rounded text-xs font-bold text-center">🎉 사건 해결! X-1은 금, X-2는 구리! (탐정 자격 획득!)</div>}
+                                {quizResult==='wrong'&&<div className="bg-red-100 text-red-600 p-2 rounded text-xs font-bold text-center">❌ 추리 실패! 참고표의 밀도와 다시 비교해보세요!</div>}
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* Reference */}
+                <div className="bg-slate-50 rounded-xl p-2.5 border-2 border-slate-300 text-[11px] shadow">
+                    <h4 className="font-bold text-slate-700 mb-1.5 flex items-center gap-1 border-b border-slate-200 pb-1 detective-font">📖 탐정의 참고 자료: 금속의 밀도 (20°C)</h4>
+                    <table className="w-full text-left border-collapse">
+                        <thead><tr className="text-slate-500"><th className="py-0.5 font-normal">물질</th><th className="py-0.5 font-normal text-right">밀도(g/cm³)</th></tr></thead>
+                        <tbody className="text-slate-800">
+                            {DENSITY_REF.map(r=><tr key={r.name} className="border-t border-slate-200"><td className="py-0.5">{r.name}</td><td className="text-right font-mono">{r.d.toFixed(2)}</td></tr>)}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+/* ===== TAB 2: 간이 밀도탑 - 밀도 음료 만들기 ===== */
+const DensityTower=({onAchieve,onSaveDrink})=>{
+    const[stack,setStack]=useState([]);// [{...syrup}]
+    const[isPouring,setIsPouring]=useState(false);
+    const[completed,setCompleted]=useState(false);
+    const[drinkName,setDrinkName]=useState('');
+    const[stickers,setStickers]=useState([]);// [{id,emoji,x,y}]
+    const[draggedSticker,setDraggedSticker]=useState(null);
+    const[showCertModal,setShowCertModal]=useState(false);
+    const[errorMsg,setErrorMsg]=useState('');
+    const cupRef=useRef(null);
+
+    const addSyrup=(syrup)=>{
+        if(isPouring||completed)return;
+        if(stack.find(s=>s.id===syrup.id))return;
+        // 직전 시럽보다 밀도가 작거나 같아야 한다 (순서대로)
+        if(stack.length>0){
+            const last=stack[stack.length-1];
+            if(syrup.density>=last.density){
+                SFX.play('error');
+                setErrorMsg(`❌ ${syrup.name}(${syrup.density})은 ${last.name}(${last.density})보다 밀도가 커요! 위에 쌓으려면 밀도가 더 작아야 합니다.`);
+                setTimeout(()=>setErrorMsg(''),3000);
+                return;
+            }
+        }
+        SFX.play('splash');
+        setIsPouring(true);
+        setStack(prev=>[...prev,syrup]);
+        setTimeout(()=>setIsPouring(false),700);
+    };
+
+    const resetCup=()=>{
+        SFX.play('reset');
+        setStack([]);setCompleted(false);setErrorMsg('');setStickers([]);setDrinkName('');
+    };
+
+    const finishDrink=()=>{
+        if(stack.length<3){
+            setErrorMsg('최소 3개 이상의 시럽을 쌓아주세요!');
+            SFX.play('error');
+            setTimeout(()=>setErrorMsg(''),2500);
+            return;
+        }
+        SFX.play('achievement');
+        setCompleted(true);
+        onAchieve('tower');
+    };
+
+    /* 스티커 드래그 */
+    const addSticker=(emoji)=>{
+        if(!completed)return;
+        SFX.play('click');
+        setStickers(prev=>[...prev,{id:Date.now()+Math.random(),emoji,x:50+Math.random()*40,y:30+Math.random()*40}]);
+    };
+
+    const removeSticker=(id)=>{
+        SFX.play('click');
+        setStickers(prev=>prev.filter(s=>s.id!==id));
+    };
+
+    /* pointer-based dragging */
+    const onPointerDown=(e,id)=>{
+        e.preventDefault();
+        setDraggedSticker(id);
+    };
+    const onPointerMove=(e)=>{
+        if(!draggedSticker||!cupRef.current)return;
+        const rect=cupRef.current.getBoundingClientRect();
+        const clientX=e.clientX||(e.touches&&e.touches[0]?.clientX);
+        const clientY=e.clientY||(e.touches&&e.touches[0]?.clientY);
+        if(clientX==null||clientY==null)return;
+        const x=((clientX-rect.left)/rect.width)*100;
+        const y=((clientY-rect.top)/rect.height)*100;
+        setStickers(prev=>prev.map(s=>s.id===draggedSticker?{...s,x:Math.max(5,Math.min(90,x)),y:Math.max(5,Math.min(90,y))}:s));
+    };
+    const onPointerUp=()=>setDraggedSticker(null);
+
+    useEffect(()=>{
+        if(!draggedSticker)return;
+        window.addEventListener('pointermove',onPointerMove);
+        window.addEventListener('pointerup',onPointerUp);
+        return()=>{window.removeEventListener('pointermove',onPointerMove);window.removeEventListener('pointerup',onPointerUp)};
+    },[draggedSticker]);
+
+    /* 저장: 자랑하기 페이지에 데이터 전달 */
+    useEffect(()=>{
+        if(completed&&drinkName){
+            onSaveDrink({name:drinkName,stack:stack.map(s=>({id:s.id,name:s.name,color:s.color,density:s.density,emoji:s.emoji})),stickers});
+        }
+    },[completed,drinkName,stack,stickers]);
+
+    const totalLayers=stack.length;
+    const remaining=SYRUPS.filter(s=>!stack.find(x=>x.id===s.id));
+
+    return(
+        <div className="flex flex-col h-full p-3 gap-3 bg-gradient-to-br from-rose-50 via-amber-50 to-purple-50 overflow-y-auto">
+            <div className="text-center mb-1">
+                <h2 className="text-lg sm:text-xl font-bold text-purple-900 flex items-center justify-center gap-2 detective-font">
+                    <Droplets className="text-purple-600"/> 파일 2: 간이 밀도탑 쌓기 (나만의 밀도 음료)
+                </h2>
+                <p className="text-purple-700 text-xs mt-1">💡 밀도가 큰 시럽부터 차례대로 쌓으세요! (아래→위 = 큰 밀도→작은 밀도)</p>
+            </div>
+
+            <div className="flex flex-col lg:flex-row gap-3 items-start justify-center">
+                {/* LEFT: 시럽 재료 */}
+                <div className="bg-white rounded-2xl shadow-lg p-3 w-full lg:w-72 border-2 border-purple-200">
+                    <h3 className="font-bold text-purple-800 mb-2 text-sm detective-font flex items-center gap-1">🧪 시럽 진열대 <span className="text-[10px] text-gray-500 font-normal">(클릭/탭하여 추가)</span></h3>
+                    <div className="space-y-1.5">
+                        {SYRUPS.map(s=>{
+                            const used=stack.find(x=>x.id===s.id);
+                            return(
+                                <button key={s.id} onClick={()=>addSyrup(s)} disabled={used||completed} className={`w-full flex items-center gap-2 p-2 rounded-lg border-2 transition-all text-left ${used?'opacity-40 bg-gray-100 border-gray-200 cursor-not-allowed':'hover:scale-[1.02] hover:shadow-md bg-white'}`} style={{borderLeftColor:s.color,borderLeftWidth:'6px'}}>
+                                    <span className="text-2xl">{s.emoji}</span>
+                                    <div className="flex-1">
+                                        <div className="text-xs font-bold text-gray-800">{s.name}</div>
+                                        <div className="text-[10px] text-gray-500">밀도: <span className="font-mono font-bold">{s.density}</span> g/mL</div>
+                                    </div>
+                                    {used&&<span className="text-[10px] text-green-600 font-bold">✓</span>}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <button onClick={resetCup} className="mt-2 w-full bg-red-100 text-red-700 py-1.5 rounded-lg text-xs font-bold border border-red-200 hover:bg-red-200 flex items-center justify-center gap-1"><RefreshCcw size={12}/> 컵 비우기</button>
+                </div>
+
+                {/* CENTER: 컵 */}
+                <div className="flex flex-col items-center w-full lg:w-auto">
+                    {/* 음료 이름 입력 */}
+                    {completed&&(
+                        <div className="mb-3 bg-white rounded-xl p-3 shadow-lg border-2 border-amber-300 w-64">
+                            <label className="text-xs font-bold text-amber-800 detective-font">🍹 나만의 음료 이름:</label>
+                            <input type="text" value={drinkName} onChange={e=>setDrinkName(e.target.value)} placeholder="예) 무지개 폭포" maxLength={20} className="w-full mt-1 px-2 py-1.5 border-2 border-amber-300 rounded text-sm font-bold text-center focus:outline-none focus:border-amber-500"/>
+                        </div>
+                    )}
+
+                    <div ref={cupRef} className="relative" style={{width:'180px',height:'280px'}}>
+                        {/* 컵 */}
+                        <div className="absolute inset-0 rounded-b-3xl border-4 border-gray-300 glass-cup overflow-hidden shadow-2xl">
+                            {/* 시럽 층 (아래부터 쌓임) */}
+                            <div className="absolute bottom-0 left-0 right-0 flex flex-col-reverse">
+                                {stack.map((s,idx)=>(
+                                    <div key={`${s.id}-${idx}`} className="liquid-layer w-full flex items-center justify-center fade-in relative" style={{height:`${85/Math.max(stack.length,4)}%`,backgroundColor:s.color,minHeight:'30px',color:s.textColor,fontSize:'10px',fontWeight:'bold'}}>
+                                        <span className="drop-shadow-md">{s.emoji} {s.name}</span>
+                                        <div className="absolute inset-x-0 top-0 h-1 drink-shine bg-white opacity-40"></div>
+                                    </div>
+                                ))}
+                            </div>
+                            {/* 빈 컵 안내 */}
+                            {stack.length===0&&<div className="absolute inset-0 flex items-center justify-center text-gray-400 text-xs">시럽을 추가해주세요</div>}
+                            {/* 스티커 */}
+                            {stickers.map(s=>(
+                                <div key={s.id} onPointerDown={e=>onPointerDown(e,s.id)} onDoubleClick={()=>removeSticker(s.id)} className="sticker absolute" style={{left:`${s.x}%`,top:`${s.y}%`,transform:'translate(-50%,-50%)',zIndex:50,touchAction:'none'}} title="더블클릭으로 삭제">
+                                    {s.emoji}
+                                </div>
+                            ))}
+                        </div>
+                        {/* 빨대 */}
+                        {completed&&<div className="absolute -top-8 left-1/2 w-2 h-24 bg-gradient-to-b from-pink-400 to-pink-600 rounded-full transform -translate-x-1/2 -rotate-12 shadow"></div>}
+                        {/* 카운터 */}
+                        <div className="absolute -top-4 -right-2 bg-purple-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold shadow">{totalLayers}/{SYRUPS.length}</div>
+                    </div>
+
+                    {/* 컵 받침 */}
+                    <div className="w-48 h-3 bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400 rounded-full -mt-1 shadow-md"></div>
+
+                    {/* 에러 메시지 */}
+                    {errorMsg&&<div className="mt-2 bg-red-100 border border-red-300 text-red-800 px-3 py-2 rounded-lg text-xs font-bold max-w-xs text-center shake">{errorMsg}</div>}
+
+                    {/* 완성 버튼 */}
+                    {!completed&&stack.length>=3&&<button onClick={finishDrink} className="mt-3 bg-gradient-to-r from-amber-500 to-pink-500 text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-lg hover:scale-105 transition-transform detective-font">✨ 밀도 음료 완성!</button>}
+                    {completed&&<div className="mt-3 bg-green-100 border-2 border-green-400 px-4 py-2 rounded-full text-green-800 font-bold text-sm">🎉 완성! 스티커로 꾸며보세요!</div>}
+                </div>
+
+                {/* RIGHT: 스티커 / 정보 */}
+                <div className="w-full lg:w-64 flex flex-col gap-3">
+                    {/* 정보 카드 */}
+                    <div className="bg-white rounded-2xl shadow-lg p-3 border-2 border-purple-200">
+                        <h3 className="font-bold text-purple-800 text-sm mb-2 detective-font">📋 쌓은 순서</h3>
+                        {stack.length===0?
+                            <p className="text-xs text-gray-400 text-center py-3">아직 시럽이 없어요</p>
+                            :
+                            <div className="space-y-1">
+                                {[...stack].reverse().map((s,i)=>(
+                                    <div key={i} className="flex items-center gap-2 text-[10px] p-1 rounded" style={{background:s.color+'20'}}>
+                                        <span className="w-4 h-4 rounded-full border border-gray-300" style={{background:s.color}}></span>
+                                        <span className="flex-1">{s.emoji} {s.name}</span>
+                                        <span className="font-mono font-bold text-purple-700">{s.density}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        }
+                    </div>
+
+                    {/* 스티커 패널 */}
+                    {completed&&(
+                        <div className="bg-white rounded-2xl shadow-lg p-3 border-2 border-amber-300 fade-in">
+                            <h3 className="font-bold text-amber-800 text-sm mb-2 detective-font">🎨 스티커 꾸미기</h3>
+                            <p className="text-[10px] text-gray-500 mb-2">탭하여 추가, 드래그로 이동, 더블클릭으로 삭제</p>
+                            <div className="grid grid-cols-5 gap-1">
+                                {STICKERS.map(emoji=>(
+                                    <button key={emoji} onClick={()=>addSticker(emoji)} className="text-2xl hover:scale-125 transition-transform">{emoji}</button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 인증 발급 */}
+                    {completed&&drinkName&&(
+                        <button onClick={()=>{SFX.play('fanfare');setShowCertModal(true)}} className="bg-gradient-to-r from-amber-500 to-amber-700 text-white p-3 rounded-2xl shadow-lg font-bold text-sm detective-font hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                            <Award size={18}/> 제조 자격증 발급!
+                        </button>
+                    )}
+                </div>
+            </div>
+
+            {showCertModal&&<DrinkCertModal onClose={()=>setShowCertModal(false)} drinkName={drinkName} stack={stack} stickers={stickers}/>}
+        </div>
+    );
+};
+
+/* 음료 자격증 모달 */
+const DrinkCertModal=({onClose,drinkName,stack,stickers})=>(
+    <div className="modal-backdrop" onClick={onClose}>
+        <div onClick={e=>e.stopPropagation()} className="cert-bg rounded-3xl p-1 shadow-2xl max-w-md w-full max-h-[95vh] overflow-y-auto fade-in">
+            <div className="border-4 border-double border-amber-400 rounded-2xl p-5 text-center relative">
+                <button onClick={onClose} className="absolute top-2 right-2 text-amber-700 hover:text-amber-900"><X size={18}/></button>
+                <div className="text-3xl mb-1">🏆</div>
+                <h2 className="text-amber-800 text-xs font-bold tracking-widest mb-1 detective-font">CERTIFIED MIXOLOGIST</h2>
+                <h1 className="text-xl font-black text-amber-900 mb-3 detective-font">밀도 음료 제조 자격증</h1>
+                <div className="w-20 h-0.5 bg-amber-400 mx-auto mb-3"></div>
+
+                <div className="bg-white rounded-xl p-3 mb-3 shadow-inner border border-amber-200">
+                    <p className="text-[10px] text-amber-600 font-bold">제조 음료명</p>
+                    <p className="text-xl font-black text-amber-900 detective-font my-1">"{drinkName}"</p>
+                    <div className="flex justify-center gap-1 my-2">
+                        {stickers.slice(0,8).map((s,i)=><span key={i} className="text-lg">{s.emoji}</span>)}
+                    </div>
+                </div>
+
+                <div className="text-left bg-white bg-opacity-60 rounded-lg p-2.5 mb-3">
+                    <p className="text-[10px] font-bold text-amber-900 mb-1">📋 사용한 시럽 (아래→위)</p>
+                    {stack.map((s,i)=>(
+                        <div key={i} className="flex items-center gap-2 text-[10px] py-0.5">
+                            <span>{i+1}.</span>
+                            <span className="w-3 h-3 rounded-full" style={{background:s.color}}></span>
+                            <span className="flex-1">{s.emoji} {s.name}</span>
+                            <span className="font-mono text-amber-700 font-bold">{s.density} g/mL</span>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="stamp-red text-sm">제조 인증 완료</div>
+                <p className="text-[10px] text-amber-700 mt-3 detective-font">위 학생은 밀도의 원리를 이해하고<br/>나만의 밀도 음료를 성공적으로 제조하였음을 인증합니다.</p>
+                <p className="text-[9px] text-amber-500 mt-2">밀도 탐정 사건 파일 · 과학이조선생(조승재)</p>
+
+                <button onClick={onClose} className="mt-3 bg-amber-600 text-white px-5 py-1.5 rounded-full text-xs font-bold hover:bg-amber-700">닫기</button>
+            </div>
+        </div>
+    </div>
+);
+
+/* ===== TAB 3: DIVER - 실시간 반응 + 인증샷 ===== */
+const DiverGame=({onAchieve,onSavePhoto})=>{
+    const[weights,setWeights]=useState(0);
+    const[showFlash,setShowFlash]=useState(false);
+    const[photoTaken,setPhotoTaken]=useState(false);
+
+    // 납 벨트 수에 따른 depth와 상태 즉시 계산
+    const calc=(w)=>{
+        if(w===0)return{depth:10,status:'surface_float'};
+        if(w===1)return{depth:25,status:'shallow'};
+        if(w===2)return{depth:45,status:'neutral'};// 수심 15m 지점
+        if(w===3)return{depth:62,status:'deep'};
+        if(w===4)return{depth:75,status:'very_deep'};
+        return{depth:90,status:'floor'};
+    };
+    const{depth,status}=calc(weights);
+    const at15m=status==='neutral';
+
+    const changeWeights=(delta)=>{
+        const next=Math.max(0,Math.min(5,weights+delta));
+        if(next===weights)return;
+        SFX.play(delta>0?'place':'click');
+        setWeights(next);
+        setPhotoTaken(false);
+        // 가라앉을 때 dive 사운드
+        if(delta>0)setTimeout(()=>SFX.play('dive'),200);
+    };
+
+    const setWeightsTo=(w)=>{
+        if(w===weights)return;
+        SFX.play('click');
+        setWeights(w);
+        setPhotoTaken(false);
+    };
+
+    const takePhoto=()=>{
+        if(!at15m)return;
+        SFX.play('camera');
+        setShowFlash(true);
+        setTimeout(()=>setShowFlash(false),300);
+        setPhotoTaken(true);
+        onAchieve('diver');
+        onSavePhoto({timestamp:new Date().toLocaleString('ko-KR'),depth:'15m',weights});
+    };
+
+    // 첫 도달 시 자동 성공 알림 (인증샷 버튼만 활성화)
+    useEffect(()=>{
+        if(at15m&&!photoTaken)SFX.play('mystery');
+    },[at15m]);
+
+    const getStatusInfo=()=>{
+        switch(status){
+            case'surface_float':return{text:"밀도가 작아 물 위에 떠 있어요. 납이 더 필요합니다!",color:"text-sky-700",bg:"bg-sky-50 border-sky-300",emoji:"🏊"};
+            case'shallow':return{text:"가라앉기 시작! 하지만 수심 15m엔 도달하지 못했어요.",color:"text-blue-700",bg:"bg-blue-50 border-blue-300",emoji:"⬇️"};
+            case'neutral':return{text:"🎯 명중! 수심 15m 지점에 안정적으로 멈췄어요! 인증샷을 찍어요!",color:"text-green-700",bg:"bg-green-50 border-green-400",emoji:"✅"};
+            case'deep':return{text:"너무 무거워요! 15m를 지나 깊이 내려갑니다.",color:"text-orange-700",bg:"bg-orange-50 border-orange-300",emoji:"⚠️"};
+            case'very_deep':return{text:"위험! 너무 깊이 가라앉고 있어요!",color:"text-red-600",bg:"bg-red-50 border-red-300",emoji:"🚨"};
+            case'floor':return{text:"바닥에 닿았습니다! 납이 너무 많아요!",color:"text-red-700",bg:"bg-red-50 border-red-400",emoji:"💥"};
+            default:return{text:"납 벨트를 조절해 수심 15m에 멈춰보세요!",color:"text-gray-600",bg:"bg-gray-50 border-gray-200",emoji:"🤿"};
+        }
+    };
+    const si=getStatusInfo();
+
+    return(
+        <div className="flex flex-col h-full p-3 gap-3 bg-slate-100">
+            <div className="text-center mb-0">
+                <h2 className="text-lg sm:text-xl font-bold text-cyan-900 flex items-center justify-center gap-2 detective-font">
+                    <Waves className="text-cyan-600"/> 파일 3: 생활 속 밀도 - 수심 15m 인증
+                </h2>
+                <p className="text-cyan-700 text-xs mt-1">💡 납 벨트 +/− 버튼을 누르면 잠수부가 <strong>즉시 움직여요!</strong></p>
+            </div>
+
+            <div className="flex flex-col lg:flex-row gap-3 h-full">
+                {/* Ocean */}
+                <div className="flex-1 rounded-2xl overflow-hidden relative shadow-2xl ocean-gradient border-4 border-slate-300" style={{minHeight:'400px'}}>
+                    {showFlash&&<div className="absolute inset-0 bg-white z-50 opacity-90"></div>}
+                    <div className="absolute top-0 left-0 w-full h-[15%]" style={{background:'linear-gradient(to bottom,#e0f2fe,#bae6fd)'}}></div>
+                    <div className="absolute top-2 right-16 w-10 h-10 bg-yellow-300 rounded-full" style={{boxShadow:'0 0 20px 8px rgba(253,224,71,.4)'}}></div>
+                    <div className="absolute top-2 left-20"><svg width="60" height="24"><ellipse cx="20" cy="14" rx="16" ry="8" fill="white" opacity=".8"/><ellipse cx="35" cy="12" rx="20" ry="10" fill="white" opacity=".8"/><ellipse cx="50" cy="14" rx="14" ry="7" fill="white" opacity=".8"/></svg></div>
+                    <div className="absolute left-4 top-[3%] z-10"><SimpleShip/></div>
+                    <div className="absolute right-[15%] top-[6%] z-10"><LifeJacketPerson/><div className="text-[9px] font-bold text-white bg-orange-500 px-1.5 py-0.5 rounded-full text-center -mt-1 shadow">구명조끼</div></div>
+                    <OceanWaves/>
+                    <div className="absolute right-0 h-full w-9 bg-black bg-opacity-20 flex flex-col justify-between text-white text-[9px] font-mono text-center z-10" style={{paddingTop:'16%',paddingBottom:'4%'}}><span>0m</span><span>5m</span><span>10m</span><span className="text-yellow-300 font-bold bg-yellow-900 bg-opacity-60 rounded px-0.5">15m</span><span>20m</span><span>25m</span><span>30m</span></div>
+                    {/* 15m 목표선 */}
+                    <div className={`absolute left-0 right-9 border-t-2 border-dashed z-5 ${at15m?'border-yellow-300':'border-yellow-400 opacity-50'}`} style={{top:'45%'}}>
+                        {at15m&&<span className="absolute -top-3 left-2 text-yellow-300 text-[10px] font-bold bg-yellow-900 bg-opacity-60 px-1 rounded">🎯 목표 도달!</span>}
+                    </div>
+                    <Bubbles count={8}/>
+                    <Fish className="fish-anim" color="#f59e0b" y="55%"/>
+                    <Fish className="fish-anim-2" color="#fb7185" y="75%"/>
+                    <Seaweed x="10%" h={45}/><Seaweed x="25%" h={35}/><Seaweed x="70%" h={40}/><Seaweed x="85%" h={30}/>
+                    <div className="absolute bottom-0 left-0 w-full h-5" style={{background:'linear-gradient(to bottom,#d4a574,#c2956a)'}}></div>
+                    <div className="absolute left-1/2 transform -translate-x-1/2 diver-anim z-20" style={{top:`${depth}%`,marginTop:'-35px'}}><div className="gentle-bob"><RealisticDiver weightCount={weights}/></div></div>
+                    {/* 카메라 셔터 효과 */}
+                    {photoTaken&&!showFlash&&<div className="absolute top-2 left-2 bg-green-500 text-white px-2 py-1 rounded text-[10px] font-bold z-30 fade-in">📸 인증샷 촬영 완료!</div>}
+                </div>
+
+                {/* Controls */}
+                <div className="lg:w-72 bg-white p-4 rounded-2xl shadow-lg flex flex-col gap-3 border border-slate-200">
+                    <div>
+                        <h3 className="font-bold text-slate-800 text-sm detective-font flex items-center gap-1"><Waves className="text-cyan-600" size={16}/> 잠수부 컨트롤</h3>
+                        <p className="text-slate-500 text-[10px] mt-0.5"><strong>미션:</strong> 납 벨트로 <span className="text-amber-600 font-bold">수심 15m</span>에 멈추기!</p>
+                    </div>
+
+                    {/* 납 벨트 컨트롤 */}
+                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <h3 className="font-bold text-center mb-2 text-slate-700 text-xs">⚖️ 납 벨트 수</h3>
+                        <div className="flex items-center justify-between px-1">
+                            <button onClick={()=>changeWeights(-1)} className="w-11 h-11 bg-white border-2 border-red-300 text-red-500 rounded-xl font-bold text-xl shadow-sm hover:bg-red-50 active:scale-95">−</button>
+                            <div className="text-center"><span className="text-4xl font-bold text-slate-800">{weights}</span><div className="text-[9px] text-slate-400 font-bold tracking-widest mt-0.5">개</div></div>
+                            <button onClick={()=>changeWeights(1)} className="w-11 h-11 bg-white border-2 border-green-300 text-green-500 rounded-xl font-bold text-xl shadow-sm hover:bg-green-50 active:scale-95">+</button>
+                        </div>
+                        <div className="flex justify-center gap-1 mt-2.5">
+                            {[...Array(5)].map((_,i)=>
+                                <button key={i} onClick={()=>setWeightsTo(i+1)} className={`w-5 h-3.5 rounded border transition-colors ${i<weights?'bg-slate-700 border-slate-800':'bg-gray-100 border-gray-300 hover:bg-gray-200'}`}></button>
+                            )}
+                        </div>
+                        <p className="text-[9px] text-slate-400 mt-1 text-center">💡 + 누르면 가라앉고, − 누르면 떠올라요</p>
+                    </div>
+
+                    {/* 상태 메시지 */}
+                    <div className={`p-2.5 rounded-xl border-2 text-xs transition-all ${si.bg} ${at15m?'clue-highlight':''}`}>
+                        <p className={`font-bold ${si.color} text-center`}>{si.emoji} {si.text}</p>
+                    </div>
+
+                    {/* 인증샷 버튼 */}
+                    <button onClick={takePhoto} disabled={!at15m} className={`w-full font-bold py-3 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 detective-font ${at15m?(photoTaken?'bg-green-600 text-white':'bg-amber-500 hover:bg-amber-600 text-white active:scale-95 animate-pulse'):'bg-gray-300 text-gray-500 cursor-not-allowed'}`}>
+                        <Camera size={20}/> {photoTaken?'📸 인증샷 완료!':'15m 인증샷 찍기!'}
+                    </button>
+
+                    {/* 설명 */}
+                    <div className="p-2.5 bg-slate-50 rounded-xl text-[10px] text-slate-600 border border-slate-200 leading-relaxed">
+                        <p className="mb-1"><strong className="text-slate-800">🏊 잠수부</strong>: 납 허리띠로 평균 밀도를 ↑하여 가라앉음</p>
+                        <p><strong className="text-slate-800">🦺 구명조끼</strong>: 부피 ↑로 평균 밀도를 ↓하여 떠오름</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+/* ===== BRAG PAGE - 선생님께 자랑하기 ===== */
+const BragPage=({achievements,drinkData,photoData,onClose,studentName,setStudentName})=>{
+    const allDone=Object.values(achievements).filter(Boolean).length===3;
+    return(
+        <div className="modal-backdrop" onClick={onClose}>
+            <div onClick={e=>e.stopPropagation()} className="bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 rounded-3xl max-w-3xl w-full max-h-[95vh] overflow-y-auto shadow-2xl fade-in relative">
+                <button onClick={onClose} className="absolute top-3 right-3 bg-white rounded-full p-1.5 shadow hover:bg-gray-100 z-10"><X size={18}/></button>
+
+                {/* 헤더 */}
+                <div className="bg-gradient-to-r from-amber-600 via-amber-700 to-orange-600 text-white p-5 rounded-t-3xl text-center relative overflow-hidden">
+                    <div className="absolute top-2 left-3 text-2xl opacity-30">🔍</div>
+                    <div className="absolute top-2 right-3 text-2xl opacity-30">🏆</div>
+                    <h2 className="text-2xl font-black detective-font tracking-wider">🎓 선생님께 자랑하기 🎓</h2>
+                    <p className="text-amber-100 text-xs mt-1">밀도 탐정 사건 파일 · 최종 보고서</p>
+                </div>
+
+                {/* 학생 이름 */}
+                <div className="px-5 pt-4">
+                    <div className="bg-white rounded-xl p-3 shadow flex items-center gap-2 border-2 border-amber-200">
+                        <span className="text-xs font-bold text-amber-800">👤 탐정 이름:</span>
+                        <input value={studentName} onChange={e=>setStudentName(e.target.value)} placeholder="이름을 입력하세요" maxLength={15} className="flex-1 px-2 py-1 border-b-2 border-amber-300 text-sm font-bold focus:outline-none focus:border-amber-600 bg-transparent"/>
+                        <span className="text-[10px] text-gray-400">{new Date().toLocaleDateString('ko-KR')}</span>
+                    </div>
+                </div>
+
+                {/* 진행 상황 */}
+                <div className="p-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {/* 1. 미지의 물질 탐정 */}
+                    <div className={`rounded-2xl p-4 shadow-lg border-2 ${achievements.explore?'bg-white border-amber-400':'bg-gray-100 border-gray-300 opacity-60'} relative`}>
+                        <div className="tape tape-tr"></div>
+                        <div className="text-center">
+                            <div className="text-4xl mb-1">{achievements.explore?'🔍':'🔒'}</div>
+                            <h3 className="font-bold text-amber-900 text-sm detective-font">미지 물질 탐정</h3>
+                            <p className="text-[10px] text-gray-600 mt-1">미지의 금속 X-1, X-2의 정체를 추리하여 사건 해결</p>
+                            {achievements.explore?(
+                                <div className="mt-3 bg-amber-50 rounded-lg p-2 border border-amber-200">
+                                    <div className="stamp-red inline-block text-[10px]">정답 인증</div>
+                                    <div className="text-[10px] mt-1.5 text-amber-900 font-bold">X-1: 금 (19.30 g/cm³)<br/>X-2: 구리 (8.96 g/cm³)</div>
+                                </div>
+                            ):<div className="mt-2 text-[10px] text-gray-500 italic">파일 1을 완료하세요</div>}
+                        </div>
+                    </div>
+
+                    {/* 2. 밀도 음료 제조 자격증 */}
+                    <div className={`rounded-2xl p-4 shadow-lg border-2 ${achievements.tower?'bg-white border-purple-400':'bg-gray-100 border-gray-300 opacity-60'} relative`}>
+                        <div className="tape tape-tl"></div>
+                        <div className="text-center">
+                            <div className="text-4xl mb-1">{achievements.tower?'🍹':'🔒'}</div>
+                            <h3 className="font-bold text-purple-900 text-sm detective-font">밀도 음료 제조 자격증</h3>
+                            <p className="text-[10px] text-gray-600 mt-1">밀도순으로 시럽을 쌓아 나만의 음료 완성</p>
+                            {achievements.tower&&drinkData?(
+                                <div className="mt-3 bg-purple-50 rounded-lg p-2 border border-purple-200">
+                                    <p className="text-[9px] text-purple-600 font-bold">음료명</p>
+                                    <p className="text-sm font-black text-purple-900 detective-font">"{drinkData.name||'(이름 없음)'}"</p>
+                                    <div className="flex justify-center gap-0.5 mt-1.5">
+                                        {drinkData.stack?.slice(0,5).map((s,i)=><span key={i} className="w-3 h-3 rounded-full border border-gray-300" style={{background:s.color}}></span>)}
+                                    </div>
+                                    <div className="text-[9px] mt-1 text-purple-700">{drinkData.stack?.length}개 시럽 사용</div>
+                                </div>
+                            ):<div className="mt-2 text-[10px] text-gray-500 italic">파일 2를 완료하세요</div>}
+                        </div>
+                    </div>
+
+                    {/* 3. 15m 인증샷 */}
+                    <div className={`rounded-2xl p-4 shadow-lg border-2 ${achievements.diver?'bg-white border-cyan-400':'bg-gray-100 border-gray-300 opacity-60'} relative`}>
+                        <div className="tape tape-tr"></div>
+                        <div className="text-center">
+                            <div className="text-4xl mb-1">{achievements.diver?'📸':'🔒'}</div>
+                            <h3 className="font-bold text-cyan-900 text-sm detective-font">15m 인증샷</h3>
+                            <p className="text-[10px] text-gray-600 mt-1">납 벨트로 밀도를 조절해 수심 15m 도달</p>
+                            {achievements.diver&&photoData?(
+                                <div className="mt-3 bg-cyan-50 rounded-lg p-2 border border-cyan-200 relative">
+                                    {/* 미니 인증샷 */}
+                                    <div className="ocean-gradient rounded-md h-16 relative overflow-hidden mb-1">
+                                        <div className="absolute left-1/2 transform -translate-x-1/2" style={{top:'50%',marginTop:'-15px'}}>
+                                            <svg width="22" height="28" viewBox="0 0 100 120"><rect x="35" y="30" width="20" height="45" rx="10" fill="#fbbf24"/><circle cx="50" cy="20" r="12" fill="#334155"/><rect x="38" y="65" width="24" height="6" fill="#475569"/></svg>
+                                        </div>
+                                        <div className="absolute top-0.5 right-0.5 bg-yellow-300 text-yellow-900 text-[7px] font-bold px-1 rounded">15m</div>
+                                    </div>
+                                    <p className="text-[9px] text-cyan-700 font-bold">📍 수심: {photoData.depth}</p>
+                                    <p className="text-[8px] text-gray-500">{photoData.timestamp}</p>
+                                </div>
+                            ):<div className="mt-2 text-[10px] text-gray-500 italic">파일 3을 완료하세요</div>}
+                        </div>
+                    </div>
+                </div>
+
+                {/* 완료 도장 */}
+                {allDone&&(
+                    <div className="px-5 pb-5 fade-in">
+                        <div className="bg-white rounded-2xl p-4 border-4 border-double border-amber-500 text-center relative overflow-hidden">
+                            <div className="absolute top-1 right-3 stamp-anim">
+                                <div className="stamp-red text-base">PERFECT</div>
+                            </div>
+                            <p className="text-amber-900 font-bold detective-font text-lg">🎉 3가지 사건 모두 해결! 🎉</p>
+                            <p className="text-amber-700 text-xs mt-1">위 <strong>{studentName||'학생'}</strong>은(는) 밀도의 개념을 완벽히 이해하고<br/>모든 미션을 성공적으로 수행하였습니다.</p>
+                            <p className="text-[10px] text-amber-500 mt-3 detective-font">📸 화면을 캡처하여 선생님께 제출하세요!</p>
+                            <p className="text-[9px] text-amber-400 mt-1">밀도 탐정 사건 파일 · © 2026 과학이조선생(조승재)</p>
+                        </div>
+                    </div>
+                )}
+
+                {!allDone&&(
+                    <div className="px-5 pb-5">
+                        <div className="bg-yellow-50 border border-yellow-300 rounded-xl p-3 text-center text-xs text-yellow-800">
+                            💪 아직 미완료된 사건이 있어요! 모두 해결하면 PERFECT 도장이 찍힙니다.
+                        </div>
+                    </div>
+                )}
+
+                <div className="px-5 pb-5">
+                    <button onClick={onClose} className="w-full bg-amber-700 text-white py-2.5 rounded-xl font-bold text-sm detective-font hover:bg-amber-800">사건 파일로 돌아가기</button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+/* ===== APP ===== */
+const App=()=>{
+    const{isMobile}=useViewport();
+    const[activeTab,setActiveTab]=useState('experiment');
+    const[achievements,setAchievements]=useState({explore:false,tower:false,diver:false});
+    const[showBrag,setShowBrag]=useState(false);
+    const[showInfo,setShowInfo]=useState(false);
+    const[justAchieved,setJustAchieved]=useState(null);
+    const[showConfetti,setShowConfetti]=useState(false);
+    const[drinkData,setDrinkData]=useState(null);
+    const[photoData,setPhotoData]=useState(null);
+    const[studentName,setStudentName]=useState('');
+
+    const handleAchieve=useCallback((key)=>{
+        setAchievements(prev=>{
+            if(prev[key])return prev;
+            const next={...prev,[key]:true};
+            setJustAchieved(key);
+            setTimeout(()=>setJustAchieved(null),3000);
+            const total=Object.values(next).filter(Boolean).length;
+            if(total===3){
+                setTimeout(()=>{setShowConfetti(true);setTimeout(()=>setShowConfetti(false),4500);SFX.play('fanfare')},500);
+            }
+            return next;
+        });
+    },[]);
+
+    const achieveLabels={explore:'🔍 미지 물질 정체 파악!',tower:'🍹 밀도 음료 완성!',diver:'📸 15m 인증샷 성공!'};
+
+    return(
+        <div className="min-h-screen flex flex-col case-bg">
+            {showConfetti&&<Confetti/>}
+            {showBrag&&<BragPage achievements={achievements} drinkData={drinkData} photoData={photoData} onClose={()=>setShowBrag(false)} studentName={studentName} setStudentName={setStudentName}/>}
+            {showInfo&&<InfoModal onClose={()=>setShowInfo(false)}/>}
+
+            {justAchieved&&(
+                <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 achievement-pop px-3">
+                    <div className="bg-yellow-400 text-yellow-900 px-4 sm:px-6 py-3 rounded-2xl shadow-2xl font-bold flex items-center gap-2 text-xs sm:text-sm detective-font">
+                        <Trophy size={20}/>{achieveLabels[justAchieved]}
+                    </div>
+                </div>
+            )}
+
+            <div className="max-w-7xl w-full mx-auto shadow-2xl my-0 sm:my-4 bg-white sm:rounded-3xl overflow-hidden flex flex-col flex-1">
+                <header className="bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 text-white p-3 flex flex-col sm:flex-row justify-between items-center z-20 gap-2 border-b-4 border-amber-500 relative">
+                    {/* 배경 장식 */}
+                    <div className="absolute top-1 right-1/4 text-3xl opacity-10 spotlight">🔍</div>
+                    <div className="flex items-center gap-2 z-10">
+                        <div className="bg-amber-500 p-1.5 rounded-lg shadow-md"><Magnify className="text-slate-900" size={20}/></div>
+                        <div>
+                            <h1 className="text-sm sm:text-base font-bold tracking-tight detective-font leading-tight">🕵️ 밀도 탐정 사건 파일</h1>
+                            <p className="text-[9px] sm:text-[10px] text-amber-200">I. 물질의 특성 - 1. 밀도 탐정</p>
+                        </div>
+                        <button onClick={()=>{SFX.play('click');setShowInfo(true)}} className="ml-0.5 bg-slate-700 hover:bg-slate-600 p-1 rounded-full" title="앱 정보">
+                            <InfoIcon size={14} className="text-slate-300"/>
+                        </button>
+                    </div>
+                    <div className="flex flex-col sm:flex-row items-center gap-2 z-10 w-full sm:w-auto">
+                        <AchievementBar achievements={achievements} onShowBrag={()=>{SFX.play('click');setShowBrag(true)}} isMobile={isMobile}/>
+                    </div>
+                </header>
+
+                {/* 탭 네비게이션 */}
+                <nav className="bg-slate-900 px-2 py-1.5 flex gap-1 overflow-x-auto">
+                    {[
+                        {key:'experiment',label:'1. 미지의 금속 정체 찾기',short:'1. 미지 금속',activeClass:'bg-amber-500 text-white shadow-lg ring-2 ring-amber-300',icon:'🔍'},
+                        {key:'tower',label:'2. 간이 밀도탑 (음료)',short:'2. 밀도탑',activeClass:'bg-purple-500 text-white shadow-lg ring-2 ring-purple-300',icon:'🍹'},
+                        {key:'diver',label:'3. 생활 속 밀도 (잠수)',short:'3. 잠수',activeClass:'bg-cyan-500 text-white shadow-lg ring-2 ring-cyan-300',icon:'🤿'}
+                    ].map(t=>(
+                        <button key={t.key} onClick={()=>{SFX.play('click');setActiveTab(t.key)}} className={`px-3 py-1.5 rounded-md text-[11px] sm:text-xs font-bold transition-all whitespace-nowrap flex-shrink-0 detective-font ${activeTab===t.key?t.activeClass:'text-gray-300 hover:bg-slate-700'}`}>
+                            <span className="mr-1">{t.icon}</span>{isMobile?t.short:t.label}
+                        </button>
+                    ))}
+                </nav>
+
+                <main className="flex-1 bg-gradient-to-br from-gray-50 to-amber-50 overflow-y-auto" style={{minHeight:'500px'}}>
+                    {activeTab==='experiment'&&<ExperimentLab onAchieve={handleAchieve} isMobile={isMobile}/>}
+                    {activeTab==='tower'&&<DensityTower onAchieve={handleAchieve} onSaveDrink={setDrinkData}/>}
+                    {activeTab==='diver'&&<DiverGame onAchieve={handleAchieve} onSavePhoto={setPhotoData}/>}
+                </main>
+
+                <footer className="bg-slate-900 text-slate-300 p-2.5 text-center text-[10px] sm:text-xs border-t-2 border-amber-500">
+                    <div className="font-medium detective-font">🔍 © 2026 과학이조선생(조승재). All rights reserved.</div>
+                    <div className="text-slate-500 mt-0.5">밀도 탐정 사건 파일 v4.0 · Last updated : 2026-05-11</div>
+                </footer>
+            </div>
+        </div>
+    );
+};
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
