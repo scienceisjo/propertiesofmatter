@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>해누리 용해도 가상실험실</title>
+<title>승재쌤의 용해도 가상실험실</title>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Nanum+Pen+Script&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -14,18 +14,17 @@
   --ink-soft:#5b4a35;
   --ink-faded:#9a8866;
   --line:#c9b88c;
-  --line-light:#e2d3a8;
-  --accent:#1e4d6b;        /* 잉크 블루 */
+  --accent:#1e4d6b;
   --accent-soft:#3a7fa3;
-  --mustard:#c8861d;       /* 머스타드 */
+  --mustard:#c8861d;
   --mustard-soft:#e8b860;
-  --rust:#a8421f;          /* 적갈색 */
+  --rust:#a8421f;
   --rust-soft:#d4a89a;
-  --moss:#4a6b3a;          /* 이끼색 */
+  --moss:#4a6b3a;
   --moss-soft:#8aa67a;
-  --plum:#6b3a5c;          /* 자두색 */
-  --kno3:#1e4d6b;          /* 질산칼륨 - 잉크블루 */
-  --cuso4:#6b3a5c;         /* 황산구리 - 자두색(시각적 구분) */
+  --plum:#6b3a5c;
+  --kno3:#1e4d6b;
+  --cuso4:#6b3a5c;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -56,14 +55,11 @@ body::after{
 }
 @media (max-width:768px){body::after{display:none}}
 
-/* === HEADER === */
 .lab-header{
   position:relative;z-index:2;
   padding:18px 36px 12px 96px;
   display:flex;align-items:flex-end;justify-content:space-between;
-  border-bottom:2px solid var(--ink);
-  border-bottom-style:double;
-  border-bottom-width:4px;
+  border-bottom:4px double var(--ink);
 }
 .title-block{display:flex;flex-direction:column;gap:2px}
 .title-stamp{
@@ -72,8 +68,7 @@ body::after{
   font-size:14px;color:var(--rust);
   letter-spacing:2px;text-transform:uppercase;
 }
-.title-stamp::before{content:'';width:24px;height:1px;background:var(--rust)}
-.title-stamp::after{content:'';width:24px;height:1px;background:var(--rust)}
+.title-stamp::before,.title-stamp::after{content:'';width:24px;height:1px;background:var(--rust)}
 .main-title{
   font-family:'Gaegu',cursive;
   font-size:38px;font-weight:700;color:var(--ink);
@@ -92,7 +87,6 @@ body::after{
 }
 .lab-date .num{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--ink)}
 
-/* === STEPPER === */
 .stepper{
   position:relative;z-index:2;
   display:flex;align-items:center;justify-content:center;gap:0;
@@ -122,22 +116,17 @@ body::after{
   box-shadow:2px 2px 0 var(--ink);
 }
 .step.done{color:var(--moss)}
-.step.done .num-circle{
-  background:var(--moss);color:var(--paper);border-color:var(--moss);
-}
+.step.done .num-circle{background:var(--moss);color:var(--paper);border-color:var(--moss);}
 .step.done .num-circle::before{content:'✓';font-family:'Gowun Batang',serif}
 .step.done .num-circle .num-text{display:none}
-.step-arrow{
-  color:var(--ink-faded);font-size:18px;
-  font-family:'Nanum Pen Script',cursive;
-}
+.step-arrow{color:var(--ink-faded);font-size:18px;font-family:'Nanum Pen Script',cursive;}
+
 @media (max-width:768px){
   .step-arrow{display:none}
   .step{font-size:13px;padding:4px 8px}
   .step .num-circle{width:24px;height:24px;font-size:11px}
 }
 
-/* === STAGE CONTAINER === */
 .stage-container{
   position:relative;z-index:2;
   padding:8px 36px 36px 96px;
@@ -145,7 +134,7 @@ body::after{
 }
 @media (max-width:768px){
   .lab-header{padding:14px 16px 10px}
-  .main-title{font-size:28px}
+  .main-title{font-size:26px}
   .stage-container{padding:8px 16px 24px}
 }
 
@@ -153,13 +142,11 @@ body::after{
 .stage.on{display:block}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-/* === STAGE: INTRO === */
 .intro-card{
   background:var(--paper-dark);
   border:1.5px solid var(--ink);
-  border-radius:2px;
   padding:32px 36px;
-  max-width:780px;margin:20px auto;
+  max-width:820px;margin:20px auto;
   position:relative;
   box-shadow:6px 6px 0 var(--paper-shadow), 6px 6px 0 1px var(--ink-soft);
 }
@@ -175,18 +162,14 @@ body::after{
 .intro-p{font-size:15px;line-height:1.9;color:var(--ink-soft);margin-bottom:8px}
 .intro-list{margin:14px 0 18px 8px;font-size:15px;line-height:2;color:var(--ink)}
 .intro-list li{list-style:none;padding-left:24px;position:relative}
-.intro-list li::before{
-  content:'✱';position:absolute;left:0;color:var(--rust);
-  font-size:14px;top:3px;
-}
+.intro-list li::before{content:'✱';position:absolute;left:0;color:var(--rust);font-size:14px;top:3px;}
 .condition-table{
   width:100%;margin:14px 0;border-collapse:collapse;
   font-family:'Gowun Batang',serif;font-size:14px;
   background:var(--paper);
 }
 .condition-table th,.condition-table td{
-  border:1px solid var(--ink-soft);
-  padding:10px 12px;text-align:center;
+  border:1px solid var(--ink-soft);padding:10px 12px;text-align:center;
 }
 .condition-table th{
   background:var(--ink);color:var(--paper);
@@ -197,17 +180,13 @@ body::after{
 }
 .condition-table .num{font-family:'JetBrains Mono',monospace}
 
-/* === BIG BUTTONS === */
 .big-btn{
-  font-family:'Gaegu',cursive;font-weight:700;
-  font-size:17px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:17px;
   padding:12px 28px;
   background:var(--rust);color:var(--paper);
   border:1.5px solid var(--ink);
-  cursor:pointer;
-  letter-spacing:1px;
-  position:relative;
-  transition:all .15s;
+  cursor:pointer;letter-spacing:1px;
+  position:relative;transition:all .15s;
   box-shadow:3px 3px 0 var(--ink);
 }
 .big-btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
@@ -217,21 +196,48 @@ body::after{
 .big-btn.moss{background:var(--moss);color:var(--paper)}
 .big-btn.mustard{background:var(--mustard);color:var(--ink)}
 .big-btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;box-shadow:3px 3px 0 var(--ink)!important}
+.intro-cta{display:flex;justify-content:center;margin-top:8px;gap:12px;flex-wrap:wrap}
 
-.intro-cta{display:flex;justify-content:center;margin-top:8px}
+/* === NOTEBOOK STAGE === */
+.notebook-stage{max-width:880px;margin:0 auto}
+.nb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:14px}
+.nb-card{
+  background:var(--paper);
+  border:1.5px solid var(--ink);
+  padding:18px 20px;
+  position:relative;
+  box-shadow:4px 4px 0 var(--paper-shadow), 4px 4px 0 1px var(--ink-soft);
+  transition:transform .2s;
+}
+.nb-card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--paper-shadow), 6px 6px 0 1px var(--ink-soft)}
+.nb-icon{font-size:32px;margin-bottom:6px}
+.nb-term{
+  font-family:'Gaegu',cursive;font-size:22px;font-weight:700;color:var(--ink);
+  border-bottom:2px solid var(--rust);
+  display:inline-block;padding-bottom:2px;margin-bottom:10px;
+}
+.nb-def{font-size:14px;line-height:1.8;color:var(--ink-soft)}
+.nb-def b{color:var(--ink);background:rgba(232,184,96,.4);padding:0 4px}
+.nb-card .nb-no{
+  position:absolute;top:-12px;right:14px;
+  background:var(--mustard);color:var(--ink);
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  padding:2px 8px;border:1.5px solid var(--ink);
+  font-weight:700;
+}
+.nb-illustration{
+  margin:12px 0 8px;display:flex;align-items:center;justify-content:center;
+  min-height:80px;
+}
 
-/* === STAGE: EXPERIMENT === */
+/* === EXP STAGE === */
 .exp-stage{
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(280px,360px);
-  gap:24px;
-  align-items:start;
+  gap:24px;align-items:start;
 }
-@media (max-width:980px){
-  .exp-stage{grid-template-columns:1fr}
-}
+@media (max-width:980px){.exp-stage{grid-template-columns:1fr}}
 
-/* Solute select */
 .solute-tabs{
   display:flex;gap:8px;margin-bottom:14px;
   border-bottom:2px dashed var(--ink-soft);padding-bottom:0;
@@ -241,19 +247,18 @@ body::after{
   padding:8px 16px;background:transparent;
   border:1.5px solid var(--ink-soft);border-bottom:none;
   cursor:pointer;color:var(--ink-soft);
-  margin-bottom:-2px;
-  transition:all .15s;
-  position:relative;
+  margin-bottom:-2px;transition:all .15s;
 }
 .solute-tab.on[data-solute="kno3"]{background:var(--kno3);color:var(--paper);border-color:var(--kno3)}
 .solute-tab.on[data-solute="cuso4"]{background:var(--cuso4);color:var(--paper);border-color:var(--cuso4)}
-.solute-tab.locked{opacity:.6;cursor:not-allowed}
+.solute-tab.locked{opacity:.55;cursor:not-allowed;position:relative}
+.solute-tab.locked::before{
+  content:'🔒';position:absolute;top:50%;right:6px;
+  transform:translateY(-50%);font-size:11px;
+}
 .solute-tab .check{margin-left:6px;color:var(--moss)}
 
-/* Condition switcher */
-.cond-switcher{
-  display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;
-}
+.cond-switcher{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .cond-pill{
   font-family:'Gaegu',cursive;font-size:14px;font-weight:700;
   padding:6px 14px;background:var(--paper-dark);
@@ -261,14 +266,16 @@ body::after{
   cursor:pointer;color:var(--ink-soft);
   transition:all .15s;
   display:flex;align-items:center;gap:6px;
+  position:relative;
 }
-.cond-pill:hover{transform:translateY(-1px)}
+.cond-pill:hover:not(.locked){transform:translateY(-1px)}
 .cond-pill.on{background:var(--mustard);color:var(--ink);border-color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
 .cond-pill.recorded{background:var(--moss);color:var(--paper);border-color:var(--moss)}
 .cond-pill.recorded::after{content:' ✓'}
+.cond-pill.locked{opacity:.5;cursor:not-allowed;background:var(--paper-dark)}
+.cond-pill.locked .lock-icon{margin-left:2px;font-size:11px}
 .cond-pill .cond-detail{font-size:11px;font-family:'JetBrains Mono',monospace;opacity:.85}
 
-/* Lab apparatus */
 .lab-card{
   background:var(--paper);
   border:1.5px solid var(--ink);
@@ -284,31 +291,26 @@ body::after{
 }
 .lab-card-title .lt-tag{
   font-size:11px;background:var(--ink);color:var(--paper);
-  padding:2px 8px;font-family:'JetBrains Mono',monospace;
-  letter-spacing:1px;
+  padding:2px 8px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;
 }
 
-/* Beaker area */
 .bench-area{
   background:
     repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(201,184,140,.3) 24px, rgba(201,184,140,.3) 25px),
     var(--paper);
   border:1px dashed var(--ink-soft);
-  padding:20px 12px;
+  padding:20px 12px 14px;
   display:flex;align-items:flex-end;justify-content:center;gap:30px;
-  min-height:320px;
-  position:relative;
+  min-height:340px;position:relative;
 }
 
+/* MBL display - 비커 옆 위쪽으로 */
 .thermo-rig{
-  display:flex;flex-direction:column;align-items:center;
-  position:absolute;top:14px;left:50%;
-  transform:translateX(-50%) translateX(-80px);
-  pointer-events:none;z-index:5;
+  position:absolute;top:14px;right:14px;
+  z-index:6;pointer-events:none;
 }
 .mbl-display{
-  width:96px;
-  background:var(--ink);
+  width:104px;background:var(--ink);
   border:2px solid var(--ink-soft);border-radius:4px;
   padding:6px 8px;text-align:center;
   font-family:'JetBrains Mono',monospace;
@@ -316,25 +318,18 @@ body::after{
 }
 .mbl-display .mlabel{font-size:8px;color:var(--ink-faded);letter-spacing:2px}
 .mbl-display .mtemp{
-  font-size:18px;font-weight:700;color:var(--mustard-soft);
-  text-shadow:0 0 6px rgba(232,184,96,.6);
-  margin:2px 0;
-}
-.thermo-wire{width:3px;height:80px;background:var(--ink-soft);margin-top:2px}
-.thermo-probe{
-  width:8px;height:18px;background:var(--rust);
-  border-radius:0 0 4px 4px;
-  box-shadow:0 2px 4px rgba(0,0,0,.3);
+  font-size:20px;font-weight:700;color:var(--mustard-soft);
+  text-shadow:0 0 6px rgba(232,184,96,.6);margin:2px 0;
 }
 
 .beaker-rig{
   position:relative;
   display:flex;flex-direction:column;align-items:center;
+  z-index:2;
 }
 .beaker-vessel{
-  width:140px;height:170px;
-  border:3px solid var(--ink);
-  border-top:none;
+  width:150px;height:180px;
+  border:3px solid var(--ink);border-top:none;
   border-radius:0 0 18px 18px;
   background:rgba(245,236,217,.5);
   position:relative;overflow:hidden;
@@ -346,8 +341,39 @@ body::after{
 }
 .beaker-vessel::before{left:-12px;border-radius:6px 0 0 0;transform:rotate(-12deg)}
 .beaker-vessel::after{right:-12px;border-radius:0 6px 0 0;transform:rotate(12deg)}
+
+/* 온도계 - 비커 안쪽 */
+.thermo-inside{
+  position:absolute;top:8px;right:18px;
+  width:14px;height:130px;
+  z-index:8;pointer-events:none;
+}
+.thermo-tube{
+  width:4px;height:100%;
+  background:linear-gradient(to right, rgba(200,200,200,.4), rgba(140,140,140,.5));
+  margin:0 auto;
+  border-radius:2px 2px 0 0;
+  border:1px solid rgba(80,80,80,.4);
+  position:relative;
+  overflow:visible;
+}
+.thermo-mercury{
+  position:absolute;bottom:0;left:0;width:100%;
+  background:linear-gradient(to bottom, var(--rust), #7a2d10);
+  transition:height .4s;
+  border-radius:1px;
+}
+.thermo-bulb{
+  position:absolute;bottom:-5px;left:50%;
+  transform:translateX(-50%);
+  width:11px;height:11px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, var(--rust), #5a1f08);
+  border:1.5px solid var(--ink);
+  box-shadow:0 0 4px rgba(168,66,31,.4);
+}
+
 .beaker-marks{
-  position:absolute;top:8px;left:6px;bottom:8px;
+  position:absolute;top:12px;left:6px;bottom:8px;
   display:flex;flex-direction:column;justify-content:space-around;
   pointer-events:none;z-index:2;
 }
@@ -356,11 +382,10 @@ body::after{
   font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink-faded);
 }
 .beaker-mark::before{content:'';width:8px;height:1px;background:var(--ink-faded)}
+
 .water-fill{
   position:absolute;bottom:0;left:0;width:100%;
-  background:linear-gradient(to bottom,
-    rgba(58,127,163,.55),
-    rgba(30,77,107,.6));
+  background:linear-gradient(to bottom, rgba(58,127,163,.55), rgba(30,77,107,.6));
   transition:height .6s cubic-bezier(.34,1.56,.64,1);
   z-index:1;
 }
@@ -369,34 +394,63 @@ body::after{
   background:rgba(255,255,255,.4);
 }
 .water-fill.warm{
-  background:linear-gradient(to bottom,
-    rgba(200,134,29,.4),
-    rgba(168,66,31,.55));
+  background:linear-gradient(to bottom, rgba(200,134,29,.4), rgba(168,66,31,.55));
 }
 .water-fill.cold{
-  background:linear-gradient(to bottom,
-    rgba(120,180,210,.45),
-    rgba(58,127,163,.6));
+  background:linear-gradient(to bottom, rgba(120,180,210,.45), rgba(58,127,163,.6));
 }
 .precip-fill{
   position:absolute;bottom:0;left:0;width:100%;
-  transition:height .4s;z-index:2;
+  transition:height .5s;z-index:3;
 }
 .precip-fill.kno3{
-  background:linear-gradient(to top,
-    rgba(220,210,190,.95),
-    rgba(220,210,190,.4));
+  background:linear-gradient(to top, rgba(220,210,190,.95), rgba(220,210,190,.5));
 }
 .precip-fill.cuso4{
-  background:linear-gradient(to top,
-    rgba(107,58,92,.85),
-    rgba(107,58,92,.35));
+  background:linear-gradient(to top, rgba(107,58,92,.85), rgba(107,58,92,.4));
 }
 
-/* Hot plate */
-.hot-plate{
-  width:170px;margin-top:0;
+/* 떨어지는 결정 입자 */
+.crystal-layer{
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  z-index:4;pointer-events:none;overflow:hidden;
 }
+.crystal{
+  position:absolute;
+  width:5px;height:5px;
+  border-radius:1px;
+  opacity:0;
+  animation:crystal-fall var(--dur,2.4s) ease-in forwards;
+}
+.crystal.kno3{
+  background:linear-gradient(135deg, #f5f0e0, #c9bca0);
+  box-shadow:inset -1px -1px 0 rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.2);
+}
+.crystal.cuso4{
+  background:linear-gradient(135deg, #9a5e8c, #4d2742);
+  box-shadow:inset -1px -1px 0 rgba(0,0,0,.2), 0 1px 2px rgba(0,0,0,.25);
+}
+@keyframes crystal-fall{
+  0%{opacity:0;transform:translate(var(--x0,0px), 0) rotate(0deg)}
+  10%{opacity:1}
+  90%{opacity:1}
+  100%{
+    opacity:.95;
+    transform:translate(var(--x1,0px), var(--y1,150px)) rotate(var(--rot,360deg));
+  }
+}
+
+/* 비커 흔들림 */
+@keyframes beaker-shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-1.5px)}
+  75%{transform:translateX(1.5px)}
+}
+.beaker-vessel.precipitating{
+  animation:beaker-shake .15s ease-in-out 3;
+}
+
+.hot-plate{width:178px;margin-top:0;}
 .hp-top{
   height:10px;background:var(--ink-soft);
   border-radius:6px 6px 0 0;
@@ -417,7 +471,6 @@ body::after{
   color:var(--paper);letter-spacing:1.5px;
 }
 
-/* Spoon animation */
 @keyframes spoon-pour{
   0%{opacity:0;transform:translate(40px,-65px) rotate(0deg)}
   20%{opacity:1;transform:translate(0,-30px) rotate(-38deg)}
@@ -426,15 +479,13 @@ body::after{
 }
 @keyframes pwdr-fall{
   0%{opacity:1;transform:translate(0,0) scale(1)}
-  100%{opacity:0;transform:translate(var(--dx,0px),var(--dy,100px)) scale(.15)}
+  100%{opacity:0;transform:translate(var(--dx,0px), var(--dy,100px)) scale(.15)}
 }
 .spoon-anim{
   position:absolute;top:50px;left:50%;
-  width:55px;height:14px;
-  background:var(--ink-soft);
+  width:55px;height:14px;background:var(--ink-soft);
   border-radius:10px 2px 2px 10px;
-  z-index:25;opacity:0;
-  animation:spoon-pour 1.4s ease-in-out;
+  z-index:25;opacity:0;animation:spoon-pour 1.4s ease-in-out;
 }
 .spoon-anim::after{
   content:'';position:absolute;right:-15px;top:3px;
@@ -445,33 +496,19 @@ body::after{
   animation:pwdr-fall ease-in forwards;z-index:26;pointer-events:none;
 }
 
-/* Status display */
-.status-display{
-  display:flex;flex-direction:column;gap:8px;
-  margin-top:14px;
-}
+.status-display{display:flex;flex-direction:column;gap:8px;margin-top:14px}
 .status-row{
   display:flex;justify-content:space-between;align-items:center;
-  padding:6px 12px;
-  background:var(--paper-dark);
-  border-left:3px solid var(--accent);
-  font-size:13px;
+  padding:6px 12px;background:var(--paper-dark);
+  border-left:3px solid var(--accent);font-size:13px;
 }
-.status-row .sr-label{
-  font-family:'Gaegu',cursive;font-weight:700;color:var(--ink);
-}
-.status-row .sr-value{
-  font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--ink);
-  font-size:13px;
-}
+.status-row .sr-label{font-family:'Gaegu',cursive;font-weight:700;color:var(--ink);}
+.status-row .sr-value{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--ink);font-size:13px;}
 .status-row.precip-row{border-left-color:var(--rust)}
 .status-row.precip-row.active{background:rgba(168,66,31,.18);animation:pulse-row 1.2s ease-in-out infinite}
 @keyframes pulse-row{0%,100%{background:rgba(168,66,31,.18)}50%{background:rgba(168,66,31,.32)}}
 
-/* === CONTROLS PANEL === */
-.controls-panel{
-  display:flex;flex-direction:column;gap:14px;
-}
+.controls-panel{display:flex;flex-direction:column;gap:14px}
 .control-card{
   background:var(--paper);
   border:1.5px solid var(--ink);
@@ -484,7 +521,6 @@ body::after{
   text-transform:uppercase;
 }
 
-/* Temp slider */
 .temp-row{display:flex;align-items:center;gap:8px;margin-top:6px}
 .temp-btn{
   width:30px;height:30px;
@@ -500,39 +536,31 @@ body::after{
 
 input[type=range].lab-range{
   flex:1;-webkit-appearance:none;height:6px;
-  background:var(--paper-dark);
-  border:1.5px solid var(--ink);
+  background:var(--paper-dark);border:1.5px solid var(--ink);
   outline:none;cursor:pointer;
 }
 input[type=range].lab-range::-webkit-slider-thumb{
   -webkit-appearance:none;width:18px;height:24px;
-  background:var(--mustard);border:1.5px solid var(--ink);
-  cursor:pointer;
+  background:var(--mustard);border:1.5px solid var(--ink);cursor:pointer;
 }
 input[type=range].lab-range::-moz-range-thumb{
   width:18px;height:24px;
-  background:var(--mustard);border:1.5px solid var(--ink);
-  cursor:pointer;
+  background:var(--mustard);border:1.5px solid var(--ink);cursor:pointer;
 }
 
 .temp-display{
   text-align:center;
   font-family:'JetBrains Mono',monospace;
   font-size:22px;font-weight:700;color:var(--ink);
-  margin-top:8px;
-  padding:6px;
-  background:var(--paper-dark);
-  border:1px dashed var(--ink-soft);
+  margin-top:8px;padding:6px;
+  background:var(--paper-dark);border:1px dashed var(--ink-soft);
 }
 
-/* Action buttons */
 .action-btn{
-  font-family:'Gaegu',cursive;font-weight:700;
-  font-size:14px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
   padding:9px 14px;
   background:var(--paper-dark);color:var(--ink);
-  border:1.5px solid var(--ink);
-  cursor:pointer;
+  border:1.5px solid var(--ink);cursor:pointer;
   transition:all .14s;
   box-shadow:2px 2px 0 var(--ink-soft);
   display:flex;align-items:center;justify-content:center;gap:6px;
@@ -545,10 +573,8 @@ input[type=range].lab-range::-moz-range-thumb{
 .action-btn.accent{background:var(--accent);color:var(--paper)}
 .action-btn.accent:hover{background:#163b54}
 .action-btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;box-shadow:2px 2px 0 var(--ink-soft)!important}
-
 .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 
-/* Tooltip */
 [data-tip]{position:relative}
 [data-tip]:hover::after{
   content:attr(data-tip);
@@ -557,7 +583,7 @@ input[type=range].lab-range::-moz-range-thumb{
   background:var(--ink);color:var(--paper);
   font-family:'Gowun Batang',serif;font-weight:400;
   font-size:11px;padding:5px 10px;
-  white-space:nowrap;letter-spacing:.5px;
+  white-space:nowrap;letter-spacing:.3px;
   z-index:1000;pointer-events:none;
   box-shadow:2px 2px 0 var(--rust);
 }
@@ -568,7 +594,6 @@ input[type=range].lab-range::-moz-range-thumb{
   z-index:1000;pointer-events:none;
 }
 
-/* === RECORD TABLE === */
 .record-section{
   margin-top:24px;
   background:var(--paper);
@@ -592,8 +617,7 @@ input[type=range].lab-range::-moz-range-thumb{
 }
 .record-table th,.record-table td{
   border:1.5px solid var(--ink-soft);
-  padding:10px 8px;text-align:center;
-  background:var(--paper);
+  padding:10px 8px;text-align:center;background:var(--paper);
 }
 .record-table th{
   background:var(--ink);color:var(--paper);
@@ -602,52 +626,36 @@ input[type=range].lab-range::-moz-range-thumb{
 .record-table td.row-label{
   background:var(--paper-dark);
   font-family:'Gaegu',cursive;font-weight:700;
-  text-align:left;padding-left:14px;
-  white-space:nowrap;
+  text-align:left;padding-left:14px;white-space:nowrap;
 }
-.record-table .cell-empty{
-  font-family:'Nanum Pen Script',cursive;
-  color:var(--ink-faded);font-size:18px;
-}
+.record-table .cell-empty{font-family:'Nanum Pen Script',cursive;color:var(--ink-faded);font-size:18px;}
 .record-table .cell-filled{
   font-family:'JetBrains Mono',monospace;font-weight:700;
   color:var(--moss);font-size:14px;
   animation:cellPop .4s ease-out;
 }
-@keyframes cellPop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
-.record-table .cell-na{
-  font-family:'Gaegu',cursive;color:var(--ink-faded);font-size:13px;
-  font-style:italic;
-}
-.record-table .cell-current{
-  background:rgba(232,184,96,.35)!important;
-  position:relative;
-}
+@keyframes cellPop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.record-table .cell-na{font-family:'Gaegu',cursive;color:var(--ink-faded);font-size:13px;font-style:italic;}
+.record-table .cell-current{background:rgba(232,184,96,.35)!important;position:relative;}
 .record-table .cell-current::after{
   content:'';position:absolute;inset:2px;
   border:1.5px dashed var(--rust);pointer-events:none;
   animation:pulseBorder 1.5s ease-in-out infinite;
 }
 @keyframes pulseBorder{0%,100%{opacity:.5}50%{opacity:1}}
-
 .record-progress{
   display:flex;justify-content:space-between;align-items:center;
   margin-top:16px;flex-wrap:wrap;gap:12px;
 }
-.progress-text{
-  font-family:'Nanum Pen Script',cursive;font-size:18px;
-  color:var(--ink-soft);
-}
+.progress-text{font-family:'Nanum Pen Script',cursive;font-size:18px;color:var(--ink-soft);}
 
-/* === STAGE: GRAPH === */
+/* GRAPH STAGE */
 .graph-stage{
   display:grid;
   grid-template-columns:minmax(0,1fr) 280px;
   gap:24px;
 }
-@media (max-width:980px){
-  .graph-stage{grid-template-columns:1fr}
-}
+@media (max-width:980px){.graph-stage{grid-template-columns:1fr}}
 
 .graph-card{
   background:var(--paper);
@@ -657,9 +665,7 @@ input[type=range].lab-range::-moz-range-thumb{
   position:relative;
 }
 .graph-canvas-wrap{
-  width:100%;
-  aspect-ratio:1.4/1;
-  position:relative;
+  width:100%;aspect-ratio:1.4/1;position:relative;
   background:
     repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(168,66,31,.08) 19px, rgba(168,66,31,.08) 20px),
     repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(168,66,31,.08) 19px, rgba(168,66,31,.08) 20px),
@@ -701,18 +707,13 @@ input[type=range].lab-range::-moz-range-thumb{
   cursor:grab;
   display:flex;align-items:center;justify-content:space-between;
   background:var(--paper-dark);
-  transition:all .15s;
-  user-select:none;
-  -webkit-user-drag:element;
+  transition:all .15s;user-select:none;
 }
 .dp-chip:active{cursor:grabbing}
 .dp-chip:hover{transform:translateX(-2px);box-shadow:2px 2px 0 var(--ink-soft)}
 .dp-chip[data-solute="kno3"]{border-left:4px solid var(--kno3)}
 .dp-chip[data-solute="cuso4"]{border-left:4px solid var(--cuso4)}
-.dp-chip.placed{
-  opacity:.4;cursor:not-allowed;text-decoration:line-through;
-  background:var(--paper);
-}
+.dp-chip.placed{opacity:.4;cursor:not-allowed;text-decoration:line-through;background:var(--paper);}
 .dp-chip .dp-tag{
   font-family:'Gaegu',cursive;font-size:10px;
   padding:1px 6px;border-radius:10px;
@@ -722,18 +723,16 @@ input[type=range].lab-range::-moz-range-thumb{
 .dp-chip[data-solute="cuso4"] .dp-tag{color:var(--cuso4);border:1px solid var(--cuso4)}
 
 .graph-toolbar{
-  display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;
-  justify-content:flex-end;
+  display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;justify-content:flex-end;
 }
 .graph-legend{
-  display:flex;gap:14px;flex-wrap:wrap;
-  margin-bottom:10px;
+  display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;
   font-family:'Gowun Batang',serif;font-size:12px;color:var(--ink-soft);
 }
 .legend-item{display:flex;align-items:center;gap:5px}
 .legend-dot{width:10px;height:10px;border-radius:50%}
 
-/* === STAGE: ANALYSIS === */
+/* ANALYSIS STAGE */
 .analysis-stage{max-width:920px;margin:0 auto}
 .analysis-card{
   background:var(--paper);
@@ -749,17 +748,13 @@ input[type=range].lab-range::-moz-range-thumb{
   background:var(--rust);color:var(--paper);
   font-family:'Gaegu',cursive;font-size:18px;font-weight:700;
   display:flex;align-items:center;justify-content:center;
-  border:1.5px solid var(--ink);
-  box-shadow:2px 2px 0 var(--ink);
+  border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);
 }
 .ac-title{
   font-family:'Gaegu',cursive;font-size:20px;font-weight:700;
   color:var(--ink);margin-bottom:10px;padding-left:20px;
 }
-.ac-question{
-  font-size:15px;line-height:1.8;color:var(--ink-soft);
-  margin-bottom:14px;
-}
+.ac-question{font-size:15px;line-height:1.8;color:var(--ink-soft);margin-bottom:14px;}
 .ac-options{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
 .ac-option{
   display:flex;align-items:center;gap:10px;
@@ -776,28 +771,16 @@ input[type=range].lab-range::-moz-range-thumb{
 .ac-feedback{
   margin-top:12px;padding:12px 16px;
   font-family:'Nanum Pen Script',cursive;font-size:16px;
-  line-height:1.5;
-  display:none;
+  line-height:1.5;display:none;
 }
 .ac-feedback.show{display:block}
-.ac-feedback.correct{
-  background:rgba(74,107,58,.15);
-  border-left:3px solid var(--moss);
-  color:var(--moss);
-}
-.ac-feedback.wrong{
-  background:rgba(168,66,31,.12);
-  border-left:3px solid var(--rust);
-  color:var(--rust);
-}
+.ac-feedback.correct{background:rgba(74,107,58,.15);border-left:3px solid var(--moss);color:var(--moss);}
+.ac-feedback.wrong{background:rgba(168,66,31,.12);border-left:3px solid var(--rust);color:var(--rust);}
 
 .final-card{
   background:linear-gradient(135deg, var(--paper-dark), var(--paper));
-  border:2px solid var(--ink);
-  padding:30px;
-  text-align:center;
-  margin-top:24px;
-  position:relative;
+  border:2px solid var(--ink);padding:30px;
+  text-align:center;margin-top:24px;position:relative;
   box-shadow:6px 6px 0 var(--paper-shadow), 6px 6px 0 1px var(--ink-soft);
 }
 .final-card .stamp-circle{
@@ -810,28 +793,21 @@ input[type=range].lab-range::-moz-range-thumb{
   transform:rotate(-12deg);
   background:rgba(245,236,217,.9);
 }
-.final-h{
-  font-family:'Gaegu',cursive;font-size:26px;font-weight:700;
-  color:var(--ink);margin-bottom:12px;
-}
+.final-h{font-family:'Gaegu',cursive;font-size:26px;font-weight:700;color:var(--ink);margin-bottom:12px;}
 .final-p{font-size:15px;line-height:1.9;color:var(--ink-soft);margin-bottom:8px}
 .final-key{
   display:inline-block;
   font-family:'Gaegu',cursive;font-weight:700;font-size:18px;
   background:var(--mustard);color:var(--ink);
   padding:6px 16px;margin:10px 4px;
-  border:1.5px solid var(--ink);
-  box-shadow:2px 2px 0 var(--ink-soft);
+  border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink-soft);
 }
 
-/* === MODAL === */
 .modal-backdrop{
   position:fixed;inset:0;
-  background:rgba(43,33,23,.55);
-  backdrop-filter:blur(3px);
+  background:rgba(43,33,23,.55);backdrop-filter:blur(3px);
   display:none;align-items:center;justify-content:center;
-  z-index:1000;padding:20px;
-  animation:fadeIn .25s ease-out;
+  z-index:1000;padding:20px;animation:fadeIn .25s ease-out;
 }
 .modal-backdrop.show{display:flex}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -852,30 +828,27 @@ input[type=range].lab-range::-moz-range-thumb{
   border:1px solid rgba(168,66,31,.3);
   box-shadow:1px 2px 4px rgba(0,0,0,.15);
 }
-.modal-icon{
-  text-align:center;font-size:42px;margin:24px 0 8px;
-}
+.modal-icon{text-align:center;font-size:42px;margin:24px 0 8px;}
 .modal-h{
   font-family:'Gaegu',cursive;font-size:22px;font-weight:700;
-  text-align:center;color:var(--ink);
-  padding:0 24px;
+  text-align:center;color:var(--ink);padding:0 24px;
 }
 .modal-body{
-  padding:14px 30px 24px;
-  font-size:14px;line-height:1.8;color:var(--ink-soft);
-  text-align:center;
+  padding:14px 30px 24px;font-size:14px;line-height:1.8;
+  color:var(--ink-soft);text-align:center;
 }
 .modal-body .highlight{
   font-family:'JetBrains Mono',monospace;font-weight:700;
   background:var(--mustard);color:var(--ink);
   padding:1px 8px;border:1px solid var(--ink-soft);
 }
+.modal-body .ok-color{color:var(--moss);font-weight:700}
+.modal-body .warn-color{color:var(--rust);font-weight:700}
 .modal-actions{
   display:flex;justify-content:center;gap:10px;
   padding:0 24px 24px;flex-wrap:wrap;
 }
 
-/* === Toast === */
 .toast{
   position:fixed;bottom:32px;left:50%;
   transform:translateX(-50%) translateY(20px);
@@ -891,27 +864,14 @@ input[type=range].lab-range::-moz-range-thumb{
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.ok{border-color:var(--moss);box-shadow:4px 4px 0 var(--moss)}
 
-/* === Confetti === */
 @keyframes confetti-fall{
   0%{transform:translateY(-20px) rotate(0deg);opacity:1}
   100%{transform:translateY(100vh) rotate(720deg);opacity:0}
 }
 
-/* === Drop target highlight === */
-.drop-zone{
-  border:2px dashed transparent;
-  transition:all .2s;
-}
-.drop-zone.dragging-over{
-  border-color:var(--rust)!important;
-  background:rgba(168,66,31,.06)!important;
-}
-
-/* === Footer === */
 .lab-footer{
   position:relative;z-index:2;
-  padding:14px 36px;
-  text-align:center;
+  padding:14px 36px;text-align:center;
   font-family:'Nanum Pen Script',cursive;
   font-size:14px;color:var(--ink-faded);
   border-top:1px dashed var(--ink-soft);
@@ -919,7 +879,6 @@ input[type=range].lab-range::-moz-range-thumb{
 .lab-footer a{color:var(--rust);text-decoration:none}
 .lab-footer a:hover{text-decoration:underline}
 
-/* === Small fixes === */
 @media (max-width:600px){
   .main-title{font-size:24px}
   .stepper{padding:10px 16px 6px;gap:0}
@@ -930,19 +889,18 @@ input[type=range].lab-range::-moz-range-thumb{
   .record-table th,.record-table td{padding:7px 4px;font-size:11.5px}
   .record-table td.row-label{font-size:12px;padding-left:8px}
   .bench-area{gap:14px;padding:14px 8px}
-  .thermo-rig{transform:translateX(-50%) translateX(-60px)}
-  .beaker-vessel{width:110px;height:140px}
-  .hot-plate{width:140px}
-  .mbl-display{width:80px}
+  .beaker-vessel{width:120px;height:150px}
+  .hot-plate{width:148px}
+  .mbl-display{width:90px}
+  .thermo-rig{top:8px;right:8px}
+  .thermo-inside{right:14px;height:110px}
 }
 </style>
 </head>
 <body>
 
-<!-- TOAST -->
 <div id="toast" class="toast"></div>
 
-<!-- MODAL -->
 <div class="modal-backdrop" id="modal">
   <div class="modal">
     <div class="modal-tape"></div>
@@ -955,24 +913,27 @@ input[type=range].lab-range::-moz-range-thumb{
   </div>
 </div>
 
-<!-- HEADER -->
 <header class="lab-header">
   <div class="title-block">
     <span class="title-stamp">Science Lab Notebook</span>
-    <h1 class="main-title">멋진 해누리 <em>용해도</em> 가상실험실</h1>
+    <h1 class="main-title">승재쌤의 <em>용해도</em> 가상실험실</h1>
     <div class="sub-title">— 온도가 달라지면 용해도는 어떻게 변할까? —</div>
   </div>
   <div class="lab-date">
     <div>실험일자</div>
-    <div class="num" id="today-date">2026.05.14</div>
+    <div class="num" id="today-date">2026.05.15</div>
   </div>
 </header>
 
-<!-- STEPPER -->
 <nav class="stepper" id="stepper">
   <div class="step active" data-step="intro" onclick="goStep('intro')">
     <div class="num-circle"><span class="num-text">0</span></div>
     <span>실험 안내</span>
+  </div>
+  <span class="step-arrow">→</span>
+  <div class="step" data-step="notebook" onclick="goStep('notebook')">
+    <div class="num-circle"><span class="num-text">📓</span></div>
+    <span>실험 노트</span>
   </div>
   <span class="step-arrow">→</span>
   <div class="step" data-step="exp" onclick="goStep('exp')">
@@ -993,23 +954,19 @@ input[type=range].lab-range::-moz-range-thumb{
 
 <main class="stage-container">
 
-<!-- ============ STAGE 0: INTRO ============ -->
+<!-- STAGE: INTRO -->
 <section class="stage on" id="stage-intro">
   <div class="intro-card">
     <h2 class="intro-h">🧪 오늘의 실험 과제</h2>
     <p class="intro-p">
-      온도에 따라 물질이 물에 녹는 양이 어떻게 달라질까요? 비커에 물과 용질을 넣고 온도를 천천히 낮추며,
-      <b>고체가 다시 생기기 시작하는 온도</b>를 찾아 기록해봅시다.
+      온도에 따라 물질이 물에 녹는 양은 어떻게 달라질까요?
+      비커에 물과 용질을 넣고 온도를 천천히 낮추며,
+      <b>모두 녹아 있던 용질이 다시 고체로 생기기 시작하는 정확한 순간의 온도</b>를 찾아 기록해봅시다.
     </p>
 
     <h3 class="intro-h" style="font-size:18px;margin-top:16px">실험 조건 (가) (나) (다)</h3>
     <table class="condition-table">
-      <tr>
-        <th>조건</th>
-        <th>(가)</th>
-        <th>(나)</th>
-        <th>(다)</th>
-      </tr>
+      <tr><th>조건</th><th>(가)</th><th>(나)</th><th>(다)</th></tr>
       <tr>
         <td>구성</td>
         <td><span class="num">물 100g</span><br>+ 용질 <span class="num">50g</span></td>
@@ -1020,52 +977,234 @@ input[type=range].lab-range::-moz-range-thumb{
 
     <h3 class="intro-h" style="font-size:18px;margin-top:16px">실험 순서</h3>
     <ul class="intro-list">
-      <li>(가) (나) (다) 3가지 조건에 맞춰 비커에 물과 <b>질산칼륨</b>을 넣는다.</li>
-      <li>온도를 천천히 낮추며 비커에 <b>고체가 생기기 시작하는 순간</b>의 온도를 기록한다.</li>
-      <li>모든 조건에서 측정 후, <b>황산구리</b>로도 동일하게 실험을 반복한다.</li>
-      <li>실험 결과를 표에 기록하고 그래프로 그려 두 물질의 용해도를 비교한다.</li>
+      <li>(가) → (나) → (다) 순서대로 진행합니다. 한 조건을 완료해야 다음 조건이 열려요.</li>
+      <li>비커에 물과 <b>질산칼륨</b>을 넣고 온도를 1℃씩 낮추며 <b>고체가 생기는 순간</b>을 포착합니다.</li>
+      <li>질산칼륨 3조건을 모두 완료하면 <b>황산구리</b> 실험이 열립니다.</li>
+      <li>실험 결과를 표에 기록하고 그래프로 그려 두 물질의 용해도를 비교합니다.</li>
     </ul>
 
     <p class="intro-p" style="font-size:13px;color:var(--ink-faded);font-style:italic">
-      ※ 황산구리는 (나) 조건의 경우 100℃를 초과하므로(물의 끓기 시작하는 온도 이상) 측정 불가합니다.
+      ※ 황산구리는 (나) 조건의 경우 100℃를 초과하므로 측정이 불가능합니다.
     </p>
 
     <div class="intro-cta">
-      <button class="big-btn" onclick="goStep('exp')" data-tip="첫 번째 실험을 시작합니다">
+      <button class="big-btn ghost" onclick="goStep('notebook')" data-tip="용해도 관련 개념을 먼저 정리합니다">
+        📓 실험 노트 보기
+      </button>
+      <button class="big-btn" onclick="goStep('exp')" data-tip="가상 실험을 바로 시작합니다">
         ▶ 실험 시작하기
       </button>
     </div>
   </div>
 </section>
 
-<!-- ============ STAGE 1: EXPERIMENT ============ -->
+<!-- STAGE: NOTEBOOK -->
+<section class="stage" id="stage-notebook">
+  <div class="notebook-stage">
+    <div class="intro-card" style="max-width:none;margin:0 0 20px;padding:20px 28px">
+      <h2 class="intro-h" style="font-size:22px;margin-bottom:8px">📓 실험 전 개념 정리</h2>
+      <p class="intro-p" style="margin-bottom:0">
+        실험을 시작하기 전에, 우리가 사용할 용어들을 먼저 정리해봅시다.
+        각 카드를 살펴보고 머릿속에 그림을 그려보세요.
+      </p>
+    </div>
+
+    <div class="nb-grid">
+      <div class="nb-card">
+        <div class="nb-no">개념 ①</div>
+        <div class="nb-icon">💧</div>
+        <div class="nb-term">용매</div>
+        <div class="nb-illustration">
+          <svg width="160" height="70" viewBox="0 0 160 70">
+            <rect x="30" y="14" width="100" height="48" rx="6" fill="#3a7fa3" opacity=".5" stroke="#2b2117" stroke-width="1.5"/>
+            <text x="80" y="44" font-family="Gaegu" font-size="18" font-weight="700" fill="#2b2117" text-anchor="middle">H₂O</text>
+          </svg>
+        </div>
+        <div class="nb-def">
+          다른 물질을 <b>녹이는 물질</b>입니다. 보통 <b>물</b>이 가장 많이 쓰이는 용매예요.
+          오늘 실험에서도 비커 속 물이 용매 역할을 합니다.
+        </div>
+      </div>
+
+      <div class="nb-card">
+        <div class="nb-no">개념 ②</div>
+        <div class="nb-icon">⚗️</div>
+        <div class="nb-term">용질</div>
+        <div class="nb-illustration">
+          <svg width="160" height="70" viewBox="0 0 160 70">
+            <circle cx="40" cy="35" r="6" fill="#1e4d6b"/>
+            <circle cx="60" cy="42" r="5" fill="#1e4d6b"/>
+            <circle cx="80" cy="30" r="7" fill="#6b3a5c"/>
+            <circle cx="100" cy="38" r="5" fill="#6b3a5c"/>
+            <circle cx="120" cy="34" r="6" fill="#1e4d6b"/>
+          </svg>
+        </div>
+        <div class="nb-def">
+          용매에 <b>녹는 물질</b>이에요. 오늘 실험의 용질은
+          <b>질산칼륨</b>과 <b>황산구리</b>입니다.
+        </div>
+      </div>
+
+      <div class="nb-card">
+        <div class="nb-no">개념 ③</div>
+        <div class="nb-icon">🥤</div>
+        <div class="nb-term">용액</div>
+        <div class="nb-illustration">
+          <svg width="160" height="70" viewBox="0 0 160 70">
+            <rect x="30" y="14" width="100" height="48" rx="6" fill="#3a7fa3" opacity=".4" stroke="#2b2117" stroke-width="1.5"/>
+            <circle cx="55" cy="34" r="3" fill="#1e4d6b" opacity=".7"/>
+            <circle cx="75" cy="46" r="3" fill="#1e4d6b" opacity=".7"/>
+            <circle cx="95" cy="30" r="3" fill="#1e4d6b" opacity=".7"/>
+            <circle cx="110" cy="44" r="3" fill="#1e4d6b" opacity=".7"/>
+            <circle cx="65" cy="50" r="3" fill="#1e4d6b" opacity=".7"/>
+            <text x="20" y="42" font-family="Gaegu" font-size="14" fill="#a8421f">＝</text>
+          </svg>
+        </div>
+        <div class="nb-def">
+          <b>용매 + 용질</b>이 균일하게 섞인 혼합물입니다. 설탕물, 소금물처럼
+          용질이 용매에 골고루 퍼져 있는 상태예요.
+        </div>
+      </div>
+
+      <div class="nb-card">
+        <div class="nb-no">개념 ④</div>
+        <div class="nb-icon">🌀</div>
+        <div class="nb-term">용해</div>
+        <div class="nb-illustration">
+          <svg width="160" height="70" viewBox="0 0 160 70">
+            <rect x="20" y="10" width="50" height="50" rx="4" fill="#ebe0c4" stroke="#2b2117" stroke-width="1.5"/>
+            <circle cx="35" cy="48" r="4" fill="#1e4d6b"/>
+            <circle cx="50" cy="50" r="4" fill="#1e4d6b"/>
+            <text x="80" y="40" font-family="Gaegu" font-size="20" fill="#a8421f">→</text>
+            <rect x="95" y="10" width="50" height="50" rx="4" fill="#3a7fa3" opacity=".4" stroke="#2b2117" stroke-width="1.5"/>
+            <circle cx="105" cy="22" r="2" fill="#1e4d6b" opacity=".7"/>
+            <circle cx="125" cy="35" r="2" fill="#1e4d6b" opacity=".7"/>
+            <circle cx="135" cy="50" r="2" fill="#1e4d6b" opacity=".7"/>
+            <circle cx="115" cy="48" r="2" fill="#1e4d6b" opacity=".7"/>
+          </svg>
+        </div>
+        <div class="nb-def">
+          용질이 용매에 <b>골고루 섞여 들어가는 현상</b>입니다.
+          소금이 물에 녹아 보이지 않게 되는 과정이 바로 용해예요.
+        </div>
+      </div>
+
+      <div class="nb-card">
+        <div class="nb-no">개념 ⑤</div>
+        <div class="nb-icon">⚖️</div>
+        <div class="nb-term">포화 용액</div>
+        <div class="nb-illustration">
+          <svg width="160" height="70" viewBox="0 0 160 70">
+            <rect x="30" y="14" width="100" height="48" rx="6" fill="#3a7fa3" opacity=".4" stroke="#2b2117" stroke-width="1.5"/>
+            <circle cx="50" cy="28" r="3" fill="#1e4d6b" opacity=".7"/>
+            <circle cx="70" cy="40" r="3" fill="#1e4d6b" opacity=".7"/>
+            <circle cx="90" cy="30" r="3" fill="#1e4d6b" opacity=".7"/>
+            <circle cx="110" cy="42" r="3" fill="#1e4d6b" opacity=".7"/>
+            <rect x="50" y="55" width="6" height="3" fill="#1e4d6b"/>
+            <rect x="80" y="55" width="6" height="3" fill="#1e4d6b"/>
+            <rect x="105" y="55" width="6" height="3" fill="#1e4d6b"/>
+          </svg>
+        </div>
+        <div class="nb-def">
+          어떤 온도에서 용질이 <b>더 이상 녹지 않을 만큼</b> 최대로 녹아 있는 용액입니다.
+          여기서 용질을 더 넣으면 바닥에 가라앉아요.
+        </div>
+      </div>
+
+      <div class="nb-card">
+        <div class="nb-no">개념 ⑥</div>
+        <div class="nb-icon">🌊</div>
+        <div class="nb-term">불포화 용액</div>
+        <div class="nb-illustration">
+          <svg width="160" height="70" viewBox="0 0 160 70">
+            <rect x="30" y="14" width="100" height="48" rx="6" fill="#3a7fa3" opacity=".4" stroke="#2b2117" stroke-width="1.5"/>
+            <circle cx="60" cy="32" r="3" fill="#1e4d6b" opacity=".7"/>
+            <circle cx="100" cy="42" r="3" fill="#1e4d6b" opacity=".7"/>
+            <text x="80" y="58" font-family="Gaegu" font-size="11" fill="#4a6b3a" text-anchor="middle">더 녹일 수 있음</text>
+          </svg>
+        </div>
+        <div class="nb-def">
+          용질이 <b>더 녹을 수 있는</b> 여유가 있는 용액입니다.
+          용질을 더 넣어도 녹아 들어갈 수 있어요.
+        </div>
+      </div>
+
+      <div class="nb-card">
+        <div class="nb-no">개념 ⑦</div>
+        <div class="nb-icon">📏</div>
+        <div class="nb-term">용해도</div>
+        <div class="nb-illustration">
+          <svg width="180" height="70" viewBox="0 0 180 70">
+            <text x="10" y="32" font-family="Gaegu" font-size="14" font-weight="700" fill="#2b2117">용해도 ＝</text>
+            <line x1="100" y1="20" x2="170" y2="20" stroke="#2b2117" stroke-width="1.5"/>
+            <line x1="100" y1="50" x2="170" y2="50" stroke="#2b2117" stroke-width="1.5"/>
+            <text x="135" y="18" font-family="Gaegu" font-size="11" fill="#a8421f" text-anchor="middle">녹는 용질 (g)</text>
+            <text x="135" y="36" font-family="Gaegu" font-size="11" fill="#2b2117" text-anchor="middle">＝</text>
+            <text x="135" y="48" font-family="Gaegu" font-size="11" fill="#1e4d6b" text-anchor="middle">물 100g 기준</text>
+          </svg>
+        </div>
+        <div class="nb-def">
+          어떤 온도에서 <b>물 100g</b>에 최대로 녹는 용질의 <b>그램 수(g)</b>입니다.
+          포화 용액에서의 용질의 양이라고 생각하면 쉬워요.
+        </div>
+      </div>
+
+      <div class="nb-card">
+        <div class="nb-no">개념 ⑧</div>
+        <div class="nb-icon">📈</div>
+        <div class="nb-term">온도와 용해도</div>
+        <div class="nb-illustration">
+          <svg width="180" height="80" viewBox="0 0 180 80">
+            <line x1="20" y1="70" x2="170" y2="70" stroke="#2b2117" stroke-width="1.5"/>
+            <line x1="20" y1="10" x2="20" y2="70" stroke="#2b2117" stroke-width="1.5"/>
+            <path d="M 20 65 Q 80 60 110 40 T 170 15" fill="none" stroke="#1e4d6b" stroke-width="2.5"/>
+            <text x="174" y="20" font-family="Gaegu" font-size="10" fill="#1e4d6b">고체</text>
+            <text x="100" y="78" font-family="Gaegu" font-size="11" fill="#2b2117" text-anchor="middle">온도 →</text>
+            <text x="14" y="40" font-family="Gaegu" font-size="11" fill="#2b2117" transform="rotate(-90 14 40)" text-anchor="middle">용해도</text>
+          </svg>
+        </div>
+        <div class="nb-def">
+          대부분의 <b>고체</b>는 <b>온도가 높을수록 용해도가 커집니다</b>.
+          오늘 우리가 직접 확인할 사실이에요!
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-cta" style="margin-top:24px">
+      <button class="big-btn ghost" onclick="goStep('intro')">← 안내로 돌아가기</button>
+      <button class="big-btn" onclick="goStep('exp')" data-tip="개념을 이해했으니 실험을 시작합시다">
+        ▶ 실험 시작하기
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE: EXPERIMENT -->
 <section class="stage" id="stage-exp">
 
-  <!-- Solute tabs -->
   <div class="solute-tabs">
-    <button class="solute-tab on" data-solute="kno3" onclick="switchSolute('kno3')" data-tip="질산칼륨으로 실험합니다">
+    <button class="solute-tab on" data-solute="kno3" onclick="switchSolute('kno3')" data-tip="질산칼륨으로 실험">
       ⚪ 질산칼륨 (KNO₃) <span class="check" id="check-kno3" style="display:none">✓</span>
     </button>
-    <button class="solute-tab" data-solute="cuso4" onclick="switchSolute('cuso4')" data-tip="황산구리로 실험합니다">
+    <button class="solute-tab locked" data-solute="cuso4" onclick="switchSolute('cuso4')" data-tip="질산칼륨 3조건을 모두 측정하면 열립니다">
       🟣 황산구리 (CuSO₄) <span class="check" id="check-cuso4" style="display:none">✓</span>
     </button>
   </div>
 
-  <!-- Condition switcher -->
   <div class="cond-switcher" id="cond-switcher">
     <button class="cond-pill on" data-cond="ga" onclick="switchCond('ga')" data-tip="물 100g + 용질 50g 조건">
       (가) <span class="cond-detail">물100g + 50g</span>
     </button>
-    <button class="cond-pill" data-cond="na" onclick="switchCond('na')" data-tip="물 100g + 용질 100g 조건">
-      (나) <span class="cond-detail">물100g + 100g</span>
+    <button class="cond-pill locked" data-cond="na" onclick="switchCond('na')" data-tip="(가)를 완료하면 열립니다">
+      (나) <span class="cond-detail">물100g + 100g</span><span class="lock-icon">🔒</span>
     </button>
-    <button class="cond-pill" data-cond="da" onclick="switchCond('da')" data-tip="물 200g + 용질 100g 조건">
-      (다) <span class="cond-detail">물200g + 100g</span>
+    <button class="cond-pill locked" data-cond="da" onclick="switchCond('da')" data-tip="(나)를 완료하면 열립니다">
+      (다) <span class="cond-detail">물200g + 100g</span><span class="lock-icon">🔒</span>
     </button>
   </div>
 
   <div class="exp-stage">
-    <!-- LEFT: Lab apparatus -->
+
     <div class="lab-card">
       <div class="lab-card-title">
         <span>🔬 실험 장치</span>
@@ -1076,10 +1215,8 @@ input[type=range].lab-range::-moz-range-thumb{
         <div class="thermo-rig">
           <div class="mbl-display">
             <div class="mlabel">TEMPERATURE</div>
-            <div class="mtemp" id="mbl-temp">100.0℃</div>
+            <div class="mtemp" id="mbl-temp">100℃</div>
           </div>
-          <div class="thermo-wire"></div>
-          <div class="thermo-probe"></div>
         </div>
 
         <div class="beaker-rig">
@@ -1092,6 +1229,13 @@ input[type=range].lab-range::-moz-range-thumb{
             </div>
             <div class="water-fill" id="water-fill"></div>
             <div class="precip-fill" id="precip-fill"></div>
+            <div class="crystal-layer" id="crystal-layer"></div>
+            <div class="thermo-inside">
+              <div class="thermo-tube">
+                <div class="thermo-mercury" id="thermo-mercury" style="height:100%"></div>
+              </div>
+              <div class="thermo-bulb"></div>
+            </div>
           </div>
           <div class="hot-plate">
             <div class="hp-top" id="hp-top"></div>
@@ -1104,20 +1248,10 @@ input[type=range].lab-range::-moz-range-thumb{
         </div>
       </div>
 
-      <!-- Status -->
       <div class="status-display">
-        <div class="status-row">
-          <span class="sr-label">💧 물</span>
-          <span class="sr-value" id="sr-water">— g</span>
-        </div>
-        <div class="status-row">
-          <span class="sr-label">⚗️ 용질</span>
-          <span class="sr-value" id="sr-solute">— g</span>
-        </div>
-        <div class="status-row">
-          <span class="sr-label">🌡 현재 온도</span>
-          <span class="sr-value" id="sr-temp">100.0 ℃</span>
-        </div>
+        <div class="status-row"><span class="sr-label">💧 물</span><span class="sr-value" id="sr-water">— g</span></div>
+        <div class="status-row"><span class="sr-label">⚗️ 용질</span><span class="sr-value" id="sr-solute">— g</span></div>
+        <div class="status-row"><span class="sr-label">🌡 현재 온도</span><span class="sr-value" id="sr-temp">100 ℃</span></div>
         <div class="status-row precip-row" id="sr-precip-row">
           <span class="sr-label">❄️ 석출량</span>
           <span class="sr-value" id="sr-precip">0.0 g</span>
@@ -1125,10 +1259,8 @@ input[type=range].lab-range::-moz-range-thumb{
       </div>
     </div>
 
-    <!-- RIGHT: Controls -->
     <div class="controls-panel">
 
-      <!-- Step 1: Prepare -->
       <div class="control-card">
         <div class="control-h">① 비커 준비</div>
         <button class="action-btn primary" id="btn-prepare" onclick="prepareBeaker()" data-tip="현재 조건에 맞게 물과 용질을 비커에 넣습니다">
@@ -1136,25 +1268,23 @@ input[type=range].lab-range::-moz-range-thumb{
         </button>
       </div>
 
-      <!-- Step 2: Temp -->
       <div class="control-card">
-        <div class="control-h">② 온도 조절</div>
+        <div class="control-h">② 온도 조절 <span style="font-weight:400;font-size:11px;color:var(--ink-faded)">(1℃ 단위)</span></div>
         <div class="temp-row">
           <button class="temp-btn" onclick="changeTemp(-1)" data-tip="1℃ 낮추기">−</button>
           <input type="range" class="lab-range" id="temp-slider" min="0" max="100" value="100" step="1">
           <button class="temp-btn" onclick="changeTemp(1)" data-tip="1℃ 높이기">+</button>
         </div>
-        <div class="temp-display"><span id="temp-display">100.0</span> ℃</div>
+        <div class="temp-display"><span id="temp-display">100</span> ℃</div>
         <div class="action-grid">
           <button class="action-btn" onclick="changeTemp(-5)" data-tip="빠르게 5℃ 낮추기">−5℃</button>
           <button class="action-btn" onclick="changeTemp(-10)" data-tip="빠르게 10℃ 낮추기">−10℃</button>
         </div>
       </div>
 
-      <!-- Step 3: Record -->
       <div class="control-card">
         <div class="control-h">③ 결과 기록</div>
-        <button class="action-btn accent" id="btn-record" onclick="recordCurrent()" data-tip="고체가 생기기 시작한 온도를 기록표에 기록합니다">
+        <button class="action-btn accent" id="btn-record" onclick="recordCurrent()" data-tip="고체가 생기기 시작하는 순간의 온도를 기록표에 적습니다">
           📍 이 온도 기록표에 적기
         </button>
         <button class="action-btn" style="margin-top:8px" onclick="resetBeaker()" data-tip="이 조건의 실험을 처음부터 다시 시작합니다">
@@ -1165,7 +1295,6 @@ input[type=range].lab-range::-moz-range-thumb{
     </div>
   </div>
 
-  <!-- Record Table -->
   <div class="record-section">
     <table class="record-table">
       <tr>
@@ -1189,20 +1318,20 @@ input[type=range].lab-range::-moz-range-thumb{
     </table>
     <div class="record-progress">
       <div class="progress-text" id="progress-text">진행도: 0/5 완료</div>
-      <button class="big-btn accent" id="btn-to-graph" onclick="goStep('graph')" disabled data-tip="모든 측정을 완료하면 그래프 단계로 진행할 수 있습니다">
+      <button class="big-btn accent" id="btn-to-graph" onclick="goStep('graph')" disabled data-tip="모든 측정을 완료하면 열립니다">
         그래프 그리러 가기 →
       </button>
     </div>
   </div>
 </section>
 
-<!-- ============ STAGE 2: GRAPH ============ -->
+<!-- STAGE: GRAPH -->
 <section class="stage" id="stage-graph">
   <div class="intro-card" style="max-width:none;margin:0 0 20px;padding:20px 24px">
     <h2 class="intro-h" style="font-size:20px;margin-bottom:8px">📈 온도-용해도 그래프 그리기</h2>
     <p class="intro-p" style="margin-bottom:0">
       오른쪽 <b>데이터 칩</b>을 그래프 영역의 해당 위치로 <b>드래그앤드롭</b>하여 점을 찍어보세요.
-      모든 점을 찍으면 자동으로 곡선이 그려지고, 용해도 곡선이 완성됩니다.
+      모든 점을 찍으면 두 물질의 용해도 곡선이 완성됩니다.
     </p>
   </div>
 
@@ -1218,7 +1347,7 @@ input[type=range].lab-range::-moz-range-thumb{
       </div>
       <div class="graph-toolbar">
         <button class="action-btn" style="width:auto" onclick="clearGraph()" data-tip="찍은 점을 모두 지웁니다">↺ 다시 그리기</button>
-        <button class="action-btn primary" style="width:auto" id="btn-to-analysis" onclick="goStep('analysis')" disabled data-tip="모든 점을 찍으면 결론 분석으로 진행할 수 있습니다">
+        <button class="action-btn primary" style="width:auto" id="btn-to-analysis" onclick="goStep('analysis')" disabled data-tip="모든 점을 찍으면 열립니다">
           결론 분석으로 →
         </button>
       </div>
@@ -1235,16 +1364,14 @@ input[type=range].lab-range::-moz-range-thumb{
   </div>
 </section>
 
-<!-- ============ STAGE 3: ANALYSIS ============ -->
+<!-- STAGE: ANALYSIS -->
 <section class="stage" id="stage-analysis">
   <div class="analysis-stage">
 
     <div class="analysis-card">
       <div class="ac-num">1</div>
       <h3 class="ac-title">두 곡선의 모양 비교</h3>
-      <p class="ac-question">
-        그래프를 보면, 온도가 높아질수록 두 물질의 용해도는 어떻게 변하나요?
-      </p>
+      <p class="ac-question">그래프에서 온도가 높아질수록 두 물질의 용해도는 어떻게 변하나요?</p>
       <div class="ac-options" data-q="q1">
         <label class="ac-option"><input type="radio" name="q1" value="a"> 두 물질 모두 용해도가 <b>증가</b>한다.</label>
         <label class="ac-option"><input type="radio" name="q1" value="b"> 두 물질 모두 용해도가 <b>감소</b>한다.</label>
@@ -1256,9 +1383,7 @@ input[type=range].lab-range::-moz-range-thumb{
     <div class="analysis-card">
       <div class="ac-num">2</div>
       <h3 class="ac-title">곡선 기울기의 차이</h3>
-      <p class="ac-question">
-        온도가 같은 양만큼 올라갈 때, 어느 물질의 용해도가 더 크게 변하나요?
-      </p>
+      <p class="ac-question">온도가 같은 양만큼 올라갈 때, 어느 물질의 용해도가 더 크게 변하나요?</p>
       <div class="ac-options" data-q="q2">
         <label class="ac-option"><input type="radio" name="q2" value="a"> <b>질산칼륨</b> — 곡선의 기울기가 더 가파르다.</label>
         <label class="ac-option"><input type="radio" name="q2" value="b"> <b>황산구리</b> — 곡선의 기울기가 더 가파르다.</label>
@@ -1270,9 +1395,7 @@ input[type=range].lab-range::-moz-range-thumb{
     <div class="analysis-card">
       <div class="ac-num">3</div>
       <h3 class="ac-title">용해도는 물질의 특성일까?</h3>
-      <p class="ac-question">
-        같은 온도(예: 60℃)에서도 두 물질의 용해도가 서로 다른 까닭은 무엇일까요?
-      </p>
+      <p class="ac-question">같은 온도(예: 60℃)에서도 두 물질의 용해도가 서로 다른 까닭은 무엇일까요?</p>
       <div class="ac-options" data-q="q3">
         <label class="ac-option"><input type="radio" name="q3" value="a"> 우연히 다르게 측정되었을 뿐, 본질적인 차이는 없다.</label>
         <label class="ac-option"><input type="radio" name="q3" value="b"> 물질마다 고유한 용해 성질이 다르기 때문이다. → <b>용해도는 물질의 특성</b>이다.</label>
@@ -1307,65 +1430,33 @@ input[type=range].lab-range::-moz-range-thumb{
 </main>
 
 <footer class="lab-footer">
-  해누리 가상 실험실 
+  과학쌤과학습 · 승재쌤의 가상 실험실 · <a href="https://www.youtube.com/@과학쌤과학습" target="_blank">YouTube 채널</a>
 </footer>
 
 <script>
 /* ============================ DATA ============================ */
-// 용해도 곡선 데이터 (g / 물100g)
 const CURVES = {
   kno3:  [[0,13.3],[10,21],[20,31.6],[30,45.8],[40,63.9],[50,84.5],[60,109],[70,138],[80,169],[90,202],[100,246]],
   cuso4: [[0,14.0],[10,17.0],[20,20.7],[30,25.0],[40,28.5],[50,33.3],[60,40.0],[70,47.0],[80,55.0],[90,64.0],[100,75.4]]
 };
 const SOLUTE_NAME = {kno3:'질산칼륨', cuso4:'황산구리'};
-const SOLUTE_COLOR = {kno3:getCSSVar('--kno3'), cuso4:getCSSVar('--cuso4')};
 function getCSSVar(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim()}
+const SOLUTE_COLOR = {kno3:'#1e4d6b', cuso4:'#6b3a5c'};
 
-// 조건: 물질량(g), 용질량(g), 용질이 녹기 시작하는 농도 = 용질/물*100
 const CONDS = {
-  ga: {water:100, solute:50,  label:'(가)'},  // 50 g/100g 물
-  na: {water:100, solute:100, label:'(나)'},  // 100 g/100g 물
-  da: {water:200, solute:100, label:'(다)'}   // 50 g/100g 물
+  ga: {water:100, solute:50,  label:'(가)'},
+  na: {water:100, solute:100, label:'(나)'},
+  da: {water:200, solute:100, label:'(다)'}
 };
 
-// 각 조건에서 석출 시작 온도 (curves에서 해당 농도 만나는 온도 역추정)
-function solubilityAtT(type, t){
-  const d = CURVES[type];
-  if(t<=d[0][0]) return d[0][1];
-  if(t>=d[d.length-1][0]) return d[d.length-1][1];
-  for(let i=0;i<d.length-1;i++){
-    if(t>=d[i][0] && t<=d[i+1][0]){
-      const r = (t-d[i][0])/(d[i+1][0]-d[i][0]);
-      return d[i][1] + r*(d[i+1][1]-d[i][1]);
-    }
-  }
-  return d[d.length-1][1];
-}
-function precipTemp(type, conc){
-  // conc = g per 100g water. 온도를 0→100 훑으며 solubility==conc 인 지점
-  const d = CURVES[type];
-  if(conc > d[d.length-1][1]) return null; // 100℃에서도 안녹음
-  if(conc <= d[0][1]) return 0;
-  for(let i=0;i<d.length-1;i++){
-    if(conc>=d[i][1] && conc<=d[i+1][1]){
-      const r = (conc-d[i][1])/(d[i+1][1]-d[i][1]);
-      return d[i][0] + r*(d[i+1][0]-d[i][0]);
-    }
-  }
-  return null;
-}
+// 정답 온도 (1℃ 단위 - 학습지에 맞춤)
+const CORRECT_TEMPS = {
+  kno3:  {ga:32, na:56, da:32},
+  cuso4: {ga:73, na:null, da:73}  // (나)는 100도 초과
+};
 
-// 정답 온도 사전 계산
-const CORRECT_TEMPS = {};
-for(const type of ['kno3','cuso4']){
-  CORRECT_TEMPS[type] = {};
-  for(const ck of ['ga','na','da']){
-    const c = CONDS[ck];
-    const conc = c.solute/c.water*100;
-    CORRECT_TEMPS[type][ck] = precipTemp(type, conc);
-  }
-}
-// cuso4-na 는 null (100도 초과)
+// 허용 오차 (±1℃)
+const TOLERANCE = 1;
 
 /* ============================ STATE ============================ */
 const state = {
@@ -1374,14 +1465,13 @@ const state = {
   cond:'ga',
   temp:100,
   prepared:false,
-  precipStarted:false,
   precipPopupShown:false,
-  records:{ // 기록된 온도
+  records:{
     kno3:{ga:null,na:null,da:null},
     cuso4:{ga:null,na:null,da:null}
   },
-  graphPoints:[], // {type, t, sol, placed:true}
-  dpFilter:'all', // all|kno3|cuso4
+  graphPoints:[],
+  dpFilter:'all',
   analysisAnswers:{q1:null,q2:null,q3:null}
 };
 
@@ -1423,14 +1513,15 @@ const snd = {
   success:()=>{[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.22,'sine',.2),i*110))},
   error:()=>{tone(280,.12,'sawtooth',.16);setTimeout(()=>tone(200,.1,'sawtooth',.12),100)},
   alert:()=>{tone(880,.12,'sine',.22);setTimeout(()=>tone(660,.18,'sine',.18),120)},
-  drop:()=>tone(440,.08,'sine',.12)
+  drop:()=>tone(440,.08,'sine',.12),
+  crystal:()=>tone(520+Math.random()*200,.05,'triangle',.08)
 };
 
 /* ============================ TOAST / MODAL ============================ */
 function toast(msg, ok=false){
   const el=document.getElementById('toast');
   el.textContent=msg;el.className=ok?'toast show ok':'toast show';
-  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2600);
+  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2800);
   if(!ok) snd.error();
 }
 function modal(opts){
@@ -1456,7 +1547,7 @@ document.getElementById('modal').addEventListener('click',e=>{
 
 function celebrate(){
   snd.success();
-  const colors=[getCSSVar('--rust'),getCSSVar('--mustard'),getCSSVar('--moss'),getCSSVar('--accent'),getCSSVar('--plum')];
+  const colors=['#a8421f','#c8861d','#4a6b3a','#1e4d6b','#6b3a5c'];
   for(let i=0;i<80;i++){
     setTimeout(()=>{
       const el=document.createElement('div');
@@ -1469,7 +1560,6 @@ function celebrate(){
 
 /* ============================ STEPPER ============================ */
 function goStep(stepName){
-  // Guardrails
   if(stepName==='graph'){
     const total = countRecorded();
     if(total<5){
@@ -1482,7 +1572,7 @@ function goStep(stepName){
     }
   }
   if(stepName==='analysis'){
-    if(state.graphPoints.length<22){ // kno3 11점 + cuso4 11점
+    if(state.graphPoints.length<22){
       modal({
         icon:'📈',
         title:'그래프를 더 그려보세요',
@@ -1496,8 +1586,7 @@ function goStep(stepName){
   document.querySelectorAll('.stage').forEach(s=>s.classList.remove('on'));
   document.getElementById('stage-'+stepName).classList.add('on');
 
-  // Update stepper
-  const steps = ['intro','exp','graph','analysis'];
+  const steps = ['intro','notebook','exp','graph','analysis'];
   const idx = steps.indexOf(stepName);
   document.querySelectorAll('.step').forEach(el=>{
     const s = el.dataset.step;
@@ -1508,36 +1597,49 @@ function goStep(stepName){
   });
   snd.click();
 
-  // Step-specific init
-  if(stepName==='graph'){
-    initGraphStage();
-  }
-  if(stepName==='analysis'){
-    // nothing initial
-  }
+  if(stepName==='graph'){initGraphStage();}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
 /* ============================ EXPERIMENT STAGE ============================ */
+function isSoluteUnlocked(type){
+  if(type==='kno3') return true;
+  // 황산구리는 질산칼륨 3조건 모두 측정해야 열림
+  return state.records.kno3.ga!==null && state.records.kno3.na!==null && state.records.kno3.da!==null;
+}
+function isCondUnlocked(solute, cond){
+  if(cond==='ga') return true;
+  if(solute==='cuso4' && cond==='na') return false;
+  if(cond==='na') return state.records[solute].ga!==null;
+  if(cond==='da'){
+    if(solute==='cuso4') return state.records[solute].ga!==null; // (나) 스킵
+    return state.records[solute].na!==null;
+  }
+  return false;
+}
+
 function switchSolute(type){
   if(type===state.solute) return;
+  if(!isSoluteUnlocked(type)){
+    toast('🔒 질산칼륨 3가지 조건을 먼저 모두 측정해주세요');
+    return;
+  }
   state.solute=type;
   document.querySelectorAll('.solute-tab').forEach(t=>t.classList.toggle('on', t.dataset.solute===type));
-  // 황산구리로 전환했고 (나) 였다면 다른 조건으로
+  // 황산구리로 전환했고 (나)였다면 (가) 또는 (다)로
   if(type==='cuso4' && state.cond==='na'){
-    state.cond='ga';
+    state.cond = state.records.cuso4.ga===null ? 'ga' : 'da';
   }
   resetBeakerSilent();
   syncCondPills();
   syncTag();
   snd.click();
-  // 알림: 첫 전환 시
   if(type==='cuso4' && !state._cuso4Notified){
     state._cuso4Notified=true;
     modal({
       icon:'🟣',
-      title:'황산구리 실험으로 전환했어요',
-      body:'이제 <b>황산구리(CuSO₄)</b>로 동일한 방식으로 실험을 진행하세요.<br><br>※ (나) 조건은 100℃를 초과해서 측정 불가입니다. 자동으로 표에 처리되어 있어요.'
+      title:'황산구리 실험으로 전환!',
+      body:'이제 <b>황산구리(CuSO₄)</b>로 동일한 방식으로 실험을 진행하세요.<br><br>※ (나) 조건은 100℃를 초과해서 측정 불가이므로 자동으로 처리되어 있어요.<br>(가) → (다) 순서로 진행됩니다.'
     });
   }
 }
@@ -1547,25 +1649,39 @@ function switchCond(c){
     toast('황산구리 (나) 조건은 측정 불가입니다');
     return;
   }
+  if(!isCondUnlocked(state.solute, c)){
+    const prev = c==='na'?'(가)':'(나)';
+    toast(`🔒 ${prev} 조건을 먼저 측정해주세요`);
+    return;
+  }
   state.cond=c;
   syncCondPills();
   resetBeakerSilent();
   syncTag();
   snd.click();
 }
+function syncSoluteTabs(){
+  document.querySelectorAll('.solute-tab').forEach(t=>{
+    const type = t.dataset.solute;
+    t.classList.toggle('on', type===state.solute);
+    t.classList.toggle('locked', !isSoluteUnlocked(type));
+  });
+}
 function syncCondPills(){
   document.querySelectorAll('.cond-pill').forEach(p=>{
     const c=p.dataset.cond;
-    p.classList.toggle('on', c===state.cond);
     const isRecorded = state.records[state.solute][c]!==null;
-    p.classList.toggle('recorded', isRecorded);
-    // 황산구리 (나) 비활성
-    if(state.solute==='cuso4' && c==='na'){
-      p.style.opacity='.4';
-      p.style.cursor='not-allowed';
-    }else{
-      p.style.opacity='';
-      p.style.cursor='';
+    const unlocked = isCondUnlocked(state.solute, c);
+    const blocked = state.solute==='cuso4' && c==='na';
+
+    p.classList.toggle('on', c===state.cond);
+    p.classList.toggle('recorded', isRecorded && !blocked);
+    p.classList.toggle('locked', !unlocked || blocked);
+
+    // 잠금 아이콘 처리
+    const lockIcon = p.querySelector('.lock-icon');
+    if(lockIcon){
+      lockIcon.style.display = (!unlocked && !blocked) ? 'inline' : 'none';
     }
   });
 }
@@ -1575,16 +1691,14 @@ function syncTag(){
 }
 
 function prepareBeaker(){
-  const c = CONDS[state.cond];
   state.prepared=true;
-  state.precipStarted=false;
   state.precipPopupShown=false;
   state.temp=100;
   document.getElementById('temp-slider').value=100;
   snd.splash();
   setTimeout(()=>{snd.pour();playSpoon();}, 400);
   updateAll();
-  toast(`✅ ${CONDS[state.cond].label} 조건 준비 완료! 이제 온도를 천천히 낮추세요`, true);
+  toast(`✅ ${CONDS[state.cond].label} 조건 준비 완료! 온도를 1℃씩 낮춰보세요`, true);
 }
 function resetBeaker(){
   if(!state.prepared){toast('이미 비어있는 비커입니다');return}
@@ -1593,10 +1707,11 @@ function resetBeaker(){
 }
 function resetBeakerSilent(){
   state.prepared=false;
-  state.precipStarted=false;
   state.precipPopupShown=false;
   state.temp=100;
   document.getElementById('temp-slider').value=100;
+  // 결정 입자 모두 제거
+  document.getElementById('crystal-layer').innerHTML='';
   updateAll();
 }
 
@@ -1630,7 +1745,7 @@ function changeTemp(delta){
     return;
   }
   const s = document.getElementById('temp-slider');
-  let v = parseFloat(s.value)+delta;
+  let v = parseInt(s.value)+delta;
   if(v<0)v=0;if(v>100)v=100;
   s.value=v;
   state.temp=v;
@@ -1642,22 +1757,44 @@ document.getElementById('temp-slider').addEventListener('input',e=>{
     e.target.value = state.temp;
     return;
   }
-  state.temp = parseFloat(e.target.value);
+  state.temp = parseInt(e.target.value);
   updateAll();
 });
 
+// 정확한 정답 온도 기반으로 석출량 계산 (학습지 정답과 일치)
 function getPrecipAmount(){
   if(!state.prepared) return 0;
+  const correctT = CORRECT_TEMPS[state.solute][state.cond];
+  if(correctT===null) return 0;
   const c = CONDS[state.cond];
-  const maxSoluteG = solubilityAtT(state.solute, state.temp) * c.water/100;
+  // 현재 온도가 정답 온도보다 같거나 낮으면 석출 시작
+  if(state.temp > correctT) return 0;
+  // 석출량은 정답온도 아래로 내려갈수록 점점 증가 (간단한 선형 모델)
+  const drop = correctT - state.temp;
+  // 용해도 곡선 데이터로 더 정밀한 석출량 계산
+  const d = CURVES[state.solute];
+  let solAtT = 0;
+  if(state.temp<=d[0][0]) solAtT = d[0][1];
+  else if(state.temp>=d[d.length-1][0]) solAtT = d[d.length-1][1];
+  else {
+    for(let i=0;i<d.length-1;i++){
+      if(state.temp>=d[i][0] && state.temp<=d[i+1][0]){
+        const r = (state.temp-d[i][0])/(d[i+1][0]-d[i][0]);
+        solAtT = d[i][1] + r*(d[i+1][1]-d[i][1]);
+        break;
+      }
+    }
+  }
+  const maxSoluteG = solAtT * c.water / 100;
   return Math.max(0, c.solute - maxSoluteG);
 }
 
+let _lastPrecip = 0;
 function updateAll(){
   const c = CONDS[state.cond];
-  // Temp display
-  document.getElementById('temp-display').textContent = state.temp.toFixed(1);
-  document.getElementById('mbl-temp').textContent = state.temp.toFixed(1)+'℃';
+  document.getElementById('temp-display').textContent = state.temp;
+  document.getElementById('mbl-temp').textContent = state.temp+'℃';
+
   // Hot plate color
   const hp = document.getElementById('hp-top');
   if(state.temp>50){
@@ -1669,7 +1806,8 @@ function updateAll(){
     hp.style.background = `rgb(${Math.max(60,91-state.temp)|0},${100|0},${b})`;
     hp.style.boxShadow='';
   }
-  // Water fill class
+
+  // Water class
   const wf = document.getElementById('water-fill');
   wf.classList.remove('warm','cold');
   if(state.temp>60) wf.classList.add('warm');
@@ -1677,44 +1815,99 @@ function updateAll(){
 
   // Water height
   if(state.prepared){
-    const pct = c.water/200*70; // 200g=70% fill
+    const pct = c.water/200*70;
     wf.style.height = pct+'%';
   }else{
     wf.style.height='0%';
   }
-  // Precip
+
+  // Thermometer mercury
+  document.getElementById('thermo-mercury').style.height = state.temp+'%';
+
+  // Precipitation
   const pr = getPrecipAmount();
   const pf = document.getElementById('precip-fill');
   pf.className='precip-fill '+(state.prepared?state.solute:'');
   if(state.prepared && pr>0){
-    pf.style.height = Math.min(30, pr/100*30) + '%';
+    pf.style.height = Math.min(30, pr/100*40) + '%';
   }else{
     pf.style.height='0%';
   }
 
-  // Status
+  // Status display
   document.getElementById('sr-water').textContent = state.prepared ? c.water+' g' : '— g';
   document.getElementById('sr-solute').textContent = state.prepared ? c.solute+' g ('+SOLUTE_NAME[state.solute]+')' : '— g';
-  document.getElementById('sr-temp').textContent = state.temp.toFixed(1)+' ℃';
+  document.getElementById('sr-temp').textContent = state.temp+' ℃';
   document.getElementById('sr-precip').textContent = state.prepared ? pr.toFixed(1)+' g' : '0.0 g';
 
   // Precip row pulse
-  const precipRow = document.getElementById('sr-precip-row');
-  precipRow.classList.toggle('active', pr>0.1);
+  document.getElementById('sr-precip-row').classList.toggle('active', pr>0.1);
 
-  // Trigger precip popup
+  // 결정 입자 떨어뜨리기 - 석출량이 증가하는 순간
+  if(state.prepared && pr > _lastPrecip + 0.05){
+    spawnCrystals(state.solute, Math.min(8, Math.floor((pr-_lastPrecip)*4)+2));
+  }
+  _lastPrecip = pr;
+
+  // 비커 흔들림 (석출 시작 순간)
   if(state.prepared && pr>0.1 && !state.precipPopupShown){
+    document.getElementById('beaker').classList.add('precipitating');
+    setTimeout(()=>document.getElementById('beaker').classList.remove('precipitating'), 500);
     triggerPrecipPopup();
   }
   if(state.prepared && pr<=0.05){
-    state.precipPopupShown=false; // reset if re-melted
+    state.precipPopupShown=false;
+  }
+}
+
+function spawnCrystals(type, count){
+  const layer = document.getElementById('crystal-layer');
+  if(!layer) return;
+  const beakerW = layer.offsetWidth;
+  const beakerH = layer.offsetHeight;
+  // 현재 precip 높이 계산
+  const pr = getPrecipAmount();
+  const precipH = Math.min(30, pr/100*40); // % of beaker
+  const precipPx = beakerH * precipH/100;
+
+  for(let i=0;i<count;i++){
+    setTimeout(()=>{
+      const cry = document.createElement('div');
+      cry.className = 'crystal '+type;
+      // 수면 시작 위치 (위쪽 어딘가)
+      const startX = beakerW*0.15 + Math.random()*beakerW*0.7;
+      const sz = 3 + Math.random()*4;
+      cry.style.width = sz+'px';
+      cry.style.height = sz+'px';
+      cry.style.left = startX+'px';
+      cry.style.top = (beakerH*0.15 + Math.random()*10)+'px';
+      // 떨어지는 거리: precip 표면까지
+      const targetY = beakerH - precipPx - 4 - Math.random()*10;
+      const fallDist = targetY - (beakerH*0.15);
+      // 수평 흔들림 (액체 속에서)
+      const xWobble = (Math.random()-.5)*16;
+      cry.style.setProperty('--x0', '0px');
+      cry.style.setProperty('--x1', xWobble+'px');
+      cry.style.setProperty('--y1', fallDist+'px');
+      cry.style.setProperty('--rot', (Math.random()-.5)*720+'deg');
+      cry.style.setProperty('--dur', (1.5+Math.random()*1.2)+'s');
+      layer.appendChild(cry);
+      if(Math.random()<.3) snd.crystal();
+      // 충분히 쌓이면 자동 제거 (precip-fill이 시각화 담당)
+      setTimeout(()=>{
+        if(cry.parentNode){
+          cry.style.opacity='0';
+          setTimeout(()=>cry.remove(), 400);
+        }
+      }, 3500);
+    }, i*60);
   }
 }
 
 function triggerPrecipPopup(){
   state.precipPopupShown=true;
   snd.alert();
-  const T = state.temp.toFixed(1);
+  const T = state.temp;
   const c = CONDS[state.cond];
   modal({
     icon:'❄️',
@@ -1727,28 +1920,73 @@ function triggerPrecipPopup(){
     `,
     actions:[
       {label:'📍 바로 기록하기', style:'accent', onClick:()=>{closeModal();recordCurrent();}},
-      {label:'더 확인할게요', onClick:closeModal}
+      {label:'더 살펴볼게요', onClick:closeModal}
     ]
   });
 }
 
+/* ====== 기록 검증 (핵심!) ====== */
 function recordCurrent(){
   if(!state.prepared){
     toast('먼저 비커를 준비해 주세요');
     return;
   }
+
+  const correctT = CORRECT_TEMPS[state.solute][state.cond];
+  const T = state.temp;
   const pr = getPrecipAmount();
-  if(pr<0.1){
-    toast('아직 고체가 생기지 않았어요. 온도를 더 낮춰보세요');
+  const c = CONDS[state.cond];
+
+  // 1) 아직 석출 전 (온도가 정답보다 높음 → 석출량 0)
+  if(pr < 0.1){
+    // 정답보다 얼마나 위인지 체크
+    const diff = T - correctT;
+    modal({
+      icon:'🌊',
+      title:'아직 모두 녹아 있어요',
+      body:`
+        지금 비커 안에는 <span class="highlight">${T} ℃</span>에서 용질 ${c.solute}g이 모두 녹아 있는 상태예요.<br>
+        석출량은 <span class="ok-color">${pr.toFixed(1)} g</span>으로, 아직 <b>고체가 생기지 않았습니다</b>.<br><br>
+        우리가 찾아야 할 것은 <b>모두 녹아 있던 용질이<br>처음으로 다시 고체가 되는 순간</b>의 온도예요.<br><br>
+        <span style="font-size:13px;color:var(--ink-faded)">💡 온도를 <b>1℃씩</b> 천천히 낮춰가며 석출량이 <b>0g 에서 막 0이 아니게 되는</b> 순간을 포착해보세요.</span>
+      `,
+      actions:[
+        {label:'− 1℃ 낮추기', style:'accent', onClick:()=>{closeModal();changeTemp(-1);}},
+        {label:'더 조절해볼게요', onClick:closeModal}
+      ]
+    });
     return;
   }
+
+  // 2) 이미 너무 많이 석출 (정답보다 한참 아래)
+  if(correctT!==null && T < correctT - TOLERANCE){
+    modal({
+      icon:'⚠️',
+      title:'벌써 너무 많이 석출되었어요',
+      body:`
+        지금 석출량이 <span class="warn-color">${pr.toFixed(1)} g</span>이나 됩니다!<br>
+        이미 많은 양의 고체가 가라앉아 있는 상태예요.<br><br>
+        우리가 찾는 건 <b>"고체가 처음 생기기 시작하는 순간"</b>이에요.<br>
+        석출량이 <span class="ok-color">0g</span>일 때부터 <b>1℃씩 낮추면서</b>,<br>
+        석출량이 <b>처음으로 0이 아니게 되는</b> 그 온도를 찾아야 해요.<br><br>
+        <span style="font-size:13px;color:var(--ink-faded)">💡 [↺ 비커 초기화]를 누르고 다시 시작해보세요.</span>
+      `,
+      actions:[
+        {label:'↺ 비커 초기화하고 다시', style:'accent', onClick:()=>{closeModal();resetBeaker();}},
+        {label:'온도 다시 올려볼게요', onClick:()=>{closeModal();changeTemp(5);}}
+      ]
+    });
+    return;
+  }
+
+  // 3) 정답 범위 (±1℃) → 기록 진행
   // 이미 기록된 경우 덮어쓰기 확인
   const old = state.records[state.solute][state.cond];
   if(old!==null){
     modal({
       icon:'⚠️',
       title:'이미 기록된 값이 있어요',
-      body:`이 조건은 <b>${old.toFixed(1)}℃</b>로 이미 기록되어 있습니다.<br>현재 온도 <b>${state.temp.toFixed(1)}℃</b>로 덮어쓸까요?`,
+      body:`이 조건은 <b>${old} ℃</b>로 이미 기록되어 있습니다.<br>현재 온도 <b>${T} ℃</b>로 덮어쓸까요?`,
       actions:[
         {label:'덮어쓰기', style:'accent', onClick:()=>{closeModal();doRecord();}},
         {label:'취소', onClick:closeModal}
@@ -1758,34 +1996,36 @@ function recordCurrent(){
   }
   doRecord();
 }
+
 function doRecord(){
   state.records[state.solute][state.cond] = state.temp;
   snd.record();
   updateRecordTable();
   syncCondPills();
+  syncSoluteTabs();
   updateProgress();
 
-  // 다음 단계 안내
-  const remainKno3 = ['ga','na','da'].filter(c=>state.records.kno3[c]===null);
-  const remainCuso4 = ['ga','da'].filter(c=>state.records.cuso4[c]===null);
-  const T = state.temp.toFixed(1);
+  const T = state.temp;
   const condLabel = CONDS[state.cond].label;
   const soluteLabel = SOLUTE_NAME[state.solute];
 
+  // 어떤 조건이 남았는지 확인
+  const remainKno3 = ['ga','na','da'].filter(c=>state.records.kno3[c]===null);
+  const remainCuso4 = ['ga','da'].filter(c=>state.records.cuso4[c]===null);
+
   if(state.solute==='kno3' && remainKno3.length===0){
-    // 질산칼륨 완료
     document.getElementById('check-kno3').style.display='inline';
+    syncSoluteTabs();
     modal({
       icon:'🎯',
       title:'질산칼륨 실험 완료!',
-      body:`<b>질산칼륨</b>의 3가지 조건을 모두 기록했어요.<br><br>이제 <b>황산구리(CuSO₄)</b>로 동일한 실험을 반복해 봅시다.`,
+      body:`<b>질산칼륨</b>의 3가지 조건을 모두 기록했어요. 멋져요!<br><br>이제 잠금이 풀린 <b>황산구리(CuSO₄)</b>로 동일한 실험을 반복해 봅시다.`,
       actions:[
         {label:'🟣 황산구리 실험 시작', style:'accent', onClick:()=>{closeModal();switchSolute('cuso4');}},
         {label:'잠시 확인할게요', onClick:closeModal}
       ]
     });
   }else if(state.solute==='cuso4' && remainCuso4.length===0){
-    // 모두 완료
     document.getElementById('check-cuso4').style.display='inline';
     state.records.cuso4.na = 'NA';
     setTimeout(()=>{
@@ -1799,7 +2039,6 @@ function doRecord(){
       });
     },300);
   }else{
-    // 다음 조건 안내
     toast(`📍 ${soluteLabel} ${condLabel} = ${T}℃ 기록됨!`, true);
     // 자동으로 다음 조건으로 전환
     setTimeout(()=>{
@@ -1813,9 +2052,9 @@ function doRecord(){
         syncCondPills();
         resetBeakerSilent();
         syncTag();
-        toast(`다음 조건: ${SOLUTE_NAME[state.solute]} ${CONDS[next].label}로 이동했어요`, true);
+        toast(`다음 조건: ${SOLUTE_NAME[state.solute]} ${CONDS[next].label} 잠금 해제!`, true);
       }
-    },1000);
+    },1200);
   }
 }
 
@@ -1835,12 +2074,13 @@ function updateRecordTable(){
       }else if(v==='NA'){
         cell.innerHTML = `<span class="cell-na">측정 불가</span>`;
       }else{
-        cell.innerHTML = `<span class="cell-filled">${v.toFixed(1)} ℃</span>`;
+        cell.innerHTML = `<span class="cell-filled">${v} ℃</span>`;
       }
       cell.classList.toggle('cell-current', isCurrent);
     }
   }
 }
+
 function countRecorded(){
   let n=0;
   for(const c of ['ga','na','da']) if(state.records.kno3[c]!==null) n++;
@@ -1851,9 +2091,7 @@ function updateProgress(){
   const n = countRecorded();
   document.getElementById('progress-text').textContent = `진행도: ${n}/5 완료`;
   document.getElementById('btn-to-graph').disabled = (n<5);
-  if(n>=5){
-    document.getElementById('btn-to-graph').classList.add('moss');
-  }
+  if(n>=5){document.getElementById('btn-to-graph').classList.add('moss');}
 }
 
 /* ============================ GRAPH STAGE ============================ */
@@ -1903,7 +2141,6 @@ function drawGraph(){
   const W=rect.width, H=rect.height;
   ctx.clearRect(0,0,W,H);
 
-  // grid
   ctx.strokeStyle='rgba(168,66,31,.15)';
   ctx.lineWidth=1;
   for(let t=0;t<=100;t+=10){
@@ -1915,15 +2152,13 @@ function drawGraph(){
     ctx.beginPath();ctx.moveTo(GP.PL,p.y);ctx.lineTo(W-GP.PR,p.y);ctx.stroke();
   }
 
-  // axes
-  ctx.strokeStyle=getCSSVar('--ink');
+  ctx.strokeStyle='#2b2117';
   ctx.lineWidth=2;
   ctx.beginPath();
   ctx.moveTo(GP.PL,GP.PT);ctx.lineTo(GP.PL,H-GP.PB);ctx.lineTo(W-GP.PR,H-GP.PB);
   ctx.stroke();
 
-  // axis labels
-  ctx.fillStyle=getCSSVar('--ink');
+  ctx.fillStyle='#2b2117';
   ctx.font='12px "Gowun Batang",serif';
   ctx.textAlign='center';
   for(let t=0;t<=100;t+=10){
@@ -1944,12 +2179,9 @@ function drawGraph(){
   ctx.fillText('용해도 (g / 물 100g)', 0, 0);
   ctx.restore();
 
-  // existing placed points
-  // Group by solute
   for(const type of ['kno3','cuso4']){
     const pts = state.graphPoints.filter(p=>p.type===type).sort((a,b)=>a.t-b.t);
     if(pts.length===0) continue;
-    // line through points
     ctx.strokeStyle = SOLUTE_COLOR[type];
     ctx.lineWidth=2.5;
     ctx.beginPath();
@@ -1958,18 +2190,16 @@ function drawGraph(){
       if(i===0)ctx.moveTo(xy.x,xy.y);else ctx.lineTo(xy.x,xy.y);
     });
     ctx.stroke();
-    // dots
     pts.forEach(p=>{
       const xy=gpos(p.t,p.sol);
       ctx.beginPath();
       ctx.arc(xy.x,xy.y,5,0,Math.PI*2);
       ctx.fillStyle = SOLUTE_COLOR[type];
       ctx.fill();
-      ctx.strokeStyle=getCSSVar('--paper');
+      ctx.strokeStyle='#f5ecd9';
       ctx.lineWidth=1.5;
       ctx.stroke();
     });
-    // label on last point
     if(pts.length>=11){
       const last = pts[pts.length-1];
       const xy = gpos(last.t,last.sol);
@@ -1980,7 +2210,6 @@ function drawGraph(){
     }
   }
 
-  // hover preview
   if(_dragPreview){
     const xy=gpos(_dragPreview.t, _dragPreview.sol);
     ctx.beginPath();
@@ -1989,7 +2218,6 @@ function drawGraph(){
     ctx.globalAlpha=.4;
     ctx.fill();
     ctx.globalAlpha=1;
-    // crosshair
     ctx.strokeStyle = SOLUTE_COLOR[_dragPreview.type];
     ctx.setLineDash([4,3]);
     ctx.lineWidth=1.5;
@@ -2011,7 +2239,6 @@ function buildDpList(){
       items.push({type,t,sol:s});
     });
   }
-  // shuffle for fun
   items.sort((a,b)=> (a.t*100+a.sol) - (b.t*100+b.sol));
   items.forEach(item=>{
     const placed = state.graphPoints.some(p=>p.type===item.type && p.t===item.t);
@@ -2040,7 +2267,6 @@ function toggleDpFilter(){
   buildDpList();
 }
 
-/* === Drag and Drop === */
 let _dragData=null;
 let _dragPreview=null;
 
@@ -2059,16 +2285,10 @@ cv.addEventListener('dragover', e=>{
   if(!_dragData) return;
   const rect = cv.getBoundingClientRect();
   const x=e.clientX-rect.left, y=e.clientY-rect.top;
-  _dragPreview = {..._dragData}; // show actual data, not where mouse is
-  // but show snapshot of where mouse hovers
-  const m = fromCanvasXY(x,y);
-  _dragPreview._mouse = m;
+  _dragPreview = {..._dragData};
   drawGraph();
-  // also show mouse hover dot
-  const ctxxy = gpos(_dragData.t, _dragData.sol);
-  // crosshair from mouse pos toward correct
   ctx.save();
-  ctx.strokeStyle = getCSSVar('--ink-soft');
+  ctx.strokeStyle = '#5b4a35';
   ctx.setLineDash([2,3]);
   ctx.beginPath();
   ctx.arc(x,y,12,0,Math.PI*2);
@@ -2076,20 +2296,15 @@ cv.addEventListener('dragover', e=>{
   ctx.setLineDash([]);
   ctx.restore();
 });
-cv.addEventListener('dragleave', e=>{
-  _dragPreview=null;
-  drawGraph();
-});
+cv.addEventListener('dragleave', e=>{_dragPreview=null;drawGraph();});
 cv.addEventListener('drop', e=>{
   e.preventDefault();
   if(!_dragData) return;
   const rect = cv.getBoundingClientRect();
   const x = e.clientX-rect.left, y=e.clientY-rect.top;
-  const m = fromCanvasXY(x,y);
-  // 정확도 체크: 칩의 실제 좌표와 드롭 위치가 가까워야 함
   const target = gpos(_dragData.t, _dragData.sol);
   const dist = Math.hypot(target.x-x, target.y-y);
-  if(dist > 38){
+  if(dist > 40){
     toast('🎯 칩의 정확한 위치에 더 가깝게 떨어뜨려 주세요');
     _dragData=null; _dragPreview=null; drawGraph();
     return;
@@ -2097,7 +2312,7 @@ cv.addEventListener('drop', e=>{
   placePoint(_dragData);
   _dragData=null; _dragPreview=null;
 });
-// Touch DnD
+
 let _touchChipData=null, _touchGhost=null;
 function onChipTouchStart(e){
   e.preventDefault();
@@ -2112,7 +2327,7 @@ function onChipTouchStart(e){
     position:fixed;z-index:9999;pointer-events:none;
     padding:5px 10px;background:${SOLUTE_COLOR[_touchChipData.type]};color:#fff;
     font-family:'Gaegu',cursive;font-weight:700;font-size:12px;
-    border:1.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);
+    border:1.5px solid #2b2117;box-shadow:3px 3px 0 #2b2117;
     transform:translate(-50%,-50%);
   `;
   _touchGhost.textContent = `${_touchChipData.t}℃→${_touchChipData.sol}g`;
@@ -2133,10 +2348,9 @@ document.addEventListener('touchmove', e=>{
   if(t.clientX>=rect.left && t.clientX<=rect.right && t.clientY>=rect.top && t.clientY<=rect.bottom){
     _dragPreview = {..._touchChipData};
     drawGraph();
-    // crosshair from touch
     const x=t.clientX-rect.left, y=t.clientY-rect.top;
     ctx.save();
-    ctx.strokeStyle = getCSSVar('--ink-soft');
+    ctx.strokeStyle = '#5b4a35';
     ctx.setLineDash([2,3]);
     ctx.beginPath();
     ctx.arc(x,y,16,0,Math.PI*2);
@@ -2168,10 +2382,8 @@ function placePoint(data){
   snd.drop();
   drawGraph();
   buildDpList();
-  // toast
   toast(`✓ (${data.t}℃, ${data.sol}g) 점을 찍었어요`, true);
 
-  // 완성 체크
   if(state.graphPoints.length===22){
     setTimeout(()=>{
       document.getElementById('btn-to-analysis').disabled=false;
@@ -2179,8 +2391,7 @@ function placePoint(data){
       modal({
         icon:'📈',
         title:'용해도 곡선 완성!',
-        body:`두 물질의 <b>온도-용해도 곡선</b>을 완성했어요.<br><br>
-          이제 두 곡선을 비교해서 <b>"용해도가 물질의 특성"</b>임을 확인해 봅시다.`,
+        body:`두 물질의 <b>온도-용해도 곡선</b>을 완성했어요.<br><br>이제 두 곡선을 비교해서 <b>"용해도가 물질의 특성"</b>임을 확인해 봅시다.`,
         actions:[
           {label:'🔍 결론 분석하기', style:'accent', onClick:()=>{closeModal();goStep('analysis');}},
           {label:'그래프 더 볼게요', onClick:closeModal}
@@ -2210,7 +2421,7 @@ function clearGraph(){
 }
 
 /* ============================ ANALYSIS ============================ */
-const CORRECT = {q1:'a', q2:'a', q3:'b'};
+const CORRECT_ANS = {q1:'a', q2:'a', q3:'b'};
 const FEEDBACK = {
   q1: {
     correct:'✓ 맞아요! 그래프에서 두 곡선 모두 오른쪽 위로 올라가는 모양이죠. 온도가 높을수록 용해도가 커집니다.',
@@ -2221,7 +2432,7 @@ const FEEDBACK = {
     wrong:'✗ 두 곡선의 기울기(가파른 정도)를 비교해 보세요. 0℃→100℃일 때 어느 곡선이 더 많이 올라갔나요?'
   },
   q3: {
-    correct:'✓ 그렇습니다! 같은 온도, 같은 양의 물이어도 용해도는 다릅니다. 이는 물질마다 갖는 고유한 성질이고, 그래서 용해도는 \'물질의 특성\'이에요.',
+    correct:"✓ 그렇습니다! 같은 온도, 같은 양의 물이어도 용해도는 다릅니다. 이는 물질마다 갖는 고유한 성질이고, 그래서 용해도는 '물질의 특성'이에요.",
     wrong:'✗ 같은 60℃에서 질산칼륨과 황산구리의 용해도가 명확히 다르죠. 이 차이는 우연일까요, 물질이 본래 가진 성질일까요?'
   }
 };
@@ -2231,7 +2442,6 @@ document.querySelectorAll('.ac-options').forEach(group=>{
     if(e.target.type==='radio'){
       const q = group.dataset.q;
       state.analysisAnswers[q] = e.target.value;
-      // 선택 시 옵션 강조
       group.querySelectorAll('.ac-option').forEach(o=>o.classList.remove('selected'));
       e.target.closest('.ac-option').classList.add('selected');
       snd.click();
@@ -2249,7 +2459,7 @@ function checkAllAnalysis(){
   for(const q of ['q1','q2','q3']){
     const fb = document.getElementById('fb-'+q);
     const ans = state.analysisAnswers[q];
-    if(ans===CORRECT[q]){
+    if(ans===CORRECT_ANS[q]){
       fb.className='ac-feedback show correct';
       fb.textContent = FEEDBACK[q].correct;
     }else{
@@ -2272,11 +2482,11 @@ function checkAllAnalysis(){
 
 /* ============================ INIT ============================ */
 function init(){
-  // Date
   const d = new Date();
   document.getElementById('today-date').textContent =
     `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
 
+  syncSoluteTabs();
   syncCondPills();
   syncTag();
   updateAll();
