@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>해누리 용해도 가상실험실</title>
+<title>승재쌤의 용해도 가상실험실</title>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Nanum+Pen+Script&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -11,8 +11,8 @@
   --paper-dark:#ebe0c4;
   --paper-shadow:#d9c9a3;
   --ink:#2b2117;
-  --ink-soft:#5b4a35;
-  --ink-faded:#9a8866;
+  --ink-soft:#1a1410;
+  --ink-faded:#3a2817;
   --line:#c9b88c;
   --accent:#1e4d6b;
   --accent-soft:#3a7fa3;
@@ -25,6 +25,8 @@
   --plum:#6b3a5c;
   --kno3:#1e4d6b;
   --cuso4:#6b3a5c;
+  /* 의도적으로 흐리게 표시해야 하는 곳 전용 (스텝 비활성 등) */
+  --ink-dim:#8a7a5e;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -97,7 +99,7 @@ body::after{
   display:flex;align-items:center;gap:8px;
   padding:6px 14px;
   font-family:'Gaegu',cursive;font-size:15px;font-weight:700;
-  color:var(--ink-faded);
+  color:var(--ink-dim);
   cursor:pointer;transition:all .2s;
   position:relative;
 }
@@ -106,8 +108,8 @@ body::after{
   width:28px;height:28px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;
-  background:transparent;border:1.5px solid var(--ink-faded);
-  color:var(--ink-faded);
+  background:transparent;border:1.5px solid var(--ink-dim);
+  color:var(--ink-dim);
   transition:all .2s;
 }
 .step.active{color:var(--rust)}
@@ -119,7 +121,43 @@ body::after{
 .step.done .num-circle{background:var(--moss);color:var(--paper);border-color:var(--moss);}
 .step.done .num-circle::before{content:'✓';font-family:'Gowun Batang',serif}
 .step.done .num-circle .num-text{display:none}
-.step-arrow{color:var(--ink-faded);font-size:18px;font-family:'Nanum Pen Script',cursive;}
+.step-arrow{color:var(--ink-dim);font-size:18px;font-family:'Nanum Pen Script',cursive;}
+
+/* Sub-stepper */
+.substep{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  gap:6px;padding:4px 36px 12px;
+  flex-wrap:wrap;
+}
+.substep-item{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 13px;
+  font-family:'Gowun Batang',serif;font-size:13px;font-weight:700;
+  color:var(--ink-dim);
+  cursor:pointer;
+  background:transparent;
+  border:1.5px solid transparent;
+  border-radius:18px;
+  transition:all .15s;
+}
+.substep-item:hover{color:var(--ink-soft);background:var(--paper-dark)}
+.substep-item.active{
+  color:var(--ink);background:var(--paper-dark);
+  border-color:var(--ink-soft);
+  box-shadow:2px 2px 0 var(--ink-soft);
+}
+.substep-item.done{color:var(--moss)}
+.substep-item.done::after{content:'✓';margin-left:3px;font-weight:700}
+.substep-item .ss-icon{font-size:14px}
+.substep-arrow{
+  color:var(--ink-faded);font-family:'Nanum Pen Script',cursive;font-size:14px;
+}
+@media (max-width:768px){
+  .substep{padding:4px 12px 8px;gap:3px}
+  .substep-item{font-size:11.5px;padding:4px 9px}
+  .substep-arrow{display:none}
+}
 
 @media (max-width:768px){
   .step-arrow{display:none}
@@ -159,7 +197,8 @@ body::after{
   box-shadow:2px 2px 0 var(--ink);
 }
 .intro-h{font-family:'Gaegu',cursive;font-size:24px;color:var(--ink);margin-bottom:14px}
-.intro-p{font-size:15px;line-height:1.9;color:var(--ink-soft);margin-bottom:8px}
+.intro-p{font-size:15px;line-height:1.9;color:#1a1410;margin-bottom:8px}
+.intro-p b{color:#000;background:rgba(232,184,96,.45);padding:0 4px;font-weight:700}
 .intro-list{margin:14px 0 18px 8px;font-size:15px;line-height:2;color:var(--ink)}
 .intro-list li{list-style:none;padding-left:24px;position:relative}
 .intro-list li::before{content:'✱';position:absolute;left:0;color:var(--rust);font-size:14px;top:3px;}
@@ -216,8 +255,8 @@ body::after{
   border-bottom:2px solid var(--rust);
   display:inline-block;padding-bottom:2px;margin-bottom:10px;
 }
-.nb-def{font-size:14px;line-height:1.8;color:var(--ink-soft)}
-.nb-def b{color:var(--ink);background:rgba(232,184,96,.4);padding:0 4px}
+.nb-def{font-size:14px;line-height:1.8;color:#1a1410}
+.nb-def b{color:#000;background:rgba(232,184,96,.55);padding:0 4px;font-weight:700}
 .nb-card .nb-no{
   position:absolute;top:-12px;right:14px;
   background:var(--mustard);color:var(--ink);
@@ -777,6 +816,35 @@ input[type=range].lab-range::-moz-range-thumb{
 .ac-feedback.correct{background:rgba(74,107,58,.15);border-left:3px solid var(--moss);color:var(--moss);}
 .ac-feedback.wrong{background:rgba(168,66,31,.12);border-left:3px solid var(--rust);color:var(--rust);}
 
+/* 2번 문제 - 그래프 힌트 옆에 표시 */
+.analysis-card-graph .analysis-twocol{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:18px;
+  align-items:start;
+}
+@media (max-width:680px){.analysis-card-graph .analysis-twocol{grid-template-columns:1fr}}
+.ac-graph-hint{
+  background:var(--paper-dark);
+  border:1.5px solid var(--ink-soft);
+  padding:8px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.ac-graph-hint canvas{
+  width:100%;
+  aspect-ratio:1.3/1;
+  display:block;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 14px, rgba(168,66,31,.08) 14px, rgba(168,66,31,.08) 15px),
+    repeating-linear-gradient(90deg, transparent, transparent 14px, rgba(168,66,31,.08) 14px, rgba(168,66,31,.08) 15px),
+    var(--paper);
+  border:1px solid var(--ink);
+}
+.ac-graph-note{
+  font-family:'Nanum Pen Script',cursive;font-size:13px;
+  color:var(--ink);text-align:center;line-height:1.4;
+}
+
 .final-card{
   background:linear-gradient(135deg, var(--paper-dark), var(--paper));
   border:2px solid var(--ink);padding:30px;
@@ -801,6 +869,1233 @@ input[type=range].lab-range::-moz-range-thumb{
   background:var(--mustard);color:var(--ink);
   padding:6px 16px;margin:10px 4px;
   border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink-soft);
+}
+
+/* ========== CURVE ANALYSIS STAGE ========== */
+.curve-stage{display:flex;flex-direction:column;gap:18px}
+.curve-section-h{
+  font-family:'Gaegu',cursive;font-size:20px;font-weight:700;
+  color:var(--ink);margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;
+}
+.curve-section-h .sh-no{
+  background:var(--rust);color:var(--paper);
+  width:30px;height:30px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:14px;border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink-soft);
+}
+
+.curve-card{
+  background:var(--paper);
+  border:1.5px solid var(--ink);
+  padding:18px 22px;
+  position:relative;
+  box-shadow:4px 4px 0 var(--paper-shadow), 4px 4px 0 1px var(--ink-soft);
+}
+
+/* Section 1: Click explore */
+.explore-stage{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 290px;
+  gap:18px;
+}
+@media (max-width:980px){.explore-stage{grid-template-columns:1fr}}
+.explore-canvas-wrap{
+  width:100%;aspect-ratio:1.4/1;position:relative;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(168,66,31,.08) 19px, rgba(168,66,31,.08) 20px),
+    repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(168,66,31,.08) 19px, rgba(168,66,31,.08) 20px),
+    var(--paper);
+  border:1.5px solid var(--ink);
+}
+#exploreCanvas{width:100%;height:100%;display:block;cursor:crosshair;touch-action:none}
+
+.explore-info{
+  background:var(--paper-dark);
+  border:1.5px solid var(--ink);
+  padding:14px;
+  box-shadow:3px 3px 0 var(--paper-shadow);
+  min-height:300px;
+}
+.explore-info-h{
+  font-family:'Gaegu',cursive;font-size:16px;font-weight:700;
+  color:var(--ink);margin-bottom:8px;
+  padding-bottom:6px;border-bottom:1.5px dashed var(--ink-soft);
+}
+.explore-empty{
+  font-family:'Nanum Pen Script',cursive;font-size:16px;
+  color:var(--ink-faded);text-align:center;
+  padding:40px 12px;line-height:1.6;
+}
+.explore-result{display:none}
+.explore-result.show{display:block;animation:fadeUp .3s ease-out}
+.explore-coord{
+  font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;
+  background:var(--ink);color:var(--paper);
+  padding:6px 12px;margin-bottom:12px;text-align:center;
+  letter-spacing:1px;
+}
+.explore-substance.kno3{border-left-color:var(--kno3)}
+.explore-substance.cuso4{border-left-color:var(--cuso4)}
+.explore-substance.nano3{border-left-color:#a8421f}
+.explore-substance.nacl{border-left-color:#4a6b3a}
+.explore-substance.h3bo3{border-left-color:#c8861d}
+.explore-substance .es-name{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:4px;
+}
+.explore-substance.kno3 .es-name{color:var(--kno3)}
+.explore-substance.cuso4 .es-name{color:var(--cuso4)}
+.explore-substance.nano3 .es-name{color:#a8421f}
+.explore-substance.nacl .es-name{color:#4a6b3a}
+.explore-substance.h3bo3 .es-name{color:#c8861d}
+
+/* 곡선 토글 버튼 행 */
+.curve-toggle-row{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+  margin-bottom:10px;padding:8px 10px;
+  background:var(--paper-dark);
+  border:1px dashed var(--ink-soft);
+}
+.ct-label{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:12.5px;
+  color:var(--ink);margin-right:4px;white-space:nowrap;
+}
+.ct-btn{
+  font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;
+  padding:4px 10px;
+  background:var(--paper);
+  border:1.5px solid var(--ink-soft);
+  cursor:pointer;color:var(--ink-soft);
+  display:inline-flex;align-items:center;gap:5px;
+  transition:all .14s;
+  border-radius:14px;
+}
+.ct-btn:hover{transform:translateY(-1px);box-shadow:1px 1px 0 var(--ink-soft)}
+.ct-btn.on{
+  background:var(--paper);color:var(--ink);
+  border-color:var(--ink);
+  box-shadow:1.5px 1.5px 0 var(--ink-soft);
+}
+.ct-btn:not(.on){opacity:.45}
+.ct-btn .ct-dot{
+  width:10px;height:10px;border-radius:50%;display:inline-block;
+}
+
+.curve-region-row{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:12px;padding:6px 10px;
+  flex-wrap:wrap;
+}
+.curve-region-row select{
+  font-family:'Gowun Batang',serif;font-size:13px;font-weight:700;
+  padding:4px 10px;
+  border:1.5px solid var(--ink-soft);background:var(--paper);
+  color:var(--ink);cursor:pointer;outline:none;
+}
+.curve-region-row select:focus{border-color:var(--rust)}
+
+/* 정보 패널 - 5개 물질 더 컴팩트하게 */
+.explore-substance{
+  margin-bottom:7px;padding:7px 10px;
+  background:var(--paper);
+  border-left:4px solid var(--ink-soft);
+  font-size:12px;line-height:1.5;
+}
+.explore-substance .es-numbers{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  color:var(--ink);margin-top:3px;
+}
+.explore-substance .es-desc{font-size:11px;color:var(--ink-soft);line-height:1.4}
+
+/* ========== "지우개 마스킹" - 수업 시 답 가리기 ========== */
+.eraser-mask{
+  position:relative;
+  display:inline-block;
+  cursor:pointer;
+  user-select:none;
+  transition:all .3s;
+  border-radius:3px;
+  padding:0 4px;
+  /* 연필로 칠한 듯한 회색 텍스처 */
+  background:
+    repeating-linear-gradient(
+      105deg,
+      rgba(91,74,53,.85) 0px,
+      rgba(91,74,53,.92) 2px,
+      rgba(43,33,23,.85) 3px,
+      rgba(91,74,53,.78) 5px,
+      rgba(60,48,33,.9) 7px
+    ),
+    rgba(70,55,38,.95);
+  color:transparent !important;
+  text-shadow:none !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(43,33,23,.4),
+    1px 1px 0 rgba(43,33,23,.2);
+  /* 글자가 있던 자리 표시 */
+  letter-spacing:0;
+}
+.eraser-mask::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 60% 30% at 20% 40%, rgba(255,255,255,.08), transparent),
+    radial-gradient(ellipse 40% 25% at 75% 65%, rgba(0,0,0,.15), transparent);
+  pointer-events:none;
+  border-radius:3px;
+}
+.eraser-mask::after{
+  content:'?';
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Gaegu',cursive;
+  font-weight:700;
+  font-size:13px;
+  color:rgba(245,236,217,.6);
+  pointer-events:none;
+}
+.eraser-mask:hover{
+  transform:scale(1.03);
+  box-shadow:
+    inset 0 0 0 1px rgba(168,66,31,.6),
+    2px 2px 0 rgba(168,66,31,.3);
+}
+.eraser-mask:hover::after{
+  content:'클릭!';
+  font-size:10px;
+  color:rgba(245,236,217,.95);
+}
+
+/* 클릭으로 공개된 상태 */
+.eraser-mask.revealed{
+  background:rgba(232,184,96,.45);
+  color:inherit !important;
+  cursor:default;
+  padding:0 4px;
+  animation:erase-poof .4s ease-out;
+  box-shadow:none;
+}
+.eraser-mask.revealed::before,
+.eraser-mask.revealed::after{
+  display:none;
+}
+@keyframes erase-poof{
+  0%{transform:scale(1.15);background:rgba(168,66,31,.4)}
+  50%{transform:scale(.95)}
+  100%{transform:scale(1);background:rgba(232,184,96,.45)}
+}
+
+/* 큰 박스용 마스크 (결론 박스 같은 영역) */
+.eraser-mask-block{
+  position:relative;
+  cursor:pointer;
+  user-select:none;
+  background:
+    repeating-linear-gradient(
+      105deg,
+      rgba(91,74,53,.85) 0px,
+      rgba(91,74,53,.92) 3px,
+      rgba(43,33,23,.85) 5px,
+      rgba(91,74,53,.78) 8px,
+      rgba(60,48,33,.9) 11px
+    ),
+    rgba(70,55,38,.95);
+  color:transparent !important;
+  border-radius:6px;
+  padding:8px 12px;
+  box-shadow:
+    inset 0 0 0 2px rgba(43,33,23,.3),
+    2px 2px 0 rgba(43,33,23,.25);
+  transition:all .3s;
+}
+.eraser-mask-block::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 50% 25% at 20% 30%, rgba(255,255,255,.09), transparent),
+    radial-gradient(ellipse 40% 20% at 75% 70%, rgba(0,0,0,.12), transparent);
+  pointer-events:none;border-radius:6px;
+}
+.eraser-mask-block::after{
+  content:'👆 클릭해서 정답 확인';
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
+  color:rgba(245,236,217,.85);
+  text-shadow:1px 1px 2px rgba(0,0,0,.5);
+  pointer-events:none;
+  letter-spacing:1px;
+}
+.eraser-mask-block:hover{
+  box-shadow:inset 0 0 0 2px rgba(168,66,31,.55), 3px 3px 0 rgba(168,66,31,.3);
+}
+.eraser-mask-block:hover::after{
+  content:'🧽 지우개로 지우기!';
+  color:#fff;
+}
+.eraser-mask-block.revealed{
+  background:rgba(232,184,96,.18);
+  color:inherit !important;
+  cursor:default;
+  box-shadow:inset 0 0 0 1.5px rgba(200,134,29,.4);
+  animation:erase-poof-big .5s ease-out;
+}
+.eraser-mask-block.revealed::before,
+.eraser-mask-block.revealed::after{
+  display:none;
+}
+@keyframes erase-poof-big{
+  0%{transform:scale(1.05);background:rgba(168,66,31,.3)}
+  50%{transform:scale(.98)}
+  100%{transform:scale(1);background:rgba(232,184,96,.18)}
+}
+
+/* 전체 토글 컨트롤 */
+.mask-toggle-row{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:10px;padding:6px 10px;
+  background:var(--paper-dark);border:1px dashed var(--ink-soft);
+  flex-wrap:wrap;
+}
+.mask-toggle-row .mt-label{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:12.5px;
+  color:var(--ink);
+}
+.mask-toggle-btn{
+  font-family:'Gaegu',cursive;font-size:12px;font-weight:700;
+  padding:4px 12px;
+  background:var(--paper);color:var(--ink);
+  border:1.5px solid var(--ink);
+  cursor:pointer;transition:all .14s;
+  box-shadow:2px 2px 0 var(--ink-soft);
+}
+.mask-toggle-btn:hover{background:var(--mustard);transform:translate(-1px,-1px)}
+.mask-toggle-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink-soft)}
+
+/* ========== END eraser mask ========== */
+
+/* === 석출량 계산 v2 — 미니 그래프 인터랙션 === */
+.calc-stage-v2{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);
+  gap:18px;
+  margin-top:10px;
+}
+@media (max-width:980px){.calc-stage-v2{grid-template-columns:1fr}}
+
+.calc-left{display:flex;flex-direction:column;gap:14px}
+.calc-right{display:flex;flex-direction:column}
+
+.calc-mini-graph-wrap{
+  background:var(--paper);
+  border:1.5px solid var(--ink);
+  padding:12px 14px;
+  box-shadow:3px 3px 0 var(--paper-shadow);
+}
+.cmg-title{
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
+  color:var(--ink);margin-bottom:6px;
+  padding-bottom:5px;border-bottom:1.5px dashed var(--ink-soft);
+}
+.cmg-reset{
+  font-family:'Gaegu',cursive;font-size:11px;font-weight:700;
+  padding:2px 8px;
+  background:var(--paper-dark);color:var(--ink);
+  border:1px solid var(--ink-soft);
+  cursor:pointer;transition:all .14s;
+}
+.cmg-reset:hover{background:var(--mustard)}
+.cmg-instruct{
+  font-family:'Nanum Pen Script',cursive;font-size:14px;
+  color:var(--rust);background:rgba(232,184,96,.18);
+  padding:5px 10px;margin-bottom:8px;
+  border-left:3px solid var(--rust);
+}
+.cmg-instruct b{color:var(--ink);background:rgba(255,255,255,.5);padding:0 4px}
+.cmg-canvas-wrap{
+  width:100%;
+  aspect-ratio:1.3/1;
+  position:relative;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 14px, rgba(168,66,31,.08) 14px, rgba(168,66,31,.08) 15px),
+    repeating-linear-gradient(90deg, transparent, transparent 14px, rgba(168,66,31,.08) 14px, rgba(168,66,31,.08) 15px),
+    var(--paper);
+  border:1.5px solid var(--ink);
+  margin-bottom:8px;
+}
+#calcGraphCanvas{width:100%;height:100%;display:block;cursor:crosshair;touch-action:none}
+
+.cmg-readings{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;
+}
+.cmg-reading{
+  background:var(--paper-dark);
+  border:1.5px solid var(--ink-soft);
+  padding:5px 10px;
+  font-size:12px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.cmg-reading.filled{
+  background:rgba(74,107,58,.15);
+  border-color:var(--moss);
+}
+.cmg-r-label{font-family:'Gaegu',cursive;font-weight:700;color:var(--ink)}
+.cmg-r-val{
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11.5px;
+  color:var(--ink-faded);
+}
+.cmg-reading.filled .cmg-r-val{color:var(--moss)}
+.guide-card{
+  background:linear-gradient(135deg, rgba(232,184,96,.25), rgba(168,66,31,.12));
+  border:1.5px solid var(--ink);border-left-width:5px;border-left-color:var(--rust);
+  padding:10px 14px;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;flex-wrap:wrap;
+}
+.guide-step-text{
+  font-family:'Gowun Batang',serif;font-size:14px;line-height:1.5;
+  color:var(--ink);flex:1;min-width:200px;
+}
+.guide-step-text b{color:var(--rust);background:rgba(255,255,255,.4);padding:0 4px}
+.guide-progress{display:flex;gap:8px;flex-shrink:0}
+.gp-dot{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--paper);
+  border:2px dashed var(--ink-soft);
+  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
+  color:var(--ink-faded);
+  transition:all .25s;
+}
+.gp-dot.active{
+  background:var(--mustard);color:var(--ink);
+  border-color:var(--ink);border-style:solid;
+  animation:gp-pulse 1.3s infinite ease-in-out;
+}
+.gp-dot.done{
+  background:var(--moss);color:var(--paper);
+  border-color:var(--moss);border-style:solid;
+}
+.gp-dot.done::after{content:''}
+@keyframes gp-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(200,134,29,.6);transform:scale(1)}
+  50%{box-shadow:0 0 0 8px rgba(200,134,29,0);transform:scale(1.08)}
+}
+
+/* === 석출 시연 카드 === */
+.precip-demo-card{
+  margin-top:14px;padding:14px 18px;
+  background:linear-gradient(135deg, rgba(58,127,163,.15), rgba(74,107,58,.1));
+  border:1.5px solid var(--accent);border-left-width:5px;
+  text-align:center;
+  animation:fadeUp .5s ease-out;
+}
+.pdc-h{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:18px;
+  color:var(--accent);margin-bottom:6px;
+}
+.pdc-body{
+  font-size:14px;line-height:1.7;color:var(--ink);
+  margin-bottom:12px;
+}
+.pdc-body b{background:rgba(232,184,96,.35);padding:1px 6px}
+
+.precip-result-card{
+  margin-top:14px;padding:18px 20px;
+  background:var(--paper-dark);
+  border:2px solid var(--ink);border-left-width:6px;border-left-color:var(--rust);
+  box-shadow:4px 4px 0 var(--paper-shadow);
+  animation:fadeUp .4s ease-out;
+}
+.prc-h{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:18px;
+  color:var(--rust);margin-bottom:10px;
+  padding-bottom:8px;border-bottom:1.5px dashed var(--ink-soft);
+}
+.prc-flow{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  margin:10px 0 14px;flex-wrap:wrap;
+}
+.prc-step{
+  background:var(--paper);
+  border:1.5px solid var(--ink-soft);
+  padding:10px 14px;
+  text-align:center;
+  min-width:140px;
+  position:relative;
+}
+.prc-step .prc-step-label{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  color:var(--ink-soft);
+  margin-bottom:4px;
+}
+.prc-step .prc-step-temp{
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;
+  color:var(--ink);
+}
+.prc-step .prc-step-sol{
+  font-family:'JetBrains Mono',monospace;font-size:13px;
+  color:var(--accent);margin-top:4px;
+}
+.prc-step.start{border-left:4px solid var(--rust)}
+.prc-step.end{border-left:4px solid var(--accent)}
+.prc-arrow{
+  font-size:28px;font-family:'Gaegu',cursive;font-weight:700;
+  color:var(--rust);
+}
+.prc-formula{
+  font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;
+  text-align:center;
+  background:var(--paper);
+  border:1.5px solid var(--rust);
+  padding:12px 14px;
+  color:var(--ink);
+  margin:8px 0;
+}
+.prc-formula .precip-val{
+  background:var(--rust);color:var(--paper);
+  padding:3px 10px;
+  font-size:18px;
+}
+.prc-explain{
+  font-family:'Gowun Batang',serif;font-size:13.5px;line-height:1.7;
+  color:var(--ink);margin-top:10px;
+  padding:10px 14px;
+  background:rgba(74,107,58,.12);
+  border-left:3px solid var(--moss);
+}
+.explore-substance .es-state{
+  font-family:'Gaegu',cursive;font-size:13px;font-weight:700;
+  padding:1px 8px;border-radius:12px;
+}
+.es-state.sat{background:rgba(200,134,29,.25);color:var(--mustard)}
+.es-state.unsat{background:rgba(74,107,58,.2);color:var(--moss)}
+.es-state.over{background:rgba(168,66,31,.2);color:var(--rust)}
+.explore-substance .es-desc{font-size:12px;color:var(--ink-soft)}
+.explore-substance .es-numbers{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--ink);margin-top:4px;
+}
+
+.legend-region{
+  display:flex;flex-wrap:wrap;gap:10px;
+  margin-top:12px;padding-top:10px;
+  border-top:1px dashed var(--ink-soft);
+}
+.legend-region-item{
+  font-family:'Nanum Pen Script',cursive;font-size:14px;
+  color:var(--ink-soft);
+  display:flex;align-items:center;gap:5px;
+}
+.legend-region-item .lr-sw{
+  width:14px;height:10px;border:1px solid var(--ink-soft);display:inline-block;
+}
+.lr-sw.sat{background:rgba(200,134,29,.3)}
+.lr-sw.unsat{background:rgba(74,107,58,.18)}
+.lr-sw.over{background:rgba(168,66,31,.2)}
+
+/* Section 2: Calculator quiz */
+.calc-stage{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:18px;
+}
+@media (max-width:880px){.calc-stage{grid-template-columns:1fr}}
+
+.calc-problem{
+  background:var(--paper-dark);
+  border:1.5px solid var(--ink);
+  padding:14px 18px;
+  position:relative;
+}
+.calc-problem::before{
+  content:'문제';
+  position:absolute;top:-10px;left:14px;
+  background:var(--rust);color:var(--paper);
+  font-family:'Gaegu',cursive;font-weight:700;font-size:11px;
+  padding:2px 10px;letter-spacing:1px;
+  border:1.5px solid var(--ink);
+}
+.calc-q-text{font-size:14px;line-height:1.85;color:var(--ink);margin-top:4px}
+.calc-q-text b{background:rgba(232,184,96,.5);padding:0 4px;font-weight:700}
+
+.calc-q-nav{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:10px;
+}
+.calc-q-tabs{display:flex;gap:6px}
+.calc-q-tab{
+  width:32px;height:32px;
+  border:1.5px solid var(--ink-soft);background:var(--paper);
+  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
+  cursor:pointer;color:var(--ink-soft);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.calc-q-tab.on{background:var(--rust);color:var(--paper);border-color:var(--ink);box-shadow:2px 2px 0 var(--ink-soft);}
+.calc-q-tab.done{background:var(--moss);color:var(--paper);border-color:var(--moss)}
+.calc-q-tab.done::after{content:''}
+
+.calc-input-row{
+  display:flex;align-items:center;gap:8px;margin-top:14px;
+  flex-wrap:wrap;
+}
+.calc-input{
+  flex:1;min-width:120px;
+  padding:8px 12px;
+  border:1.5px solid var(--ink);background:var(--paper);
+  font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;
+  color:var(--ink);
+  outline:none;text-align:center;
+  box-shadow:inset 2px 2px 0 var(--paper-shadow);
+}
+.calc-input:focus{background:var(--paper-dark);border-color:var(--rust)}
+.calc-unit{
+  font-family:'Gaegu',cursive;font-size:16px;font-weight:700;
+  color:var(--ink-soft);
+}
+
+.calc-solution{
+  background:var(--paper);
+  border:1.5px solid var(--ink);
+  padding:14px 18px;
+  position:relative;
+  min-height:200px;
+}
+.calc-solution::before{
+  content:'풀이';
+  position:absolute;top:-10px;left:14px;
+  background:var(--accent);color:var(--paper);
+  font-family:'Gaegu',cursive;font-weight:700;font-size:11px;
+  padding:2px 10px;letter-spacing:1px;
+  border:1.5px solid var(--ink);
+}
+.calc-step{
+  font-size:14px;line-height:1.8;color:var(--ink-soft);
+  margin:6px 0;
+  font-family:'Gowun Batang',serif;
+  display:none;
+}
+.calc-step.show{display:block;animation:fadeUp .4s ease-out}
+.calc-step .step-no{
+  font-family:'Gaegu',cursive;font-weight:700;
+  color:var(--rust);margin-right:4px;
+}
+.calc-step .step-val{
+  font-family:'JetBrains Mono',monospace;font-weight:700;
+  background:rgba(232,184,96,.35);padding:1px 6px;
+  color:var(--ink);
+}
+.calc-step.answer{
+  background:rgba(74,107,58,.15);
+  border-left:3px solid var(--moss);
+  padding:8px 12px;margin-top:10px;
+  color:var(--moss);font-weight:700;
+}
+.calc-empty{
+  font-family:'Nanum Pen Script',cursive;font-size:16px;
+  color:var(--ink-faded);text-align:center;padding:40px 0;
+}
+.calc-empty.show{display:block}
+
+.calc-fb{
+  margin-top:10px;padding:8px 12px;
+  font-family:'Nanum Pen Script',cursive;font-size:15px;
+  display:none;
+}
+.calc-fb.show{display:block;animation:fadeUp .3s ease-out}
+.calc-fb.correct{background:rgba(74,107,58,.15);border-left:3px solid var(--moss);color:var(--moss);}
+.calc-fb.wrong{background:rgba(168,66,31,.12);border-left:3px solid var(--rust);color:var(--rust);}
+
+.calc-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.calc-actions .action-btn{width:auto;flex:1;min-width:100px}
+
+/* Calculator mini-viz */
+.calc-viz{
+  display:flex;justify-content:space-around;align-items:flex-end;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 22px, rgba(201,184,140,.25) 22px, rgba(201,184,140,.25) 23px),
+    var(--paper-dark);
+  border:1px dashed var(--ink-soft);
+  padding:14px 8px;
+  min-height:200px;margin-top:12px;
+  gap:14px;position:relative;
+}
+.calc-viz-arrow{
+  font-family:'Gaegu',cursive;font-size:30px;color:var(--rust);
+  align-self:center;font-weight:700;
+}
+.calc-viz-beaker{
+  display:flex;flex-direction:column;align-items:center;flex:1;max-width:130px;
+}
+.calc-viz-label{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  color:var(--ink);margin-bottom:4px;text-align:center;
+  background:var(--paper);padding:2px 10px;
+  border:1px solid var(--ink-soft);
+}
+.calc-viz-temp{
+  font-family:'JetBrains Mono',monospace;font-size:13px;
+  color:var(--rust);font-weight:700;margin-bottom:6px;
+}
+.mini-beaker{
+  width:90px;height:110px;
+  border:2.5px solid var(--ink);border-top:none;
+  border-radius:0 0 12px 12px;
+  position:relative;overflow:hidden;
+  background:rgba(245,236,217,.5);
+}
+.mini-beaker::before,.mini-beaker::after{
+  content:'';position:absolute;top:-2px;width:10px;height:6px;
+  background:var(--paper);border:2.5px solid var(--ink);border-bottom:none;
+}
+.mini-beaker::before{left:-9px;border-radius:5px 0 0 0;transform:rotate(-12deg)}
+.mini-beaker::after{right:-9px;border-radius:0 5px 0 0;transform:rotate(12deg)}
+.mini-water{
+  position:absolute;bottom:0;left:0;width:100%;
+  background:linear-gradient(to bottom, rgba(58,127,163,.55), rgba(30,77,107,.6));
+  transition:all .5s;
+}
+.mini-water.warm{background:linear-gradient(to bottom, rgba(200,134,29,.4), rgba(168,66,31,.55));}
+.mini-water.cold{background:linear-gradient(to bottom, rgba(120,180,210,.45), rgba(58,127,163,.6));}
+.mini-precip{
+  position:absolute;bottom:0;left:0;width:100%;
+  transition:all .5s;
+}
+.mini-precip.kno3{background:linear-gradient(to top, rgba(220,210,190,.95), rgba(220,210,190,.5));}
+.mini-precip.cuso4{background:linear-gradient(to top, rgba(107,58,92,.85), rgba(107,58,92,.4));}
+
+/* ========== GAS STAGE ========== */
+.gas-stage{display:flex;flex-direction:column;gap:18px}
+
+.gas-tubes-area{
+  display:flex;justify-content:space-around;align-items:flex-end;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 22px, rgba(201,184,140,.25) 22px, rgba(201,184,140,.25) 23px),
+    var(--paper-dark);
+  border:1px dashed var(--ink-soft);
+  padding:24px 12px 16px;
+  min-height:280px;gap:14px;
+  flex-wrap:wrap;
+}
+
+.gas-beaker-set{
+  display:flex;flex-direction:column;align-items:center;
+  gap:8px;flex:1;min-width:240px;max-width:380px;
+}
+.gas-set-label{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:15px;
+  color:var(--ink);text-align:center;
+  background:var(--paper);padding:4px 16px;
+  border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink-soft);
+}
+.gas-set-label.cold{background:#cde7f5}
+.gas-set-label.hot{background:#f5d5cd}
+
+.gas-beaker-pair{
+  display:flex;align-items:flex-end;justify-content:center;
+  gap:18px;width:100%;
+}
+
+.gas-beaker-wrap{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  position:relative;
+}
+.gas-id-tag{
+  position:absolute;top:-32px;left:50%;
+  transform:translateX(-50%);
+  width:30px;height:30px;border-radius:50%;
+  background:var(--rust);color:var(--paper);
+  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);
+  z-index:10;
+}
+
+.gas-beaker{
+  width:90px;height:130px;
+  border:2.5px solid var(--ink);border-top:none;
+  border-radius:0 0 14px 14px;
+  background:rgba(245,236,217,.4);
+  position:relative;overflow:visible;
+}
+.gas-beaker::before,.gas-beaker::after{
+  content:'';position:absolute;top:-2px;width:11px;height:6px;
+  background:var(--paper);border:2.5px solid var(--ink);border-bottom:none;
+}
+.gas-beaker::before{left:-10px;border-radius:5px 0 0 0;transform:rotate(-12deg)}
+.gas-beaker::after{right:-10px;border-radius:0 5px 0 0;transform:rotate(12deg)}
+
+.gas-water{
+  position:absolute;bottom:0;left:0;width:100%;height:75%;
+  border-radius:0 0 11px 11px;overflow:hidden;
+}
+.gas-water.cold{
+  background:linear-gradient(to bottom, rgba(180,220,240,.6), rgba(58,127,163,.7));
+}
+.gas-water.hot{
+  background:linear-gradient(to bottom, rgba(254,202,150,.4), rgba(200,134,29,.55));
+}
+.gas-water::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:rgba(255,255,255,.5);
+}
+
+/* 얼음 조각 (cold) */
+.ice-cube{
+  position:absolute;
+  background:linear-gradient(135deg, rgba(255,255,255,.85), rgba(200,230,250,.7));
+  border:1px solid rgba(180,210,230,.8);
+  border-radius:2px;
+  box-shadow:inset -1px -1px 2px rgba(150,200,230,.4), 0 1px 2px rgba(0,0,0,.1);
+}
+
+/* 김 (hot) */
+.steam{
+  position:absolute;left:50%;
+  bottom:130px;
+  width:6px;height:18px;
+  background:radial-gradient(ellipse, rgba(255,255,255,.6) 0%, transparent 70%);
+  border-radius:50%;
+  opacity:0;
+  animation:steam-rise 2.5s infinite ease-out;
+  pointer-events:none;
+}
+@keyframes steam-rise{
+  0%{opacity:0;transform:translate(-50%, 0) scale(.5)}
+  20%{opacity:.7}
+  100%{opacity:0;transform:translate(calc(-50% + var(--xs, 0px)), -40px) scale(2)}
+}
+
+/* 시험관 in beaker */
+.gas-tube{
+  position:absolute;bottom:18px;left:50%;
+  transform:translateX(-50%);
+  width:22px;height:96px;
+  border:2px solid var(--ink);border-top:none;
+  border-radius:0 0 11px 11px;
+  background:rgba(245,236,217,.35);
+  z-index:5;overflow:visible;
+}
+.gas-tube-soda{
+  position:absolute;bottom:0;left:0;width:100%;height:80%;
+  background:linear-gradient(to bottom, rgba(150,100,60,.7), rgba(90,60,30,.85));
+  border-radius:0 0 9px 9px;
+  overflow:hidden;
+}
+.gas-tube-soda::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:rgba(255,200,150,.5);
+}
+
+/* 고무 뚜껑 */
+.rubber-cap{
+  position:absolute;top:-12px;left:50%;
+  transform:translateX(-50%);
+  z-index:8;display:none;
+  flex-direction:column;align-items:center;
+}
+.gas-tube.capped .rubber-cap{display:flex}
+.rc-top{
+  width:30px;height:8px;
+  background:linear-gradient(to bottom, #8a2014, #5a1208);
+  border-radius:4px 4px 0 0;
+  border:1.5px solid var(--ink);
+  box-shadow:0 -1px 2px rgba(0,0,0,.2);
+}
+.rc-neck{
+  width:22px;height:10px;
+  background:linear-gradient(to bottom, #5a1208, #3a0a04);
+  border-left:1.5px solid var(--ink);
+  border-right:1.5px solid var(--ink);
+  box-shadow:inset 0 -2px 3px rgba(0,0,0,.3);
+}
+
+/* 압력 표시 게이지 */
+.pressure-gauge{
+  position:absolute;top:-30px;right:-8px;
+  background:var(--ink);color:var(--mustard-soft);
+  font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;
+  padding:1px 5px;border-radius:2px;
+  display:none;letter-spacing:.5px;
+  white-space:nowrap;z-index:9;
+}
+.gas-tube.capped .pressure-gauge{display:block}
+
+/* 녹아있는 CO2 점 */
+.co2-dot{
+  position:absolute;
+  width:3px;height:3px;border-radius:50%;
+  background:rgba(255,220,180,.7);
+  pointer-events:none;
+}
+
+/* 기포 */
+.gas-bubble{
+  position:absolute;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,235,210,.6));
+  border:1px solid rgba(255,200,150,.5);
+  opacity:0;
+  animation:bubble-rise var(--dur, 1.5s) ease-out forwards;
+  pointer-events:none;
+}
+@keyframes bubble-rise{
+  0%{opacity:0;transform:translateY(0) scale(.5)}
+  15%{opacity:.95}
+  100%{opacity:0;transform:translateY(var(--dy, -90px)) scale(1.4)}
+}
+
+/* 위로 솟구치는 큰 기포 (C 시험관 폭발용) */
+.gas-bubble-burst{
+  position:absolute;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, rgba(255,255,255,1), rgba(255,210,150,.8));
+  border:1.5px solid rgba(220,150,80,.7);
+  opacity:0;
+  box-shadow:0 0 4px rgba(255,180,100,.6);
+  animation:bubble-burst var(--dur, 1.2s) ease-out forwards;
+  pointer-events:none;
+}
+@keyframes bubble-burst{
+  0%{opacity:0;transform:translateY(0) scale(.4)}
+  10%{opacity:1}
+  60%{opacity:.9;transform:translateY(calc(var(--dy, -90px) * 0.6)) scale(1.3) translateX(var(--dx, 0px))}
+  100%{opacity:0;transform:translateY(var(--dy, -120px)) scale(2) translateX(calc(var(--dx, 0px) * 2))}
+}
+
+/* 시험관 흔들림 효과 (기포 폭발 시) */
+@keyframes tube-shake{
+  0%,100%{transform:translateX(-50%) rotate(0deg)}
+  25%{transform:translateX(-50%) rotate(-1deg)}
+  75%{transform:translateX(-50%) rotate(1deg)}
+}
+.gas-tube.shaking{animation:tube-shake .1s ease-in-out infinite}
+
+/* 기포가 위로 분출되는 효과 (뚜껑 없는 시험관) */
+.bubble-fountain{
+  position:absolute;top:-8px;left:50%;
+  transform:translateX(-50%);
+  width:30px;height:20px;
+  pointer-events:none;
+  z-index:10;
+}
+.fountain-particle{
+  position:absolute;width:3px;height:3px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.95), rgba(255,220,180,.7));
+  border:1px solid rgba(255,200,150,.5);
+  opacity:0;
+  animation:fountain-spray var(--dur,1s) ease-out forwards;
+}
+@keyframes fountain-spray{
+  0%{opacity:1;transform:translate(0,0) scale(1)}
+  100%{opacity:0;transform:translate(var(--dx,0px), var(--dy,-40px)) scale(.4)}
+}
+
+/* 기포 카운터 */
+.bubble-counter{
+  margin-top:2px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  color:var(--ink);background:var(--paper);
+  padding:2px 8px;border:1.5px solid var(--ink-soft);
+  min-width:48px;text-align:center;
+  transition:all .3s;
+}
+.bubble-counter.high{
+  background:rgba(168,66,31,.25);color:var(--rust);
+  border-color:var(--rust);font-weight:700;
+}
+.bubble-counter.medium{
+  background:rgba(232,184,96,.25);color:var(--mustard);
+  border-color:var(--mustard);
+}
+.bubble-counter.low{
+  background:rgba(74,107,58,.18);color:var(--moss);
+  border-color:var(--moss);
+}
+.bubble-counter.min{
+  background:rgba(58,127,163,.18);color:var(--accent);
+  border-color:var(--accent);
+}
+
+/* 시험관 상태 라벨 (기포량 표시) */
+.bubble-state-label{
+  margin-top:3px;
+  font-family:'Gaegu',cursive;font-size:11px;font-weight:700;
+  padding:1px 6px;border-radius:10px;
+  display:inline-block;min-width:60px;text-align:center;
+}
+.bsl-max{background:var(--rust);color:var(--paper)}
+.bsl-high{background:var(--mustard);color:var(--ink)}
+.bsl-low{background:var(--moss-soft);color:var(--ink)}
+.bsl-min{background:var(--accent);color:var(--paper)}
+
+/* 관찰 결과 요약 */
+.observe-summary{
+  margin-top:14px;
+  background:rgba(232,184,96,.12);
+  border:1.5px solid var(--mustard);
+  border-left-width:5px;
+  padding:12px 16px;
+  animation:fadeUp .4s ease-out;
+}
+.observe-summary .os-h{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:15px;
+  color:var(--ink);margin-bottom:8px;
+}
+.observe-summary .os-grid{
+  display:grid;grid-template-columns:1fr;gap:6px;
+}
+.observe-summary .os-row{
+  font-size:13px;line-height:1.6;color:var(--ink-soft);
+  display:flex;align-items:center;gap:8px;
+  padding:5px 8px;background:var(--paper);
+  border:1px solid var(--paper-shadow);
+}
+.observe-summary .os-id{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--ink);color:var(--paper);
+  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  flex-shrink:0;
+}
+.observe-summary .os-min{color:var(--accent);font-weight:700}
+.observe-summary .os-max{color:var(--rust);font-weight:700}
+
+/* 미니 시험관 요약 카드 (비교 분석 탭 상단) */
+.gas-mini-summary{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:10px;
+  background:var(--paper-dark);
+  border:1px dashed var(--ink-soft);
+  padding:10px 12px;
+}
+.mini-tube-card{
+  background:var(--paper);
+  border:1.5px solid var(--ink-soft);
+  padding:6px 10px;
+  font-size:12px;
+  display:flex;align-items:center;gap:8px;
+  flex-wrap:wrap;
+}
+.mini-tube-card .mt-id{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--ink);color:var(--paper);
+  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  flex-shrink:0;
+}
+.mini-tube-card .mt-cond{
+  font-family:'Gowun Batang',serif;font-size:11.5px;
+  color:var(--ink-soft);flex:1;
+}
+.mini-tube-card .mt-bub{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:11px;
+  padding:2px 8px;border-radius:10px;white-space:nowrap;
+}
+.mt-bub-max{background:var(--rust);color:var(--paper)}
+.mt-bub-high{background:var(--mustard);color:var(--ink)}
+.mt-bub-low{background:var(--moss-soft);color:var(--ink)}
+.mt-bub-min{background:var(--accent);color:var(--paper)}
+
+.gas-condition-label{
+  font-family:'Gaegu',cursive;font-size:11px;font-weight:700;
+  color:var(--ink-soft);text-align:center;margin-top:4px;
+  line-height:1.3;
+}
+
+.gas-controls{
+  display:flex;justify-content:center;gap:10px;
+  margin-top:14px;flex-wrap:wrap;
+}
+
+/* Gas comparison table */
+.gas-compare-table{
+  width:100%;border-collapse:collapse;margin-top:12px;
+  font-family:'Gowun Batang',serif;font-size:14px;
+}
+.gas-compare-table th,.gas-compare-table td{
+  border:1.5px solid var(--ink-soft);
+  padding:10px 8px;text-align:center;
+  background:var(--paper);
+}
+.gas-compare-table th{
+  background:var(--ink);color:var(--paper);
+  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+}
+.gas-compare-table td.row-label{
+  background:var(--paper-dark);
+  font-family:'Gaegu',cursive;font-weight:700;
+  text-align:left;padding-left:14px;
+}
+.gas-compare-table select{
+  font-family:'Gaegu',cursive;font-size:14px;font-weight:700;
+  padding:3px 8px;
+  border:1.5px solid var(--ink-soft);background:var(--paper);
+  color:var(--ink);cursor:pointer;outline:none;
+  text-align:center;text-align-last:center;
+}
+.gas-compare-table select:focus{border-color:var(--rust)}
+.gas-compare-table select.correct{background:rgba(74,107,58,.2);border-color:var(--moss);color:var(--moss)}
+.gas-compare-table select.wrong{background:rgba(168,66,31,.15);border-color:var(--rust);color:var(--rust)}
+
+/* 비교하지 않는 셀 - 대각선 처리 */
+.gas-compare-table td.cell-na-diag{
+  position:relative;
+  background:repeating-linear-gradient(
+    45deg,
+    var(--paper),
+    var(--paper) 6px,
+    var(--paper-dark) 6px,
+    var(--paper-dark) 9px
+  );
+  color:var(--ink-faded);
+  overflow:hidden;
+}
+.gas-compare-table td.cell-na-diag .diag-line{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;
+}
+.gas-compare-table td.cell-na-diag .diag-line::before,
+.gas-compare-table td.cell-na-diag .diag-line::after{
+  content:'';position:absolute;
+  top:50%;left:0;width:100%;height:1.5px;
+  background:var(--ink-soft);
+  transform-origin:center;
+}
+.gas-compare-table td.cell-na-diag .diag-line::before{
+  transform:translateY(-50%) rotate(11deg);
+}
+.gas-compare-table td.cell-na-diag .diag-line::after{
+  transform:translateY(-50%) rotate(-11deg);
+}
+.gas-compare-table td.cell-na-diag .diag-note{
+  position:relative;z-index:2;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:12px;
+  color:var(--ink-faded);
+  background:rgba(245,236,217,.9);
+  padding:0 6px;border:1px solid var(--ink-soft);
+  border-radius:3px;
+}
+
+.gas-conclusion-row{
+  display:flex;gap:14px;margin-top:14px;
+  flex-wrap:wrap;
+}
+.gas-conclusion-box{
+  flex:1;min-width:240px;
+  background:var(--paper-dark);
+  border:1.5px solid var(--ink-soft);
+  padding:12px 16px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:15px;
+  color:var(--ink);
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+}
+.gas-conclusion-box select{
+  font-family:'Gaegu',cursive;font-size:15px;font-weight:700;
+  padding:3px 8px;
+  border:1.5px solid var(--ink);background:var(--paper);
+  color:var(--ink);cursor:pointer;outline:none;
+}
+.gas-conclusion-box select.correct{background:rgba(74,107,58,.2);border-color:var(--moss);color:var(--moss)}
+.gas-conclusion-box select.wrong{background:rgba(168,66,31,.15);border-color:var(--rust);color:var(--rust)}
+
+/* Real-life matching */
+.match-stage{display:flex;flex-direction:column;gap:14px}
+.match-scenarios{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+}
+.match-card{
+  background:var(--paper);
+  border:1.5px solid var(--ink);
+  padding:14px;
+  min-height:140px;
+  position:relative;
+  box-shadow:3px 3px 0 var(--paper-shadow);
+  display:flex;flex-direction:column;
+  cursor:grab;
+  transition:transform .15s, box-shadow .15s;
+}
+.match-card:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--paper-shadow)}
+.match-card:active{cursor:grabbing}
+.match-card.matched{
+  cursor:not-allowed;opacity:.65;
+  background:var(--paper-dark);
+}
+.match-card-emoji{font-size:36px;text-align:center;margin-bottom:6px}
+.match-card-title{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:15px;
+  color:var(--ink);text-align:center;margin-bottom:4px;
+}
+.match-card-desc{
+  font-size:12px;line-height:1.5;color:var(--ink-soft);
+  text-align:center;flex:1;
+}
+.match-card.matched .matched-tag{
+  position:absolute;top:6px;right:6px;
+  background:var(--moss);color:var(--paper);
+  font-family:'Gaegu',cursive;font-weight:700;font-size:11px;
+  padding:2px 8px;border:1px solid var(--ink);
+}
+
+.match-zones{
+  display:grid;
+  grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;
+}
+@media (max-width:680px){.match-zones{grid-template-columns:1fr}}
+.match-zone{
+  background:var(--paper-dark);
+  border:2px dashed var(--ink-soft);
+  padding:14px;min-height:120px;
+  transition:all .2s;
+}
+.match-zone.drag-over{
+  background:rgba(232,184,96,.2);
+  border-color:var(--rust);border-style:solid;
+}
+.match-zone-h{
+  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
+  color:var(--ink);text-align:center;
+  padding:6px 12px;
+  background:var(--paper);
+  border:1.5px solid var(--ink);
+  margin-bottom:10px;
+}
+.match-zone-h.temp{background:rgba(120,180,210,.4)}
+.match-zone-h.press{background:rgba(232,184,96,.4)}
+.match-zone-content{
+  display:flex;flex-direction:column;gap:6px;
+}
+.match-dropped{
+  background:var(--paper);
+  border:1.5px solid var(--moss);
+  padding:6px 10px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  color:var(--moss);
+  display:flex;align-items:center;gap:6px;
+  animation:fadeUp .3s ease-out;
+}
+
+#match-ghost{
+  position:fixed;z-index:9999;pointer-events:none;
+  background:var(--paper);
+  border:1.5px solid var(--rust);
+  padding:6px 10px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  box-shadow:3px 3px 0 var(--rust);
+  display:none;
+  transform:translate(-50%,-50%);
 }
 
 .modal-backdrop{
@@ -916,7 +2211,7 @@ input[type=range].lab-range::-moz-range-thumb{
 <header class="lab-header">
   <div class="title-block">
     <span class="title-stamp">Science Lab Notebook</span>
-    <h1 class="main-title">해누리 <em>용해도</em> 가상실험실</h1>
+    <h1 class="main-title">승재쌤의 <em>용해도</em> 가상실험실</h1>
     <div class="sub-title">— 온도가 달라지면 용해도는 어떻게 변할까? —</div>
   </div>
   <div class="lab-date">
@@ -926,29 +2221,73 @@ input[type=range].lab-range::-moz-range-thumb{
 </header>
 
 <nav class="stepper" id="stepper">
-  <div class="step active" data-step="intro" onclick="goStep('intro')">
-    <div class="num-circle"><span class="num-text">0</span></div>
-    <span>실험 안내</span>
-  </div>
-  <span class="step-arrow">→</span>
-  <div class="step" data-step="notebook" onclick="goStep('notebook')">
-    <div class="num-circle"><span class="num-text">📓</span></div>
-    <span>실험 노트</span>
-  </div>
-  <span class="step-arrow">→</span>
-  <div class="step" data-step="exp" onclick="goStep('exp')">
+  <div class="step active" data-step="intro" data-group="exp" onclick="goStep('intro')">
     <div class="num-circle"><span class="num-text">1</span></div>
-    <span>가상 실험</span>
+    <span>🧪 실험</span>
   </div>
   <span class="step-arrow">→</span>
-  <div class="step" data-step="graph" onclick="goStep('graph')">
+  <div class="step" data-step="curve" data-group="curve" onclick="goStep('curve')">
     <div class="num-circle"><span class="num-text">2</span></div>
-    <span>그래프 그리기</span>
+    <span>📊 용해도 곡선</span>
   </div>
   <span class="step-arrow">→</span>
-  <div class="step" data-step="analysis" onclick="goStep('analysis')">
+  <div class="step" data-step="gas" data-group="gas" onclick="goStep('gas')">
     <div class="num-circle"><span class="num-text">3</span></div>
-    <span>결론 분석</span>
+    <span>💨 기체 용해도</span>
+  </div>
+  <span class="step-arrow">→</span>
+  <div class="step" data-step="analysis" data-group="analysis" onclick="goStep('analysis')">
+    <div class="num-circle"><span class="num-text">4</span></div>
+    <span>🎯 결론 분석</span>
+  </div>
+</nav>
+
+<!-- Sub-tab strip (group-specific) -->
+<nav class="substep" id="substep-exp" style="display:flex">
+  <div class="substep-item active" data-sub="intro" onclick="goSubStep('intro')">
+    <span class="ss-icon">📋</span> 실험 안내
+  </div>
+  <span class="substep-arrow">·</span>
+  <div class="substep-item" data-sub="notebook" onclick="goSubStep('notebook')">
+    <span class="ss-icon">📓</span> 실험 노트
+  </div>
+  <span class="substep-arrow">·</span>
+  <div class="substep-item" data-sub="exp" onclick="goSubStep('exp')">
+    <span class="ss-icon">🔬</span> 가상 실험
+  </div>
+  <span class="substep-arrow">·</span>
+  <div class="substep-item" data-sub="graph" onclick="goSubStep('graph')">
+    <span class="ss-icon">📈</span> 그래프 그리기
+  </div>
+</nav>
+
+<nav class="substep" id="substep-curve" style="display:none">
+  <div class="substep-item active" data-sub="curve-explore" onclick="goSubStep('curve-explore')">
+    <span class="ss-icon">🔍</span> 곡선 영역 탐험
+  </div>
+  <span class="substep-arrow">·</span>
+  <div class="substep-item" data-sub="curve-calc" onclick="goSubStep('curve-calc')">
+    <span class="ss-icon">🧮</span> 석출량 계산
+  </div>
+</nav>
+
+<nav class="substep" id="substep-gas" style="display:none">
+  <div class="substep-item active" data-sub="gas-observe" onclick="goSubStep('gas-observe')">
+    <span class="ss-icon">🧪</span> 4시험관 관찰
+  </div>
+  <span class="substep-arrow">·</span>
+  <div class="substep-item" data-sub="gas-compare" onclick="goSubStep('gas-compare')">
+    <span class="ss-icon">📊</span> 비교 분석
+  </div>
+  <span class="substep-arrow">·</span>
+  <div class="substep-item" data-sub="gas-match" onclick="goSubStep('gas-match')">
+    <span class="ss-icon">🎮</span> 실생활 매칭
+  </div>
+</nav>
+
+<nav class="substep" id="substep-analysis" style="display:none">
+  <div class="substep-item active" data-sub="analysis" onclick="goSubStep('analysis')">
+    <span class="ss-icon">🎯</span> 종합 결론
   </div>
 </nav>
 
@@ -983,7 +2322,7 @@ input[type=range].lab-range::-moz-range-thumb{
       <li>실험 결과를 표에 기록하고 그래프로 그려 두 물질의 용해도를 비교합니다.</li>
     </ul>
 
-    <p class="intro-p" style="font-size:13px;color:var(--ink-faded);font-style:italic">
+    <p class="intro-p" style="font-size:13px;color:#3a2817;font-style:italic;font-weight:500">
       ※ 황산구리는 (나) 조건의 경우 100℃를 초과하므로 측정이 불가능합니다.
     </p>
 
@@ -1364,47 +2703,608 @@ input[type=range].lab-range::-moz-range-thumb{
   </div>
 </section>
 
+<!-- STAGE: CURVE EXPLORE -->
+<section class="stage" id="stage-curve-explore">
+  <div class="curve-stage">
+    <div class="curve-card">
+      <div class="curve-section-h">
+        <span class="sh-no">🔍</span>
+        <span>곡선 영역 탐험하기</span>
+      </div>
+
+      <!-- 학습 안내 카드 (단계별 변화) -->
+      <div class="guide-card" id="explore-guide">
+        <div class="guide-step-text" id="guide-step-text">
+          <b>한 물질을 선택</b>해서 4가지 영역의 점을 모두 클릭해 보세요. 같은 좌표라도 물질에 따라 상태가 달라지는 걸 확인해 봅시다!
+        </div>
+        <div class="guide-progress">
+          <span class="gp-dot" data-target="A">A</span>
+          <span class="gp-dot" data-target="B">B</span>
+          <span class="gp-dot" data-target="C">C</span>
+          <span class="gp-dot" data-target="D">D</span>
+        </div>
+      </div>
+
+      <div class="curve-toggle-row">
+        <span class="ct-label">표시할 곡선:</span>
+        <button class="ct-btn on" data-curve="kno3" onclick="toggleCurveVis('kno3')">
+          <span class="ct-dot" style="background:#1e4d6b"></span>질산칼륨
+        </button>
+        <button class="ct-btn on" data-curve="cuso4" onclick="toggleCurveVis('cuso4')">
+          <span class="ct-dot" style="background:#6b3a5c"></span>황산구리
+        </button>
+        <button class="ct-btn on" data-curve="nano3" onclick="toggleCurveVis('nano3')">
+          <span class="ct-dot" style="background:#a8421f"></span>질산나트륨
+        </button>
+        <button class="ct-btn on" data-curve="nacl" onclick="toggleCurveVis('nacl')">
+          <span class="ct-dot" style="background:#4a6b3a"></span>염화나트륨
+        </button>
+        <button class="ct-btn on" data-curve="h3bo3" onclick="toggleCurveVis('h3bo3')">
+          <span class="ct-dot" style="background:#c8861d"></span>붕산
+        </button>
+      </div>
+
+      <div class="curve-region-row">
+        <span class="ct-label" style="font-family:'Gowun Batang',serif">분석 기준 물질:</span>
+        <select id="region-base" onchange="changeRegionBase(this.value)">
+          <option value="kno3">⚪ 질산칼륨</option>
+          <option value="cuso4">🟣 황산구리</option>
+          <option value="nano3">🟠 질산나트륨</option>
+          <option value="nacl">🟢 염화나트륨</option>
+          <option value="h3bo3">🟡 붕산</option>
+        </select>
+        <span style="font-family:'Nanum Pen Script',cursive;font-size:14px;color:var(--ink-soft);margin-left:8px">
+          선택한 물질의 곡선이 강조되고, 4개 가이드 점이 표시돼요
+        </span>
+      </div>
+
+      <div class="explore-stage">
+        <div>
+          <div class="explore-canvas-wrap">
+            <canvas id="exploreCanvas"></canvas>
+          </div>
+          <div class="legend-region">
+            <div class="legend-region-item"><span class="lr-sw over"></span>곡선 위 (과포화)</div>
+            <div class="legend-region-item"><span class="lr-sw sat"></span>곡선 위에 정확히 (포화)</div>
+            <div class="legend-region-item"><span class="lr-sw unsat"></span>곡선 아래 (불포화)</div>
+          </div>
+        </div>
+        <div class="explore-info">
+          <div class="explore-info-h">📍 클릭한 위치 분석</div>
+          <div class="explore-empty" id="explore-empty">
+            반짝이는 <b>4개 가이드 점</b>을<br>
+            순서대로 클릭해보세요!<br><br>
+            <span style="font-size:13px">A·B (포화) → C (과포화) → D (불포화)</span>
+          </div>
+          <div class="explore-result" id="explore-result">
+            <div class="explore-coord" id="explore-coord">— ℃ , — g</div>
+            <div id="explore-substance-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4점 완료 후 등장하는 석출 시연 카드 -->
+      <div class="precip-demo-card" id="precip-demo-card" style="display:none">
+        <div class="pdc-h">
+          🎉 4개 영역을 모두 확인했어요! 이제 핵심 실험으로 가볼까요?
+        </div>
+        <div class="pdc-body">
+          <b>B 지점</b>(높은 온도의 포화 용액)을 <b>A 지점의 온도</b>까지 천천히 식혀봅시다.<br>
+          그러면 비커 안에서 어떤 일이 벌어질까요? <b style="color:var(--rust)">B − A 만큼의 용질이 석출</b>됩니다!
+        </div>
+        <button class="big-btn primary" id="btn-cool-down" onclick="startCoolingDemo()" data-tip="B에서 A 온도까지 식히면 얼마나 석출되는지 보여줍니다">
+          ❄️ B의 온도를 A로 낮춰보자!
+        </button>
+      </div>
+
+      <!-- 석출 시연 결과 모달형 카드 -->
+      <div class="precip-result-card" id="precip-result-card" style="display:none">
+        <div class="prc-h">📉 냉각 과정 분석</div>
+        <div class="prc-flow" id="prc-flow"></div>
+        <div class="prc-formula" id="prc-formula"></div>
+        <div class="prc-explain" id="prc-explain"></div>
+        <button class="big-btn ghost" onclick="resetExploreFlow()" style="margin-top:14px">
+          ↺ 다른 물질로 다시 해보기
+        </button>
+      </div>
+
+    </div>
+
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:8px;flex-wrap:wrap">
+      <button class="big-btn ghost" onclick="goSubStep('graph')">← 그래프로</button>
+      <button class="big-btn accent" onclick="goSubStep('curve-calc')" data-tip="석출량 계산 문제로 진행">석출량 계산 →</button>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE: CURVE CALC -->
+<section class="stage" id="stage-curve-calc">
+  <div class="curve-stage">
+    <div class="curve-card">
+      <div class="curve-section-h">
+        <span class="sh-no">🧮</span>
+        <span>석출량 계산해보기</span>
+      </div>
+      <p class="intro-p" style="margin-bottom:12px">
+        포화 상태의 용액을 식히면 얼마나 많은 용질이 다시 고체로 나올까요?
+        오른쪽 그래프에 <b>시작 온도</b>와 <b>끝 온도</b>의 점을 직접 찍어보며 계산해 봅시다. (총 <b>3문제</b>)
+      </p>
+
+      <div class="calc-q-nav">
+        <div class="calc-q-tabs">
+          <div class="calc-q-tab on" data-q="0" onclick="setCalcQ(0)">1</div>
+          <div class="calc-q-tab" data-q="1" onclick="setCalcQ(1)">2</div>
+          <div class="calc-q-tab" data-q="2" onclick="setCalcQ(2)">3</div>
+        </div>
+        <span style="font-family:'Nanum Pen Script',cursive;font-size:14px;color:var(--ink-soft)" id="calc-progress">진행도 0/3</span>
+      </div>
+
+      <div class="calc-stage-v2">
+        <!-- 좌측: 문제 + 입력 + 풀이 -->
+        <div class="calc-left">
+          <div class="calc-problem">
+            <div class="calc-q-text" id="calc-q-text">문제를 불러오는 중...</div>
+            <div class="calc-input-row">
+              <span style="font-family:'Gaegu',cursive;font-weight:700;color:var(--ink)">석출되는 양 =</span>
+              <input type="number" class="calc-input" id="calc-input" placeholder="?" min="0" step="0.1">
+              <span class="calc-unit">g</span>
+            </div>
+            <div class="calc-actions">
+              <button class="action-btn primary" onclick="submitCalc()" data-tip="입력한 답이 맞는지 확인합니다">✓ 정답 확인</button>
+              <button class="action-btn" onclick="showCalcHint()" data-tip="그래프에서 어떤 값을 읽어야 하는지 알려줍니다">💡 힌트</button>
+              <button class="action-btn" onclick="showCalcSolution()" data-tip="단계별 풀이 과정을 보여줍니다">📖 풀이 보기</button>
+            </div>
+            <div class="calc-fb" id="calc-fb"></div>
+          </div>
+
+          <div class="calc-solution">
+            <div class="calc-empty" id="calc-empty">
+              [풀이 보기] 버튼을 누르면<br>단계별 풀이가 펼쳐져요 📖
+            </div>
+            <div id="calc-steps"></div>
+          </div>
+        </div>
+
+        <!-- 우측: 미니 그래프 + 두 점 찍기 -->
+        <div class="calc-right">
+          <div class="calc-mini-graph-wrap">
+            <div class="cmg-title">
+              <span>📊 용해도 곡선에서 직접 찾아보기</span>
+              <button class="cmg-reset" onclick="resetCalcPoints()" data-tip="찍은 점을 초기화">↺ 점 초기화</button>
+            </div>
+            <div class="cmg-instruct" id="cmg-instruct">
+              그래프의 <b>시작 온도 곡선 위 점</b>을 클릭해 찍어보세요!
+            </div>
+            <div class="cmg-canvas-wrap">
+              <canvas id="calcGraphCanvas"></canvas>
+            </div>
+            <div class="cmg-readings" id="cmg-readings">
+              <div class="cmg-reading" id="cmg-reading-start">
+                <span class="cmg-r-label">🔴 시작 온도</span>
+                <span class="cmg-r-val">아직 안 찍음</span>
+              </div>
+              <div class="cmg-reading" id="cmg-reading-end">
+                <span class="cmg-r-label">🔵 끝 온도</span>
+                <span class="cmg-r-val">아직 안 찍음</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:8px;flex-wrap:wrap">
+      <button class="big-btn ghost" onclick="goSubStep('curve-explore')">← 곡선 탐험으로</button>
+      <button class="big-btn accent" onclick="goStep('gas')" data-tip="기체 용해도 실험으로 진행">기체 용해도 →</button>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE: GAS OBSERVE -->
+<section class="stage" id="stage-gas-observe">
+  <div class="gas-stage">
+    <div class="intro-card" style="max-width:none;margin:0;padding:18px 24px">
+      <h2 class="intro-h" style="font-size:20px;margin-bottom:6px">💨 기체의 용해도 — 4시험관 관찰</h2>
+      <p class="intro-p" style="margin-bottom:6px">
+        탄산음료에서 빠져나오는 기포의 양으로 기체 용해도를 비교해 봅시다.
+        얼음물과 뜨거운물, 그리고 뚜껑 유무 4가지 조건을 한눈에 비교해보세요.
+      </p>
+      <p class="intro-p" style="font-size:13px;color:#3a2817;font-style:italic;font-weight:500;margin-bottom:0">
+        ※ 기포가 많이 발생할수록 → 기체가 녹지 못하고 빠져나온다는 뜻 → <b>용해도가 작다</b>
+      </p>
+    </div>
+
+    <div class="curve-card">
+      <div class="gas-tubes-area">
+        <div class="gas-beaker-set">
+          <div class="gas-set-label cold">❄️ 얼음물</div>
+          <div class="gas-beaker-pair">
+            <div class="gas-beaker-wrap">
+              <div class="gas-id-tag">A</div>
+              <div class="gas-beaker">
+                <div class="gas-water cold" id="ice-water-a"></div>
+                <div class="gas-tube" id="tube-a">
+                  <div class="gas-tube-soda" id="soda-a"></div>
+                </div>
+              </div>
+              <div class="bubble-counter" id="counter-a">0</div>
+              <div class="gas-condition-label">뚜껑 없음<br>(저압)</div>
+            </div>
+            <div class="gas-beaker-wrap">
+              <div class="gas-id-tag">B</div>
+              <div class="gas-beaker">
+                <div class="gas-water cold" id="ice-water-b"></div>
+                <div class="gas-tube capped" id="tube-b">
+                  <div class="rubber-cap">
+                    <div class="rc-top"></div>
+                    <div class="rc-neck"></div>
+                  </div>
+                  <div class="pressure-gauge">고압↑</div>
+                  <div class="gas-tube-soda" id="soda-b"></div>
+                </div>
+              </div>
+              <div class="bubble-counter" id="counter-b">0</div>
+              <div class="gas-condition-label">뚜껑 있음<br>(고압)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gas-beaker-set">
+          <div class="gas-set-label hot">🔥 뜨거운 물</div>
+          <div class="gas-beaker-pair">
+            <div class="gas-beaker-wrap">
+              <div class="gas-id-tag">C</div>
+              <div class="gas-beaker">
+                <div class="gas-water hot" id="hot-water-c"></div>
+                <div class="gas-tube" id="tube-c">
+                  <div class="gas-tube-soda" id="soda-c"></div>
+                </div>
+              </div>
+              <div class="bubble-counter" id="counter-c">0</div>
+              <div class="gas-condition-label">뚜껑 없음<br>(저압)</div>
+            </div>
+            <div class="gas-beaker-wrap">
+              <div class="gas-id-tag">D</div>
+              <div class="gas-beaker">
+                <div class="gas-water hot" id="hot-water-d"></div>
+                <div class="gas-tube capped" id="tube-d">
+                  <div class="rubber-cap">
+                    <div class="rc-top"></div>
+                    <div class="rc-neck"></div>
+                  </div>
+                  <div class="pressure-gauge">고압↑</div>
+                  <div class="gas-tube-soda" id="soda-d"></div>
+                </div>
+              </div>
+              <div class="bubble-counter" id="counter-d">0</div>
+              <div class="gas-condition-label">뚜껑 있음<br>(고압)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 관찰 결과 요약 -->
+      <div id="observe-summary" class="observe-summary" style="display:none">
+        <div class="os-h">📌 관찰 결과 요약 <span style="font-family:'Nanum Pen Script',cursive;font-size:12px;font-weight:400;color:var(--ink-soft);margin-left:8px">— 마스킹된 부분을 클릭하면 정답이 보여요</span></div>
+        <div class="mask-toggle-row" style="margin-top:8px;margin-bottom:8px">
+          <span class="mt-label">🧽 마스크 일괄 제어:</span>
+          <button class="mask-toggle-btn" onclick="revealAllMasks('observe-summary')">모두 공개</button>
+          <button class="mask-toggle-btn" onclick="hideAllMasks('observe-summary')">모두 가리기</button>
+        </div>
+        <div class="os-grid">
+          <div class="os-row">
+            <span class="os-id" style="background:var(--moss)">B</span> 얼음물+뚜껑 → 기포 <b class="eraser-mask">매우 적음</b> → 용해도 <b class="eraser-mask" style="color:var(--moss)">최대 ⬆</b>
+          </div>
+          <div class="os-row">
+            <span class="os-id">A</span> 얼음물 → 기포 <b class="eraser-mask">적음</b> → 용해도 <b class="eraser-mask">큼</b>
+          </div>
+          <div class="os-row">
+            <span class="os-id">D</span> 뜨거운물+뚜껑 → 기포 <b class="eraser-mask">많음</b> → 용해도 <b class="eraser-mask">작음</b>
+          </div>
+          <div class="os-row">
+            <span class="os-id" style="background:var(--rust)">C</span> 뜨거운물 → 기포 <b class="eraser-mask">매우 많음</b> → 용해도 <b class="eraser-mask" style="color:var(--rust)">최소 ⬇</b>
+          </div>
+        </div>
+      </div>
+
+      <div class="gas-controls">
+        <button class="big-btn" id="btn-gas-start" onclick="startGasExp()" data-tip="4개 시험관에서 기포가 발생하는 것을 관찰합니다">▶ 관찰 시작</button>
+        <button class="big-btn ghost" id="btn-gas-stop" onclick="stopGasExp()" style="display:none" data-tip="관찰을 중지합니다">⏹ 관찰 중지</button>
+        <button class="big-btn ghost" onclick="resetGasExp()" data-tip="기포 카운터를 초기화합니다">↺ 초기화</button>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:8px;flex-wrap:wrap">
+      <button class="big-btn ghost" onclick="goStep('curve')">← 곡선 분석으로</button>
+      <button class="big-btn accent" onclick="goSubStep('gas-compare')" data-tip="비교 분석 표 작성하기">비교 분석 →</button>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE: GAS COMPARE -->
+<section class="stage" id="stage-gas-compare">
+  <div class="gas-stage">
+    <div class="curve-card">
+      <div class="curve-section-h">
+        <span class="sh-no">📊</span>
+        <span>비교 분석하기</span>
+      </div>
+      <p class="intro-p" style="margin-bottom:10px">
+        관찰한 결과를 표에 정리해 봅시다. <b>드롭다운에서 부등호를 선택</b>하세요.
+      </p>
+
+      <!-- 미니 비교용 시각화 -->
+      <div style="font-family:'Nanum Pen Script',cursive;font-size:13px;color:var(--ink-soft);margin-bottom:6px">
+        💡 4시험관 관찰 결과 — 마스킹된 부분을 클릭하면 정답이 보여요
+        <button class="mask-toggle-btn" style="margin-left:8px;font-size:10px;padding:2px 8px" onclick="revealAllMasks('mini-summary-row')">모두 공개</button>
+        <button class="mask-toggle-btn" style="font-size:10px;padding:2px 8px" onclick="hideAllMasks('mini-summary-row')">모두 가리기</button>
+      </div>
+      <div class="gas-mini-summary" id="mini-summary-row">
+        <div class="mini-tube-card"><span class="mt-id">A</span> <span class="mt-cond">얼음물·뚜껑X</span> <span class="mt-bub mt-bub-low eraser-mask">기포 적음</span></div>
+        <div class="mini-tube-card"><span class="mt-id">B</span> <span class="mt-cond">얼음물·뚜껑O</span> <span class="mt-bub mt-bub-min eraser-mask">거의 없음</span></div>
+        <div class="mini-tube-card"><span class="mt-id">C</span> <span class="mt-cond">뜨거운물·뚜껑X</span> <span class="mt-bub mt-bub-max eraser-mask">기포 폭발</span></div>
+        <div class="mini-tube-card"><span class="mt-id">D</span> <span class="mt-cond">뜨거운물·뚜껑O</span> <span class="mt-bub mt-bub-high eraser-mask">기포 많음</span></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:14px">
+
+        <div>
+          <h4 style="font-family:'Gaegu',cursive;font-size:15px;color:var(--ink);margin-bottom:6px">
+            [A · C] 비교 — 온도 다름
+          </h4>
+          <table class="gas-compare-table">
+            <tr><th></th><th>비교 결과</th></tr>
+            <tr>
+              <td class="row-label">온도</td>
+              <td>A <select id="ac-temp"><option value="">?</option><option value="lt">&lt;</option><option value="eq">=</option><option value="gt">&gt;</option></select> C</td>
+            </tr>
+            <tr>
+              <td class="row-label">압력</td>
+              <td class="cell-na-diag" title="온도가 다르면 압력은 통제 불가">
+                <span class="diag-line"></span>
+                <span class="diag-note">비교 X</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="row-label">용해도</td>
+              <td>A <select id="ac-sol"><option value="">?</option><option value="lt">&lt;</option><option value="eq">=</option><option value="gt">&gt;</option></select> C</td>
+            </tr>
+            <tr>
+              <td class="row-label">기포 발생</td>
+              <td>A <select id="ac-bub"><option value="">?</option><option value="lt">&lt;</option><option value="eq">=</option><option value="gt">&gt;</option></select> C</td>
+            </tr>
+          </table>
+        </div>
+
+        <div>
+          <h4 style="font-family:'Gaegu',cursive;font-size:15px;color:var(--ink);margin-bottom:6px">
+            [C · D] 비교 — 압력 다름
+          </h4>
+          <table class="gas-compare-table">
+            <tr><th></th><th>비교 결과</th></tr>
+            <tr>
+              <td class="row-label">온도</td>
+              <td class="cell-na-diag" title="압력이 다르면 온도는 통제 불가">
+                <span class="diag-line"></span>
+                <span class="diag-note">비교 X</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="row-label">압력</td>
+              <td>C <select id="cd-press"><option value="">?</option><option value="lt">&lt;</option><option value="eq">=</option><option value="gt">&gt;</option></select> D</td>
+            </tr>
+            <tr>
+              <td class="row-label">용해도</td>
+              <td>C <select id="cd-sol"><option value="">?</option><option value="lt">&lt;</option><option value="eq">=</option><option value="gt">&gt;</option></select> D</td>
+            </tr>
+            <tr>
+              <td class="row-label">기포 발생</td>
+              <td>C <select id="cd-bub"><option value="">?</option><option value="lt">&lt;</option><option value="eq">=</option><option value="gt">&gt;</option></select> D</td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="gas-conclusion-row">
+        <div class="gas-conclusion-box">
+          [A·C] 결과 →&nbsp;온도
+          <select id="conc-ac"><option value="">?</option><option value="up">올라가면</option><option value="down">내려가면</option></select>
+          &nbsp;용해도
+          <select id="conc-ac2"><option value="">?</option><option value="up">↑</option><option value="down">↓</option></select>
+        </div>
+        <div class="gas-conclusion-box">
+          [C·D] 결과 →&nbsp;압력
+          <select id="conc-cd"><option value="">?</option><option value="up">올라가면</option><option value="down">내려가면</option></select>
+          &nbsp;용해도
+          <select id="conc-cd2"><option value="">?</option><option value="up">↑</option><option value="down">↓</option></select>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:14px">
+        <button class="big-btn moss" onclick="checkGasCompare()" data-tip="비교표와 결론의 답을 확인합니다">✅ 정답 확인하기</button>
+      </div>
+
+      <div id="gas-final-conc" style="display:none;margin-top:14px;padding:14px 18px;background:rgba(74,107,58,.12);border:1.5px solid var(--moss);border-left-width:5px">
+        <div style="font-family:'Gaegu',cursive;font-weight:700;font-size:18px;color:var(--moss);margin-bottom:6px">🌟 기체 용해도의 비밀!</div>
+        <div style="font-size:13px;color:var(--ink-soft);margin-bottom:8px;font-family:'Nanum Pen Script',cursive">
+          핵심 단어를 클릭해 학생들에게 질문하면서 정답을 공개해보세요!
+          <button class="mask-toggle-btn" style="margin-left:8px;font-size:10px;padding:2px 8px" onclick="revealAllMasks('gas-final-conc')">모두 공개</button>
+          <button class="mask-toggle-btn" style="font-size:10px;padding:2px 8px" onclick="hideAllMasks('gas-final-conc')">모두 가리기</button>
+        </div>
+        <div style="font-size:14px;line-height:1.9;color:var(--ink)">
+          <b>기체의 용해도 ↑</b> 는 →
+          <b class="eraser-mask" style="color:var(--rust)">온도 ↓</b>
+          &nbsp;그리고&nbsp;
+          <b class="eraser-mask" style="color:var(--rust)">압력 ↑</b>
+          일 때입니다.<br>
+          고체와는 반대로, 기체는
+          <b class="eraser-mask">차갑고</b>
+          <b class="eraser-mask">압력이 높을수록</b>
+          더 많이 녹아요!
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:8px;flex-wrap:wrap">
+      <button class="big-btn ghost" onclick="goSubStep('gas-observe')">← 관찰로 돌아가기</button>
+      <button class="big-btn accent" onclick="goSubStep('gas-match')" data-tip="실생활 매칭 게임으로 진행">실생활 매칭 →</button>
+    </div>
+  </div>
+</section>
+
+<!-- STAGE: GAS MATCH -->
+<section class="stage" id="stage-gas-match">
+  <div class="gas-stage">
+    <div class="curve-card">
+      <div class="curve-section-h">
+        <span class="sh-no">🎮</span>
+        <span>실생활 연결 매칭</span>
+      </div>
+      <p class="intro-p" style="margin-bottom:12px">
+        다음 실생활 현상들을 알맞은 원리에 <b>드래그해서 놓아</b>보세요!
+      </p>
+
+      <div class="match-stage">
+        <div class="match-scenarios" id="match-scenarios">
+          <div class="match-card" draggable="true" data-id="fish" data-principle="temp">
+            <div class="match-card-emoji">🐟</div>
+            <div class="match-card-title">여름철 물고기 떼죽음</div>
+            <div class="match-card-desc">한여름 더위에 물 온도가 올라가자 수면 위로 떠오른 물고기들. 발전소 냉각수가 따뜻한 물을 강에 흘려보내자 물고기들이 죽었다.</div>
+          </div>
+          <div class="match-card" draggable="true" data-id="soda" data-principle="press">
+            <div class="match-card-emoji">🥤</div>
+            <div class="match-card-title">탄산음료 뚜껑 따기</div>
+            <div class="match-card-desc">탄산음료 뚜껑을 열자 보글보글 거품이 솟아오른다. 닫혀 있을 때는 잠잠하던 음료가 갑자기 거품을 내뿜는다.</div>
+          </div>
+          <div class="match-card" draggable="true" data-id="diver" data-principle="press">
+            <div class="match-card-emoji">🤿</div>
+            <div class="match-card-title">잠수병</div>
+            <div class="match-card-desc">깊은 바다에서 빠르게 수면으로 올라온 잠수부의 혈관 속에 기포가 생긴다. 깊은 곳에서 혈액에 녹아 있던 질소가 빠져나오는 것이다.</div>
+          </div>
+          <div class="match-card" draggable="true" data-id="cold-soda" data-principle="temp">
+            <div class="match-card-emoji">🧊</div>
+            <div class="match-card-title">차가운 탄산음료가 더 시원한 이유</div>
+            <div class="match-card-desc">탄산음료는 차갑게 마실수록 톡 쏘는 맛이 강하다. 미지근해진 콜라는 김이 빠진 듯 밍밍하다.</div>
+          </div>
+        </div>
+
+        <div class="match-zones">
+          <div class="match-zone" data-principle="temp" id="zone-temp">
+            <div class="match-zone-h temp">온도 ↓ → 용해도 ↑</div>
+            <div class="match-zone-content" id="zone-temp-content"></div>
+          </div>
+          <div class="match-zone" data-principle="press" id="zone-press">
+            <div class="match-zone-h press">압력 ↑ → 용해도 ↑</div>
+            <div class="match-zone-content" id="zone-press-content"></div>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:14px">
+          <button class="big-btn ghost" onclick="resetMatch()" data-tip="매칭을 처음부터 다시 시작합니다">↺ 다시 매칭하기</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:8px;flex-wrap:wrap">
+      <button class="big-btn ghost" onclick="goSubStep('gas-compare')">← 비교 분석으로</button>
+      <button class="big-btn accent" onclick="goStep('analysis')" data-tip="최종 결론 분석으로 진행">결론 분석 →</button>
+    </div>
+  </div>
+</section>
+
+<div id="match-ghost"></div>
+
 <!-- STAGE: ANALYSIS -->
 <section class="stage" id="stage-analysis">
   <div class="analysis-stage">
 
     <div class="analysis-card">
       <div class="ac-num">1</div>
-      <h3 class="ac-title">두 곡선의 모양 비교</h3>
-      <p class="ac-question">그래프에서 온도가 높아질수록 두 물질의 용해도는 어떻게 변하나요?</p>
+      <h3 class="ac-title">고체 용해도와 온도의 관계</h3>
+      <p class="ac-question">
+        가상 실험에서 비커에 녹아 있던 질산칼륨이 <b>온도를 낮출 때</b> 다시 고체로 석출되는 것을 보았습니다.
+        이를 통해 알 수 있는 사실은?
+      </p>
       <div class="ac-options" data-q="q1">
-        <label class="ac-option"><input type="radio" name="q1" value="a"> 두 물질 모두 용해도가 <b>증가</b>한다.</label>
-        <label class="ac-option"><input type="radio" name="q1" value="b"> 두 물질 모두 용해도가 <b>감소</b>한다.</label>
-        <label class="ac-option"><input type="radio" name="q1" value="c"> 질산칼륨은 증가, 황산구리는 감소한다.</label>
+        <label class="ac-option"><input type="radio" name="q1" value="a"> 고체의 용해도는 온도가 <b>높을수록 커진다</b>.</label>
+        <label class="ac-option"><input type="radio" name="q1" value="b"> 고체의 용해도는 온도가 <b>낮을수록 커진다</b>.</label>
+        <label class="ac-option"><input type="radio" name="q1" value="c"> 고체의 용해도는 온도와 관계없다.</label>
       </div>
       <div class="ac-feedback" id="fb-q1"></div>
     </div>
 
-    <div class="analysis-card">
+    <div class="analysis-card analysis-card-graph">
       <div class="ac-num">2</div>
-      <h3 class="ac-title">곡선 기울기의 차이</h3>
-      <p class="ac-question">온도가 같은 양만큼 올라갈 때, 어느 물질의 용해도가 더 크게 변하나요?</p>
-      <div class="ac-options" data-q="q2">
-        <label class="ac-option"><input type="radio" name="q2" value="a"> <b>질산칼륨</b> — 곡선의 기울기가 더 가파르다.</label>
-        <label class="ac-option"><input type="radio" name="q2" value="b"> <b>황산구리</b> — 곡선의 기울기가 더 가파르다.</label>
-        <label class="ac-option"><input type="radio" name="q2" value="c"> 두 물질의 변화량은 같다.</label>
+      <h3 class="ac-title">용해도는 물질의 특성</h3>
+      <p class="ac-question">
+        같은 (나) 조건(물 100g + 용질 100g)에서 질산칼륨은 약 <b>56℃</b>, 황산구리는 <b>100℃를 넘어 측정 불가</b>였습니다.
+        이런 차이가 나타나는 이유는?
+      </p>
+      <div class="analysis-twocol">
+        <div>
+          <div class="ac-options" data-q="q2">
+            <label class="ac-option"><input type="radio" name="q2" value="a"> 우연히 다르게 측정되었을 뿐이다.</label>
+            <label class="ac-option"><input type="radio" name="q2" value="b"> <b>물질마다 고유한 용해 성질</b>이 다르기 때문이다. → 용해도는 <b>물질의 특성</b>이다.</label>
+            <label class="ac-option"><input type="radio" name="q2" value="c"> 실험 도구가 달라서 다르게 측정된 것이다.</label>
+          </div>
+        </div>
+        <div class="ac-graph-hint">
+          <canvas id="analysisHintCanvas"></canvas>
+          <div class="ac-graph-note">
+            💡 같은 온도라도 물질마다 용해도가 다른 모습이 그래프에 나타나요
+          </div>
+        </div>
       </div>
       <div class="ac-feedback" id="fb-q2"></div>
     </div>
 
     <div class="analysis-card">
       <div class="ac-num">3</div>
-      <h3 class="ac-title">용해도는 물질의 특성일까?</h3>
-      <p class="ac-question">같은 온도(예: 60℃)에서도 두 물질의 용해도가 서로 다른 까닭은 무엇일까요?</p>
+      <h3 class="ac-title">물의 양과 석출 온도</h3>
+      <p class="ac-question">
+        실험에서 (가) 조건(물 100g + 질산칼륨 50g)과 (다) 조건(물 200g + 질산칼륨 100g)은
+        모두 <b>약 32℃</b>에서 석출이 시작되었습니다. 두 조건의 공통점은?
+      </p>
       <div class="ac-options" data-q="q3">
-        <label class="ac-option"><input type="radio" name="q3" value="a"> 우연히 다르게 측정되었을 뿐, 본질적인 차이는 없다.</label>
-        <label class="ac-option"><input type="radio" name="q3" value="b"> 물질마다 고유한 용해 성질이 다르기 때문이다. → <b>용해도는 물질의 특성</b>이다.</label>
-        <label class="ac-option"><input type="radio" name="q3" value="c"> 실험 도구가 달라서 다르게 측정된 것이다.</label>
+        <label class="ac-option"><input type="radio" name="q3" value="a"> 두 조건의 <b>물질의 절대량</b>이 같다.</label>
+        <label class="ac-option"><input type="radio" name="q3" value="b"> 두 조건 모두 <b>물 100g당 녹아있는 용질의 양(=50g)</b>이 같다.</label>
+        <label class="ac-option"><input type="radio" name="q3" value="c"> 그냥 우연이다.</label>
       </div>
       <div class="ac-feedback" id="fb-q3"></div>
     </div>
 
-    <button class="big-btn moss" style="display:block;margin:18px auto" id="btn-check-all" onclick="checkAllAnalysis()" data-tip="3개의 질문에 모두 답한 뒤 결론을 확인합니다">
+    <div class="analysis-card">
+      <div class="ac-num">4</div>
+      <h3 class="ac-title">기체 용해도 — 온도의 영향</h3>
+      <p class="ac-question">
+        탄산음료 시험관 실험에서 <b>뜨거운 물</b>에 담근 시험관(C)에서 기포가 가장 많이 발생했고,
+        <b>얼음물</b>에 담근 시험관에서는 기포가 매우 적었습니다. 이를 통해 알 수 있는 사실은?
+      </p>
+      <div class="ac-options" data-q="q4">
+        <label class="ac-option"><input type="radio" name="q4" value="a"> 기체의 용해도는 온도가 <b>높을수록 커진다</b>.</label>
+        <label class="ac-option"><input type="radio" name="q4" value="b"> 기체의 용해도는 온도가 <b>낮을수록 커진다</b>. → 고체와는 <b>반대</b>!</label>
+        <label class="ac-option"><input type="radio" name="q4" value="c"> 기체의 용해도는 온도와 관계없다.</label>
+      </div>
+      <div class="ac-feedback" id="fb-q4"></div>
+    </div>
+
+    <div class="analysis-card">
+      <div class="ac-num">5</div>
+      <h3 class="ac-title">기체 용해도 — 압력의 영향</h3>
+      <p class="ac-question">
+        같은 뜨거운 물 안에 있는 두 시험관 중 <b>뚜껑이 있는 시험관(D)</b>이
+        <b>뚜껑이 없는 시험관(C)</b>보다 기포가 적게 발생했습니다. 이로부터 알 수 있는 사실은?
+      </p>
+      <div class="ac-options" data-q="q5">
+        <label class="ac-option"><input type="radio" name="q5" value="a"> 기체의 용해도는 압력이 <b>낮을수록 커진다</b>.</label>
+        <label class="ac-option"><input type="radio" name="q5" value="b"> 기체의 용해도는 압력이 <b>높을수록 커진다</b>.</label>
+        <label class="ac-option"><input type="radio" name="q5" value="c"> 기체의 용해도는 압력과 관계없다.</label>
+      </div>
+      <div class="ac-feedback" id="fb-q5"></div>
+    </div>
+
+    <button class="big-btn moss" style="display:block;margin:18px auto" id="btn-check-all" onclick="checkAllAnalysis()" data-tip="모든 질문에 답한 뒤 결론을 확인합니다">
       ✅ 결론 확인하기
     </button>
 
@@ -1430,18 +3330,28 @@ input[type=range].lab-range::-moz-range-thumb{
 </main>
 
 <footer class="lab-footer">
-해누리 용해도 가상실험실
+  승재쌤의 가상 실험실
 </footer>
 
 <script>
 /* ============================ DATA ============================ */
 const CURVES = {
   kno3:  [[0,13.3],[10,21],[20,31.6],[30,45.8],[40,63.9],[50,84.5],[60,109],[70,138],[80,169],[90,202],[100,246]],
-  cuso4: [[0,14.0],[10,17.0],[20,20.7],[30,25.0],[40,28.5],[50,33.3],[60,40.0],[70,47.0],[80,55.0],[90,64.0],[100,75.4]]
+  cuso4: [[0,14.0],[10,17.0],[20,20.7],[30,25.0],[40,28.5],[50,33.3],[60,40.0],[70,47.0],[80,55.0],[90,64.0],[100,75.4]],
+  nano3: [[0,73],[10,80],[20,88],[30,96],[40,104],[50,114],[60,124],[70,136],[80,148],[90,162],[100,180]],
+  nacl:  [[0,35.7],[10,35.8],[20,35.9],[30,36.1],[40,36.4],[50,36.7],[60,37.1],[70,37.5],[80,38.0],[90,39.0],[100,39.8]],
+  h3bo3: [[0,2.7],[10,3.6],[20,4.9],[30,6.8],[40,8.7],[50,11.5],[60,14.9],[70,19.0],[80,23.6],[90,30.0],[100,38.0]]
 };
-const SOLUTE_NAME = {kno3:'질산칼륨', cuso4:'황산구리'};
+const SOLUTE_NAME = {kno3:'질산칼륨', cuso4:'황산구리', nano3:'질산나트륨', nacl:'염화나트륨', h3bo3:'붕산'};
 function getCSSVar(name){return getComputedStyle(document.documentElement).getPropertyValue(name).trim()}
-const SOLUTE_COLOR = {kno3:'#1e4d6b', cuso4:'#6b3a5c'};
+const SOLUTE_COLOR = {
+  kno3:  '#1e4d6b',  // 잉크블루
+  cuso4: '#6b3a5c',  // 자두
+  nano3: '#a8421f',  // 적갈색(rust)
+  nacl:  '#4a6b3a',  // 이끼(moss)
+  h3bo3: '#c8861d'   // 머스타드
+};
+const SOLUTE_EMOJI = {kno3:'⚪', cuso4:'🟣', nano3:'🟠', nacl:'🟢', h3bo3:'🟡'};
 
 const CONDS = {
   ga: {water:100, solute:50,  label:'(가)'},
@@ -1472,7 +3382,7 @@ const state = {
   },
   graphPoints:[],
   dpFilter:'all',
-  analysisAnswers:{q1:null,q2:null,q3:null}
+  analysisAnswers:{q1:null,q2:null,q3:null,q4:null,q5:null}
 };
 
 /* ============================ AUDIO ============================ */
@@ -1559,8 +3469,46 @@ function celebrate(){
 }
 
 /* ============================ STEPPER ============================ */
-function goStep(stepName){
-  if(stepName==='graph'){
+// 4개 대분류 → 각자 보유한 서브스텝
+const GROUPS = {
+  exp:      ['intro','notebook','exp','graph'],
+  curve:    ['curve-explore','curve-calc'],
+  gas:      ['gas-observe','gas-compare','gas-match'],
+  analysis: ['analysis']
+};
+const SUB_TO_GROUP = {};
+for(const g in GROUPS){ for(const s of GROUPS[g]) SUB_TO_GROUP[s] = g; }
+const SUB_LABELS = {
+  'intro':'실험 안내', 'notebook':'실험 노트', 'exp':'가상 실험', 'graph':'그래프 그리기',
+  'curve-explore':'곡선 영역 탐험', 'curve-calc':'석출량 계산',
+  'gas-observe':'4시험관 관찰', 'gas-compare':'비교 분석', 'gas-match':'실생활 매칭',
+  'analysis':'종합 결론'
+};
+
+function goStep(target){
+  // target은 대분류 그룹 키 OR 서브스텝 키 모두 받음
+  let group, sub;
+  if(GROUPS[target]){
+    group = target;
+    sub = GROUPS[group][0]; // 첫 서브탭으로
+  }else if(SUB_TO_GROUP[target]){
+    group = SUB_TO_GROUP[target];
+    sub = target;
+  }else{
+    return;
+  }
+  goSubStepInternal(group, sub);
+}
+
+function goSubStep(sub){
+  const group = SUB_TO_GROUP[sub];
+  if(!group) return;
+  goSubStepInternal(group, sub);
+}
+
+function goSubStepInternal(group, sub){
+  // 진입 조건 체크
+  if(sub==='graph'){
     const total = countRecorded();
     if(total<5){
       modal({
@@ -1571,33 +3519,46 @@ function goStep(stepName){
       return;
     }
   }
-  if(stepName==='analysis'){
-    if(state.graphPoints.length<22){
-      modal({
-        icon:'📈',
-        title:'그래프를 더 그려보세요',
-        body:`아직 모든 점을 찍지 않았어요.<br><b>${state.graphPoints.length} / 22</b> 점을 찍어야 곡선이 완성됩니다.`,
-      });
-      return;
-    }
+  if(group==='analysis' || sub==='analysis'){
+    // 결론 분석은 잠금 없이 자유롭게 진입 가능
   }
 
-  state.step = stepName;
-  document.querySelectorAll('.stage').forEach(s=>s.classList.remove('on'));
-  document.getElementById('stage-'+stepName).classList.add('on');
+  state.step = sub;
+  state.group = group;
 
-  const steps = ['intro','notebook','exp','graph','analysis'];
-  const idx = steps.indexOf(stepName);
+  // 모든 stage 숨기고, target 활성화
+  document.querySelectorAll('.stage').forEach(s=>s.classList.remove('on'));
+  const stageEl = document.getElementById('stage-'+sub);
+  if(stageEl) stageEl.classList.add('on');
+
+  // 대분류 스텝퍼 표시 업데이트
+  const groupOrder = ['exp','curve','gas','analysis'];
+  const groupIdx = groupOrder.indexOf(group);
   document.querySelectorAll('.step').forEach(el=>{
-    const s = el.dataset.step;
-    const si = steps.indexOf(s);
+    const g = el.dataset.group;
+    const gi = groupOrder.indexOf(g);
     el.classList.remove('active','done');
-    if(si<idx) el.classList.add('done');
-    else if(si===idx) el.classList.add('active');
+    if(gi<groupIdx) el.classList.add('done');
+    else if(gi===groupIdx) el.classList.add('active');
   });
+
+  // 서브스텝 바: 해당 그룹만 표시
+  document.querySelectorAll('.substep').forEach(s=>{s.style.display='none';});
+  const subBar = document.getElementById('substep-'+group);
+  if(subBar){
+    subBar.style.display='flex';
+    subBar.querySelectorAll('.substep-item').forEach(it=>{
+      it.classList.toggle('active', it.dataset.sub===sub);
+    });
+  }
+
   snd.click();
 
-  if(stepName==='graph'){initGraphStage();}
+  // 스테이지별 init
+  if(sub==='graph'){initGraphStage();}
+  if(sub==='curve-explore'){initCurveExplore();}
+  if(sub==='curve-calc'){initCurveCalc();}
+  if(sub==='gas-observe' || sub==='gas-compare' || sub==='gas-match'){initGasStage();}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -2421,19 +4382,27 @@ function clearGraph(){
 }
 
 /* ============================ ANALYSIS ============================ */
-const CORRECT_ANS = {q1:'a', q2:'a', q3:'b'};
+const CORRECT_ANS = {q1:'a', q2:'b', q3:'b', q4:'b', q5:'b'};
 const FEEDBACK = {
   q1: {
-    correct:'✓ 맞아요! 그래프에서 두 곡선 모두 오른쪽 위로 올라가는 모양이죠. 온도가 높을수록 용해도가 커집니다.',
-    wrong:'✗ 그래프를 다시 살펴보세요. 두 곡선 모두 오른쪽(온도↑)으로 갈수록 어떻게 변하나요?'
+    correct:'✓ 정답! 비커 실험에서 온도를 내릴 때 석출이 시작된 것은, 그 온도에선 더 이상 다 못 녹기 때문이에요. → 온도가 높을수록 더 많이 녹는다.',
+    wrong:'✗ 실험을 다시 떠올려보세요. 온도를 낮췄을 때 고체가 다시 생긴 건, 낮은 온도에서는 그만큼 못 녹는다는 뜻이에요.'
   },
   q2: {
-    correct:'✓ 정답! 질산칼륨 곡선이 훨씬 가파르게 올라갑니다. 같은 온도 변화에도 질산칼륨이 훨씬 많이 녹는 거죠.',
-    wrong:'✗ 두 곡선의 기울기(가파른 정도)를 비교해 보세요. 0℃→100℃일 때 어느 곡선이 더 많이 올라갔나요?'
+    correct:'✓ 그렇습니다! 같은 (나) 조건이어도 물질에 따라 석출 온도가 완전히 달랐죠. 이는 우연이 아니라 물질이 본래 가진 성질로, 끓는점·녹는점처럼 용해도도 물질의 특성입니다.',
+    wrong:'✗ 같은 물 100g, 같은 100g의 용질인데도 물질이 다르면 석출 온도가 다르게 나옵니다. 우연이 아닌 어떤 성질 때문일까요?'
   },
   q3: {
-    correct:"✓ 그렇습니다! 같은 온도, 같은 양의 물이어도 용해도는 다릅니다. 이는 물질마다 갖는 고유한 성질이고, 그래서 용해도는 '물질의 특성'이에요.",
-    wrong:'✗ 같은 60℃에서 질산칼륨과 황산구리의 용해도가 명확히 다르죠. 이 차이는 우연일까요, 물질이 본래 가진 성질일까요?'
+    correct:'✓ 정확해요! (가)는 50g/100g, (다)는 100g/200g = 둘 다 100g 물에 50g 비율. 용해도는 "물 100g당 녹는 g"이라 동일한 농도면 석출 온도도 같습니다.',
+    wrong:'✗ (가)는 물 100g에 50g, (다)는 물 200g에 100g이에요. 물 100g당 녹은 용질의 양을 따져보면 어떨까요?'
+  },
+  q4: {
+    correct:'✓ 정답! 뜨거운 물에서 기포가 폭발적으로 나온 건, 그 온도에서 기체가 녹지 못해 빠져나온 것이에요. 기체는 차가울수록 잘 녹습니다 (고체와 반대!).',
+    wrong:'✗ 뜨거운 물 시험관에서 기포가 폭발적으로 나왔죠? 기포 = 못 녹은 기체가 빠져나오는 것. 그러면 기체는 어떤 온도에서 더 잘 녹을까요?'
+  },
+  q5: {
+    correct:'✓ 그렇습니다! 뚜껑이 있어 압력이 갇힌 시험관에서 기포가 적게 나왔어요. 압력이 높으면 기체가 액체 속에 머물러 있어 → 압력이 높을수록 용해도가 큽니다.',
+    wrong:'✗ 뚜껑을 닫은 시험관(고압)에서 기포가 더 적게 나왔어요. 기포가 적다 = 기체가 잘 녹아있다는 뜻이죠. 그럼 압력과 용해도의 관계는?'
   }
 };
 
@@ -2450,13 +4419,14 @@ document.querySelectorAll('.ac-options').forEach(group=>{
 });
 
 function checkAllAnalysis(){
-  const {q1,q2,q3} = state.analysisAnswers;
-  if(!q1||!q2||!q3){
-    toast('모든 질문에 답해 주세요');
+  const allKeys = ['q1','q2','q3','q4','q5'];
+  const unanswered = allKeys.filter(q=>!state.analysisAnswers[q]);
+  if(unanswered.length>0){
+    toast(`아직 ${unanswered.length}개 질문에 답하지 않았어요`);
     return;
   }
   let allCorrect=true;
-  for(const q of ['q1','q2','q3']){
+  for(const q of allKeys){
     const fb = document.getElementById('fb-'+q);
     const ans = state.analysisAnswers[q];
     if(ans===CORRECT_ANS[q]){
@@ -2480,6 +4450,1901 @@ function checkAllAnalysis(){
   }
 }
 
+/* 결론 분석 - 2번 문제 옆 미니 그래프 (KNO3 vs CuSO4 같은 온도 비교 강조) */
+function drawAnalysisHintGraph(){
+  const cv = document.getElementById('analysisHintCanvas');
+  if(!cv) return;
+  const wrap = cv.parentElement;
+  const rect = wrap.getBoundingClientRect();
+  const dpr = window.devicePixelRatio||1;
+  const cssW = Math.max(160, rect.width - 16);
+  const cssH = cssW / 1.3;
+  cv.width = Math.floor(cssW*dpr);
+  cv.height = Math.floor(cssH*dpr);
+  cv.style.width = cssW+'px';
+  cv.style.height = cssH+'px';
+  const cx = cv.getContext('2d');
+  cx.setTransform(dpr,0,0,dpr,0,0);
+  cx.clearRect(0,0,cssW,cssH);
+
+  const PL=32, PR=8, PT=8, PB=22;
+  const maxT=100, maxS=180;
+  const innerW = cssW-PL-PR, innerH = cssH-PT-PB;
+  const pos = (t,s)=>({x: PL + (t/maxT)*innerW, y: (cssH-PB) - (s/maxS)*innerH});
+
+  // axes
+  cx.strokeStyle = '#2b2117';
+  cx.lineWidth = 1.5;
+  cx.beginPath();
+  cx.moveTo(PL, PT); cx.lineTo(PL, cssH-PB); cx.lineTo(cssW-PR, cssH-PB);
+  cx.stroke();
+  cx.fillStyle = '#2b2117';
+  cx.font = '9px "Gowun Batang",serif';
+  cx.textAlign = 'center';
+  for(let t=0;t<=100;t+=20){
+    const p = pos(t,0);
+    cx.fillText(t, p.x, cssH-PB+11);
+  }
+  cx.textAlign = 'right';
+  for(let s=0;s<=maxS;s+=40){
+    const p = pos(0,s);
+    cx.fillText(s, PL-3, p.y+3);
+  }
+  cx.textAlign='center';
+  cx.font='bold 9px "Gaegu",cursive';
+  cx.fillText('온도(℃)', cssW/2, cssH-3);
+
+  // KNO3 + CuSO4 곡선
+  for(const type of ['kno3','cuso4']){
+    const d = CURVES[type];
+    cx.strokeStyle = SOLUTE_COLOR[type];
+    cx.lineWidth = 2.5;
+    cx.beginPath();
+    d.forEach((p,i)=>{
+      const xy = pos(p[0], p[1]);
+      if(i===0) cx.moveTo(xy.x, xy.y);
+      else cx.lineTo(xy.x, xy.y);
+    });
+    cx.stroke();
+    // 라벨
+    const last = d[d.length-1];
+    const lxy = pos(last[0], last[1]);
+    cx.fillStyle = SOLUTE_COLOR[type];
+    cx.font = 'bold 9px "Gaegu",cursive';
+    cx.textAlign = 'right';
+    cx.fillText(SOLUTE_NAME[type], lxy.x-3, lxy.y-3);
+  }
+
+  // 60℃ 수직선 강조 (같은 온도에서 비교)
+  const xL = pos(60, 0);
+  cx.strokeStyle = 'rgba(168,66,31,.5)';
+  cx.setLineDash([4,3]);
+  cx.lineWidth = 1.5;
+  cx.beginPath();
+  cx.moveTo(xL.x, PT); cx.lineTo(xL.x, cssH-PB);
+  cx.stroke();
+  cx.setLineDash([]);
+
+  // 두 점 강조
+  const kPt = pos(60, 109);
+  const cPt = pos(60, 40);
+  cx.beginPath();
+  cx.arc(kPt.x, kPt.y, 4, 0, Math.PI*2);
+  cx.fillStyle = SOLUTE_COLOR.kno3;
+  cx.fill();
+  cx.strokeStyle = '#f5ecd9';
+  cx.lineWidth = 1.5;
+  cx.stroke();
+  cx.beginPath();
+  cx.arc(cPt.x, cPt.y, 4, 0, Math.PI*2);
+  cx.fillStyle = SOLUTE_COLOR.cuso4;
+  cx.fill();
+  cx.stroke();
+
+  // 60℃ 라벨
+  cx.fillStyle = '#a8421f';
+  cx.font = 'bold 10px "Gaegu",cursive';
+  cx.textAlign='center';
+  cx.fillText('60℃', xL.x, PT+10);
+}
+
+// 결론 분석 페이지 진입 시 미니 그래프 그리기
+const origGoSubStepInternal_analysis = window.__origGoSubStepInternal_analysis;
+(function(){
+  // 페이지가 표시되면 그래프 그리기
+  const observer = new MutationObserver(()=>{
+    const card = document.getElementById('stage-analysis');
+    if(card && card.classList.contains('on')){
+      setTimeout(drawAnalysisHintGraph, 100);
+    }
+  });
+  // DOMContentLoaded 후 옵저버 시작
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const card = document.getElementById('stage-analysis');
+      if(card) observer.observe(card, {attributes:true, attributeFilter:['class']});
+    });
+  }else{
+    const card = document.getElementById('stage-analysis');
+    if(card) observer.observe(card, {attributes:true, attributeFilter:['class']});
+  }
+  window.addEventListener('resize', ()=>{
+    const card = document.getElementById('stage-analysis');
+    if(card && card.classList.contains('on')) drawAnalysisHintGraph();
+  });
+})();
+
+/* ============================ ERASER MASK ============================ */
+// 이벤트 위임으로 .eraser-mask, .eraser-mask-block 클릭 시 공개
+document.addEventListener('click', e=>{
+  const target = e.target.closest('.eraser-mask, .eraser-mask-block');
+  if(!target) return;
+  if(target.classList.contains('revealed')) return;
+  target.classList.add('revealed');
+  snd.click();
+});
+
+// 특정 영역(id) 안의 모든 마스크 일괄 공개
+function revealAllMasks(containerId){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  const masks = container.querySelectorAll('.eraser-mask:not(.revealed), .eraser-mask-block:not(.revealed)');
+  masks.forEach((m, i)=>{
+    // 약간 시차를 두고 공개 (시각적 효과)
+    setTimeout(()=>{
+      m.classList.add('revealed');
+    }, i*60);
+  });
+  if(masks.length>0) snd.record();
+}
+function hideAllMasks(containerId){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  const masks = container.querySelectorAll('.eraser-mask.revealed, .eraser-mask-block.revealed');
+  masks.forEach(m=>m.classList.remove('revealed'));
+  if(masks.length>0) snd.click();
+}
+
+/* ============================ CURVE ANALYSIS ============================ */
+// 곡선의 임의 온도에서 용해도 보간
+function solubilityAt(type, t){
+  const d = CURVES[type];
+  if(t<=d[0][0]) return d[0][1];
+  if(t>=d[d.length-1][0]) return d[d.length-1][1];
+  for(let i=0;i<d.length-1;i++){
+    if(t>=d[i][0] && t<=d[i+1][0]){
+      const r = (t-d[i][0])/(d[i+1][0]-d[i][0]);
+      return d[i][1]+r*(d[i+1][1]-d[i][1]);
+    }
+  }
+  return d[d.length-1][1];
+}
+
+const ecv = document.getElementById('exploreCanvas');
+const ectx = ecv.getContext('2d');
+const EP = {PL:50, PR:24, PT:24, PB:42, maxT:100, maxS:200};
+let _exploreClick = null;
+
+function initCurveExplore(){
+  setTimeout(()=>{
+    resizeExploreCanvas();
+    updateGuideUI();
+    drawExploreGraph();
+    startPulseLoop();
+  }, 50);
+}
+
+function initCurveCalc(){
+  // 첫 문제 로드
+  setCalcQ(0);
+  setTimeout(()=>{
+    resizeCalcGraph();
+    drawCalcGraph();
+    startCalcPulseLoop();
+  }, 80);
+}
+function resizeExploreCanvas(){
+  if(state.step!=='curve-explore') return;
+  const wrap = ecv.parentElement;
+  const rect = wrap.getBoundingClientRect();
+  const dpr = window.devicePixelRatio||1;
+  ecv.width = Math.floor(rect.width*dpr);
+  ecv.height = Math.floor(rect.height*dpr);
+  ecv.style.width = rect.width+'px';
+  ecv.style.height = rect.height+'px';
+  ectx.setTransform(dpr,0,0,dpr,0,0);
+  drawExploreGraph();
+}
+window.addEventListener('resize',()=>{if(state.step==='curve-explore'){resizeExploreCanvas();}});
+
+function epos(t,s){
+  const rect = ecv.getBoundingClientRect();
+  const W=rect.width, H=rect.height;
+  const innerW = W-EP.PL-EP.PR, innerH=H-EP.PT-EP.PB;
+  return {
+    x: EP.PL + (t/EP.maxT)*innerW,
+    y: (H-EP.PB) - (s/EP.maxS)*innerH
+  };
+}
+function eFromCanvas(x,y){
+  const rect = ecv.getBoundingClientRect();
+  const W=rect.width, H=rect.height;
+  const innerW = W-EP.PL-EP.PR, innerH=H-EP.PT-EP.PB;
+  const t = (x-EP.PL)/innerW*EP.maxT;
+  const s = ((H-EP.PB)-y)/innerH*EP.maxS;
+  return {t,s};
+}
+
+// 곡선 표시/숨김 상태 + 영역 색칠 기준
+const curveVis = {kno3:true, cuso4:true, nano3:true, nacl:true, h3bo3:true};
+let regionBase = 'kno3'; // 영역 색칠 기준 물질
+
+// === 가이드 점 시스템 ===
+// 각 물질에 대해 4개 가이드 점:
+//   A: 곡선 위 점 (낮은 온도 포화) — 예: 20℃의 용해도
+//   B: 곡선 위 점 (높은 온도 포화) — 예: 60℃의 용해도
+//   C: A의 수직선 위(과포화) — A와 같은 온도, 더 많은 g  ≒ B와 같은 g, 같은 온도 = A
+//      → 정확히는 A 좌표의 위(과포화) = 같은 온도에서 더 많이 녹임
+//   D: B의 수직선 아래(불포화) — B와 같은 온도, 더 적은 g
+
+// 영재쌤 요청 해석:
+//   A, B = 포화 두 점
+//   C = A의 수직선 "위쪽" (A와 같은 온도, A보다 위 → 과포화)
+//   D = B의 수직선 "아래쪽" (B와 같은 온도, B보다 아래 → 불포화)
+
+function getGuidePoints(type){
+  const curve = CURVES[type];
+  // A: 20℃ 곡선 위 (낮은 온도 포화)
+  const A_t = 20;
+  const A_s = Math.round(solubilityAt(type, A_t) * 10) / 10;
+  // B: 60℃ 곡선 위 (높은 온도 포화)
+  const B_t = 60;
+  const B_s = Math.round(solubilityAt(type, B_t) * 10) / 10;
+  // C: A의 수직선 위쪽 (A_t와 같은 온도) + B와 같은 높이 (B_s g) → 과포화
+  //    즉 (20℃, B의 용해도값)
+  const C_t = A_t;
+  const C_s = B_s;
+  // D: B의 수직선 아래쪽 (B_t와 같은 온도) + A와 같은 높이 (A_s g) → 불포화
+  //    즉 (60℃, A의 용해도값)
+  const D_t = B_t;
+  const D_s = A_s;
+
+  return {
+    A: {t:A_t, s:A_s, label:'A', region:'sat', desc:'포화 (저온)'},
+    B: {t:B_t, s:B_s, label:'B', region:'sat', desc:'포화 (고온)'},
+    C: {t:C_t, s:C_s, label:'C', region:'over', desc:'과포화'},
+    D: {t:D_t, s:D_s, label:'D', region:'unsat', desc:'불포화'}
+  };
+}
+
+// 가이드 상태
+const guideState = {
+  clicked: {A:false, B:false, C:false, D:false},
+  completed: false
+};
+
+function getCurrentGuidePoints(){
+  return getGuidePoints(regionBase);
+}
+
+function toggleCurveVis(type){
+  curveVis[type] = !curveVis[type];
+  document.querySelectorAll('.ct-btn').forEach(b=>{
+    if(b.dataset.curve===type) b.classList.toggle('on', curveVis[type]);
+  });
+  drawExploreGraph();
+  if(_exploreClick) showExploreResult();
+  snd.click();
+}
+function changeRegionBase(v){
+  regionBase = v;
+  // 새 물질로 바꿀 때 가이드 진행도 리셋
+  guideState.clicked = {A:false, B:false, C:false, D:false};
+  guideState.completed = false;
+  _coolingAnim = null;
+  document.getElementById('precip-demo-card').style.display='none';
+  document.getElementById('precip-result-card').style.display='none';
+  // 해당 곡선은 자동으로 켜기
+  if(!curveVis[v]){
+    curveVis[v] = true;
+    document.querySelectorAll('.ct-btn').forEach(b=>{
+      if(b.dataset.curve===v) b.classList.toggle('on', true);
+    });
+  }
+  drawExploreGraph();
+  updateGuideUI();
+  snd.click();
+}
+
+function updateGuideUI(){
+  const allDone = Object.values(guideState.clicked).every(x=>x);
+  // 진행 점들
+  document.querySelectorAll('.gp-dot').forEach(d=>{
+    const tgt = d.dataset.target;
+    d.classList.remove('active','done');
+    if(guideState.clicked[tgt]){
+      d.classList.add('done');
+    }else if(!allDone){
+      // 첫 번째 미완료를 active로
+      const order = ['A','B','C','D'];
+      const nextTarget = order.find(o=>!guideState.clicked[o]);
+      if(nextTarget === tgt) d.classList.add('active');
+    }
+  });
+  // 안내 텍스트
+  const textEl = document.getElementById('guide-step-text');
+  if(allDone && !guideState.completed){
+    guideState.completed = true;
+    textEl.innerHTML = `🎉 4개 영역 모두 클릭 완료! <b>${SOLUTE_NAME[regionBase]}</b>의 곡선을 완전히 이해했어요. 아래의 핵심 실험으로 넘어가볼까요?`;
+    document.getElementById('precip-demo-card').style.display='block';
+    setTimeout(()=>{
+      document.getElementById('precip-demo-card').scrollIntoView({behavior:'smooth',block:'nearest'});
+      celebrate();
+    }, 300);
+  }else if(allDone){
+    textEl.innerHTML = `✓ <b>${SOLUTE_NAME[regionBase]}</b>의 4개 영역 점을 모두 확인했어요!`;
+  }else{
+    const order = ['A','B','C','D'];
+    const next = order.find(o=>!guideState.clicked[o]);
+    const labels = {A:'<b>A 지점 (저온 포화)</b>', B:'<b>B 지점 (고온 포화)</b>', C:'<b>C 지점 (과포화)</b>', D:'<b>D 지점 (불포화)</b>'};
+    const done = Object.values(guideState.clicked).filter(x=>x).length;
+    textEl.innerHTML = `<span style="color:var(--rust)">[${done}/4]</span> 반짝이는 ${labels[next]}을(를) 클릭해보세요!`;
+  }
+}
+
+// 가이드 점에 클릭 매칭 (반경 안에 들어오면 그 점으로 처리)
+function checkGuideHit(clickT, clickS){
+  const pts = getCurrentGuidePoints();
+  let bestKey = null, bestDist = Infinity;
+  for(const key of ['A','B','C','D']){
+    const gp = pts[key];
+    // 정규화된 거리 (그래프 픽셀 기준)
+    const target = epos(gp.t, gp.s);
+    const click = epos(clickT, clickS);
+    const dist = Math.hypot(target.x-click.x, target.y-click.y);
+    if(dist < bestDist){
+      bestDist = dist;
+      bestKey = key;
+    }
+  }
+  // 30픽셀 이내면 그 가이드 점에 명중한 것으로 간주
+  if(bestDist < 30){
+    return {hit:true, key:bestKey, pt:pts[bestKey]};
+  }
+  return {hit:false};
+}
+
+function startCoolingDemo(){
+  const pts = getCurrentGuidePoints();
+  const A = pts.A, B = pts.B;
+
+  // 2단계 애니메이션:
+  // 1단계 (phase 1): B(60℃, B_s) → (20℃, B_s)  수평 이동 (온도만 낮춤)
+  // 짧은 정지 (학생이 과포화 상태 인지)
+  // 2단계 (phase 2): (20℃, B_s) → A(20℃, A_s)  수직 하강 (석출되어 곡선 위로)
+  _coolingAnim = {
+    active: true,
+    phase: 1,
+    fromT: B.t, toT: A.t,
+    fromS: B.s, toS: A.s,
+    startTime: performance.now(),
+    showVertical: false,  // 수직하강 단계 끝나면 true → 라벨/수직선 영구 표시
+    completed: false
+  };
+  _exploreClick = {t:B.t, s:B.s};
+  showExploreResult();
+  drawExploreGraph();
+  animateCooling();
+}
+
+let _coolingAnim = null;
+function animateCooling(){
+  if(!_coolingAnim || !_coolingAnim.active) return;
+  const now = performance.now();
+  const elapsed = now - _coolingAnim.startTime;
+  const DUR_H = 2200;   // 수평 이동
+  const PAUSE = 700;    // 정지
+  const DUR_V = 1500;   // 수직 하강
+
+  if(elapsed < DUR_H){
+    // 1단계: 수평 이동 (B → A 온도)
+    _coolingAnim.phase = 1;
+    const p = elapsed/DUR_H;
+    const easeP = p<0.5 ? 2*p*p : -1 + (4-2*p)*p;
+    const curT = _coolingAnim.fromT + (_coolingAnim.toT - _coolingAnim.fromT) * easeP;
+    _exploreClick = {t: Math.round(curT*10)/10, s: _coolingAnim.fromS};
+    document.getElementById('explore-coord').innerHTML =
+      `<span style="background:var(--rust);color:#fff;padding:1px 8px;margin-right:6px;font-size:12px">① 냉각 중</span>${_exploreClick.t.toFixed(1)} ℃,  ${_exploreClick.s} g`;
+  }else if(elapsed < DUR_H + PAUSE){
+    // 잠시 정지 - 과포화 상태 강조
+    _coolingAnim.phase = 1.5;
+    _exploreClick = {t: _coolingAnim.toT, s: _coolingAnim.fromS};
+    document.getElementById('explore-coord').innerHTML =
+      `<span style="background:var(--rust);color:#fff;padding:1px 8px;margin-right:6px;font-size:12px">⚠️ 과포화!</span>${_coolingAnim.toT} ℃,  ${_coolingAnim.fromS} g`;
+  }else if(elapsed < DUR_H + PAUSE + DUR_V){
+    // 2단계: 수직 하강 (B_s → A_s g)
+    _coolingAnim.phase = 2;
+    const p = (elapsed - DUR_H - PAUSE)/DUR_V;
+    const easeP = p<0.5 ? 2*p*p : -1 + (4-2*p)*p;
+    const curS = _coolingAnim.fromS + (_coolingAnim.toS - _coolingAnim.fromS) * easeP;
+    _exploreClick = {t: _coolingAnim.toT, s: Math.round(curS*10)/10};
+    const precipSoFar = (_coolingAnim.fromS - curS).toFixed(1);
+    document.getElementById('explore-coord').innerHTML =
+      `<span style="background:var(--accent);color:#fff;padding:1px 8px;margin-right:6px;font-size:12px">② 석출 중</span>${_coolingAnim.toT} ℃,  ${_exploreClick.s} g  <span style="color:var(--rust);font-weight:700">(석출 ${precipSoFar}g)</span>`;
+  }else{
+    // 완료
+    _coolingAnim.phase = 3;
+    _coolingAnim.showVertical = true;
+    _coolingAnim.completed = true;
+    _exploreClick = {t: _coolingAnim.toT, s: _coolingAnim.toS};
+    drawExploreGraph();
+    _coolingAnim.active = false;
+    showCoolingResult();
+    return;
+  }
+  drawExploreGraph();
+  requestAnimationFrame(animateCooling);
+}
+
+function showCoolingResult(){
+  const pts = getCurrentGuidePoints();
+  const A = pts.A, B = pts.B;
+  const precipAmount = (B.s - A.s).toFixed(1);
+  const name = SOLUTE_NAME[regionBase];
+  const emoji = SOLUTE_EMOJI[regionBase];
+
+  document.getElementById('prc-flow').innerHTML = `
+    <div class="prc-step start">
+      <div class="prc-step-label">시작: B 지점</div>
+      <div class="prc-step-temp">${B.t} ℃</div>
+      <div class="prc-step-sol">${name} ${B.s} g 녹음<br>(포화 용액)</div>
+    </div>
+    <div class="prc-arrow">① 냉각 →</div>
+    <div class="prc-step" style="border-left:4px solid #c8861d;background:rgba(168,66,31,.08)">
+      <div class="prc-step-label">중간: 과포화 상태</div>
+      <div class="prc-step-temp">${A.t} ℃</div>
+      <div class="prc-step-sol">${name} ${B.s} g 들어있음<br><b style="color:#a8421f">(다 못 녹아요!)</b></div>
+    </div>
+    <div class="prc-arrow">② 석출 ↓</div>
+    <div class="prc-step end">
+      <div class="prc-step-label">도착: A 지점</div>
+      <div class="prc-step-temp">${A.t} ℃</div>
+      <div class="prc-step-sol">${name} ${A.s} g만 녹음<br>(포화 용액)</div>
+    </div>
+  `;
+  document.getElementById('prc-formula').innerHTML = `
+    석출되는 양 = B − A = ${B.s} − ${A.s} = <span class="precip-val">${precipAmount} g</span>
+  `;
+  document.getElementById('prc-explain').innerHTML = `
+    💡 ${emoji} <b>${name}</b>은(는) ${B.t}℃에서는 물 100g에 <b>${B.s}g</b>까지 녹지만,
+    ${A.t}℃로 식히면 <b>${A.s}g</b>까지밖에 못 녹아요.<br><br>
+    그래서 두 단계가 일어나요:<br>
+    <b style="color:var(--rust)">① 수평 이동(냉각)</b>: 온도가 60℃→20℃로 떨어지면 그래프 위에서 점이 왼쪽으로 이동합니다.
+    이때 점은 곡선보다 <b>위쪽</b>에 있게 되어 <b>과포화 상태</b>가 돼요.<br>
+    <b style="color:var(--accent)">② 수직 하강(석출)</b>: 과포화는 불안정한 상태이므로, 녹지 못한 ${name}이(가) 다시 고체로 가라앉아
+    점이 곡선 위까지 <b>수직으로 떨어집니다</b>. 이 수직 하강한 거리 = <b style="color:var(--rust)">${precipAmount}g</b>이 바로 석출되는 양!<br><br>
+    🔑 핵심: <b>온도가 낮아질 때, 포화 용액에서 (그 온도의 용해도)만큼만 남고 나머지는 석출!</b>
+  `;
+  document.getElementById('precip-result-card').style.display='block';
+  setTimeout(()=>{
+    document.getElementById('precip-result-card').scrollIntoView({behavior:'smooth',block:'nearest'});
+    snd.success();
+  }, 200);
+}
+
+function resetExploreFlow(){
+  guideState.clicked = {A:false, B:false, C:false, D:false};
+  guideState.completed = false;
+  _exploreClick = null;
+  _coolingAnim = null;
+  document.getElementById('precip-demo-card').style.display='none';
+  document.getElementById('precip-result-card').style.display='none';
+  document.getElementById('explore-empty').style.display='block';
+  document.getElementById('explore-result').classList.remove('show');
+  updateGuideUI();
+  drawExploreGraph();
+}
+
+function drawExploreGraph(){
+  const rect = ecv.getBoundingClientRect();
+  const W=rect.width, H=rect.height;
+  ectx.clearRect(0,0,W,H);
+
+  // === 영역 색칠 (선택된 기준 물질 곡선 기준 단순화) ===
+  if(regionBase !== 'none' && CURVES[regionBase]){
+    const pts = CURVES[regionBase];
+    // 곡선 아래 영역 (불포화 - 연한 초록)
+    ectx.fillStyle = 'rgba(74,107,58,.12)';
+    ectx.beginPath();
+    ectx.moveTo(EP.PL, H-EP.PB);
+    for(const [t,s] of pts){
+      const p = epos(t, s);
+      ectx.lineTo(p.x, p.y);
+    }
+    ectx.lineTo(W-EP.PR, H-EP.PB);
+    ectx.closePath();
+    ectx.fill();
+
+    // 곡선 위 영역 (과포화 - 연한 빨강)
+    ectx.fillStyle = 'rgba(168,66,31,.12)';
+    ectx.beginPath();
+    ectx.moveTo(EP.PL, EP.PT);
+    for(const [t,s] of pts){
+      const p = epos(t, s);
+      ectx.lineTo(p.x, p.y);
+    }
+    ectx.lineTo(W-EP.PR, EP.PT);
+    ectx.closePath();
+    ectx.fill();
+  }
+
+  // grid
+  ectx.strokeStyle='rgba(168,66,31,.13)';
+  ectx.lineWidth=1;
+  for(let t=0;t<=100;t+=10){
+    const p=epos(t,0);
+    ectx.beginPath();ectx.moveTo(p.x,EP.PT);ectx.lineTo(p.x,H-EP.PB);ectx.stroke();
+  }
+  for(let s=0;s<=EP.maxS;s+=20){
+    const p=epos(0,s);
+    ectx.beginPath();ectx.moveTo(EP.PL,p.y);ectx.lineTo(W-EP.PR,p.y);ectx.stroke();
+  }
+
+  // axes
+  ectx.strokeStyle='#2b2117';
+  ectx.lineWidth=2;
+  ectx.beginPath();
+  ectx.moveTo(EP.PL,EP.PT);ectx.lineTo(EP.PL,H-EP.PB);ectx.lineTo(W-EP.PR,H-EP.PB);
+  ectx.stroke();
+
+  // axis labels
+  ectx.fillStyle='#2b2117';
+  ectx.font='12px "Gowun Batang",serif';
+  ectx.textAlign='center';
+  for(let t=0;t<=100;t+=10){
+    const p=epos(t,0);
+    ectx.fillText(t, p.x, H-EP.PB+16);
+  }
+  ectx.textAlign='right';
+  for(let s=0;s<=EP.maxS;s+=20){
+    const p=epos(0,s);
+    ectx.fillText(s, EP.PL-6, p.y+4);
+  }
+  ectx.textAlign='center';
+  ectx.font='bold 13px "Gaegu",cursive';
+  ectx.fillText('온도 (℃)', W/2, H-8);
+  ectx.save();
+  ectx.translate(14, H/2);
+  ectx.rotate(-Math.PI/2);
+  ectx.fillText('용해도 (g / 물 100g)', 0, 0);
+  ectx.restore();
+
+  // === 5개 곡선 모두 그리기 ===
+  // 라벨 충돌 방지를 위해 라벨 위치 누적
+  const labelPositions = [];
+  for(const type of ['kno3','cuso4','nano3','nacl','h3bo3']){
+    if(!curveVis[type]) continue;
+    const pts = CURVES[type];
+    // 기준 곡선은 굵게 + 선명, 나머지는 약간 흐림
+    if(regionBase === type){
+      ectx.strokeStyle = SOLUTE_COLOR[type];
+      ectx.lineWidth = 4.5;
+      ectx.globalAlpha = 1;
+    }else{
+      ectx.strokeStyle = SOLUTE_COLOR[type];
+      ectx.lineWidth = 3.2;
+      ectx.globalAlpha = .9;
+    }
+    ectx.beginPath();
+    pts.forEach((p,i)=>{
+      const xy=epos(p[0],p[1]);
+      if(i===0)ectx.moveTo(xy.x,xy.y);else ectx.lineTo(xy.x,xy.y);
+    });
+    ectx.stroke();
+    ectx.globalAlpha = 1;
+
+    // label 위치 자동 회피
+    const last = pts[pts.length-1];
+    let xy = epos(last[0], last[1]);
+    // 다른 라벨과 너무 가까우면 위/아래로 살짝 옮김
+    let yOff = -6;
+    for(const lp of labelPositions){
+      if(Math.abs(xy.y - (lp+yOff)) < 14){ yOff -= 14; }
+    }
+    labelPositions.push(xy.y + yOff);
+    ectx.fillStyle = SOLUTE_COLOR[type];
+    ectx.font='bold 12px "Gaegu",cursive';
+    ectx.textAlign='right';
+    // 라벨 배경 살짝
+    ectx.save();
+    const label = SOLUTE_NAME[type];
+    const tw = ectx.measureText(label).width;
+    ectx.fillStyle = 'rgba(245,236,217,.85)';
+    ectx.fillRect(xy.x-12-tw, xy.y+yOff-10, tw+6, 13);
+    ectx.fillStyle = SOLUTE_COLOR[type];
+    ectx.fillText(label, xy.x-9, xy.y+yOff);
+    ectx.restore();
+  }
+
+  // === 가이드 점 4개 그리기 (반짝이며) ===
+  if(regionBase !== 'none' && CURVES[regionBase]){
+    const pts = getCurrentGuidePoints();
+    const pulsePhase = (Date.now() % 1400) / 1400; // 0~1
+    const pulseScale = 1 + 0.4 * Math.sin(pulsePhase * Math.PI * 2);
+    const pulseAlpha = 0.45 + 0.45 * Math.sin(pulsePhase * Math.PI * 2);
+
+    for(const key of ['A','B','C','D']){
+      const gp = pts[key];
+      const xy = epos(gp.t, gp.s);
+      const isDone = guideState.clicked[key];
+      const labelColor = gp.region==='sat' ? '#c8861d' :
+                          gp.region==='over' ? '#a8421f' : '#4a6b3a';
+
+      if(!isDone){
+        // 외곽 펄스
+        ectx.save();
+        ectx.globalAlpha = pulseAlpha * 0.5;
+        ectx.beginPath();
+        ectx.arc(xy.x, xy.y, 16 * pulseScale, 0, Math.PI*2);
+        ectx.fillStyle = labelColor;
+        ectx.fill();
+        ectx.restore();
+      }
+
+      // 점 본체
+      ectx.beginPath();
+      ectx.arc(xy.x, xy.y, 10, 0, Math.PI*2);
+      ectx.fillStyle = isDone ? '#4a6b3a' : labelColor;
+      ectx.fill();
+      ectx.strokeStyle = '#f5ecd9';
+      ectx.lineWidth = 2.5;
+      ectx.stroke();
+      ectx.strokeStyle = '#2b2117';
+      ectx.lineWidth = 1.2;
+      ectx.stroke();
+
+      // 라벨
+      ectx.fillStyle = '#f5ecd9';
+      ectx.font = 'bold 12px "Gaegu",cursive';
+      ectx.textAlign = 'center';
+      ectx.textBaseline = 'middle';
+      ectx.fillText(isDone ? '✓' : key, xy.x, xy.y+1);
+      ectx.textBaseline = 'alphabetic';
+    }
+
+    // 가이드 사각형 (ABCD를 연결하는 점선) - 항상 표시
+    {
+      const A = pts.A, B = pts.B, C = pts.C, D = pts.D;
+      const Axy = epos(A.t, A.s), Bxy = epos(B.t, B.s);
+      const Cxy = epos(C.t, C.s), Dxy = epos(D.t, D.s);
+      ectx.save();
+      ectx.strokeStyle = 'rgba(168,66,31,.32)';
+      ectx.setLineDash([4,3]);
+      ectx.lineWidth = 1.2;
+      // 사각형 ABCD: A(좌하)-C(좌상)-B(우상)-D(우하)-A
+      //   A=(20,A_s), C=(20,B_s), B=(60,B_s), D=(60,A_s)
+      // A→C (좌측 수직선, 위로)
+      ectx.beginPath();
+      ectx.moveTo(Axy.x, Axy.y);
+      ectx.lineTo(Cxy.x, Cxy.y);
+      ectx.stroke();
+      // C→B (상단 수평선)
+      ectx.beginPath();
+      ectx.moveTo(Cxy.x, Cxy.y);
+      ectx.lineTo(Bxy.x, Bxy.y);
+      ectx.stroke();
+      // B→D (우측 수직선, 아래로)
+      ectx.beginPath();
+      ectx.moveTo(Bxy.x, Bxy.y);
+      ectx.lineTo(Dxy.x, Dxy.y);
+      ectx.stroke();
+      // D→A (하단 수평선)
+      ectx.beginPath();
+      ectx.moveTo(Dxy.x, Dxy.y);
+      ectx.lineTo(Axy.x, Axy.y);
+      ectx.stroke();
+      ectx.setLineDash([]);
+      ectx.restore();
+    }
+
+    // 냉각 애니메이션: 1단계(수평) + 2단계(수직하강) + 완료 후 영구 표시
+    if(_coolingAnim){
+      const fromBxy = epos(_coolingAnim.fromT, _coolingAnim.fromS); // B 위치
+      const horzEndXy = epos(_coolingAnim.toT, _coolingAnim.fromS); // (20℃, B_s) 과포화 지점
+      const finalAxy = epos(_coolingAnim.toT, _coolingAnim.toS);     // A 위치
+
+      // 1단계 수평선 (항상 표시: phase>=1)
+      ectx.save();
+      ectx.strokeStyle = 'rgba(168,66,31,.7)';
+      ectx.lineWidth = 2.8;
+      ectx.beginPath();
+      ectx.moveTo(fromBxy.x, fromBxy.y);
+      // 진행 중이면 현재 위치까지, 완료 후엔 끝까지
+      if(_coolingAnim.phase === 1){
+        const curX = epos(_exploreClick.t, _coolingAnim.fromS).x;
+        ectx.lineTo(curX, fromBxy.y);
+      }else{
+        ectx.lineTo(horzEndXy.x, horzEndXy.y);
+      }
+      ectx.stroke();
+      // 수평선 라벨 (① 냉각)
+      ectx.fillStyle = 'rgba(168,66,31,.9)';
+      ectx.font = 'bold 13px "Gaegu",cursive';
+      ectx.textAlign = 'center';
+      ectx.fillText('① 냉각 (온도 ↓)', (fromBxy.x + horzEndXy.x)/2, fromBxy.y - 9);
+      ectx.restore();
+
+      // 2단계 수직선 (phase 1.5 이상에서 표시)
+      if(_coolingAnim.phase >= 1.5){
+        ectx.save();
+        ectx.strokeStyle = 'rgba(30,77,107,.75)';
+        ectx.lineWidth = 3;
+        ectx.beginPath();
+        ectx.moveTo(horzEndXy.x, horzEndXy.y);
+        if(_coolingAnim.phase === 2){
+          const curY = epos(_coolingAnim.toT, _exploreClick.s).y;
+          ectx.lineTo(horzEndXy.x, curY);
+        }else if(_coolingAnim.phase >= 3 || _coolingAnim.completed){
+          ectx.lineTo(finalAxy.x, finalAxy.y);
+        }
+        ectx.stroke();
+
+        // 수직선 옆 "② 석출되는 양 = ?? g" 라벨 + 강조 박스
+        if(_coolingAnim.phase >= 2 || _coolingAnim.completed){
+          const precipAmount = (_coolingAnim.fromS - _coolingAnim.toS).toFixed(1);
+          const midX = horzEndXy.x;
+          const midY = (horzEndXy.y + finalAxy.y) / 2;
+          // 박스 배경
+          const labelText = `② 석출되는 양 = ${precipAmount} g`;
+          ectx.font = 'bold 13px "Gaegu",cursive';
+          const tw = ectx.measureText(labelText).width;
+          const boxX = midX + 12;
+          const boxY = midY - 13;
+          const boxW = tw + 14;
+          const boxH = 24;
+          // 박스 (rust 배경)
+          ectx.fillStyle = '#a8421f';
+          ectx.fillRect(boxX, boxY, boxW, boxH);
+          ectx.strokeStyle = '#2b2117';
+          ectx.lineWidth = 1.5;
+          ectx.strokeRect(boxX, boxY, boxW, boxH);
+          // 텍스트 (흰색)
+          ectx.fillStyle = '#f5ecd9';
+          ectx.textAlign = 'left';
+          ectx.textBaseline = 'middle';
+          ectx.fillText(labelText, boxX + 7, midY);
+          ectx.textBaseline = 'alphabetic';
+
+          // 화살표 박스→수직선
+          ectx.strokeStyle = '#a8421f';
+          ectx.lineWidth = 1.5;
+          ectx.beginPath();
+          ectx.moveTo(boxX, midY);
+          ectx.lineTo(midX + 4, midY);
+          ectx.stroke();
+          // 화살촉
+          ectx.beginPath();
+          ectx.moveTo(midX + 4, midY);
+          ectx.lineTo(midX + 9, midY - 3);
+          ectx.lineTo(midX + 9, midY + 3);
+          ectx.closePath();
+          ectx.fillStyle = '#a8421f';
+          ectx.fill();
+        }
+        ectx.restore();
+
+        // 작은 결정 입자가 수직선을 따라 떨어지는 효과 (2단계 중에만)
+        if(_coolingAnim.phase === 2){
+          const numParticles = 5;
+          const elapsedRatio = (_coolingAnim.fromS - _exploreClick.s) / (_coolingAnim.fromS - _coolingAnim.toS);
+          for(let i=0;i<numParticles;i++){
+            const phaseOffset = (Date.now()/600 + i*0.4) % 1;
+            const startY = horzEndXy.y;
+            const endY = finalAxy.y;
+            const py = startY + (endY - startY) * phaseOffset * elapsedRatio;
+            if(py < startY || py > endY) continue;
+            ectx.save();
+            ectx.fillStyle = SOLUTE_COLOR[regionBase];
+            ectx.globalAlpha = 0.8 * (1 - phaseOffset);
+            ectx.beginPath();
+            const sz = 2 + (i%3);
+            ectx.arc(horzEndXy.x + (Math.sin(phaseOffset*5)*3), py, sz, 0, Math.PI*2);
+            ectx.fill();
+            ectx.restore();
+          }
+        }
+      }
+
+      // B, A 위치에 강조 점
+      if(_coolingAnim.phase >= 1){
+        // B 시작점
+        ectx.beginPath();
+        ectx.arc(fromBxy.x, fromBxy.y, 6, 0, Math.PI*2);
+        ectx.fillStyle = '#a8421f';
+        ectx.fill();
+        ectx.strokeStyle = '#f5ecd9';
+        ectx.lineWidth = 2;
+        ectx.stroke();
+      }
+      if(_coolingAnim.phase >= 3 || _coolingAnim.completed){
+        // A 최종 도착점
+        ectx.beginPath();
+        ectx.arc(finalAxy.x, finalAxy.y, 6, 0, Math.PI*2);
+        ectx.fillStyle = '#1e4d6b';
+        ectx.fill();
+        ectx.strokeStyle = '#f5ecd9';
+        ectx.lineWidth = 2;
+        ectx.stroke();
+      }
+    }
+  }
+
+  // clicked marker
+  if(_exploreClick){
+    const xy = epos(_exploreClick.t, _exploreClick.s);
+    // crosshair
+    ectx.strokeStyle = 'rgba(168,66,31,.5)';
+    ectx.setLineDash([4,3]);
+    ectx.lineWidth=1.5;
+    ectx.beginPath();
+    ectx.moveTo(xy.x, H-EP.PB);ectx.lineTo(xy.x, xy.y);
+    ectx.moveTo(EP.PL, xy.y);ectx.lineTo(xy.x, xy.y);
+    ectx.stroke();
+    ectx.setLineDash([]);
+    // dot
+    ectx.beginPath();
+    ectx.arc(xy.x, xy.y, 7, 0, Math.PI*2);
+    ectx.fillStyle = '#a8421f';
+    ectx.fill();
+    ectx.strokeStyle = '#f5ecd9';
+    ectx.lineWidth=2;
+    ectx.stroke();
+  }
+}
+
+function determineState(type, t, s){
+  const solAtT = solubilityAt(type, t);
+  const delta = s - solAtT;
+  // 포화 판정: ±3g 이내
+  if(Math.abs(delta) < 3) return {state:'sat', solAtT};
+  if(delta > 0) return {state:'over', solAtT};
+  return {state:'unsat', solAtT};
+}
+
+ecv.addEventListener('click', e=>{
+  const rect = ecv.getBoundingClientRect();
+  const x = e.clientX-rect.left, y = e.clientY-rect.top;
+  const {t, s} = eFromCanvas(x, y);
+  if(t<0 || t>100 || s<0 || s>EP.maxS){return}
+
+  // 가이드 점 매칭 시도
+  if(!guideState.completed){
+    const hit = checkGuideHit(Math.round(t), Math.round(s*10)/10);
+    if(hit.hit && !guideState.clicked[hit.key]){
+      guideState.clicked[hit.key] = true;
+      _exploreClick = {t: hit.pt.t, s: hit.pt.s};
+      drawExploreGraph();
+      showExploreResult(hit);
+      updateGuideUI();
+      snd.record();
+      return;
+    }
+  }
+  // 일반 클릭
+  _exploreClick = {t: Math.round(t), s: Math.round(s*10)/10};
+  drawExploreGraph();
+  showExploreResult();
+  snd.click();
+});
+ecv.addEventListener('touchstart', e=>{
+  if(e.touches.length===0) return;
+  e.preventDefault();
+  const rect = ecv.getBoundingClientRect();
+  const x = e.touches[0].clientX-rect.left, y = e.touches[0].clientY-rect.top;
+  const {t, s} = eFromCanvas(x, y);
+  if(t<0 || t>100 || s<0 || s>EP.maxS){return}
+
+  if(!guideState.completed){
+    const hit = checkGuideHit(Math.round(t), Math.round(s*10)/10);
+    if(hit.hit && !guideState.clicked[hit.key]){
+      guideState.clicked[hit.key] = true;
+      _exploreClick = {t: hit.pt.t, s: hit.pt.s};
+      drawExploreGraph();
+      showExploreResult(hit);
+      updateGuideUI();
+      snd.record();
+      return;
+    }
+  }
+  _exploreClick = {t: Math.round(t), s: Math.round(s*10)/10};
+  drawExploreGraph();
+  showExploreResult();
+  snd.click();
+}, {passive:false});
+
+function showExploreResult(hit){
+  document.getElementById('explore-empty').style.display='none';
+  document.getElementById('explore-result').classList.add('show');
+  let coordPrefix = '';
+  if(hit && hit.hit){
+    const pt = hit.pt;
+    const colorMap = {sat:'var(--mustard)', over:'var(--rust)', unsat:'var(--moss)'};
+    coordPrefix = `<span style="background:${pt.region==='sat'?'var(--mustard)':pt.region==='over'?'var(--rust)':'var(--moss)'};color:#fff;padding:1px 8px;margin-right:6px;font-size:12px">${pt.label} · ${pt.desc}</span>`;
+  }
+  document.getElementById('explore-coord').innerHTML = coordPrefix + `${_exploreClick.t} ℃,  ${_exploreClick.s} g`;
+
+  const listEl = document.getElementById('explore-substance-list');
+  listEl.innerHTML = '';
+
+  const visibleTypes = ['kno3','cuso4','nano3','nacl','h3bo3'].filter(t=>curveVis[t]);
+  const types = visibleTypes.length>0 ? visibleTypes : ['kno3','cuso4','nano3','nacl','h3bo3'];
+
+  for(const type of types){
+    const {state:st, solAtT} = determineState(type, _exploreClick.t, _exploreClick.s);
+    let stateLabel, desc, stateClass;
+    if(st==='sat'){
+      stateLabel='포화'; stateClass='sat';
+      desc='딱 맞게 녹았어요. 더 넣으면 가라앉음.';
+    }else if(st==='over'){
+      stateLabel='과포화'; stateClass='over';
+      desc='녹을 수 있는 양 초과 → 일부 석출.';
+    }else{
+      stateLabel='불포화'; stateClass='unsat';
+      desc='더 녹을 수 있어요.';
+    }
+    // 기준 물질은 굵게 강조
+    const isBase = (type === regionBase);
+    const card = document.createElement('div');
+    card.className = 'explore-substance ' + type;
+    if(isBase) card.style.background = 'rgba(232,184,96,.15)';
+    card.innerHTML = `
+      <div class="es-name">
+        <span>${SOLUTE_EMOJI[type]} ${SOLUTE_NAME[type]}${isBase?' ★':''}</span>
+        <span class="es-state ${stateClass}">${stateLabel}</span>
+      </div>
+      <div class="es-desc">${desc}</div>
+      <div class="es-numbers">${_exploreClick.t}℃ 용해도 = <b>${solAtT.toFixed(1)} g</b>  |  현재 점 = <b>${_exploreClick.s} g</b></div>
+    `;
+    listEl.appendChild(card);
+  }
+}
+
+// 가이드 점 반짝임 애니메이션 (계속 redraw)
+let _pulseAnimId = null;
+function startPulseLoop(){
+  if(_pulseAnimId) return;
+  function tick(){
+    if(state.step !== 'curve-explore'){
+      _pulseAnimId = null;
+      return;
+    }
+    // 모든 가이드 점 완료되면 멈춤 (성능)
+    const allDone = Object.values(guideState.clicked).every(x=>x);
+    if(!allDone){
+      drawExploreGraph();
+    }
+    _pulseAnimId = requestAnimationFrame(tick);
+  }
+  _pulseAnimId = requestAnimationFrame(tick);
+}
+function stopPulseLoop(){
+  if(_pulseAnimId){cancelAnimationFrame(_pulseAnimId); _pulseAnimId = null;}
+}
+
+/* ============================ CALCULATOR QUIZ ============================ */
+// 중학생 수준: "온도를 내렸을 때 얼마나 석출될 지?"
+const CALC_PROBLEMS = [
+  {
+    text:'<b>80℃</b> 물 <b>100g</b>에 <b>질산칼륨(KNO₃)</b>을 최대로 녹였습니다.<br>이 용액을 <b>20℃</b>로 냉각하면 석출되는 질산칼륨은 몇 g일까요?',
+    solute:'kno3', water:100, t1:80, t2:20,
+    hint:'그래프에서 ① 80℃ KNO₃ 용해도와 ② 20℃ KNO₃ 용해도를 각각 읽어보세요. 두 값의 차이가 답입니다!',
+    calc(){
+      const s1 = solubilityAt(this.solute, this.t1);
+      const s2 = solubilityAt(this.solute, this.t2);
+      const diff = s1-s2;
+      return {s1, s2, diff, answer: diff*(this.water/100)};
+    }
+  },
+  {
+    text:'<b>60℃</b> 물 <b>100g</b>에 <b>황산구리(CuSO₄)</b>를 최대로 녹였습니다.<br>이 용액을 <b>20℃</b>로 냉각하면 석출되는 황산구리는 몇 g일까요?',
+    solute:'cuso4', water:100, t1:60, t2:20,
+    hint:'60℃와 20℃에서 황산구리의 용해도를 그래프에서 각각 읽으세요. 두 값의 차이가 답이에요.',
+    calc(){
+      const s1 = solubilityAt(this.solute, this.t1);
+      const s2 = solubilityAt(this.solute, this.t2);
+      const diff = s1-s2;
+      return {s1, s2, diff, answer: diff*(this.water/100)};
+    }
+  },
+  {
+    text:'<b>70℃</b> 물 <b>200g</b>에 <b>질산칼륨(KNO₃)</b>을 최대로 녹였습니다.<br>이 용액을 <b>30℃</b>로 냉각하면 석출되는 질산칼륨은 몇 g일까요?',
+    solute:'kno3', water:200, t1:70, t2:30,
+    hint:'물이 200g이라는 점에 주의! 용해도(g/물100g 기준)에 2배를 해야 해요.',
+    calc(){
+      const s1 = solubilityAt(this.solute, this.t1);
+      const s2 = solubilityAt(this.solute, this.t2);
+      const diff = s1-s2;
+      return {s1, s2, diff, answer: diff*(this.water/100)};
+    }
+  }
+];
+
+const calcState = {q:0, solved:[false,false,false]};
+
+function setCalcQ(idx){
+  calcState.q = idx;
+  document.querySelectorAll('.calc-q-tab').forEach((t,i)=>{
+    t.classList.toggle('on', i===idx);
+    t.classList.toggle('done', calcState.solved[i]);
+  });
+  const p = CALC_PROBLEMS[idx];
+  document.getElementById('calc-q-text').innerHTML = p.text;
+  document.getElementById('calc-input').value = '';
+  document.getElementById('calc-fb').className='calc-fb';
+  document.getElementById('calc-fb').innerHTML='';
+  document.getElementById('calc-empty').style.display='block';
+  document.getElementById('calc-steps').innerHTML='';
+  // 미니 그래프 점 초기화 + 다시 그리기
+  calcGraphState.startPoint = null;
+  calcGraphState.endPoint = null;
+  updateCalcReadings();
+  // resize 후 draw
+  setTimeout(()=>{
+    resizeCalcGraph();
+    drawCalcGraph();
+  }, 50);
+  updateCalcProgress();
+}
+
+function updateCalcProgress(){
+  const n = calcState.solved.filter(x=>x).length;
+  document.getElementById('calc-progress').textContent = `진행도 ${n}/3`;
+}
+
+/* ====== 미니 그래프 (석출량 계산 페이지) ====== */
+const calcGraphState = {
+  startPoint: null, // {t, s}  학생이 클릭한 시작 온도 점
+  endPoint: null    // {t, s}  학생이 클릭한 끝 온도 점
+};
+
+const ccv = document.getElementById('calcGraphCanvas');
+const cctx = ccv ? ccv.getContext('2d') : null;
+const CG = {PL:38, PR:14, PT:14, PB:30, maxT:100, maxS:200};
+
+function cgpos(t, s){
+  const rect = ccv.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+  const innerW = W-CG.PL-CG.PR, innerH = H-CG.PT-CG.PB;
+  return {
+    x: CG.PL + (t/CG.maxT)*innerW,
+    y: (H-CG.PB) - (s/CG.maxS)*innerH
+  };
+}
+function cgFromCanvas(x, y){
+  const rect = ccv.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+  const innerW = W-CG.PL-CG.PR, innerH = H-CG.PT-CG.PB;
+  const t = (x-CG.PL)/innerW*CG.maxT;
+  const s = ((H-CG.PB)-y)/innerH*CG.maxS;
+  return {t, s};
+}
+
+function resizeCalcGraph(){
+  if(state.step!=='curve-calc') return;
+  if(!ccv) return;
+  const wrap = ccv.parentElement;
+  const rect = wrap.getBoundingClientRect();
+  const dpr = window.devicePixelRatio||1;
+  ccv.width = Math.floor(rect.width*dpr);
+  ccv.height = Math.floor(rect.height*dpr);
+  ccv.style.width = rect.width+'px';
+  ccv.style.height = rect.height+'px';
+  cctx.setTransform(dpr,0,0,dpr,0,0);
+  drawCalcGraph();
+}
+window.addEventListener('resize', ()=>{if(state.step==='curve-calc')resizeCalcGraph()});
+
+function drawCalcGraph(){
+  if(!cctx) return;
+  const rect = ccv.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+  cctx.clearRect(0,0,W,H);
+
+  // grid
+  cctx.strokeStyle='rgba(168,66,31,.13)';
+  cctx.lineWidth=1;
+  for(let t=0;t<=100;t+=20){
+    const p = cgpos(t, 0);
+    cctx.beginPath();cctx.moveTo(p.x, CG.PT);cctx.lineTo(p.x, H-CG.PB);cctx.stroke();
+  }
+  for(let s=0;s<=CG.maxS;s+=40){
+    const p = cgpos(0, s);
+    cctx.beginPath();cctx.moveTo(CG.PL, p.y);cctx.lineTo(W-CG.PR, p.y);cctx.stroke();
+  }
+
+  // axes
+  cctx.strokeStyle='#2b2117';cctx.lineWidth=2;
+  cctx.beginPath();
+  cctx.moveTo(CG.PL, CG.PT);cctx.lineTo(CG.PL, H-CG.PB);cctx.lineTo(W-CG.PR, H-CG.PB);
+  cctx.stroke();
+
+  cctx.fillStyle='#2b2117';
+  cctx.font='10px "Gowun Batang",serif';
+  cctx.textAlign='center';
+  for(let t=0;t<=100;t+=20){
+    const p = cgpos(t, 0);
+    cctx.fillText(t, p.x, H-CG.PB+14);
+  }
+  cctx.textAlign='right';
+  for(let s=0;s<=CG.maxS;s+=40){
+    const p = cgpos(0, s);
+    cctx.fillText(s, CG.PL-4, p.y+3);
+  }
+  cctx.textAlign='center';
+  cctx.font='bold 10px "Gaegu",cursive';
+  cctx.fillText('온도(℃)', W/2, H-4);
+  cctx.save();
+  cctx.translate(11, H/2);
+  cctx.rotate(-Math.PI/2);
+  cctx.fillText('용해도(g/물100g)', 0, 0);
+  cctx.restore();
+
+  // 현재 문제 물질 곡선만 강조
+  const p = CALC_PROBLEMS[calcState.q];
+  const targetType = p.solute;
+
+  // 다른 4개 물질 곡선 연하게
+  for(const type of ['kno3','cuso4','nano3','nacl','h3bo3']){
+    if(type === targetType) continue;
+    const curve = CURVES[type];
+    cctx.strokeStyle = SOLUTE_COLOR[type];
+    cctx.lineWidth = 1.5;
+    cctx.globalAlpha = .35;
+    cctx.beginPath();
+    curve.forEach((pt,i)=>{
+      const xy = cgpos(pt[0], pt[1]);
+      if(i===0) cctx.moveTo(xy.x, xy.y);
+      else cctx.lineTo(xy.x, xy.y);
+    });
+    cctx.stroke();
+    cctx.globalAlpha = 1;
+    // 라벨 (작게)
+    const last = curve[curve.length-1];
+    const lastXY = cgpos(last[0], last[1]);
+    cctx.fillStyle = SOLUTE_COLOR[type];
+    cctx.globalAlpha = .55;
+    cctx.font='9px "Gaegu",cursive';
+    cctx.textAlign='right';
+    cctx.fillText(SOLUTE_NAME[type], lastXY.x-4, lastXY.y-3);
+    cctx.globalAlpha = 1;
+  }
+
+  // 대상 물질 곡선 굵게 강조
+  const targetCurve = CURVES[targetType];
+  cctx.strokeStyle = SOLUTE_COLOR[targetType];
+  cctx.lineWidth = 4;
+  cctx.beginPath();
+  targetCurve.forEach((pt,i)=>{
+    const xy = cgpos(pt[0], pt[1]);
+    if(i===0) cctx.moveTo(xy.x, xy.y);
+    else cctx.lineTo(xy.x, xy.y);
+  });
+  cctx.stroke();
+  // 라벨
+  const last = targetCurve[targetCurve.length-1];
+  const lastXY = cgpos(last[0], last[1]);
+  cctx.fillStyle = SOLUTE_COLOR[targetType];
+  cctx.font='bold 11px "Gaegu",cursive';
+  cctx.textAlign='right';
+  cctx.fillText(SOLUTE_NAME[targetType]+' ★', lastXY.x-4, lastXY.y-4);
+
+  // 정답 위치를 흐릿한 힌트로 표시 (정확한 t의 곡선상 점)
+  const correctStart = {t: p.t1, s: solubilityAt(targetType, p.t1)};
+  const correctEnd = {t: p.t2, s: solubilityAt(targetType, p.t2)};
+
+  // 정답 위치 가이드 점 (반짝)
+  const pulsePhase = (Date.now() % 1400) / 1400;
+  const pulseAlpha = 0.35 + 0.35 * Math.sin(pulsePhase * Math.PI * 2);
+
+  if(!calcGraphState.startPoint){
+    const xy = cgpos(correctStart.t, correctStart.s);
+    cctx.save();
+    cctx.globalAlpha = pulseAlpha;
+    cctx.beginPath();
+    cctx.arc(xy.x, xy.y, 12, 0, Math.PI*2);
+    cctx.fillStyle = '#a8421f';
+    cctx.fill();
+    cctx.restore();
+  }
+  if(calcGraphState.startPoint && !calcGraphState.endPoint){
+    const xy = cgpos(correctEnd.t, correctEnd.s);
+    cctx.save();
+    cctx.globalAlpha = pulseAlpha;
+    cctx.beginPath();
+    cctx.arc(xy.x, xy.y, 12, 0, Math.PI*2);
+    cctx.fillStyle = '#1e4d6b';
+    cctx.restore();
+    cctx.fillStyle = '#1e4d6b';
+    cctx.globalAlpha = pulseAlpha;
+    cctx.beginPath();
+    cctx.arc(xy.x, xy.y, 12, 0, Math.PI*2);
+    cctx.fill();
+    cctx.globalAlpha = 1;
+  }
+
+  // 학생이 찍은 점들
+  if(calcGraphState.startPoint){
+    const xy = cgpos(calcGraphState.startPoint.t, calcGraphState.startPoint.s);
+    // 수직선
+    cctx.strokeStyle = 'rgba(168,66,31,.35)';
+    cctx.setLineDash([3,3]);
+    cctx.lineWidth = 1.2;
+    cctx.beginPath();
+    cctx.moveTo(xy.x, H-CG.PB);cctx.lineTo(xy.x, xy.y);
+    cctx.moveTo(CG.PL, xy.y);cctx.lineTo(xy.x, xy.y);
+    cctx.stroke();
+    cctx.setLineDash([]);
+    // 점
+    cctx.beginPath();
+    cctx.arc(xy.x, xy.y, 7, 0, Math.PI*2);
+    cctx.fillStyle = '#a8421f';
+    cctx.fill();
+    cctx.strokeStyle = '#f5ecd9';
+    cctx.lineWidth = 2;
+    cctx.stroke();
+    // 좌표 표시
+    cctx.fillStyle = '#a8421f';
+    cctx.font='bold 10px "JetBrains Mono",monospace';
+    cctx.textAlign='left';
+    cctx.fillText(`${calcGraphState.startPoint.t}℃,${calcGraphState.startPoint.s.toFixed(0)}g`, xy.x+10, xy.y-5);
+  }
+  if(calcGraphState.endPoint){
+    const xy = cgpos(calcGraphState.endPoint.t, calcGraphState.endPoint.s);
+    cctx.strokeStyle = 'rgba(30,77,107,.35)';
+    cctx.setLineDash([3,3]);
+    cctx.lineWidth = 1.2;
+    cctx.beginPath();
+    cctx.moveTo(xy.x, H-CG.PB);cctx.lineTo(xy.x, xy.y);
+    cctx.moveTo(CG.PL, xy.y);cctx.lineTo(xy.x, xy.y);
+    cctx.stroke();
+    cctx.setLineDash([]);
+    cctx.beginPath();
+    cctx.arc(xy.x, xy.y, 7, 0, Math.PI*2);
+    cctx.fillStyle = '#1e4d6b';
+    cctx.fill();
+    cctx.strokeStyle = '#f5ecd9';
+    cctx.lineWidth = 2;
+    cctx.stroke();
+    cctx.fillStyle = '#1e4d6b';
+    cctx.font='bold 10px "JetBrains Mono",monospace';
+    cctx.textAlign='left';
+    cctx.fillText(`${calcGraphState.endPoint.t}℃,${calcGraphState.endPoint.s.toFixed(0)}g`, xy.x+10, xy.y-5);
+  }
+
+  // 두 점 사이 수평/수직 비교선 (석출량 시각화)
+  if(calcGraphState.startPoint && calcGraphState.endPoint){
+    const s1 = cgpos(calcGraphState.startPoint.t, calcGraphState.startPoint.s);
+    const e1 = cgpos(calcGraphState.endPoint.t, calcGraphState.endPoint.s);
+    // 두 점을 잇는 양방향 화살표 (y차이 강조)
+    cctx.save();
+    cctx.strokeStyle = 'rgba(168,66,31,.55)';
+    cctx.lineWidth = 1.5;
+    cctx.setLineDash([5,3]);
+    cctx.beginPath();
+    cctx.moveTo(s1.x, s1.y); cctx.lineTo(s1.x, e1.y); // 시작점에서 아래로
+    cctx.stroke();
+    cctx.setLineDash([]);
+    cctx.restore();
+    // 차이 라벨
+    const diff = calcGraphState.startPoint.s - calcGraphState.endPoint.s;
+    cctx.fillStyle = 'rgba(245,236,217,.92)';
+    cctx.fillRect(s1.x-26, (s1.y+e1.y)/2 - 8, 56, 16);
+    cctx.strokeStyle = 'rgba(168,66,31,.6)';
+    cctx.lineWidth = 1;
+    cctx.strokeRect(s1.x-26, (s1.y+e1.y)/2 - 8, 56, 16);
+    cctx.fillStyle = '#a8421f';
+    cctx.font='bold 11px "Gaegu",cursive';
+    cctx.textAlign='center';
+    cctx.fillText(`차이 ${diff.toFixed(0)}g`, s1.x+2, (s1.y+e1.y)/2 + 4);
+  }
+}
+
+// 학생이 그래프 클릭 시: 곡선상의 가까운 점에 자석처럼 붙임
+function handleCalcGraphClick(clickT, clickS){
+  const p = CALC_PROBLEMS[calcState.q];
+  const targetType = p.solute;
+
+  // 첫 클릭이면 시작 점, 둘째 클릭이면 끝 점
+  const isStart = !calcGraphState.startPoint;
+  const wantT = isStart ? p.t1 : p.t2;
+  const correctS = solubilityAt(targetType, wantT);
+
+  // 클릭 위치가 정답 점에서 30픽셀 안인지 체크 (자석)
+  const target = cgpos(wantT, correctS);
+  const clickXY = cgpos(clickT, clickS);
+  const dist = Math.hypot(target.x-clickXY.x, target.y-clickXY.y);
+
+  if(dist < 35){
+    // 정답 자석 — 정확한 곡선상 점으로 흡착
+    const snapPt = {t: wantT, s: correctS};
+    if(isStart){
+      calcGraphState.startPoint = snapPt;
+      toast(`✓ 시작 온도 ${wantT}℃의 ${SOLUTE_NAME[targetType]} 용해도 = ${correctS.toFixed(1)}g`, true);
+      snd.record();
+    }else{
+      calcGraphState.endPoint = snapPt;
+      toast(`✓ 끝 온도 ${wantT}℃의 ${SOLUTE_NAME[targetType]} 용해도 = ${correctS.toFixed(1)}g`, true);
+      snd.record();
+    }
+    updateCalcReadings();
+    drawCalcGraph();
+  }else{
+    // 그래도 어느 정도 가까우면 곡선상에 스냅, 아니면 무시
+    // 곡선상의 t값에서 용해도 읽어서 점 찍기 (자유로운 학습)
+    const tRounded = Math.round(clickT/5)*5;
+    if(tRounded<0 || tRounded>100) return;
+    const onCurve = {t: tRounded, s: solubilityAt(targetType, tRounded)};
+    if(isStart){
+      calcGraphState.startPoint = onCurve;
+    }else{
+      calcGraphState.endPoint = onCurve;
+    }
+    toast(`📍 ${tRounded}℃의 ${SOLUTE_NAME[targetType]} 용해도 = ${onCurve.s.toFixed(1)}g`);
+    snd.click();
+    updateCalcReadings();
+    drawCalcGraph();
+  }
+}
+
+function updateCalcReadings(){
+  const p = CALC_PROBLEMS[calcState.q];
+  const startEl = document.getElementById('cmg-reading-start');
+  const endEl = document.getElementById('cmg-reading-end');
+  const instructEl = document.getElementById('cmg-instruct');
+
+  if(calcGraphState.startPoint){
+    startEl.classList.add('filled');
+    startEl.querySelector('.cmg-r-val').textContent = `${calcGraphState.startPoint.t}℃ → ${calcGraphState.startPoint.s.toFixed(1)}g`;
+  }else{
+    startEl.classList.remove('filled');
+    startEl.querySelector('.cmg-r-val').textContent = '아직 안 찍음';
+  }
+  if(calcGraphState.endPoint){
+    endEl.classList.add('filled');
+    endEl.querySelector('.cmg-r-val').textContent = `${calcGraphState.endPoint.t}℃ → ${calcGraphState.endPoint.s.toFixed(1)}g`;
+  }else{
+    endEl.classList.remove('filled');
+    endEl.querySelector('.cmg-r-val').textContent = '아직 안 찍음';
+  }
+
+  // 안내 텍스트
+  if(!calcGraphState.startPoint){
+    instructEl.innerHTML = `🔴 <b>시작 온도 ${p.t1}℃</b>의 곡선 위 점을 클릭해 찍어보세요!`;
+  }else if(!calcGraphState.endPoint){
+    instructEl.innerHTML = `🔵 <b>끝 온도 ${p.t2}℃</b>의 곡선 위 점을 찍어보세요!`;
+  }else{
+    const diff = calcGraphState.startPoint.s - calcGraphState.endPoint.s;
+    const ans = diff * (p.water/100);
+    instructEl.innerHTML = `🎯 두 점의 용해도 차이 = <b>${diff.toFixed(1)}g</b> (물 100g 기준). 물 ${p.water}g 기준 석출량을 계산해 답을 입력하세요!`;
+  }
+}
+
+function resetCalcPoints(){
+  calcGraphState.startPoint = null;
+  calcGraphState.endPoint = null;
+  updateCalcReadings();
+  drawCalcGraph();
+  snd.click();
+}
+
+// 클릭/터치 핸들러
+if(ccv){
+  ccv.addEventListener('click', e=>{
+    const rect = ccv.getBoundingClientRect();
+    const x = e.clientX-rect.left, y = e.clientY-rect.top;
+    const {t, s} = cgFromCanvas(x, y);
+    if(t<0 || t>100 || s<0 || s>CG.maxS) return;
+    handleCalcGraphClick(t, s);
+  });
+  ccv.addEventListener('touchstart', e=>{
+    if(e.touches.length===0) return;
+    e.preventDefault();
+    const rect = ccv.getBoundingClientRect();
+    const x = e.touches[0].clientX-rect.left, y = e.touches[0].clientY-rect.top;
+    const {t, s} = cgFromCanvas(x, y);
+    if(t<0 || t>100 || s<0 || s>CG.maxS) return;
+    handleCalcGraphClick(t, s);
+  }, {passive:false});
+}
+
+// 미니 그래프 펄스 루프
+let _calcPulseId = null;
+function startCalcPulseLoop(){
+  if(_calcPulseId) return;
+  function tick(){
+    if(state.step !== 'curve-calc'){
+      _calcPulseId = null;
+      return;
+    }
+    // 두 점 모두 찍히면 펄스 중단
+    if(!calcGraphState.startPoint || !calcGraphState.endPoint){
+      drawCalcGraph();
+    }
+    _calcPulseId = requestAnimationFrame(tick);
+  }
+  _calcPulseId = requestAnimationFrame(tick);
+}
+
+function submitCalc(){
+  const p = CALC_PROBLEMS[calcState.q];
+  const r = p.calc();
+  const userVal = parseFloat(document.getElementById('calc-input').value);
+  const fb = document.getElementById('calc-fb');
+  if(isNaN(userVal)){
+    fb.className='calc-fb show wrong';
+    fb.textContent='✗ 숫자를 입력해 주세요';
+    snd.error();
+    return;
+  }
+  // 허용 오차 ±2g
+  if(Math.abs(userVal - r.answer) < 2){
+    fb.className='calc-fb show correct';
+    fb.innerHTML = `✓ 정답! ${r.answer.toFixed(1)} g 입니다. 잘했어요!`;
+    snd.success();
+    calcState.solved[calcState.q] = true;
+    document.querySelector(`.calc-q-tab[data-q="${calcState.q}"]`).classList.add('done');
+    updateCalcProgress();
+    // 자동 풀이 표시
+    setTimeout(showCalcSolution, 600);
+    if(calcState.solved.every(x=>x)){
+      setTimeout(()=>{
+        modal({
+          icon:'🎉',
+          title:'석출량 계산 완료!',
+          body:'3문제 모두 정답이에요. 그래프에서 정확한 값을 읽고 계산하는 방법, 이제 확실히 익혔어요!<br><br>이제 마지막으로 <b>기체의 용해도</b>를 알아보러 가볼까요?',
+          actions:[
+            {label:'💨 기체 용해도', style:'accent', onClick:()=>{closeModal();goStep('gas');}},
+            {label:'계속 풀기', onClick:closeModal}
+          ]
+        });
+      }, 1500);
+    }
+  }else{
+    fb.className='calc-fb show wrong';
+    if(Math.abs(userVal - r.answer*2) < 2 || Math.abs(userVal - r.answer/2) < 2){
+      fb.innerHTML = `✗ 물의 양을 다시 확인해보세요! 용해도는 <b>물 100g</b> 기준이에요. 이 문제는 물이 <b>${p.water}g</b>입니다.`;
+    }else if(Math.abs(userVal - r.s1*p.water/100) < 5 || Math.abs(userVal - r.s2*p.water/100) < 5){
+      fb.innerHTML = `✗ 비슷한데... 석출량 = (시작 온도 용해도) - (끝 온도 용해도) 입니다. 차이를 구해보세요!`;
+    }else{
+      fb.innerHTML = `✗ 다시 한 번 그래프에서 값을 읽고 차이를 계산해 보세요. [힌트]를 눌러보면 도움이 될 거예요!`;
+    }
+    snd.error();
+  }
+}
+
+function showCalcHint(){
+  const p = CALC_PROBLEMS[calcState.q];
+  modal({
+    icon:'💡',
+    title:'힌트',
+    body: p.hint
+  });
+}
+
+function showCalcSolution(){
+  const p = CALC_PROBLEMS[calcState.q];
+  const r = p.calc();
+  document.getElementById('calc-empty').style.display='none';
+  const steps = document.getElementById('calc-steps');
+  steps.innerHTML='';
+  const stepData = [
+    `<span class="step-no">①</span> ${p.t1}℃에서 ${SOLUTE_NAME[p.solute]}의 용해도 (그래프 읽기)<br>= <span class="step-val">${r.s1.toFixed(1)} g / 물 100g</span>`,
+    `<span class="step-no">②</span> ${p.t2}℃에서 ${SOLUTE_NAME[p.solute]}의 용해도 (그래프 읽기)<br>= <span class="step-val">${r.s2.toFixed(1)} g / 물 100g</span>`,
+    `<span class="step-no">③</span> 물 100g 기준 석출량<br>= ${r.s1.toFixed(1)} − ${r.s2.toFixed(1)} = <span class="step-val">${r.diff.toFixed(1)} g</span>`,
+  ];
+  if(p.water !== 100){
+    stepData.push(`<span class="step-no">④</span> 물이 ${p.water}g 이므로 (×${p.water/100})<br>= ${r.diff.toFixed(1)} × ${p.water/100} = <span class="step-val">${r.answer.toFixed(1)} g</span>`);
+  }
+  stepData.forEach((html, i)=>{
+    setTimeout(()=>{
+      const s = document.createElement('div');
+      s.className='calc-step show';
+      s.innerHTML = html;
+      steps.appendChild(s);
+    }, i*500);
+  });
+  setTimeout(()=>{
+    const ans = document.createElement('div');
+    ans.className='calc-step answer show';
+    ans.innerHTML = `✓ 정답: <b>${r.answer.toFixed(1)} g</b> 석출됨`;
+    steps.appendChild(ans);
+  }, stepData.length*500);
+}
+
+/* ============================ GAS STAGE ============================ */
+const gasState = {
+  running:false,
+  counters:{a:0, b:0, c:0, d:0},
+  intervalId:null,
+  cuso4Compared:false,
+  summaryShown:false
+};
+
+function initGasStage(){
+  // 얼음 조각 그리기
+  ['ice-water-a','ice-water-b'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el || el.dataset.iced) return;
+    el.dataset.iced='1';
+    for(let i=0;i<4;i++){
+      const ice = document.createElement('div');
+      ice.className='ice-cube';
+      const sz = 8 + Math.random()*5;
+      ice.style.width = sz+'px';
+      ice.style.height = sz+'px';
+      ice.style.left = (15 + Math.random()*60)+'%';
+      ice.style.top = (10 + Math.random()*55)+'%';
+      ice.style.transform = `rotate(${Math.random()*45}deg)`;
+      el.appendChild(ice);
+    }
+  });
+
+  // 김 생성
+  ['hot-water-c','hot-water-d'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el || el.dataset.steamed) return;
+    el.dataset.steamed='1';
+    const beaker = el.parentElement;
+    for(let i=0;i<3;i++){
+      const steam = document.createElement('div');
+      steam.className='steam';
+      steam.style.animationDelay = (i*0.8)+'s';
+      steam.style.setProperty('--xs', ((Math.random()-.5)*30)+'px');
+      steam.style.left = (40+i*10)+'%';
+      beaker.appendChild(steam);
+    }
+  });
+}
+
+function startGasExp(){
+  if(gasState.running) return;
+  gasState.running = true;
+  document.getElementById('btn-gas-start').style.display='none';
+  document.getElementById('btn-gas-stop').style.display='inline-flex';
+  document.getElementById('observe-summary').style.display='none';
+  snd.alert();
+
+  // 기포 발생율 극단화 (4단계 명확히 분리):
+  // B: 얼음물+뚜껑 (용해도 MAX) → 거의 없음
+  // A: 얼음물 (용해도 큼) → 적음
+  // D: 뜨거운물+뚜껑 (용해도 작음) → 많음
+  // C: 뜨거운물 (용해도 MIN) → 매우 많음 (폭발적)
+  // 압력의 영향(↑↑)도 강조: B vs A는 작지만, D vs C는 더 큰 차이
+  const config = {
+    a: {rate:0.30, size:[2,4], style:'normal', count:1},
+    b: {rate:0.04, size:[1,2], style:'normal', count:1},
+    c: {rate:1.0,  size:[3,6], style:'burst',  count:3}, // 매번 3개씩 폭발
+    d: {rate:0.55, size:[2,5], style:'normal', count:1}
+  };
+
+  // 시험관 C 흔들리기
+  document.getElementById('tube-c').classList.add('shaking');
+
+  gasState.intervalId = setInterval(()=>{
+    for(const id of ['a','b','c','d']){
+      const cfg = config[id];
+      if(Math.random() < cfg.rate){
+        for(let k=0;k<cfg.count;k++){
+          if(Math.random() < (k===0?1:0.7)){
+            spawnGasBubble(id, cfg);
+            gasState.counters[id]++;
+          }
+        }
+        // 뚜껑 없는 시험관(A, C) → 위로 분출
+        if((id==='a' || id==='c') && cfg.style==='burst' && Math.random()<0.5){
+          spawnFountainParticle(id);
+        }
+        document.getElementById('counter-'+id).textContent = gasState.counters[id];
+      }
+    }
+    updateBubbleCounters();
+
+    // 시작 후 7초 정도 지나면 관찰 요약 표시
+    if(!gasState.summaryShown && gasState.counters.c > 25){
+      gasState.summaryShown = true;
+      document.getElementById('observe-summary').style.display='block';
+      setTimeout(()=>{
+        document.getElementById('observe-summary').scrollIntoView({behavior:'smooth',block:'nearest'});
+      },200);
+    }
+  }, 200);
+}
+
+function updateBubbleCounters(){
+  // 4단계 상대 분류: max(빨강), high(주황), low(연한초록), min(파랑)
+  const counts = gasState.counters;
+  const sorted = ['a','b','c','d'].slice().sort((x,y)=>counts[y]-counts[x]);
+  const classMap = {[sorted[0]]:'high', [sorted[1]]:'medium', [sorted[2]]:'low', [sorted[3]]:'min'};
+  // 정답 기준 매핑 (학습지: C가 max, B가 min)
+  if(counts.c > 10){
+    classMap.c = 'high'; // max 강조용으로 사용
+  }
+  for(const id of ['a','b','c','d']){
+    const counter = document.getElementById('counter-'+id);
+    counter.classList.remove('high','medium','low','min');
+    if(counts[id] === 0) continue;
+    // 실제 값 기준 분류
+    if(id === 'c' && counts.c > 5) counter.classList.add('high');
+    else if(id === 'b' && counts.b < counts.a) counter.classList.add('min');
+    else if(counts[id] > counts.a * 1.3) counter.classList.add('medium');
+    else counter.classList.add('low');
+  }
+}
+
+function spawnGasBubble(tubeId, cfg){
+  const tube = document.getElementById('tube-'+tubeId);
+  if(!tube) return;
+  const bub = document.createElement('div');
+  bub.className = cfg.style === 'burst' ? 'gas-bubble-burst' : 'gas-bubble';
+  const [smin,smax] = cfg.size;
+  const sz = smin + Math.random()*(smax-smin);
+  bub.style.width = sz+'px';
+  bub.style.height = sz+'px';
+  bub.style.left = (15+Math.random()*70)+'%';
+  bub.style.bottom = (3+Math.random()*40)+'%';
+  // 분출형은 위로 더 멀리, 좌우로도
+  if(cfg.style === 'burst'){
+    bub.style.setProperty('--dy', -(80+Math.random()*40)+'px');
+    bub.style.setProperty('--dx', ((Math.random()-.5)*16)+'px');
+    bub.style.setProperty('--dur', (0.8+Math.random()*0.4)+'s');
+  }else{
+    bub.style.setProperty('--dy', -(50+Math.random()*30)+'px');
+    bub.style.setProperty('--dur', (0.9+Math.random()*0.6)+'s');
+  }
+  tube.appendChild(bub);
+  if(Math.random()<.08) snd.crystal();
+  setTimeout(()=>bub.remove(), 1600);
+}
+
+function spawnFountainParticle(tubeId){
+  // 뚜껑 없는 시험관 위쪽에서 기포가 솟구치는 효과
+  const tube = document.getElementById('tube-'+tubeId);
+  if(!tube || tube.classList.contains('capped')) return;
+  let fountain = tube.querySelector('.bubble-fountain');
+  if(!fountain){
+    fountain = document.createElement('div');
+    fountain.className = 'bubble-fountain';
+    tube.appendChild(fountain);
+  }
+  const cnt = tubeId==='c' ? 3 : 1;
+  for(let i=0;i<cnt;i++){
+    const p = document.createElement('div');
+    p.className='fountain-particle';
+    const sz = 2 + Math.random()*3;
+    p.style.width = sz+'px';
+    p.style.height = sz+'px';
+    p.style.left = '50%';
+    p.style.top = '50%';
+    p.style.setProperty('--dx', ((Math.random()-.5)*30)+'px');
+    p.style.setProperty('--dy', -(20+Math.random()*30)+'px');
+    p.style.setProperty('--dur', (0.7+Math.random()*0.4)+'s');
+    fountain.appendChild(p);
+    setTimeout(()=>p.remove(), 1300);
+  }
+}
+
+function stopGasExp(){
+  if(!gasState.running) return;
+  gasState.running = false;
+  clearInterval(gasState.intervalId);
+  document.getElementById('btn-gas-start').style.display='inline-flex';
+  document.getElementById('btn-gas-stop').style.display='none';
+  document.getElementById('tube-c').classList.remove('shaking');
+  snd.click();
+}
+
+function resetGasExp(){
+  stopGasExp();
+  for(const id of ['a','b','c','d']){
+    gasState.counters[id] = 0;
+    const c = document.getElementById('counter-'+id);
+    c.textContent = '0';
+    c.classList.remove('high','medium','low','min');
+  }
+  gasState.summaryShown = false;
+  document.getElementById('observe-summary').style.display='none';
+  snd.click();
+}
+
+// 정답 표 (학습지 기준)
+// A: 얼음물(저온)+뚜껑X(저압)  C: 뜨거운물(고온)+뚜껑X(저압)
+// → A는 C보다 온도 낮음(<), 압력 같음(=), 용해도 높음(>), 기포 적음(<)
+// C: 뜨거운물+뚜껑X(저압)      D: 뜨거운물+뚜껑O(고압)
+// → C는 D와 온도 같음(=), 압력 낮음(<), 용해도 낮음(<), 기포 많음(>)
+const GAS_ANSWERS = {
+  'ac-temp':'lt', 'ac-sol':'gt', 'ac-bub':'lt',
+  'cd-press':'lt', 'cd-sol':'lt', 'cd-bub':'gt',
+  'conc-ac':'down', 'conc-ac2':'up',
+  'conc-cd':'up', 'conc-cd2':'up'
+};
+
+function checkGasCompare(){
+  let allCorrect = true;
+  let anyAnswered = false;
+  for(const id in GAS_ANSWERS){
+    const el = document.getElementById(id);
+    if(!el) continue;
+    if(el.value === '') {
+      el.classList.remove('correct','wrong');
+      continue;
+    }
+    anyAnswered = true;
+    if(el.value === GAS_ANSWERS[id]){
+      el.classList.add('correct');
+      el.classList.remove('wrong');
+    }else{
+      el.classList.add('wrong');
+      el.classList.remove('correct');
+      allCorrect = false;
+    }
+  }
+  // 비어있는 칸 카운트
+  const total = Object.keys(GAS_ANSWERS).length;
+  let answered = 0;
+  for(const id in GAS_ANSWERS){
+    if(document.getElementById(id).value !== '') answered++;
+  }
+  if(answered < total){
+    toast(`${total-answered}개의 빈칸을 더 채워주세요 (${answered}/${total})`);
+    return;
+  }
+  if(allCorrect){
+    document.getElementById('gas-final-conc').style.display='block';
+    snd.success();
+    setTimeout(()=>{
+      modal({
+        icon:'🌟',
+        title:'기체 용해도 완벽 이해!',
+        body:'비교 분석을 모두 맞췄어요!<br><br>이제 마지막 단계 — <b>실생활 매칭 게임</b>으로 배운 내용을 실생활과 연결해 봅시다.',
+        actions:[
+          {label:'🎮 매칭 게임으로!', style:'accent', onClick:closeModal}
+        ]
+      });
+    }, 400);
+  }else{
+    snd.error();
+    toast('🟥 빨갛게 표시된 칸을 다시 확인해 주세요');
+  }
+}
+
+/* ============================ MATCH GAME ============================ */
+const matchState = {matched:{}, draggedId:null};
+
+function initMatchGame(){
+  document.querySelectorAll('.match-card').forEach(card=>{
+    card.addEventListener('dragstart', e=>{
+      if(card.classList.contains('matched')){e.preventDefault();return}
+      matchState.draggedId = card.dataset.id;
+      e.dataTransfer.effectAllowed='move';
+    });
+    // touch
+    card.addEventListener('touchstart', onMatchTouchStart, {passive:false});
+  });
+  document.querySelectorAll('.match-zone').forEach(zone=>{
+    zone.addEventListener('dragover', e=>{
+      e.preventDefault();
+      zone.classList.add('drag-over');
+    });
+    zone.addEventListener('dragleave', ()=>zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e=>{
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      if(!matchState.draggedId) return;
+      handleMatchDrop(matchState.draggedId, zone.dataset.principle);
+      matchState.draggedId = null;
+    });
+  });
+}
+
+let _matchTouchData = null;
+let _matchGhost = document.getElementById('match-ghost');
+
+function onMatchTouchStart(e){
+  if(e.currentTarget.classList.contains('matched')) return;
+  e.preventDefault();
+  _matchTouchData = {
+    id: e.currentTarget.dataset.id,
+    title: e.currentTarget.querySelector('.match-card-title').textContent
+  };
+  const t = e.touches[0];
+  _matchGhost.textContent = _matchTouchData.title;
+  _matchGhost.style.display = 'block';
+  moveMatchGhost(t);
+}
+function moveMatchGhost(t){
+  _matchGhost.style.left = t.clientX+'px';
+  _matchGhost.style.top = t.clientY+'px';
+}
+document.addEventListener('touchmove', e=>{
+  if(!_matchTouchData) return;
+  e.preventDefault();
+  moveMatchGhost(e.touches[0]);
+  // highlight zone
+  document.querySelectorAll('.match-zone').forEach(z=>z.classList.remove('drag-over'));
+  const el = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+  const zone = el && el.closest('.match-zone');
+  if(zone) zone.classList.add('drag-over');
+}, {passive:false});
+document.addEventListener('touchend', e=>{
+  if(!_matchTouchData) return;
+  _matchGhost.style.display='none';
+  document.querySelectorAll('.match-zone').forEach(z=>z.classList.remove('drag-over'));
+  const t = e.changedTouches[0];
+  const el = document.elementFromPoint(t.clientX, t.clientY);
+  const zone = el && el.closest('.match-zone');
+  if(zone){
+    handleMatchDrop(_matchTouchData.id, zone.dataset.principle);
+  }
+  _matchTouchData = null;
+});
+
+function handleMatchDrop(cardId, dropPrinciple){
+  const card = document.querySelector(`.match-card[data-id="${cardId}"]`);
+  if(!card || card.classList.contains('matched')) return;
+  const correctPrinciple = card.dataset.principle;
+  if(dropPrinciple === correctPrinciple){
+    // 정답!
+    card.classList.add('matched');
+    const tag = document.createElement('div');
+    tag.className='matched-tag';
+    tag.textContent='✓ 정답';
+    card.appendChild(tag);
+    matchState.matched[cardId] = dropPrinciple;
+    // 도착 영역에 카드 추가
+    const zoneContent = document.getElementById(`zone-${dropPrinciple}-content`);
+    const item = document.createElement('div');
+    item.className='match-dropped';
+    item.innerHTML = `${card.querySelector('.match-card-emoji').textContent} ${card.querySelector('.match-card-title').textContent}`;
+    zoneContent.appendChild(item);
+    snd.record();
+    toast(`✓ 정답!`, true);
+    // 모두 완료?
+    const total = document.querySelectorAll('.match-card').length;
+    if(Object.keys(matchState.matched).length === total){
+      setTimeout(()=>{
+        celebrate();
+        modal({
+          icon:'🏆',
+          title:'모든 매칭 완료!',
+          body:'기체 용해도의 원리를 실생활 현상과 정확히 연결했어요.<br><br>이제 정말 마지막 단계 — <b>전체 결론 분석</b>으로 가볼까요?',
+          actions:[
+            {label:'🎯 결론 분석', style:'accent', onClick:()=>{closeModal();goStep('analysis');}},
+            {label:'좀 더 살펴볼게요', onClick:closeModal}
+          ]
+        });
+      }, 500);
+    }
+  }else{
+    snd.error();
+    toast('✗ 다시 생각해보세요! 이 현상은 다른 원리와 연결돼요');
+    // 카드를 잠깐 흔들기
+    card.style.animation = 'beaker-shake .15s ease-in-out 3';
+    setTimeout(()=>card.style.animation='', 500);
+  }
+}
+
+function resetMatch(){
+  matchState.matched = {};
+  document.querySelectorAll('.match-card').forEach(c=>{
+    c.classList.remove('matched');
+    const tag = c.querySelector('.matched-tag');
+    if(tag) tag.remove();
+  });
+  document.getElementById('zone-temp-content').innerHTML='';
+  document.getElementById('zone-press-content').innerHTML='';
+  snd.click();
+}
+
 /* ============================ INIT ============================ */
 function init(){
   const d = new Date();
@@ -2492,6 +6357,7 @@ function init(){
   updateAll();
   updateRecordTable();
   updateProgress();
+  initMatchGame();
 }
 init();
 </script>
