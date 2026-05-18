@@ -33,6 +33,7 @@ html,body{height:100%}
 
 body{
   font-family:'Gowun Batang',serif;
+  font-size:16px;
   color:var(--ink);
   background:
     radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.4), transparent 60%),
@@ -67,27 +68,27 @@ body::after{
 .title-stamp{
   display:inline-flex;align-items:center;gap:8px;
   font-family:'Nanum Pen Script',cursive;
-  font-size:14px;color:var(--rust);
+  font-size:17px;color:var(--rust);
   letter-spacing:2px;text-transform:uppercase;
 }
 .title-stamp::before,.title-stamp::after{content:'';width:24px;height:1px;background:var(--rust)}
 .main-title{
   font-family:'Gaegu',cursive;
-  font-size:38px;font-weight:700;color:var(--ink);
+  font-size:40px;font-weight:700;color:var(--ink);
   line-height:1;letter-spacing:-1px;
   text-shadow:1px 1px 0 rgba(168,66,31,.15);
 }
 .main-title em{color:var(--rust);font-style:normal}
 .sub-title{
   font-family:'Nanum Pen Script',cursive;
-  font-size:18px;color:var(--ink-soft);margin-top:4px;
+  font-size:20px;color:var(--ink-soft);margin-top:4px;
 }
 .lab-date{
   font-family:'Nanum Pen Script',cursive;
-  font-size:16px;color:var(--ink-soft);
+  font-size:19px;color:var(--ink-soft);
   text-align:right;
 }
-.lab-date .num{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--ink)}
+.lab-date .num{font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--ink)}
 
 .stepper{
   position:relative;z-index:2;
@@ -98,7 +99,7 @@ body::after{
 .step{
   display:flex;align-items:center;gap:8px;
   padding:6px 14px;
-  font-family:'Gaegu',cursive;font-size:15px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:18px;font-weight:700;
   color:var(--ink-dim);
   cursor:pointer;transition:all .2s;
   position:relative;
@@ -107,7 +108,7 @@ body::after{
 .step .num-circle{
   width:28px;height:28px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;
+  font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;
   background:transparent;border:1.5px solid var(--ink-dim);
   color:var(--ink-dim);
   transition:all .2s;
@@ -121,7 +122,7 @@ body::after{
 .step.done .num-circle{background:var(--moss);color:var(--paper);border-color:var(--moss);}
 .step.done .num-circle::before{content:'✓';font-family:'Gowun Batang',serif}
 .step.done .num-circle .num-text{display:none}
-.step-arrow{color:var(--ink-dim);font-size:18px;font-family:'Nanum Pen Script',cursive;}
+.step-arrow{color:var(--ink-dim);font-size:20px;font-family:'Nanum Pen Script',cursive;}
 
 /* Sub-stepper */
 .substep{
@@ -133,7 +134,7 @@ body::after{
 .substep-item{
   display:inline-flex;align-items:center;gap:5px;
   padding:5px 13px;
-  font-family:'Gowun Batang',serif;font-size:13px;font-weight:700;
+  font-family:'Gowun Batang',serif;font-size:16px;font-weight:700;
   color:var(--ink-dim);
   cursor:pointer;
   background:transparent;
@@ -149,9 +150,9 @@ body::after{
 }
 .substep-item.done{color:var(--moss)}
 .substep-item.done::after{content:'✓';margin-left:3px;font-weight:700}
-.substep-item .ss-icon{font-size:14px}
+.substep-item .ss-icon{font-size:17px}
 .substep-arrow{
-  color:var(--ink-faded);font-family:'Nanum Pen Script',cursive;font-size:14px;
+  color:var(--ink-faded);font-family:'Nanum Pen Script',cursive;font-size:17px;
 }
 @media (max-width:768px){
   .substep{padding:4px 12px 8px;gap:3px}
@@ -161,8 +162,8 @@ body::after{
 
 @media (max-width:768px){
   .step-arrow{display:none}
-  .step{font-size:13px;padding:4px 8px}
-  .step .num-circle{width:24px;height:24px;font-size:11px}
+  .step{font-size:16px;padding:4px 8px}
+  .step .num-circle{width:24px;height:24px;font-size:14px}
 }
 
 .stage-container{
@@ -172,7 +173,7 @@ body::after{
 }
 @media (max-width:768px){
   .lab-header{padding:14px 16px 10px}
-  .main-title{font-size:26px}
+  .main-title{font-size:29px}
   .stage-container{padding:8px 16px 24px}
 }
 
@@ -193,18 +194,18 @@ body::after{
   position:absolute;top:-14px;left:24px;
   background:var(--rust);color:var(--paper);
   font-family:'Gaegu',cursive;font-weight:700;
-  padding:4px 14px;font-size:13px;letter-spacing:2px;
+  padding:4px 14px;font-size:16px;letter-spacing:2px;
   box-shadow:2px 2px 0 var(--ink);
 }
-.intro-h{font-family:'Gaegu',cursive;font-size:24px;color:var(--ink);margin-bottom:14px}
-.intro-p{font-size:15px;line-height:1.9;color:#1a1410;margin-bottom:8px}
+.intro-h{font-family:'Gaegu',cursive;font-size:26px;color:var(--ink);margin-bottom:14px}
+.intro-p{font-size:18px;line-height:1.9;color:#1a1410;margin-bottom:8px}
 .intro-p b{color:#000;background:rgba(232,184,96,.45);padding:0 4px;font-weight:700}
-.intro-list{margin:14px 0 18px 8px;font-size:15px;line-height:2;color:var(--ink)}
+.intro-list{margin:14px 0 18px 8px;font-size:18px;line-height:2;color:var(--ink)}
 .intro-list li{list-style:none;padding-left:24px;position:relative}
-.intro-list li::before{content:'✱';position:absolute;left:0;color:var(--rust);font-size:14px;top:3px;}
+.intro-list li::before{content:'✱';position:absolute;left:0;color:var(--rust);font-size:17px;top:3px;}
 .condition-table{
   width:100%;margin:14px 0;border-collapse:collapse;
-  font-family:'Gowun Batang',serif;font-size:14px;
+  font-family:'Gowun Batang',serif;font-size:17px;
   background:var(--paper);
 }
 .condition-table th,.condition-table td{
@@ -220,7 +221,7 @@ body::after{
 .condition-table .num{font-family:'JetBrains Mono',monospace}
 
 .big-btn{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:17px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:19px;
   padding:12px 28px;
   background:var(--rust);color:var(--paper);
   border:1.5px solid var(--ink);
@@ -249,18 +250,18 @@ body::after{
   transition:transform .2s;
 }
 .nb-card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--paper-shadow), 6px 6px 0 1px var(--ink-soft)}
-.nb-icon{font-size:32px;margin-bottom:6px}
+.nb-icon{font-size:34px;margin-bottom:6px}
 .nb-term{
-  font-family:'Gaegu',cursive;font-size:22px;font-weight:700;color:var(--ink);
+  font-family:'Gaegu',cursive;font-size:24px;font-weight:700;color:var(--ink);
   border-bottom:2px solid var(--rust);
   display:inline-block;padding-bottom:2px;margin-bottom:10px;
 }
-.nb-def{font-size:14px;line-height:1.8;color:#1a1410}
+.nb-def{font-size:17px;line-height:1.8;color:#1a1410}
 .nb-def b{color:#000;background:rgba(232,184,96,.55);padding:0 4px;font-weight:700}
 .nb-card .nb-no{
   position:absolute;top:-12px;right:14px;
   background:var(--mustard);color:var(--ink);
-  font-family:'JetBrains Mono',monospace;font-size:11px;
+  font-family:'JetBrains Mono',monospace;font-size:14px;
   padding:2px 8px;border:1.5px solid var(--ink);
   font-weight:700;
 }
@@ -282,7 +283,7 @@ body::after{
   border-bottom:2px dashed var(--ink-soft);padding-bottom:0;
 }
 .solute-tab{
-  font-family:'Gaegu',cursive;font-size:16px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:19px;font-weight:700;
   padding:8px 16px;background:transparent;
   border:1.5px solid var(--ink-soft);border-bottom:none;
   cursor:pointer;color:var(--ink-soft);
@@ -293,13 +294,13 @@ body::after{
 .solute-tab.locked{opacity:.55;cursor:not-allowed;position:relative}
 .solute-tab.locked::before{
   content:'🔒';position:absolute;top:50%;right:6px;
-  transform:translateY(-50%);font-size:11px;
+  transform:translateY(-50%);font-size:14px;
 }
 .solute-tab .check{margin-left:6px;color:var(--moss)}
 
 .cond-switcher{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .cond-pill{
-  font-family:'Gaegu',cursive;font-size:14px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:17px;font-weight:700;
   padding:6px 14px;background:var(--paper-dark);
   border:1.5px solid var(--ink-soft);border-radius:28px;
   cursor:pointer;color:var(--ink-soft);
@@ -312,8 +313,8 @@ body::after{
 .cond-pill.recorded{background:var(--moss);color:var(--paper);border-color:var(--moss)}
 .cond-pill.recorded::after{content:' ✓'}
 .cond-pill.locked{opacity:.5;cursor:not-allowed;background:var(--paper-dark)}
-.cond-pill.locked .lock-icon{margin-left:2px;font-size:11px}
-.cond-pill .cond-detail{font-size:11px;font-family:'JetBrains Mono',monospace;opacity:.85}
+.cond-pill.locked .lock-icon{margin-left:2px;font-size:14px}
+.cond-pill .cond-detail{font-size:14px;font-family:'JetBrains Mono',monospace;opacity:.85}
 
 .lab-card{
   background:var(--paper);
@@ -323,13 +324,13 @@ body::after{
   box-shadow:4px 4px 0 var(--paper-shadow), 4px 4px 0 1px var(--ink-soft);
 }
 .lab-card-title{
-  font-family:'Gaegu',cursive;font-size:18px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:20px;font-weight:700;
   color:var(--ink);margin-bottom:14px;
   display:flex;align-items:center;gap:8px;
   padding-bottom:8px;border-bottom:1.5px dashed var(--ink-soft);
 }
 .lab-card-title .lt-tag{
-  font-size:11px;background:var(--ink);color:var(--paper);
+  font-size:14px;background:var(--ink);color:var(--paper);
   padding:2px 8px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;
 }
 
@@ -355,9 +356,9 @@ body::after{
   font-family:'JetBrains Mono',monospace;
   box-shadow:3px 3px 0 var(--paper-shadow);
 }
-.mbl-display .mlabel{font-size:8px;color:var(--ink-faded);letter-spacing:2px}
+.mbl-display .mlabel{font-size:10px;color:var(--ink-faded);letter-spacing:2px}
 .mbl-display .mtemp{
-  font-size:20px;font-weight:700;color:var(--mustard-soft);
+  font-size:23px;font-weight:700;color:var(--mustard-soft);
   text-shadow:0 0 6px rgba(232,184,96,.6);margin:2px 0;
 }
 
@@ -418,7 +419,7 @@ body::after{
 }
 .beaker-mark{
   display:flex;align-items:center;gap:4px;
-  font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink-faded);
+  font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faded);
 }
 .beaker-mark::before{content:'';width:8px;height:1px;background:var(--ink-faded)}
 
@@ -506,7 +507,7 @@ body::after{
   background:var(--rust);box-shadow:0 0 4px var(--rust);
 }
 .hp-body .hp-text{
-  font-family:'JetBrains Mono',monospace;font-size:8px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
   color:var(--paper);letter-spacing:1.5px;
 }
 
@@ -539,10 +540,10 @@ body::after{
 .status-row{
   display:flex;justify-content:space-between;align-items:center;
   padding:6px 12px;background:var(--paper-dark);
-  border-left:3px solid var(--accent);font-size:13px;
+  border-left:3px solid var(--accent);font-size:16px;
 }
 .status-row .sr-label{font-family:'Gaegu',cursive;font-weight:700;color:var(--ink);}
-.status-row .sr-value{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--ink);font-size:13px;}
+.status-row .sr-value{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--ink);font-size:16px;}
 .status-row.precip-row{border-left-color:var(--rust)}
 .status-row.precip-row.active{background:rgba(168,66,31,.18);animation:pulse-row 1.2s ease-in-out infinite}
 @keyframes pulse-row{0%,100%{background:rgba(168,66,31,.18)}50%{background:rgba(168,66,31,.32)}}
@@ -555,7 +556,7 @@ body::after{
   box-shadow:3px 3px 0 var(--paper-shadow);
 }
 .control-h{
-  font-family:'Gaegu',cursive;font-size:15px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:18px;font-weight:700;
   color:var(--ink-soft);margin-bottom:10px;letter-spacing:1px;
   text-transform:uppercase;
 }
@@ -564,7 +565,7 @@ body::after{
 .temp-btn{
   width:30px;height:30px;
   border:1.5px solid var(--ink);background:var(--paper-dark);
-  font-family:'Gaegu',cursive;font-size:18px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:20px;font-weight:700;
   cursor:pointer;color:var(--ink);
   display:flex;align-items:center;justify-content:center;
   transition:all .14s;
@@ -590,13 +591,13 @@ input[type=range].lab-range::-moz-range-thumb{
 .temp-display{
   text-align:center;
   font-family:'JetBrains Mono',monospace;
-  font-size:22px;font-weight:700;color:var(--ink);
+  font-size:24px;font-weight:700;color:var(--ink);
   margin-top:8px;padding:6px;
   background:var(--paper-dark);border:1px dashed var(--ink-soft);
 }
 
 .action-btn{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:17px;
   padding:9px 14px;
   background:var(--paper-dark);color:var(--ink);
   border:1.5px solid var(--ink);cursor:pointer;
@@ -621,7 +622,7 @@ input[type=range].lab-range::-moz-range-thumb{
   transform:translateX(-50%);
   background:var(--ink);color:var(--paper);
   font-family:'Gowun Batang',serif;font-weight:400;
-  font-size:11px;padding:5px 10px;
+  font-size:14px;padding:5px 10px;
   white-space:nowrap;letter-spacing:.3px;
   z-index:1000;pointer-events:none;
   box-shadow:2px 2px 0 var(--rust);
@@ -646,12 +647,12 @@ input[type=range].lab-range::-moz-range-thumb{
   position:absolute;top:-12px;left:24px;
   background:var(--mustard);color:var(--ink);
   font-family:'Gaegu',cursive;font-weight:700;
-  padding:3px 12px;font-size:13px;letter-spacing:1.5px;
+  padding:3px 12px;font-size:16px;letter-spacing:1.5px;
   border:1.5px solid var(--ink);
 }
 .record-table{
   width:100%;border-collapse:collapse;
-  font-family:'Gowun Batang',serif;font-size:14px;
+  font-family:'Gowun Batang',serif;font-size:17px;
   margin-top:12px;
 }
 .record-table th,.record-table td{
@@ -660,21 +661,21 @@ input[type=range].lab-range::-moz-range-thumb{
 }
 .record-table th{
   background:var(--ink);color:var(--paper);
-  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
 }
 .record-table td.row-label{
   background:var(--paper-dark);
   font-family:'Gaegu',cursive;font-weight:700;
   text-align:left;padding-left:14px;white-space:nowrap;
 }
-.record-table .cell-empty{font-family:'Nanum Pen Script',cursive;color:var(--ink-faded);font-size:18px;}
+.record-table .cell-empty{font-family:'Nanum Pen Script',cursive;color:var(--ink-faded);font-size:20px;}
 .record-table .cell-filled{
   font-family:'JetBrains Mono',monospace;font-weight:700;
-  color:var(--moss);font-size:14px;
+  color:var(--moss);font-size:17px;
   animation:cellPop .4s ease-out;
 }
 @keyframes cellPop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
-.record-table .cell-na{font-family:'Gaegu',cursive;color:var(--ink-faded);font-size:13px;font-style:italic;}
+.record-table .cell-na{font-family:'Gaegu',cursive;color:var(--ink-faded);font-size:16px;font-style:italic;}
 .record-table .cell-current{background:rgba(232,184,96,.35)!important;position:relative;}
 .record-table .cell-current::after{
   content:'';position:absolute;inset:2px;
@@ -686,7 +687,7 @@ input[type=range].lab-range::-moz-range-thumb{
   display:flex;justify-content:space-between;align-items:center;
   margin-top:16px;flex-wrap:wrap;gap:12px;
 }
-.progress-text{font-family:'Nanum Pen Script',cursive;font-size:18px;color:var(--ink-soft);}
+.progress-text{font-family:'Nanum Pen Script',cursive;font-size:20px;color:var(--ink-soft);}
 
 /* GRAPH STAGE */
 .graph-stage{
@@ -720,14 +721,14 @@ input[type=range].lab-range::-moz-range-thumb{
   box-shadow:3px 3px 0 var(--paper-shadow);
 }
 .dp-h{
-  font-family:'Gaegu',cursive;font-size:16px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:19px;font-weight:700;
   color:var(--ink);margin-bottom:6px;
   display:flex;justify-content:space-between;align-items:center;
 }
-.dp-h .dp-sw{font-family:'Nanum Pen Script',cursive;font-size:14px;color:var(--ink-soft);cursor:pointer}
+.dp-h .dp-sw{font-family:'Nanum Pen Script',cursive;font-size:17px;color:var(--ink-soft);cursor:pointer}
 .dp-h .dp-sw:hover{color:var(--rust)}
 .dp-sub{
-  font-family:'Nanum Pen Script',cursive;font-size:15px;
+  font-family:'Nanum Pen Script',cursive;font-size:18px;
   color:var(--ink-faded);margin-bottom:12px;line-height:1.4;
 }
 .dp-list{
@@ -741,7 +742,7 @@ input[type=range].lab-range::-moz-range-thumb{
 .dp-chip{
   padding:7px 10px;
   border:1.5px solid var(--ink-soft);
-  font-family:'JetBrains Mono',monospace;font-size:12px;
+  font-family:'JetBrains Mono',monospace;font-size:15px;
   font-weight:700;color:var(--ink);
   cursor:grab;
   display:flex;align-items:center;justify-content:space-between;
@@ -754,7 +755,7 @@ input[type=range].lab-range::-moz-range-thumb{
 .dp-chip[data-solute="cuso4"]{border-left:4px solid var(--cuso4)}
 .dp-chip.placed{opacity:.4;cursor:not-allowed;text-decoration:line-through;background:var(--paper);}
 .dp-chip .dp-tag{
-  font-family:'Gaegu',cursive;font-size:10px;
+  font-family:'Gaegu',cursive;font-size:13px;
   padding:1px 6px;border-radius:10px;
   background:var(--paper);
 }
@@ -766,7 +767,7 @@ input[type=range].lab-range::-moz-range-thumb{
 }
 .graph-legend{
   display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;
-  font-family:'Gowun Batang',serif;font-size:12px;color:var(--ink-soft);
+  font-family:'Gowun Batang',serif;font-size:15px;color:var(--ink-soft);
 }
 .legend-item{display:flex;align-items:center;gap:5px}
 .legend-dot{width:10px;height:10px;border-radius:50%}
@@ -785,15 +786,15 @@ input[type=range].lab-range::-moz-range-thumb{
   position:absolute;top:-16px;left:18px;
   width:32px;height:32px;border-radius:50%;
   background:var(--rust);color:var(--paper);
-  font-family:'Gaegu',cursive;font-size:18px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:20px;font-weight:700;
   display:flex;align-items:center;justify-content:center;
   border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);
 }
 .ac-title{
-  font-family:'Gaegu',cursive;font-size:20px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:23px;font-weight:700;
   color:var(--ink);margin-bottom:10px;padding-left:20px;
 }
-.ac-question{font-size:15px;line-height:1.8;color:var(--ink-soft);margin-bottom:14px;}
+.ac-question{font-size:18px;line-height:1.8;color:var(--ink-soft);margin-bottom:14px;}
 .ac-options{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
 .ac-option{
   display:flex;align-items:center;gap:10px;
@@ -801,7 +802,7 @@ input[type=range].lab-range::-moz-range-thumb{
   background:var(--paper-dark);
   border:1.5px solid var(--ink-soft);
   cursor:pointer;
-  font-family:'Gowun Batang',serif;font-size:14px;
+  font-family:'Gowun Batang',serif;font-size:17px;
   transition:all .15s;
 }
 .ac-option:hover{transform:translateX(2px);border-color:var(--ink)}
@@ -809,7 +810,7 @@ input[type=range].lab-range::-moz-range-thumb{
 .ac-option.selected{background:var(--mustard);border-color:var(--ink);box-shadow:2px 2px 0 var(--ink-soft)}
 .ac-feedback{
   margin-top:12px;padding:12px 16px;
-  font-family:'Nanum Pen Script',cursive;font-size:16px;
+  font-family:'Nanum Pen Script',cursive;font-size:19px;
   line-height:1.5;display:none;
 }
 .ac-feedback.show{display:block}
@@ -841,7 +842,7 @@ input[type=range].lab-range::-moz-range-thumb{
   border:1px solid var(--ink);
 }
 .ac-graph-note{
-  font-family:'Nanum Pen Script',cursive;font-size:13px;
+  font-family:'Nanum Pen Script',cursive;font-size:16px;
   color:var(--ink);text-align:center;line-height:1.4;
 }
 
@@ -856,16 +857,16 @@ input[type=range].lab-range::-moz-range-thumb{
   width:90px;height:90px;border-radius:50%;
   border:3px double var(--rust);
   display:flex;align-items:center;justify-content:center;
-  font-family:'Gaegu',cursive;font-size:13px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:16px;font-weight:700;
   color:var(--rust);text-align:center;line-height:1.2;
   transform:rotate(-12deg);
   background:rgba(245,236,217,.9);
 }
-.final-h{font-family:'Gaegu',cursive;font-size:26px;font-weight:700;color:var(--ink);margin-bottom:12px;}
-.final-p{font-size:15px;line-height:1.9;color:var(--ink-soft);margin-bottom:8px}
+.final-h{font-family:'Gaegu',cursive;font-size:29px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+.final-p{font-size:18px;line-height:1.9;color:var(--ink-soft);margin-bottom:8px}
 .final-key{
   display:inline-block;
-  font-family:'Gaegu',cursive;font-weight:700;font-size:18px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:20px;
   background:var(--mustard);color:var(--ink);
   padding:6px 16px;margin:10px 4px;
   border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink-soft);
@@ -874,7 +875,7 @@ input[type=range].lab-range::-moz-range-thumb{
 /* ========== CURVE ANALYSIS STAGE ========== */
 .curve-stage{display:flex;flex-direction:column;gap:18px}
 .curve-section-h{
-  font-family:'Gaegu',cursive;font-size:20px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:23px;font-weight:700;
   color:var(--ink);margin-bottom:8px;
   display:flex;align-items:center;gap:10px;
 }
@@ -882,7 +883,7 @@ input[type=range].lab-range::-moz-range-thumb{
   background:var(--rust);color:var(--paper);
   width:30px;height:30px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;
-  font-size:14px;border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink-soft);
+  font-size:17px;border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink-soft);
 }
 
 .curve-card{
@@ -918,19 +919,19 @@ input[type=range].lab-range::-moz-range-thumb{
   min-height:300px;
 }
 .explore-info-h{
-  font-family:'Gaegu',cursive;font-size:16px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:19px;font-weight:700;
   color:var(--ink);margin-bottom:8px;
   padding-bottom:6px;border-bottom:1.5px dashed var(--ink-soft);
 }
 .explore-empty{
-  font-family:'Nanum Pen Script',cursive;font-size:16px;
+  font-family:'Nanum Pen Script',cursive;font-size:19px;
   color:var(--ink-faded);text-align:center;
   padding:40px 12px;line-height:1.6;
 }
 .explore-result{display:none}
 .explore-result.show{display:block;animation:fadeUp .3s ease-out}
 .explore-coord{
-  font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;
+  font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;
   background:var(--ink);color:var(--paper);
   padding:6px 12px;margin-bottom:12px;text-align:center;
   letter-spacing:1px;
@@ -941,7 +942,7 @@ input[type=range].lab-range::-moz-range-thumb{
 .explore-substance.nacl{border-left-color:#4a6b3a}
 .explore-substance.h3bo3{border-left-color:#c8861d}
 .explore-substance .es-name{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:17px;
   display:flex;justify-content:space-between;align-items:center;
   margin-bottom:4px;
 }
@@ -963,7 +964,7 @@ input[type=range].lab-range::-moz-range-thumb{
   color:var(--ink);margin-right:4px;white-space:nowrap;
 }
 .ct-btn{
-  font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;
+  font-family:'Gowun Batang',serif;font-size:15px;font-weight:700;
   padding:4px 10px;
   background:var(--paper);
   border:1.5px solid var(--ink-soft);
@@ -989,7 +990,7 @@ input[type=range].lab-range::-moz-range-thumb{
   flex-wrap:wrap;
 }
 .curve-region-row select{
-  font-family:'Gowun Batang',serif;font-size:13px;font-weight:700;
+  font-family:'Gowun Batang',serif;font-size:16px;font-weight:700;
   padding:4px 10px;
   border:1.5px solid var(--ink-soft);background:var(--paper);
   color:var(--ink);cursor:pointer;outline:none;
@@ -1001,13 +1002,13 @@ input[type=range].lab-range::-moz-range-thumb{
   margin-bottom:7px;padding:7px 10px;
   background:var(--paper);
   border-left:4px solid var(--ink-soft);
-  font-size:12px;line-height:1.5;
+  font-size:15px;line-height:1.5;
 }
 .explore-substance .es-numbers{
   font-family:'JetBrains Mono',monospace;font-size:10.5px;
   color:var(--ink);margin-top:3px;
 }
-.explore-substance .es-desc{font-size:11px;color:var(--ink-soft);line-height:1.4}
+.explore-substance .es-desc{font-size:14px;color:var(--ink-soft);line-height:1.4}
 
 /* ========== "지우개 마스킹" - 수업 시 답 가리기 ========== */
 .eraser-mask{
@@ -1056,7 +1057,7 @@ input[type=range].lab-range::-moz-range-thumb{
   justify-content:center;
   font-family:'Gaegu',cursive;
   font-weight:700;
-  font-size:13px;
+  font-size:16px;
   color:rgba(245,236,217,.6);
   pointer-events:none;
 }
@@ -1068,7 +1069,7 @@ input[type=range].lab-range::-moz-range-thumb{
 }
 .eraser-mask:hover::after{
   content:'클릭!';
-  font-size:10px;
+  font-size:13px;
   color:rgba(245,236,217,.95);
 }
 
@@ -1126,7 +1127,7 @@ input[type=range].lab-range::-moz-range-thumb{
   content:'👆 클릭해서 정답 확인';
   position:absolute;inset:0;
   display:flex;align-items:center;justify-content:center;
-  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:17px;
   color:rgba(245,236,217,.85);
   text-shadow:1px 1px 2px rgba(0,0,0,.5);
   pointer-events:none;
@@ -1168,7 +1169,7 @@ input[type=range].lab-range::-moz-range-thumb{
   color:var(--ink);
 }
 .mask-toggle-btn{
-  font-family:'Gaegu',cursive;font-size:12px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:15px;font-weight:700;
   padding:4px 12px;
   background:var(--paper);color:var(--ink);
   border:1.5px solid var(--ink);
@@ -1200,12 +1201,12 @@ input[type=range].lab-range::-moz-range-thumb{
 }
 .cmg-title{
   display:flex;align-items:center;justify-content:space-between;
-  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:17px;
   color:var(--ink);margin-bottom:6px;
   padding-bottom:5px;border-bottom:1.5px dashed var(--ink-soft);
 }
 .cmg-reset{
-  font-family:'Gaegu',cursive;font-size:11px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:14px;font-weight:700;
   padding:2px 8px;
   background:var(--paper-dark);color:var(--ink);
   border:1px solid var(--ink-soft);
@@ -1213,7 +1214,7 @@ input[type=range].lab-range::-moz-range-thumb{
 }
 .cmg-reset:hover{background:var(--mustard)}
 .cmg-instruct{
-  font-family:'Nanum Pen Script',cursive;font-size:14px;
+  font-family:'Nanum Pen Script',cursive;font-size:17px;
   color:var(--rust);background:rgba(232,184,96,.18);
   padding:5px 10px;margin-bottom:8px;
   border-left:3px solid var(--rust);
@@ -1239,7 +1240,7 @@ input[type=range].lab-range::-moz-range-thumb{
   background:var(--paper-dark);
   border:1.5px solid var(--ink-soft);
   padding:5px 10px;
-  font-size:12px;
+  font-size:15px;
   display:flex;justify-content:space-between;align-items:center;
 }
 .cmg-reading.filled{
@@ -1260,7 +1261,7 @@ input[type=range].lab-range::-moz-range-thumb{
   gap:14px;flex-wrap:wrap;
 }
 .guide-step-text{
-  font-family:'Gowun Batang',serif;font-size:14px;line-height:1.5;
+  font-family:'Gowun Batang',serif;font-size:17px;line-height:1.5;
   color:var(--ink);flex:1;min-width:200px;
 }
 .guide-step-text b{color:var(--rust);background:rgba(255,255,255,.4);padding:0 4px}
@@ -1270,7 +1271,7 @@ input[type=range].lab-range::-moz-range-thumb{
   width:32px;height:32px;border-radius:50%;
   background:var(--paper);
   border:2px dashed var(--ink-soft);
-  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:17px;
   color:var(--ink-faded);
   transition:all .25s;
 }
@@ -1298,11 +1299,11 @@ input[type=range].lab-range::-moz-range-thumb{
   animation:fadeUp .5s ease-out;
 }
 .pdc-h{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:18px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:20px;
   color:var(--accent);margin-bottom:6px;
 }
 .pdc-body{
-  font-size:14px;line-height:1.7;color:var(--ink);
+  font-size:17px;line-height:1.7;color:var(--ink);
   margin-bottom:12px;
 }
 .pdc-body b{background:rgba(232,184,96,.35);padding:1px 6px}
@@ -1315,7 +1316,7 @@ input[type=range].lab-range::-moz-range-thumb{
   animation:fadeUp .4s ease-out;
 }
 .prc-h{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:18px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:20px;
   color:var(--rust);margin-bottom:10px;
   padding-bottom:8px;border-bottom:1.5px dashed var(--ink-soft);
 }
@@ -1332,26 +1333,26 @@ input[type=range].lab-range::-moz-range-thumb{
   position:relative;
 }
 .prc-step .prc-step-label{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
   color:var(--ink-soft);
   margin-bottom:4px;
 }
 .prc-step .prc-step-temp{
-  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:20px;
   color:var(--ink);
 }
 .prc-step .prc-step-sol{
-  font-family:'JetBrains Mono',monospace;font-size:13px;
+  font-family:'JetBrains Mono',monospace;font-size:16px;
   color:var(--accent);margin-top:4px;
 }
 .prc-step.start{border-left:4px solid var(--rust)}
 .prc-step.end{border-left:4px solid var(--accent)}
 .prc-arrow{
-  font-size:28px;font-family:'Gaegu',cursive;font-weight:700;
+  font-size:31px;font-family:'Gaegu',cursive;font-weight:700;
   color:var(--rust);
 }
 .prc-formula{
-  font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;
+  font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;
   text-align:center;
   background:var(--paper);
   border:1.5px solid var(--rust);
@@ -1362,7 +1363,7 @@ input[type=range].lab-range::-moz-range-thumb{
 .prc-formula .precip-val{
   background:var(--rust);color:var(--paper);
   padding:3px 10px;
-  font-size:18px;
+  font-size:20px;
 }
 .prc-explain{
   font-family:'Gowun Batang',serif;font-size:13.5px;line-height:1.7;
@@ -1372,15 +1373,15 @@ input[type=range].lab-range::-moz-range-thumb{
   border-left:3px solid var(--moss);
 }
 .explore-substance .es-state{
-  font-family:'Gaegu',cursive;font-size:13px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:16px;font-weight:700;
   padding:1px 8px;border-radius:12px;
 }
 .es-state.sat{background:rgba(200,134,29,.25);color:var(--mustard)}
 .es-state.unsat{background:rgba(74,107,58,.2);color:var(--moss)}
 .es-state.over{background:rgba(168,66,31,.2);color:var(--rust)}
-.explore-substance .es-desc{font-size:12px;color:var(--ink-soft)}
+.explore-substance .es-desc{font-size:15px;color:var(--ink-soft)}
 .explore-substance .es-numbers{
-  font-family:'JetBrains Mono',monospace;font-size:11px;
+  font-family:'JetBrains Mono',monospace;font-size:14px;
   color:var(--ink);margin-top:4px;
 }
 
@@ -1390,7 +1391,7 @@ input[type=range].lab-range::-moz-range-thumb{
   border-top:1px dashed var(--ink-soft);
 }
 .legend-region-item{
-  font-family:'Nanum Pen Script',cursive;font-size:14px;
+  font-family:'Nanum Pen Script',cursive;font-size:17px;
   color:var(--ink-soft);
   display:flex;align-items:center;gap:5px;
 }
@@ -1419,11 +1420,11 @@ input[type=range].lab-range::-moz-range-thumb{
   content:'문제';
   position:absolute;top:-10px;left:14px;
   background:var(--rust);color:var(--paper);
-  font-family:'Gaegu',cursive;font-weight:700;font-size:11px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
   padding:2px 10px;letter-spacing:1px;
   border:1.5px solid var(--ink);
 }
-.calc-q-text{font-size:14px;line-height:1.85;color:var(--ink);margin-top:4px}
+.calc-q-text{font-size:17px;line-height:1.85;color:var(--ink);margin-top:4px}
 .calc-q-text b{background:rgba(232,184,96,.5);padding:0 4px;font-weight:700}
 
 .calc-q-nav{
@@ -1434,7 +1435,7 @@ input[type=range].lab-range::-moz-range-thumb{
 .calc-q-tab{
   width:32px;height:32px;
   border:1.5px solid var(--ink-soft);background:var(--paper);
-  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:17px;
   cursor:pointer;color:var(--ink-soft);
   display:flex;align-items:center;justify-content:center;
   transition:all .15s;
@@ -1451,14 +1452,14 @@ input[type=range].lab-range::-moz-range-thumb{
   flex:1;min-width:120px;
   padding:8px 12px;
   border:1.5px solid var(--ink);background:var(--paper);
-  font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;
+  font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;
   color:var(--ink);
   outline:none;text-align:center;
   box-shadow:inset 2px 2px 0 var(--paper-shadow);
 }
 .calc-input:focus{background:var(--paper-dark);border-color:var(--rust)}
 .calc-unit{
-  font-family:'Gaegu',cursive;font-size:16px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:19px;font-weight:700;
   color:var(--ink-soft);
 }
 
@@ -1473,12 +1474,12 @@ input[type=range].lab-range::-moz-range-thumb{
   content:'풀이';
   position:absolute;top:-10px;left:14px;
   background:var(--accent);color:var(--paper);
-  font-family:'Gaegu',cursive;font-weight:700;font-size:11px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
   padding:2px 10px;letter-spacing:1px;
   border:1.5px solid var(--ink);
 }
 .calc-step{
-  font-size:14px;line-height:1.8;color:var(--ink-soft);
+  font-size:17px;line-height:1.8;color:var(--ink-soft);
   margin:6px 0;
   font-family:'Gowun Batang',serif;
   display:none;
@@ -1500,14 +1501,14 @@ input[type=range].lab-range::-moz-range-thumb{
   color:var(--moss);font-weight:700;
 }
 .calc-empty{
-  font-family:'Nanum Pen Script',cursive;font-size:16px;
+  font-family:'Nanum Pen Script',cursive;font-size:19px;
   color:var(--ink-faded);text-align:center;padding:40px 0;
 }
 .calc-empty.show{display:block}
 
 .calc-fb{
   margin-top:10px;padding:8px 12px;
-  font-family:'Nanum Pen Script',cursive;font-size:15px;
+  font-family:'Nanum Pen Script',cursive;font-size:18px;
   display:none;
 }
 .calc-fb.show{display:block;animation:fadeUp .3s ease-out}
@@ -1529,20 +1530,20 @@ input[type=range].lab-range::-moz-range-thumb{
   gap:14px;position:relative;
 }
 .calc-viz-arrow{
-  font-family:'Gaegu',cursive;font-size:30px;color:var(--rust);
+  font-family:'Gaegu',cursive;font-size:33px;color:var(--rust);
   align-self:center;font-weight:700;
 }
 .calc-viz-beaker{
   display:flex;flex-direction:column;align-items:center;flex:1;max-width:130px;
 }
 .calc-viz-label{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
   color:var(--ink);margin-bottom:4px;text-align:center;
   background:var(--paper);padding:2px 10px;
   border:1px solid var(--ink-soft);
 }
 .calc-viz-temp{
-  font-family:'JetBrains Mono',monospace;font-size:13px;
+  font-family:'JetBrains Mono',monospace;font-size:16px;
   color:var(--rust);font-weight:700;margin-bottom:6px;
 }
 .mini-beaker{
@@ -1591,7 +1592,7 @@ input[type=range].lab-range::-moz-range-thumb{
   gap:8px;flex:1;min-width:240px;max-width:380px;
 }
 .gas-set-label{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:15px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:18px;
   color:var(--ink);text-align:center;
   background:var(--paper);padding:4px 16px;
   border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink-soft);
@@ -1613,7 +1614,7 @@ input[type=range].lab-range::-moz-range-thumb{
   transform:translateX(-50%);
   width:30px;height:30px;border-radius:50%;
   background:var(--rust);color:var(--paper);
-  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:19px;
   display:flex;align-items:center;justify-content:center;
   border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);
   z-index:10;
@@ -1722,7 +1723,7 @@ input[type=range].lab-range::-moz-range-thumb{
 .pressure-gauge{
   position:absolute;top:-30px;right:-8px;
   background:var(--ink);color:var(--mustard-soft);
-  font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
   padding:1px 5px;border-radius:2px;
   display:none;letter-spacing:.5px;
   white-space:nowrap;z-index:9;
@@ -1803,7 +1804,7 @@ input[type=range].lab-range::-moz-range-thumb{
 /* 기포 카운터 */
 .bubble-counter{
   margin-top:2px;
-  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;
   color:var(--ink);background:var(--paper);
   padding:2px 8px;border:1.5px solid var(--ink-soft);
   min-width:48px;text-align:center;
@@ -1829,7 +1830,7 @@ input[type=range].lab-range::-moz-range-thumb{
 /* 시험관 상태 라벨 (기포량 표시) */
 .bubble-state-label{
   margin-top:3px;
-  font-family:'Gaegu',cursive;font-size:11px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:14px;font-weight:700;
   padding:1px 6px;border-radius:10px;
   display:inline-block;min-width:60px;text-align:center;
 }
@@ -1848,14 +1849,14 @@ input[type=range].lab-range::-moz-range-thumb{
   animation:fadeUp .4s ease-out;
 }
 .observe-summary .os-h{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:15px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:18px;
   color:var(--ink);margin-bottom:8px;
 }
 .observe-summary .os-grid{
   display:grid;grid-template-columns:1fr;gap:6px;
 }
 .observe-summary .os-row{
-  font-size:13px;line-height:1.6;color:var(--ink-soft);
+  font-size:16px;line-height:1.6;color:var(--ink-soft);
   display:flex;align-items:center;gap:8px;
   padding:5px 8px;background:var(--paper);
   border:1px solid var(--paper-shadow);
@@ -1864,7 +1865,7 @@ input[type=range].lab-range::-moz-range-thumb{
   display:inline-flex;align-items:center;justify-content:center;
   width:22px;height:22px;border-radius:50%;
   background:var(--ink);color:var(--paper);
-  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
   flex-shrink:0;
 }
 .observe-summary .os-min{color:var(--accent);font-weight:700}
@@ -1883,7 +1884,7 @@ input[type=range].lab-range::-moz-range-thumb{
   background:var(--paper);
   border:1.5px solid var(--ink-soft);
   padding:6px 10px;
-  font-size:12px;
+  font-size:15px;
   display:flex;align-items:center;gap:8px;
   flex-wrap:wrap;
 }
@@ -1891,7 +1892,7 @@ input[type=range].lab-range::-moz-range-thumb{
   display:inline-flex;align-items:center;justify-content:center;
   width:24px;height:24px;border-radius:50%;
   background:var(--ink);color:var(--paper);
-  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
   flex-shrink:0;
 }
 .mini-tube-card .mt-cond{
@@ -1899,7 +1900,7 @@ input[type=range].lab-range::-moz-range-thumb{
   color:var(--ink-soft);flex:1;
 }
 .mini-tube-card .mt-bub{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:11px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
   padding:2px 8px;border-radius:10px;white-space:nowrap;
 }
 .mt-bub-max{background:var(--rust);color:var(--paper)}
@@ -1908,7 +1909,7 @@ input[type=range].lab-range::-moz-range-thumb{
 .mt-bub-min{background:var(--accent);color:var(--paper)}
 
 .gas-condition-label{
-  font-family:'Gaegu',cursive;font-size:11px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:14px;font-weight:700;
   color:var(--ink-soft);text-align:center;margin-top:4px;
   line-height:1.3;
 }
@@ -1921,7 +1922,7 @@ input[type=range].lab-range::-moz-range-thumb{
 /* Gas comparison table */
 .gas-compare-table{
   width:100%;border-collapse:collapse;margin-top:12px;
-  font-family:'Gowun Batang',serif;font-size:14px;
+  font-family:'Gowun Batang',serif;font-size:17px;
 }
 .gas-compare-table th,.gas-compare-table td{
   border:1.5px solid var(--ink-soft);
@@ -1930,7 +1931,7 @@ input[type=range].lab-range::-moz-range-thumb{
 }
 .gas-compare-table th{
   background:var(--ink);color:var(--paper);
-  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
 }
 .gas-compare-table td.row-label{
   background:var(--paper-dark);
@@ -1938,7 +1939,7 @@ input[type=range].lab-range::-moz-range-thumb{
   text-align:left;padding-left:14px;
 }
 .gas-compare-table select{
-  font-family:'Gaegu',cursive;font-size:14px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:17px;font-weight:700;
   padding:3px 8px;
   border:1.5px solid var(--ink-soft);background:var(--paper);
   color:var(--ink);cursor:pointer;outline:none;
@@ -1980,7 +1981,7 @@ input[type=range].lab-range::-moz-range-thumb{
 }
 .gas-compare-table td.cell-na-diag .diag-note{
   position:relative;z-index:2;
-  font-family:'Gaegu',cursive;font-weight:700;font-size:12px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:15px;
   color:var(--ink-faded);
   background:rgba(245,236,217,.9);
   padding:0 6px;border:1px solid var(--ink-soft);
@@ -1996,12 +1997,12 @@ input[type=range].lab-range::-moz-range-thumb{
   background:var(--paper-dark);
   border:1.5px solid var(--ink-soft);
   padding:12px 16px;
-  font-family:'Gaegu',cursive;font-weight:700;font-size:15px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:18px;
   color:var(--ink);
   display:flex;align-items:center;gap:6px;flex-wrap:wrap;
 }
 .gas-conclusion-box select{
-  font-family:'Gaegu',cursive;font-size:15px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:18px;font-weight:700;
   padding:3px 8px;
   border:1.5px solid var(--ink);background:var(--paper);
   color:var(--ink);cursor:pointer;outline:none;
@@ -2033,19 +2034,19 @@ input[type=range].lab-range::-moz-range-thumb{
   cursor:not-allowed;opacity:.65;
   background:var(--paper-dark);
 }
-.match-card-emoji{font-size:36px;text-align:center;margin-bottom:6px}
+.match-card-emoji{font-size:38px;text-align:center;margin-bottom:6px}
 .match-card-title{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:15px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:18px;
   color:var(--ink);text-align:center;margin-bottom:4px;
 }
 .match-card-desc{
-  font-size:12px;line-height:1.5;color:var(--ink-soft);
+  font-size:15px;line-height:1.5;color:var(--ink-soft);
   text-align:center;flex:1;
 }
 .match-card.matched .matched-tag{
   position:absolute;top:6px;right:6px;
   background:var(--moss);color:var(--paper);
-  font-family:'Gaegu',cursive;font-weight:700;font-size:11px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:14px;
   padding:2px 8px;border:1px solid var(--ink);
 }
 
@@ -2065,7 +2066,7 @@ input[type=range].lab-range::-moz-range-thumb{
   border-color:var(--rust);border-style:solid;
 }
 .match-zone-h{
-  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:19px;
   color:var(--ink);text-align:center;
   padding:6px 12px;
   background:var(--paper);
@@ -2081,7 +2082,7 @@ input[type=range].lab-range::-moz-range-thumb{
   background:var(--paper);
   border:1.5px solid var(--moss);
   padding:6px 10px;
-  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
   color:var(--moss);
   display:flex;align-items:center;gap:6px;
   animation:fadeUp .3s ease-out;
@@ -2092,7 +2093,7 @@ input[type=range].lab-range::-moz-range-thumb{
   background:var(--paper);
   border:1.5px solid var(--rust);
   padding:6px 10px;
-  font-family:'Gaegu',cursive;font-weight:700;font-size:13px;
+  font-family:'Gaegu',cursive;font-weight:700;font-size:16px;
   box-shadow:3px 3px 0 var(--rust);
   display:none;
   transform:translate(-50%,-50%);
@@ -2125,11 +2126,11 @@ input[type=range].lab-range::-moz-range-thumb{
 }
 .modal-icon{text-align:center;font-size:42px;margin:24px 0 8px;}
 .modal-h{
-  font-family:'Gaegu',cursive;font-size:22px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:24px;font-weight:700;
   text-align:center;color:var(--ink);padding:0 24px;
 }
 .modal-body{
-  padding:14px 30px 24px;font-size:14px;line-height:1.8;
+  padding:14px 30px 24px;font-size:17px;line-height:1.8;
   color:var(--ink-soft);text-align:center;
 }
 .modal-body .highlight{
@@ -2148,7 +2149,7 @@ input[type=range].lab-range::-moz-range-thumb{
   position:fixed;bottom:32px;left:50%;
   transform:translateX(-50%) translateY(20px);
   background:var(--ink);color:var(--paper);
-  font-family:'Gaegu',cursive;font-size:15px;font-weight:700;
+  font-family:'Gaegu',cursive;font-size:18px;font-weight:700;
   padding:12px 22px;
   border:1.5px solid var(--rust);
   box-shadow:4px 4px 0 var(--rust);
@@ -2168,21 +2169,21 @@ input[type=range].lab-range::-moz-range-thumb{
   position:relative;z-index:2;
   padding:14px 36px;text-align:center;
   font-family:'Nanum Pen Script',cursive;
-  font-size:14px;color:var(--ink-faded);
+  font-size:17px;color:var(--ink-faded);
   border-top:1px dashed var(--ink-soft);
 }
 .lab-footer a{color:var(--rust);text-decoration:none}
 .lab-footer a:hover{text-decoration:underline}
 
 @media (max-width:600px){
-  .main-title{font-size:24px}
+  .main-title{font-size:26px}
   .stepper{padding:10px 16px 6px;gap:0}
-  .step{font-size:12px;padding:4px 6px;gap:5px}
-  .lab-date{font-size:13px}
-  .lab-date .num{font-size:12px}
-  .condition-table th,.condition-table td{padding:7px 6px;font-size:12px}
+  .step{font-size:15px;padding:4px 6px;gap:5px}
+  .lab-date{font-size:16px}
+  .lab-date .num{font-size:15px}
+  .condition-table th,.condition-table td{padding:7px 6px;font-size:15px}
   .record-table th,.record-table td{padding:7px 4px;font-size:11.5px}
-  .record-table td.row-label{font-size:12px;padding-left:8px}
+  .record-table td.row-label{font-size:15px;padding-left:8px}
   .bench-area{gap:14px;padding:14px 8px}
   .beaker-vessel{width:120px;height:150px}
   .hot-plate{width:148px}
@@ -2303,7 +2304,7 @@ input[type=range].lab-range::-moz-range-thumb{
       <b>모두 녹아 있던 용질이 다시 고체로 생기기 시작하는 정확한 순간의 온도</b>를 찾아 기록해봅시다.
     </p>
 
-    <h3 class="intro-h" style="font-size:18px;margin-top:16px">실험 조건 (가) (나) (다)</h3>
+    <h3 class="intro-h" style="font-size:20px;margin-top:16px">실험 조건 (가) (나) (다)</h3>
     <table class="condition-table">
       <tr><th>조건</th><th>(가)</th><th>(나)</th><th>(다)</th></tr>
       <tr>
@@ -2314,7 +2315,7 @@ input[type=range].lab-range::-moz-range-thumb{
       </tr>
     </table>
 
-    <h3 class="intro-h" style="font-size:18px;margin-top:16px">실험 순서</h3>
+    <h3 class="intro-h" style="font-size:20px;margin-top:16px">실험 순서</h3>
     <ul class="intro-list">
       <li>(가) → (나) → (다) 순서대로 진행합니다. 한 조건을 완료해야 다음 조건이 열려요.</li>
       <li>비커에 물과 <b>질산칼륨</b>을 넣고 온도를 1℃씩 낮추며 <b>고체가 생기는 순간</b>을 포착합니다.</li>
@@ -2322,7 +2323,7 @@ input[type=range].lab-range::-moz-range-thumb{
       <li>실험 결과를 표에 기록하고 그래프로 그려 두 물질의 용해도를 비교합니다.</li>
     </ul>
 
-    <p class="intro-p" style="font-size:13px;color:#3a2817;font-style:italic;font-weight:500">
+    <p class="intro-p" style="font-size:16px;color:#3a2817;font-style:italic;font-weight:500">
       ※ 황산구리는 (나) 조건의 경우 100℃를 초과하므로 측정이 불가능합니다.
     </p>
 
@@ -2341,7 +2342,7 @@ input[type=range].lab-range::-moz-range-thumb{
 <section class="stage" id="stage-notebook">
   <div class="notebook-stage">
     <div class="intro-card" style="max-width:none;margin:0 0 20px;padding:20px 28px">
-      <h2 class="intro-h" style="font-size:22px;margin-bottom:8px">📓 실험 전 개념 정리</h2>
+      <h2 class="intro-h" style="font-size:24px;margin-bottom:8px">📓 실험 전 개념 정리</h2>
       <p class="intro-p" style="margin-bottom:0">
         실험을 시작하기 전에, 우리가 사용할 용어들을 먼저 정리해봅시다.
         각 카드를 살펴보고 머릿속에 그림을 그려보세요.
@@ -2608,7 +2609,7 @@ input[type=range].lab-range::-moz-range-thumb{
       </div>
 
       <div class="control-card">
-        <div class="control-h">② 온도 조절 <span style="font-weight:400;font-size:11px;color:var(--ink-faded)">(1℃ 단위)</span></div>
+        <div class="control-h">② 온도 조절 <span style="font-weight:400;font-size:14px;color:var(--ink-faded)">(1℃ 단위)</span></div>
         <div class="temp-row">
           <button class="temp-btn" onclick="changeTemp(-1)" data-tip="1℃ 낮추기">−</button>
           <input type="range" class="lab-range" id="temp-slider" min="0" max="100" value="100" step="1">
@@ -2638,9 +2639,9 @@ input[type=range].lab-range::-moz-range-thumb{
     <table class="record-table">
       <tr>
         <th>용질 \ 조건</th>
-        <th>(가)<br><span style="font-weight:400;font-size:11px">물100g + 용질50g</span></th>
-        <th>(나)<br><span style="font-weight:400;font-size:11px">물100g + 용질100g</span></th>
-        <th>(다)<br><span style="font-weight:400;font-size:11px">물200g + 용질100g</span></th>
+        <th>(가)<br><span style="font-weight:400;font-size:14px">물100g + 용질50g</span></th>
+        <th>(나)<br><span style="font-weight:400;font-size:14px">물100g + 용질100g</span></th>
+        <th>(다)<br><span style="font-weight:400;font-size:14px">물200g + 용질100g</span></th>
       </tr>
       <tr>
         <td class="row-label">⚪ 질산칼륨</td>
@@ -2667,7 +2668,7 @@ input[type=range].lab-range::-moz-range-thumb{
 <!-- STAGE: GRAPH -->
 <section class="stage" id="stage-graph">
   <div class="intro-card" style="max-width:none;margin:0 0 20px;padding:20px 24px">
-    <h2 class="intro-h" style="font-size:20px;margin-bottom:8px">📈 온도-용해도 그래프 그리기</h2>
+    <h2 class="intro-h" style="font-size:23px;margin-bottom:8px">📈 온도-용해도 그래프 그리기</h2>
     <p class="intro-p" style="margin-bottom:0">
       오른쪽 <b>데이터 칩</b>을 그래프 영역의 해당 위치로 <b>드래그앤드롭</b>하여 점을 찍어보세요.
       모든 점을 찍으면 두 물질의 용해도 곡선이 완성됩니다.
@@ -2753,7 +2754,7 @@ input[type=range].lab-range::-moz-range-thumb{
           <option value="nacl">🟢 염화나트륨</option>
           <option value="h3bo3">🟡 붕산</option>
         </select>
-        <span style="font-family:'Nanum Pen Script',cursive;font-size:14px;color:var(--ink-soft);margin-left:8px">
+        <span style="font-family:'Nanum Pen Script',cursive;font-size:17px;color:var(--ink-soft);margin-left:8px">
           선택한 물질의 곡선이 강조되고, 4개 가이드 점이 표시돼요
         </span>
       </div>
@@ -2774,7 +2775,7 @@ input[type=range].lab-range::-moz-range-thumb{
           <div class="explore-empty" id="explore-empty">
             반짝이는 <b>4개 가이드 점</b>을<br>
             순서대로 클릭해보세요!<br><br>
-            <span style="font-size:13px">A·B (포화) → C (과포화) → D (불포화)</span>
+            <span style="font-size:16px">A·B (포화) → C (과포화) → D (불포화)</span>
           </div>
           <div class="explore-result" id="explore-result">
             <div class="explore-coord" id="explore-coord">— ℃ , — g</div>
@@ -2836,7 +2837,7 @@ input[type=range].lab-range::-moz-range-thumb{
           <div class="calc-q-tab" data-q="1" onclick="setCalcQ(1)">2</div>
           <div class="calc-q-tab" data-q="2" onclick="setCalcQ(2)">3</div>
         </div>
-        <span style="font-family:'Nanum Pen Script',cursive;font-size:14px;color:var(--ink-soft)" id="calc-progress">진행도 0/3</span>
+        <span style="font-family:'Nanum Pen Script',cursive;font-size:17px;color:var(--ink-soft)" id="calc-progress">진행도 0/3</span>
       </div>
 
       <div class="calc-stage-v2">
@@ -2904,12 +2905,12 @@ input[type=range].lab-range::-moz-range-thumb{
 <section class="stage" id="stage-gas-observe">
   <div class="gas-stage">
     <div class="intro-card" style="max-width:none;margin:0;padding:18px 24px">
-      <h2 class="intro-h" style="font-size:20px;margin-bottom:6px">💨 기체의 용해도 — 4시험관 관찰</h2>
+      <h2 class="intro-h" style="font-size:23px;margin-bottom:6px">💨 기체의 용해도 — 4시험관 관찰</h2>
       <p class="intro-p" style="margin-bottom:6px">
         탄산음료에서 빠져나오는 기포의 양으로 기체 용해도를 비교해 봅시다.
         얼음물과 뜨거운물, 그리고 뚜껑 유무 4가지 조건을 한눈에 비교해보세요.
       </p>
-      <p class="intro-p" style="font-size:13px;color:#3a2817;font-style:italic;font-weight:500;margin-bottom:0">
+      <p class="intro-p" style="font-size:16px;color:#3a2817;font-style:italic;font-weight:500;margin-bottom:0">
         ※ 기포가 많이 발생할수록 → 기체가 녹지 못하고 빠져나온다는 뜻 → <b>용해도가 작다</b>
       </p>
     </div>
@@ -2985,7 +2986,7 @@ input[type=range].lab-range::-moz-range-thumb{
 
       <!-- 관찰 결과 요약 -->
       <div id="observe-summary" class="observe-summary" style="display:none">
-        <div class="os-h">📌 관찰 결과 요약 <span style="font-family:'Nanum Pen Script',cursive;font-size:12px;font-weight:400;color:var(--ink-soft);margin-left:8px">— 마스킹된 부분을 클릭하면 정답이 보여요</span></div>
+        <div class="os-h">📌 관찰 결과 요약 <span style="font-family:'Nanum Pen Script',cursive;font-size:15px;font-weight:400;color:var(--ink-soft);margin-left:8px">— 마스킹된 부분을 클릭하면 정답이 보여요</span></div>
         <div class="mask-toggle-row" style="margin-top:8px;margin-bottom:8px">
           <span class="mt-label">🧽 마스크 일괄 제어:</span>
           <button class="mask-toggle-btn" onclick="revealAllMasks('observe-summary')">모두 공개</button>
@@ -3034,10 +3035,10 @@ input[type=range].lab-range::-moz-range-thumb{
       </p>
 
       <!-- 미니 비교용 시각화 -->
-      <div style="font-family:'Nanum Pen Script',cursive;font-size:13px;color:var(--ink-soft);margin-bottom:6px">
+      <div style="font-family:'Nanum Pen Script',cursive;font-size:16px;color:var(--ink-soft);margin-bottom:6px">
         💡 4시험관 관찰 결과 — 마스킹된 부분을 클릭하면 정답이 보여요
-        <button class="mask-toggle-btn" style="margin-left:8px;font-size:10px;padding:2px 8px" onclick="revealAllMasks('mini-summary-row')">모두 공개</button>
-        <button class="mask-toggle-btn" style="font-size:10px;padding:2px 8px" onclick="hideAllMasks('mini-summary-row')">모두 가리기</button>
+        <button class="mask-toggle-btn" style="margin-left:8px;font-size:13px;padding:2px 8px" onclick="revealAllMasks('mini-summary-row')">모두 공개</button>
+        <button class="mask-toggle-btn" style="font-size:13px;padding:2px 8px" onclick="hideAllMasks('mini-summary-row')">모두 가리기</button>
       </div>
       <div class="gas-mini-summary" id="mini-summary-row">
         <div class="mini-tube-card"><span class="mt-id">A</span> <span class="mt-cond">얼음물·뚜껑X</span> <span class="mt-bub mt-bub-low eraser-mask">기포 적음</span></div>
@@ -3049,7 +3050,7 @@ input[type=range].lab-range::-moz-range-thumb{
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:14px">
 
         <div>
-          <h4 style="font-family:'Gaegu',cursive;font-size:15px;color:var(--ink);margin-bottom:6px">
+          <h4 style="font-family:'Gaegu',cursive;font-size:18px;color:var(--ink);margin-bottom:6px">
             [A · C] 비교 — 온도 다름
           </h4>
           <table class="gas-compare-table">
@@ -3077,7 +3078,7 @@ input[type=range].lab-range::-moz-range-thumb{
         </div>
 
         <div>
-          <h4 style="font-family:'Gaegu',cursive;font-size:15px;color:var(--ink);margin-bottom:6px">
+          <h4 style="font-family:'Gaegu',cursive;font-size:18px;color:var(--ink);margin-bottom:6px">
             [C · D] 비교 — 압력 다름
           </h4>
           <table class="gas-compare-table">
@@ -3126,13 +3127,13 @@ input[type=range].lab-range::-moz-range-thumb{
       </div>
 
       <div id="gas-final-conc" style="display:none;margin-top:14px;padding:14px 18px;background:rgba(74,107,58,.12);border:1.5px solid var(--moss);border-left-width:5px">
-        <div style="font-family:'Gaegu',cursive;font-weight:700;font-size:18px;color:var(--moss);margin-bottom:6px">🌟 기체 용해도의 비밀!</div>
-        <div style="font-size:13px;color:var(--ink-soft);margin-bottom:8px;font-family:'Nanum Pen Script',cursive">
+        <div style="font-family:'Gaegu',cursive;font-weight:700;font-size:20px;color:var(--moss);margin-bottom:6px">🌟 기체 용해도의 비밀!</div>
+        <div style="font-size:16px;color:var(--ink-soft);margin-bottom:8px;font-family:'Nanum Pen Script',cursive">
           핵심 단어를 클릭해 학생들에게 질문하면서 정답을 공개해보세요!
-          <button class="mask-toggle-btn" style="margin-left:8px;font-size:10px;padding:2px 8px" onclick="revealAllMasks('gas-final-conc')">모두 공개</button>
-          <button class="mask-toggle-btn" style="font-size:10px;padding:2px 8px" onclick="hideAllMasks('gas-final-conc')">모두 가리기</button>
+          <button class="mask-toggle-btn" style="margin-left:8px;font-size:13px;padding:2px 8px" onclick="revealAllMasks('gas-final-conc')">모두 공개</button>
+          <button class="mask-toggle-btn" style="font-size:13px;padding:2px 8px" onclick="hideAllMasks('gas-final-conc')">모두 가리기</button>
         </div>
-        <div style="font-size:14px;line-height:1.9;color:var(--ink)">
+        <div style="font-size:17px;line-height:1.9;color:var(--ink)">
           <b>기체의 용해도 ↑</b> 는 →
           <b class="eraser-mask" style="color:var(--rust)">온도 ↓</b>
           &nbsp;그리고&nbsp;
@@ -3514,7 +3515,7 @@ function goSubStepInternal(group, sub){
       modal({
         icon:'📋',
         title:'아직 측정이 끝나지 않았어요',
-        body:`먼저 모든 조건을 측정해 주세요.<br><br><b>현재 진행도: ${total}/5</b><br><span style="font-size:13px;color:var(--ink-faded)">(황산구리 (나) 조건은 측정 불가입니다)</span>`,
+        body:`먼저 모든 조건을 측정해 주세요.<br><br><b>현재 진행도: ${total}/5</b><br><span style="font-size:16px;color:var(--ink-faded)">(황산구리 (나) 조건은 측정 불가입니다)</span>`,
       });
       return;
     }
@@ -3877,7 +3878,7 @@ function triggerPrecipPopup(){
       <b>${SOLUTE_NAME[state.solute]}</b>의 <b>${c.label} 조건</b>에서<br>
       온도 <span class="highlight">${T} ℃</span>에 도달하자 비커 속에 <b>고체가 다시 생기기 시작</b>했습니다.<br><br>
       이 온도가 바로 <b>${c.label} 조건의 포화 온도</b>예요.<br>
-      <span style="font-size:13px;color:var(--ink-faded)">→ 오른쪽 [③ 결과 기록] 버튼을 눌러 표에 적어보세요.</span>
+      <span style="font-size:16px;color:var(--ink-faded)">→ 오른쪽 [③ 결과 기록] 버튼을 눌러 표에 적어보세요.</span>
     `,
     actions:[
       {label:'📍 바로 기록하기', style:'accent', onClick:()=>{closeModal();recordCurrent();}},
@@ -3909,7 +3910,7 @@ function recordCurrent(){
         지금 비커 안에는 <span class="highlight">${T} ℃</span>에서 용질 ${c.solute}g이 모두 녹아 있는 상태예요.<br>
         석출량은 <span class="ok-color">${pr.toFixed(1)} g</span>으로, 아직 <b>고체가 생기지 않았습니다</b>.<br><br>
         우리가 찾아야 할 것은 <b>모두 녹아 있던 용질이<br>처음으로 다시 고체가 되는 순간</b>의 온도예요.<br><br>
-        <span style="font-size:13px;color:var(--ink-faded)">💡 온도를 <b>1℃씩</b> 천천히 낮춰가며 석출량이 <b>0g 에서 막 0이 아니게 되는</b> 순간을 포착해보세요.</span>
+        <span style="font-size:16px;color:var(--ink-faded)">💡 온도를 <b>1℃씩</b> 천천히 낮춰가며 석출량이 <b>0g 에서 막 0이 아니게 되는</b> 순간을 포착해보세요.</span>
       `,
       actions:[
         {label:'− 1℃ 낮추기', style:'accent', onClick:()=>{closeModal();changeTemp(-1);}},
@@ -3930,7 +3931,7 @@ function recordCurrent(){
         우리가 찾는 건 <b>"고체가 처음 생기기 시작하는 순간"</b>이에요.<br>
         석출량이 <span class="ok-color">0g</span>일 때부터 <b>1℃씩 낮추면서</b>,<br>
         석출량이 <b>처음으로 0이 아니게 되는</b> 그 온도를 찾아야 해요.<br><br>
-        <span style="font-size:13px;color:var(--ink-faded)">💡 [↺ 비커 초기화]를 누르고 다시 시작해보세요.</span>
+        <span style="font-size:16px;color:var(--ink-faded)">💡 [↺ 비커 초기화]를 누르고 다시 시작해보세요.</span>
       `,
       actions:[
         {label:'↺ 비커 초기화하고 다시', style:'accent', onClick:()=>{closeModal();resetBeaker();}},
@@ -4120,7 +4121,7 @@ function drawGraph(){
   ctx.stroke();
 
   ctx.fillStyle='#2b2117';
-  ctx.font='12px "Gowun Batang",serif';
+  ctx.font='15px "Gowun Batang",serif';
   ctx.textAlign='center';
   for(let t=0;t<=100;t+=10){
     const p=gpos(t,0);
@@ -4132,7 +4133,7 @@ function drawGraph(){
     ctx.fillText(s, GP.PL-6, p.y+4);
   }
   ctx.textAlign='center';
-  ctx.font='bold 13px "Gaegu",cursive';
+  ctx.font='bold 16px "Gaegu",cursive';
   ctx.fillText('온도 (℃)', W/2, H-8);
   ctx.save();
   ctx.translate(14, H/2);
@@ -4165,7 +4166,7 @@ function drawGraph(){
       const last = pts[pts.length-1];
       const xy = gpos(last.t,last.sol);
       ctx.fillStyle = SOLUTE_COLOR[type];
-      ctx.font='bold 12px "Gaegu",cursive';
+      ctx.font='bold 15px "Gaegu",cursive';
       ctx.textAlign='right';
       ctx.fillText(SOLUTE_NAME[type], xy.x-8, xy.y-6);
     }
@@ -4287,7 +4288,7 @@ function onChipTouchStart(e){
   _touchGhost.style.cssText = `
     position:fixed;z-index:9999;pointer-events:none;
     padding:5px 10px;background:${SOLUTE_COLOR[_touchChipData.type]};color:#fff;
-    font-family:'Gaegu',cursive;font-weight:700;font-size:12px;
+    font-family:'Gaegu',cursive;font-weight:700;font-size:15px;
     border:1.5px solid #2b2117;box-shadow:3px 3px 0 #2b2117;
     transform:translate(-50%,-50%);
   `;
@@ -4479,7 +4480,7 @@ function drawAnalysisHintGraph(){
   cx.moveTo(PL, PT); cx.lineTo(PL, cssH-PB); cx.lineTo(cssW-PR, cssH-PB);
   cx.stroke();
   cx.fillStyle = '#2b2117';
-  cx.font = '9px "Gowun Batang",serif';
+  cx.font = '12px "Gowun Batang",serif';
   cx.textAlign = 'center';
   for(let t=0;t<=100;t+=20){
     const p = pos(t,0);
@@ -4491,7 +4492,7 @@ function drawAnalysisHintGraph(){
     cx.fillText(s, PL-3, p.y+3);
   }
   cx.textAlign='center';
-  cx.font='bold 9px "Gaegu",cursive';
+  cx.font='bold 12px "Gaegu",cursive';
   cx.fillText('온도(℃)', cssW/2, cssH-3);
 
   // KNO3 + CuSO4 곡선
@@ -4510,7 +4511,7 @@ function drawAnalysisHintGraph(){
     const last = d[d.length-1];
     const lxy = pos(last[0], last[1]);
     cx.fillStyle = SOLUTE_COLOR[type];
-    cx.font = 'bold 9px "Gaegu",cursive';
+    cx.font = 'bold 12px "Gaegu",cursive';
     cx.textAlign = 'right';
     cx.fillText(SOLUTE_NAME[type], lxy.x-3, lxy.y-3);
   }
@@ -4543,7 +4544,7 @@ function drawAnalysisHintGraph(){
 
   // 60℃ 라벨
   cx.fillStyle = '#a8421f';
-  cx.font = 'bold 10px "Gaegu",cursive';
+  cx.font = 'bold 13px "Gaegu",cursive';
   cx.textAlign='center';
   cx.fillText('60℃', xL.x, PT+10);
 }
@@ -4854,13 +4855,13 @@ function animateCooling(){
     const curT = _coolingAnim.fromT + (_coolingAnim.toT - _coolingAnim.fromT) * easeP;
     _exploreClick = {t: Math.round(curT*10)/10, s: _coolingAnim.fromS};
     document.getElementById('explore-coord').innerHTML =
-      `<span style="background:var(--rust);color:#fff;padding:1px 8px;margin-right:6px;font-size:12px">① 냉각 중</span>${_exploreClick.t.toFixed(1)} ℃,  ${_exploreClick.s} g`;
+      `<span style="background:var(--rust);color:#fff;padding:1px 8px;margin-right:6px;font-size:15px">① 냉각 중</span>${_exploreClick.t.toFixed(1)} ℃,  ${_exploreClick.s} g`;
   }else if(elapsed < DUR_H + PAUSE){
     // 잠시 정지 - 과포화 상태 강조
     _coolingAnim.phase = 1.5;
     _exploreClick = {t: _coolingAnim.toT, s: _coolingAnim.fromS};
     document.getElementById('explore-coord').innerHTML =
-      `<span style="background:var(--rust);color:#fff;padding:1px 8px;margin-right:6px;font-size:12px">⚠️ 과포화!</span>${_coolingAnim.toT} ℃,  ${_coolingAnim.fromS} g`;
+      `<span style="background:var(--rust);color:#fff;padding:1px 8px;margin-right:6px;font-size:15px">⚠️ 과포화!</span>${_coolingAnim.toT} ℃,  ${_coolingAnim.fromS} g`;
   }else if(elapsed < DUR_H + PAUSE + DUR_V){
     // 2단계: 수직 하강 (B_s → A_s g)
     _coolingAnim.phase = 2;
@@ -4870,7 +4871,7 @@ function animateCooling(){
     _exploreClick = {t: _coolingAnim.toT, s: Math.round(curS*10)/10};
     const precipSoFar = (_coolingAnim.fromS - curS).toFixed(1);
     document.getElementById('explore-coord').innerHTML =
-      `<span style="background:var(--accent);color:#fff;padding:1px 8px;margin-right:6px;font-size:12px">② 석출 중</span>${_coolingAnim.toT} ℃,  ${_exploreClick.s} g  <span style="color:var(--rust);font-weight:700">(석출 ${precipSoFar}g)</span>`;
+      `<span style="background:var(--accent);color:#fff;padding:1px 8px;margin-right:6px;font-size:15px">② 석출 중</span>${_coolingAnim.toT} ℃,  ${_exploreClick.s} g  <span style="color:var(--rust);font-weight:700">(석출 ${precipSoFar}g)</span>`;
   }else{
     // 완료
     _coolingAnim.phase = 3;
@@ -4999,7 +5000,7 @@ function drawExploreGraph(){
 
   // axis labels
   ectx.fillStyle='#2b2117';
-  ectx.font='12px "Gowun Batang",serif';
+  ectx.font='15px "Gowun Batang",serif';
   ectx.textAlign='center';
   for(let t=0;t<=100;t+=10){
     const p=epos(t,0);
@@ -5011,7 +5012,7 @@ function drawExploreGraph(){
     ectx.fillText(s, EP.PL-6, p.y+4);
   }
   ectx.textAlign='center';
-  ectx.font='bold 13px "Gaegu",cursive';
+  ectx.font='bold 16px "Gaegu",cursive';
   ectx.fillText('온도 (℃)', W/2, H-8);
   ectx.save();
   ectx.translate(14, H/2);
@@ -5053,7 +5054,7 @@ function drawExploreGraph(){
     }
     labelPositions.push(xy.y + yOff);
     ectx.fillStyle = SOLUTE_COLOR[type];
-    ectx.font='bold 12px "Gaegu",cursive';
+    ectx.font='bold 15px "Gaegu",cursive';
     ectx.textAlign='right';
     // 라벨 배경 살짝
     ectx.save();
@@ -5105,7 +5106,7 @@ function drawExploreGraph(){
 
       // 라벨
       ectx.fillStyle = '#f5ecd9';
-      ectx.font = 'bold 12px "Gaegu",cursive';
+      ectx.font = 'bold 15px "Gaegu",cursive';
       ectx.textAlign = 'center';
       ectx.textBaseline = 'middle';
       ectx.fillText(isDone ? '✓' : key, xy.x, xy.y+1);
@@ -5169,7 +5170,7 @@ function drawExploreGraph(){
       ectx.stroke();
       // 수평선 라벨 (① 냉각)
       ectx.fillStyle = 'rgba(168,66,31,.9)';
-      ectx.font = 'bold 13px "Gaegu",cursive';
+      ectx.font = 'bold 16px "Gaegu",cursive';
       ectx.textAlign = 'center';
       ectx.fillText('① 냉각 (온도 ↓)', (fromBxy.x + horzEndXy.x)/2, fromBxy.y - 9);
       ectx.restore();
@@ -5196,7 +5197,7 @@ function drawExploreGraph(){
           const midY = (horzEndXy.y + finalAxy.y) / 2;
           // 박스 배경
           const labelText = `② 석출되는 양 = ${precipAmount} g`;
-          ectx.font = 'bold 13px "Gaegu",cursive';
+          ectx.font = 'bold 16px "Gaegu",cursive';
           const tw = ectx.measureText(labelText).width;
           const boxX = midX + 12;
           const boxY = midY - 13;
@@ -5369,7 +5370,7 @@ function showExploreResult(hit){
   if(hit && hit.hit){
     const pt = hit.pt;
     const colorMap = {sat:'var(--mustard)', over:'var(--rust)', unsat:'var(--moss)'};
-    coordPrefix = `<span style="background:${pt.region==='sat'?'var(--mustard)':pt.region==='over'?'var(--rust)':'var(--moss)'};color:#fff;padding:1px 8px;margin-right:6px;font-size:12px">${pt.label} · ${pt.desc}</span>`;
+    coordPrefix = `<span style="background:${pt.region==='sat'?'var(--mustard)':pt.region==='over'?'var(--rust)':'var(--moss)'};color:#fff;padding:1px 8px;margin-right:6px;font-size:15px">${pt.label} · ${pt.desc}</span>`;
   }
   document.getElementById('explore-coord').innerHTML = coordPrefix + `${_exploreClick.t} ℃,  ${_exploreClick.s} g`;
 
@@ -5569,7 +5570,7 @@ function drawCalcGraph(){
   cctx.stroke();
 
   cctx.fillStyle='#2b2117';
-  cctx.font='10px "Gowun Batang",serif';
+  cctx.font='13px "Gowun Batang",serif';
   cctx.textAlign='center';
   for(let t=0;t<=100;t+=20){
     const p = cgpos(t, 0);
@@ -5581,7 +5582,7 @@ function drawCalcGraph(){
     cctx.fillText(s, CG.PL-4, p.y+3);
   }
   cctx.textAlign='center';
-  cctx.font='bold 10px "Gaegu",cursive';
+  cctx.font='bold 13px "Gaegu",cursive';
   cctx.fillText('온도(℃)', W/2, H-4);
   cctx.save();
   cctx.translate(11, H/2);
@@ -5613,7 +5614,7 @@ function drawCalcGraph(){
     const lastXY = cgpos(last[0], last[1]);
     cctx.fillStyle = SOLUTE_COLOR[type];
     cctx.globalAlpha = .55;
-    cctx.font='9px "Gaegu",cursive';
+    cctx.font='12px "Gaegu",cursive';
     cctx.textAlign='right';
     cctx.fillText(SOLUTE_NAME[type], lastXY.x-4, lastXY.y-3);
     cctx.globalAlpha = 1;
@@ -5634,7 +5635,7 @@ function drawCalcGraph(){
   const last = targetCurve[targetCurve.length-1];
   const lastXY = cgpos(last[0], last[1]);
   cctx.fillStyle = SOLUTE_COLOR[targetType];
-  cctx.font='bold 11px "Gaegu",cursive';
+  cctx.font='bold 14px "Gaegu",cursive';
   cctx.textAlign='right';
   cctx.fillText(SOLUTE_NAME[targetType]+' ★', lastXY.x-4, lastXY.y-4);
 
@@ -5694,7 +5695,7 @@ function drawCalcGraph(){
     cctx.stroke();
     // 좌표 표시
     cctx.fillStyle = '#a8421f';
-    cctx.font='bold 10px "JetBrains Mono",monospace';
+    cctx.font='bold 13px "JetBrains Mono",monospace';
     cctx.textAlign='left';
     cctx.fillText(`${calcGraphState.startPoint.t}℃,${calcGraphState.startPoint.s.toFixed(0)}g`, xy.x+10, xy.y-5);
   }
@@ -5716,7 +5717,7 @@ function drawCalcGraph(){
     cctx.lineWidth = 2;
     cctx.stroke();
     cctx.fillStyle = '#1e4d6b';
-    cctx.font='bold 10px "JetBrains Mono",monospace';
+    cctx.font='bold 13px "JetBrains Mono",monospace';
     cctx.textAlign='left';
     cctx.fillText(`${calcGraphState.endPoint.t}℃,${calcGraphState.endPoint.s.toFixed(0)}g`, xy.x+10, xy.y-5);
   }
@@ -5743,7 +5744,7 @@ function drawCalcGraph(){
     cctx.lineWidth = 1;
     cctx.strokeRect(s1.x-26, (s1.y+e1.y)/2 - 8, 56, 16);
     cctx.fillStyle = '#a8421f';
-    cctx.font='bold 11px "Gaegu",cursive';
+    cctx.font='bold 14px "Gaegu",cursive';
     cctx.textAlign='center';
     cctx.fillText(`차이 ${diff.toFixed(0)}g`, s1.x+2, (s1.y+e1.y)/2 + 4);
   }
