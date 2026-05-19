@@ -789,6 +789,90 @@ header.lab-head {
   .save-indicator { bottom: 14px; right: 14px; font-size: 11.5px; padding: 7px 12px; }
 }
 
+/* ====== Welcome Screen ====== */
+#welcome-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: linear-gradient(135deg, #1A1F2E 0%, #2C5F7F 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: welcomeFadeIn 0.4s ease;
+}
+@keyframes welcomeFadeIn { from { opacity: 0; } to { opacity: 1; } }
+#welcome-screen.hidden { display: none; }
+.welcome-card {
+  background: var(--bg);
+  border-radius: 18px;
+  padding: 38px 32px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+  animation: welcomeSlideUp 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+@keyframes welcomeSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.welcome-pill {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+.welcome-title {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.welcome-sub {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+.welcome-info {
+  padding: 12px 14px;
+  background: #FBF3DC;
+  border-left: 3px solid var(--plateau);
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #5C4710;
+  margin-bottom: 18px;
+}
+.welcome-form { display: flex; flex-direction: column; }
+.welcome-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 5px;
+}
+.welcome-form input[type="text"] {
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.welcome-form input[type="text"]:focus { border-color: var(--accent); }
+@media (max-width: 640px) {
+  .welcome-card { padding: 28px 22px; }
+  .welcome-title { font-size: 18px; }
+}
+
 .particle-legend {
   display: flex;
   gap: 8px;
@@ -1049,6 +1133,44 @@ header.lab-head {
 </style>
 </head>
 <body>
+
+<!-- ============ 시작화면 (Welcome Screen) ============ -->
+<div id="welcome-screen">
+  <div class="welcome-card">
+    <div class="welcome-pill">🧪 LAB ENTRY</div>
+    <h1 class="welcome-title">물질의 끓는점·녹는점<br>가상 실험실에 오신 것을 환영해요</h1>
+    <p class="welcome-sub">"위대한 발견은 예측에서 시작된다"</p>
+
+    <div class="welcome-info">
+      <strong>💾 시작하기 전에 학번과 이름을 적어주세요.</strong><br>
+      입력한 내용은 자동으로 저장되어, 실수로 창을 닫아도 같은 학번으로 돌아오면 <strong>이어서 진행</strong>할 수 있어요.
+    </div>
+
+    <div class="welcome-form">
+      <label class="welcome-label">학번 <span style="color:var(--warm);">*</span></label>
+      <input type="text" id="welcome-class" placeholder="예: 20101" autofocus>
+
+      <label class="welcome-label" style="margin-top:14px;">이름 <span style="color:var(--warm);">*</span></label>
+      <input type="text" id="welcome-name" placeholder="홍길동">
+
+      <div id="welcome-resume" style="display:none; margin-top:14px; padding:12px 14px; background:var(--accent-light); border-left:3px solid var(--accent); border-radius:8px; font-size:13px; line-height:1.6;">
+        💡 <span id="welcome-resume-msg"></span>
+      </div>
+
+      <div id="welcome-error" style="display:none; margin-top:10px; padding:8px 12px; background:#FBE9DF; border-left:3px solid var(--warm); border-radius:6px; font-size:12.5px; color:var(--warm); font-weight:600;"></div>
+
+      <div style="display:flex; gap:10px; margin-top:18px;">
+        <button class="btn-primary" id="welcome-start-btn" style="flex:2;">실험실 입장하기 →</button>
+        <button class="btn-secondary" id="welcome-skip-btn" style="flex:1; font-size:11.5px;" title="선생님 시연용 — 저장 없이 둘러보기">👀 둘러보기</button>
+      </div>
+      <div style="margin-top:8px; font-size:11px; color:var(--text-mute); text-align:center;">
+        ※ 「둘러보기」는 선생님 시연용입니다. 학생은 학번·이름 입력 후 「입장하기」를 눌러주세요.
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============ Welcome end ============ -->
+
 <div class="app">
 
 <!-- Modal container -->
@@ -2491,9 +2613,6 @@ header.lab-head {
         style="flex:1; min-width:200px; padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:14px; outline:none;">
       <input type="text" id="student-class" placeholder="학번 (예: 20101)"
         style="flex:1; min-width:200px; padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:14px; outline:none;">
-    </div>
-    <div style="margin-top:10px; padding:8px 12px; background:var(--accent-light); border-left:3px solid var(--accent); border-radius:8px; font-size:12px; line-height:1.6; color:var(--text);">
-      💾 <strong>자동 저장 안내:</strong> 학번을 적으면 모든 입력 내용이 <strong>자동으로 저장</strong>돼요. 실수로 창을 닫아도, 다시 와서 같은 학번을 입력하면 <strong>이어서 할 수 있어요!</strong>
     </div>
     <button class="btn-primary" id="complete-report-btn" style="margin-top:14px;">
       📋 보고서 완성하기
@@ -3957,6 +4076,95 @@ if (typeof POE_DATA !== 'undefined') {
   Object.keys(POE_DATA).forEach(setId => renderPOESet(setId));
 }
 
+/* ===== 시작화면 (Welcome Screen) 로직 ===== */
+function initWelcomeScreen() {
+  const screen = document.getElementById('welcome-screen');
+  const classInput = document.getElementById('welcome-class');
+  const nameInput = document.getElementById('welcome-name');
+  const startBtn = document.getElementById('welcome-start-btn');
+  const skipBtn = document.getElementById('welcome-skip-btn');
+  const errorBox = document.getElementById('welcome-error');
+  const resumeBox = document.getElementById('welcome-resume');
+  const resumeMsg = document.getElementById('welcome-resume-msg');
+
+  // 학번 입력하면 이전 저장 데이터 있는지 체크
+  function checkExistingData() {
+    const cls = classInput.value.trim();
+    if (!cls) { resumeBox.style.display = 'none'; return; }
+    const key = STORAGE_PREFIX + sanitizeKey(cls);
+    const raw = localStorage.getItem(key);
+    if (raw) {
+      try {
+        const data = JSON.parse(raw);
+        const date = new Date(data.timestamp).toLocaleString('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' });
+        const savedName = (data.studentData && data.studentData.name) || '이전 학생';
+        resumeMsg.innerHTML = `학번 <strong>${cls}</strong>로 저장된 자료가 있어요 (<strong>${savedName}</strong>, ${date}).<br>입장하면 자동으로 <strong>이어서 진행</strong>됩니다.`;
+        resumeBox.style.display = 'block';
+        // 저장된 이름 자동 채우기
+        if (data.studentData && data.studentData.name && !nameInput.value.trim()) {
+          nameInput.value = data.studentData.name;
+        }
+      } catch(e) { resumeBox.style.display = 'none'; }
+    } else {
+      resumeBox.style.display = 'none';
+    }
+  }
+  classInput.addEventListener('input', checkExistingData);
+  classInput.addEventListener('blur', checkExistingData);
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+    errorBox.style.display = 'block';
+    setTimeout(() => errorBox.style.display = 'none', 4000);
+  }
+
+  startBtn.addEventListener('click', () => {
+    const cls = classInput.value.trim();
+    const name = nameInput.value.trim();
+    if (!cls) { showError('⚠ 학번을 입력해 주세요'); classInput.focus(); return; }
+    if (!name) { showError('⚠ 이름을 입력해 주세요'); nameInput.focus(); return; }
+    // 보고서 탭의 학번/이름 input에도 채워넣기
+    const sc = document.getElementById('student-class');
+    const sn = document.getElementById('student-name');
+    if (sc) sc.value = cls;
+    if (sn) sn.value = name;
+    StudentData.name = name;
+    StudentData.studentClass = cls;
+    // 이전 데이터 있으면 자동 복원
+    const key = STORAGE_PREFIX + sanitizeKey(cls);
+    if (localStorage.getItem(key)) {
+      restoreFromKey(key);
+      didAutoRestore = true;
+      currentSaveKey = key;
+      setTimeout(() => showGlobalAlert('↩️ 이어서 진행', `이전에 작성한 내용을 모두 불러왔어요. <strong>${name}</strong> 학생, 환영합니다!`), 600);
+    } else {
+      currentSaveKey = key;
+      autoSave(); // 첫 저장
+    }
+    // 화면 닫기
+    screen.classList.add('hidden');
+    setTimeout(updateProgressFab, 800);
+  });
+
+  skipBtn.addEventListener('click', () => {
+    screen.classList.add('hidden');
+  });
+
+  // Enter 키로 시작
+  [classInput, nameInput].forEach(inp => {
+    inp.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (inp === classInput && !nameInput.value.trim()) nameInput.focus();
+        else startBtn.click();
+      }
+    });
+  });
+}
+
+// 페이지 로드 시 시작화면 초기화
+window.addEventListener('load', () => setTimeout(initWelcomeScreen, 100));
+
 /* ===== localStorage 자동 저장 시스템 ===== */
 const STORAGE_PREFIX = 'palmitic_lab_';
 let currentSaveKey = STORAGE_PREFIX + 'temp';
@@ -4183,20 +4391,19 @@ document.addEventListener('input', (e) => {
   }
 });
 
-// 학번 입력란에서 blur 시 복원 체크
+// 학번 입력란 변경 시 다시 저장 키 업데이트 (보고서 탭에서 수정한 경우)
 window.addEventListener('load', () => {
   setTimeout(() => {
     const classInput = document.getElementById('student-class');
     if (classInput) {
-      classInput.addEventListener('blur', checkRestoreOnClassChange);
-      classInput.addEventListener('change', checkRestoreOnClassChange);
-    }
-    // 페이지 로드 시 임시 키에 데이터 있으면 자동 복원
-    const tempKey = STORAGE_PREFIX + 'temp';
-    if (localStorage.getItem(tempKey)) {
-      // 임시 키는 조용히 복원 (모달 X)
-      restoreFromKey(tempKey);
-      didAutoRestore = true;
+      classInput.addEventListener('blur', () => {
+        if (didAutoRestore) { autoSave(); return; }
+        const key = getSaveKey();
+        if (key !== STORAGE_PREFIX + 'temp') {
+          currentSaveKey = key;
+          autoSave();
+        }
+      });
     }
   }, 600);
 });
