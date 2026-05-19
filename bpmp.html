@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root {
   --bg: #F7F6F2;
@@ -141,8 +142,8 @@ header.lab-head {
 .tab.active .num { opacity: 1; }
 
 /* ====== Panels ====== */
-.panel { display: none; animation: fadeIn 0.25s ease; }
-.panel.active { display: block; }
+.panel { display: none !important; animation: fadeIn 0.25s ease; }
+.panel.active { display: block !important; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
 .panel-head {
@@ -619,24 +620,28 @@ header.lab-head {
 /* ====== Particle Legend ====== */
 .particle-legend {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   margin-top: 12px;
-  padding: 12px;
+  padding: 10px;
   background: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: 10px;
+  flex-wrap: wrap;
 }
 .particle-legend > div {
   flex: 1;
+  min-width: 90px;
   text-align: center;
+  padding: 4px;
 }
 .particle-legend .label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   margin-top: 6px;
+  line-height: 1.35;
 }
 
 /* ====== Speed Slider ====== */
@@ -810,11 +815,12 @@ header.lab-head {
   .scenario-btn .emoji { font-size: 18px; }
 }
 
-/* ====== Print: certificate only ====== */
+/* ====== Print: report only ====== */
 @media print {
   body * { visibility: hidden; }
-  #certificate, #certificate * { visibility: visible; }
-  #certificate {
+  #report-content, #report-content * { visibility: visible; }
+  #report-content #report-actions { display: none !important; }
+  #report-content {
     position: absolute;
     left: 0; top: 0;
     width: 100%;
@@ -822,8 +828,53 @@ header.lab-head {
     margin: 0;
     box-shadow: none;
   }
-  @page { size: A4 landscape; margin: 1cm; }
+  @page { size: A4 portrait; margin: 1cm; }
 }
+
+/* ====== T0 (POE intro) styles ====== */
+.case-card { transition: all 0.2s; }
+.case-card:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow); }
+.case-card.expanded .case-detail { display: block !important; }
+.case-card.expanded > div:last-child { display: none; }
+.poe-predict-btn:hover { border-color: var(--accent) !important; }
+.poe-predict-btn.selected { border-color: var(--accent) !important; background: var(--accent-light) !important; }
+
+/* ====== Graph prediction options ====== */
+.graph-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+@media (max-width: 768px) { .graph-choice-grid { grid-template-columns: 1fr; } }
+.graph-choice {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.graph-choice:hover { border-color: var(--border-strong); }
+.graph-choice.selected { border-color: var(--accent); background: var(--accent-light); }
+.graph-choice .label-mini {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.graph-choice .title-mini {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.graph-choice svg { width: 100%; height: 110px; background: var(--bg-elev); border-radius: 6px; }
 </style>
 </head>
 <body>
@@ -1121,21 +1172,14 @@ header.lab-head {
       </button>
     </div>
   </div>
-
-  <style>
-    .case-card:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow); }
-    .case-card.expanded .case-detail { display: block !important; }
-    .case-card.expanded > div:last-child { display: none; }
-    .poe-predict-btn:hover { border-color: var(--accent) !important; }
-    .poe-predict-btn.selected { border-color: var(--accent) !important; background: var(--accent-light) !important; }
-  </style>
 </section>
 
 <!-- ============================= -->
 <!-- TAB 1: 팔미트산 녹는점 -->
 <!-- ============================= -->
 <section class="panel" id="t1">
-  <div class="panel-head">
+  <div class="panel-head" style="position:relative;">
+    <button onclick="showGlossary()" style="position:absolute; top:0; right:0; padding:8px 14px; background:var(--accent-light); color:var(--accent); border:1.5px solid var(--accent); border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:5px;">📖 단어장</button>
     <div class="label">Experiment 01 / Melting Point</div>
     <h2>팔미트산의 녹는점 측정</h2>
     <p class="desc">시험관에 담긴 팔미트산을 물중탕으로 가열하면서 시간에 따른 온도 변화를 기록합니다. <strong>5g</strong>과 <strong>10g</strong> 중 하나를 골라 실험을 진행해 보세요.</p>
@@ -1148,6 +1192,66 @@ header.lab-head {
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- ===== P단계: 예측 영역 ===== -->
+  <div class="card" style="margin-bottom:20px; background:var(--accent-light); border-left:4px solid var(--accent);">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+      <div style="width:28px; height:28px; background:var(--accent); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px;">P</div>
+      <div style="font-weight:700; font-size:15px; color:var(--accent);">먼저 예측해 보세요</div>
+    </div>
+    <p style="font-size:13.5px; line-height:1.65; margin-bottom:12px; color:var(--text);">
+      <strong>고체 팔미트산</strong>을 일정한 속도로 가열하면 시간에 따라 온도는 어떻게 변할까요?<br>
+      아래 세 가지 그래프 중 가장 가까울 것 같은 모양을 골라보세요.
+    </p>
+    <div class="graph-choice-grid">
+      <button class="graph-choice" data-pred-graph="step" type="button">
+        <svg viewBox="0 0 200 130">
+          <line x1="20" y1="115" x2="190" y2="115" stroke="#5B6178" stroke-width="1"/>
+          <line x1="20" y1="115" x2="20" y2="20" stroke="#5B6178" stroke-width="1"/>
+          <text x="195" y="120" font-size="8" fill="#5B6178" font-family="JetBrains Mono,monospace">t</text>
+          <text x="10" y="20" font-size="8" fill="#5B6178" font-family="JetBrains Mono,monospace">T</text>
+          <polyline points="20,100 50,80 80,55 95,55 145,55 175,30" fill="none" stroke="#2C5F7F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="80" y1="55" x2="145" y2="55" stroke="#E9B949" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="label-mini">그래프 ①</div>
+          <div class="title-mini">평탄 구간이 있는 그래프</div>
+        </div>
+      </button>
+      <button class="graph-choice" data-pred-graph="kink" type="button">
+        <svg viewBox="0 0 200 130">
+          <line x1="20" y1="115" x2="190" y2="115" stroke="#5B6178" stroke-width="1"/>
+          <line x1="20" y1="115" x2="20" y2="20" stroke="#5B6178" stroke-width="1"/>
+          <text x="195" y="120" font-size="8" fill="#5B6178" font-family="JetBrains Mono,monospace">t</text>
+          <text x="10" y="20" font-size="8" fill="#5B6178" font-family="JetBrains Mono,monospace">T</text>
+          <polyline points="20,100 80,60 175,40" fill="none" stroke="#2C5F7F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="80" cy="60" r="3" fill="#C04E1A"/>
+        </svg>
+        <div>
+          <div class="label-mini">그래프 ②</div>
+          <div class="title-mini">중간에 기울기가 꺾이는 그래프</div>
+        </div>
+      </button>
+      <button class="graph-choice" data-pred-graph="linear" type="button">
+        <svg viewBox="0 0 200 130">
+          <line x1="20" y1="115" x2="190" y2="115" stroke="#5B6178" stroke-width="1"/>
+          <line x1="20" y1="115" x2="20" y2="20" stroke="#5B6178" stroke-width="1"/>
+          <text x="195" y="120" font-size="8" fill="#5B6178" font-family="JetBrains Mono,monospace">t</text>
+          <text x="10" y="20" font-size="8" fill="#5B6178" font-family="JetBrains Mono,monospace">T</text>
+          <line x1="20" y1="100" x2="175" y2="30" stroke="#2C5F7F" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="label-mini">그래프 ③</div>
+          <div class="title-mini">계속 같은 속도로 증가하는 그래프</div>
+        </div>
+      </button>
+    </div>
+    <div style="margin-top:12px;">
+      <label style="font-size:12px; font-weight:600; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; display:block; margin-bottom:6px;">✍️ 예측의 이유를 적어보세요</label>
+      <textarea id="pred-reason-1" placeholder="왜 그 그래프를 선택했나요? 자신의 생각을 적어보세요..." style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-family:inherit; font-size:13.5px; resize:vertical; min-height:60px; outline:none; background:white;"></textarea>
+    </div>
+    <div id="pred-1-status" style="margin-top:8px; font-size:12px; color:var(--text-dim); font-style:italic;">예측을 한 후 아래에서 실험을 진행해 보세요.</div>
   </div>
 
   <div class="exp-grid">
@@ -1245,6 +1349,10 @@ header.lab-head {
             </g>
           </svg>
           <div class="label">고체 (격자 배열, 진동)</div>
+        </div>
+        <div style="border: 2px solid var(--warm); border-radius: 8px; background: #FBE9DF;">
+          <svg id="current-state-svg-1" viewBox="0 0 80 60" width="80" height="60"></svg>
+          <div class="label" id="current-state-label-1" style="color:var(--warm); font-weight:700;">📍 현재 (실험 시작 전)</div>
         </div>
         <div>
           <svg viewBox="0 0 80 60" width="80" height="60">
@@ -1356,7 +1464,8 @@ header.lab-head {
 <!-- TAB 2: 에탄올 끓는점 -->
 <!-- ============================= -->
 <section class="panel" id="t2">
-  <div class="panel-head">
+  <div class="panel-head" style="position:relative;">
+    <button onclick="showGlossary()" style="position:absolute; top:0; right:0; padding:8px 14px; background:var(--accent-light); color:var(--accent); border:1.5px solid var(--accent); border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:5px;">📖 단어장</button>
     <div class="label">Experiment 02 / Boiling Point</div>
     <h2>에탄올의 끓는점 측정</h2>
     <p class="desc">에탄올을 가열하면서 일정한 간격마다 <strong>「점찍기」 버튼</strong>을 눌러 직접 데이터를 기록합니다. 양을 다르게 해도 끓는점은 같은지 확인해 보세요.</p>
@@ -1623,7 +1732,7 @@ header.lab-head {
       일정한 
       <input type="text" class="fill-blank" data-answer="압력" data-hint="공기가 누르는 힘 (○○)" placeholder="???" style="width:80px; font-size:17px;">
       에서, 물질의 녹는점과 끓는점은
-      <input type="text" class="fill-blank" data-answer="양|질량|부피" data-hint="얼마나 많이? (○)" placeholder="???" style="width:80px; font-size:17px;">
+      <input type="text" class="fill-blank" data-answer="양|물질의 양|질량|부피" data-hint="얼마나 많이? (○○○)" placeholder="???" style="width:80px; font-size:17px;">
       에 관계없이
       <input type="text" class="fill-blank" data-answer="일정|일정함|항상 일정" data-hint="변하지 않음 (○○)" placeholder="???" style="width:100px; font-size:17px;">
       하므로,<br>
@@ -2082,16 +2191,25 @@ header.lab-head {
         </div>
       </div>
 
-      <!-- Action buttons -->
-      <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="btn-primary" id="download-cert" style="flex:1; min-width:160px;">
-          📥 자격증 이미지로 저장
-        </button>
-        <button class="btn-secondary" id="print-cert" style="flex:1; min-width:160px;">
-          🖨️ 인쇄하기
-        </button>
-        <button class="btn-secondary" id="show-cert-tip" style="flex:1; min-width:160px; background:var(--accent-light); color:var(--accent); border-color:var(--accent);">
-          💬 선생님께 자랑하기
+      <!-- Action buttons (excluded from capture) -->
+      <div id="report-actions" style="margin-top:18px;">
+        <div style="font-size:12px; color:var(--text-dim); margin-bottom:10px; text-align:center;">📤 <strong>나의 POE 보고서</strong>(체크리스트 + POE 기록 + 자격증)를 저장합니다</div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:10px;">
+          <button class="btn-primary" id="download-report-png">
+            🖼️ 이미지(PNG)로 저장
+          </button>
+          <button class="btn-primary" id="download-report-pdf" style="background:#C04E1A;">
+            📄 PDF로 저장
+          </button>
+          <button class="btn-primary" id="download-report-word" style="background:#2B579A;">
+            📝 Word로 저장
+          </button>
+          <button class="btn-secondary" id="print-report">
+            🖨️ 인쇄하기
+          </button>
+        </div>
+        <button class="btn-secondary" id="show-cert-tip" style="margin-top:10px; width:100%; background:var(--accent-light); color:var(--accent); border-color:var(--accent);">
+          💬 선생님께 자랑하기 안내
         </button>
       </div>
     </div>
@@ -2267,25 +2385,27 @@ function saveInputValue(key, subkey, val) {
 const POE_DATA = {
   'observe-1': {
     color: '#FBF3DC', borderColor: 'var(--plateau)', headerColor: '#8C6B12', textColor: '#5C4710',
-    intro: '📋 다음 항목별로 구체적으로 적어보세요:',
+    intro: '📋 각 구간별로 ①②③ 순서대로 답해보세요:',
     questions: [
       {
         id: 'o1-1',
-        text: '<strong>가열 시작 ~ 62.5℃ 도달까지</strong>: 시험관 안 입자의 <em>배열</em>은? <em>온도 변화</em>는?',
-        hint: '가열 전에 입자들이 어떻게 정렬되어 있었는지(가지런한 격자 vs 자유 배열), 그리고 온도계 눈금이 시간에 따라 어떻게 변했는지 떠올려 보세요.',
-        model: '입자들이 <strong>격자처럼 가지런히 배열</strong>되어 진동하고 있었고, 시간이 지날수록 진동이 빨라졌습니다. 온도는 약 25℃에서 시작해 점점 올라가 <strong>62.5℃</strong>에 도달했습니다.'
+        text: '<strong>가열 시작 ~ 62.5℃ 도달까지</strong><br>① 입자 배열은 <strong>규칙적</strong>인가요, <strong>불규칙적</strong>인가요? <em>(고체면 규칙적, 액체면 불규칙적)</em><br>② 온도 변화는 어떻게 되나요? <em>(증가 / 감소 / 일정 중)</em><br>③ 이 구간에서 물질의 상태는?',
+        hint: '시험관 안 입자들이 가지런히 정렬되어 있는지(=규칙적), 자유롭게 흩어져 있는지(=불규칙적) 확인하세요. 그리고 온도계 눈금이 점점 어떻게 변하는지도 살펴보세요.',
+        model: '① 입자 배열은 <strong>규칙적</strong> (격자처럼 가지런히 정렬) / ② 온도 변화는 <strong>증가</strong> (25℃ → 62.5℃) / ③ 물질의 상태는 <strong>고체</strong>'
       },
       {
         id: 'o1-2',
-        text: '<strong>평탄 구간 (62.5℃)</strong>: 입자의 <em>움직임</em>은? <em>온도</em>는?',
-        hint: '격자 구조가 무너지면서 입자들이 어떻게 변해가는지, 그리고 가열을 계속하는데도 온도계 눈금은 어떻게 됐는지 살펴보세요.',
-        model: '격자 구조가 무너지면서 입자들이 점점 <strong>자유롭게 움직이기 시작</strong>했습니다(고체→액체로 변하는 중). 가열을 계속하는데도 <strong>온도는 62.5℃에서 변하지 않았습니다</strong>.'
+        text: '<strong>평탄 구간 (62.5℃)</strong><br>① 온도 변화는 어떻게 되나요? <em>(증가 / 감소 / 일정 중)</em><br>② 이 구간에 존재하는 물질의 상태는?',
+        info: '<strong>📘 중1 과학에서 배운 내용 복습:</strong> 가열을 계속해도 온도가 변하지 않는 평탄 구간에서는, 들어온 <strong>모든 열에너지가 상태 변화에 사용</strong>되어 온도 변화가 없습니다.',
+        hint: '평탄 구간 동안 시험관 안에는 어떤 상태들이 함께 있는지 살펴보세요(고체만? 액체만? 둘 다 공존?).',
+        model: '① 온도 변화는 <strong>일정</strong> (62.5℃에서 변하지 않음) / ② 물질의 상태는 <strong>고체 + 액체 (공존)</strong> — 융해가 진행 중인 상태'
       },
       {
         id: 'o1-3',
-        text: '<strong>완전 융해 후</strong>: 입자 <em>배열</em>은? <em>온도 변화</em>는?',
-        hint: '모든 고체가 녹아 액체가 된 후, 입자는 어떻게 움직이는지, 그리고 온도계는 어떻게 변하는지 보세요.',
-        model: '모든 입자가 <strong>자유롭게 흐르듯</strong> 움직이는 액체 상태가 되었고, 온도가 다시 <strong>62.5℃에서 점점 올라가</strong> 95℃까지 상승했습니다.'
+        text: '<strong>완전 융해 후 (62.5℃ 이후)</strong><br>① 온도가 올라갈수록 <strong>입자 운동</strong>은 어떻게 되나요?<br>② 이 구간에 존재하는 물질의 상태는?',
+        info: '<strong>📘 융해(融解)란?</strong> <strong>고체가 액체로 변하는 상태 변화</strong>를 융해라고 합니다. 융해가 일어나는 온도 = 녹는점.',
+        hint: '액체 상태의 입자들이 가열되면 더 빠르게 움직일까요, 더 느리게 움직일까요? 일상에서 뜨거운 물과 차가운 물 속 잉크가 퍼지는 속도를 떠올려 보세요.',
+        model: '① 온도가 올라갈수록 입자 운동은 <strong>더 빠르고 활발해진다</strong> (입자의 움직임 속도 증가) / ② 물질의 상태는 <strong>액체</strong>'
       },
       {
         id: 'o1-4',
@@ -2301,9 +2421,9 @@ const POE_DATA = {
     questions: [
       {
         id: 'e1-1',
-        text: '평탄 구간에서 열을 계속 가했는데 <strong>왜 온도가 변하지 않았을까요?</strong> (입자의 입장에서)',
-        hint: '온도가 안 올라간다는 건 → 열에너지가 온도를 올리는 데 안 쓰였다는 뜻. 그렇다면 어디로 갔을까요? 입자들이 격자(고체)에서 벗어나려면 무엇을 해야 할까요?',
-        model: '가열은 계속되었지만, 들어온 열에너지가 <strong>입자 사이의 결합을 끊어 입자 배열을 바꾸는 데</strong>(고체 격자→자유로운 액체) 모두 사용되었기 때문입니다. 온도를 올리는 데는 쓰이지 않았으므로 온도가 변하지 않았습니다.'
+        text: '평탄 구간에서 들어온 <strong>열에너지는 모두 어디에 사용</strong>되었기 때문일까요?',
+        hint: '평탄 구간에서 온도가 안 올라간다는 것 = 들어온 열에너지가 온도를 올리는 데 쓰이지 않았다는 뜻입니다. 그럼 그 에너지는 어디에 쓰였을까요? 고체 격자에서 자유로운 액체로 입자들이 변하려면 무엇을 해야 할까요?',
+        model: '평탄 구간에서 들어온 열에너지는 모두 <strong>고체에서 액체로의 상태 변화(=입자 사이의 결합을 끊는 일)에 사용</strong>되었기 때문입니다. 온도를 올리는 데 사용되지 않았으므로 온도가 변하지 않았습니다.'
       },
       {
         id: 'e1-2',
@@ -2457,6 +2577,7 @@ function renderPOESet(setId) {
   data.questions.forEach((q, idx) => {
     html += `<div class="poe-q" data-q="${q.id}" style="margin-bottom:14px; ${idx < data.questions.length-1 ? 'padding-bottom:14px; border-bottom:1px dashed rgba(0,0,0,0.12);' : ''}">
       <div style="font-size:12.5px; line-height:1.6; margin-bottom:6px; color:${data.textColor};"><strong>${idx+1}.</strong> ${q.text}</div>
+      ${q.info ? `<div style="background:white; border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:6px; padding:8px 11px; margin-bottom:8px; font-size:12px; line-height:1.6; color:var(--text);">${q.info}</div>` : ''}
       <textarea data-poe-q="${q.id}" placeholder="여기에 답을 적어보세요..." style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-family:inherit; font-size:13px; min-height:50px; outline:none; resize:vertical; background:white;"></textarea>
       <div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">
         <button type="button" onclick="togglePOEHint('${q.id}')" style="padding:4px 10px; font-size:11.5px; background:white; border:1px solid var(--border); border-radius:6px; cursor:pointer; font-family:inherit; color:var(--accent);">💡 힌트</button>
@@ -2469,7 +2590,6 @@ function renderPOESet(setId) {
     <button type="button" data-show-models="${setId}" onclick="showAllPOEModels('${setId}')" style="padding:8px 14px; background:var(--border-strong); color:white; border:none; border-radius:8px; cursor:not-allowed; font-family:inherit; font-size:12.5px; font-weight:600; opacity:0.6;" disabled>📖 모든 칸을 채우면 모범답안을 볼 수 있어요</button>
   </div></div>`;
   container.innerHTML = html;
-  // Listen for input to enable model button
   container.querySelectorAll('textarea[data-poe-q]').forEach(ta => {
     ta.addEventListener('input', () => checkPOEComplete(setId));
   });
@@ -2485,7 +2605,7 @@ function checkPOEComplete(setId) {
   if (!data) return;
   const allFilled = data.questions.every(q => {
     const ta = document.querySelector(`textarea[data-poe-q="${q.id}"]`);
-    return ta && ta.value.trim().length > 3;
+    return ta && ta.value.trim().length > 0;
   });
   const btn = document.querySelector(`button[data-show-models="${setId}"]`);
   if (btn) {
@@ -2666,10 +2786,10 @@ const TAB_INTROS = {
     points: [
       '시험관 안의 입자가 어떻게 움직이는지 함께 관찰하세요',
       '온도가 일정하게 유지되는 <strong>평탄 구간</strong>을 찾아내는 것이 목표입니다',
-      '<strong>5g</strong>과 <strong>10g</strong> 두 가지 양으로 비교해 보세요'
+      '<strong>5g</strong>과 <strong>10g</strong> 두 가지 양으로 비교해 보세요',
+      '실험 시작 전에 — 화면 아래쪽 <strong>P단계 영역에서 그래프 모양을 예측</strong>하고 이유를 적어주세요!'
     ],
-    advanceOrganizer: '겨울 아침에 <strong>−10℃ 얼음</strong>을 가지고 와서 천천히 가열한다고 떠올려 보세요. 가열 시간에 따라 온도계 눈금이 <em>일정한 속도로 쭉</em> 올라갈까요? 일상 경험을 떠올리면서 예측해 보세요.',
-    question: '실험 전 예측 — 고체 팔미트산을 계속 가열하면 시간에 따라 온도가 어떻게 변할까요? 예상한 모양을 글로 적어보세요.'
+    advanceOrganizer: '겨울 아침에 <strong>−10℃ 얼음</strong>을 가지고 와서 천천히 가열한다고 떠올려 보세요. 가열 시간에 따라 온도계 눈금이 <em>일정한 속도로 쭉</em> 올라갈까요? 일상 경험을 떠올리면서 예측해 보세요.'
   },
   t2: {
     label: 'Experiment 02',
@@ -2732,11 +2852,13 @@ function showIntroModal(tabId) {
           <div style="font-size:13.5px; line-height:1.7; color:#5C4710;">${intro.advanceOrganizer}</div>
         </div>
       ` : ''}
-      <div class="modal-question">
-        <label>✍️ 시작하기 전에 — 답을 적어보세요</label>
-        <div class="q-text">${intro.question}</div>
-        <textarea id="intro-answer-${tabId}" placeholder="여기에 자신의 생각을 적어보세요..."></textarea>
-      </div>
+      ${intro.question ? `
+        <div class="modal-question">
+          <label>✍️ 시작하기 전에 — 답을 적어보세요</label>
+          <div class="q-text">${intro.question}</div>
+          <textarea id="intro-answer-${tabId}" placeholder="여기에 자신의 생각을 적어보세요..."></textarea>
+        </div>
+      ` : ''}
     </div>
     <div class="modal-foot" style="display:block;">
       <div style="font-size:11.5px; color:var(--warm); margin-bottom:10px; text-align:right; font-weight:500;">⚠️ 「건너뛰기」를 누르면 보고서에 빈 공간이 생겨요!</div>
@@ -2935,8 +3057,14 @@ const Exp1 = {
     this.alertedDone = false;
     document.getElementById('flame-1').style.opacity = '0';
     document.getElementById('heat-btn-1').classList.remove('heating');
-    document.getElementById('heat-btn-1').querySelector('span').textContent = '물중탕 가열 시작';
-    document.getElementById('heat-btn-1').disabled = false;
+    // 그래프 예측을 했는지 따라 가열 버튼 상태 결정
+    if (typeof pred1Graph !== 'undefined' && pred1Graph) {
+      document.getElementById('heat-btn-1').querySelector('span').textContent = '물중탕 가열 시작';
+      document.getElementById('heat-btn-1').disabled = false;
+    } else {
+      document.getElementById('heat-btn-1').querySelector('span').textContent = '🔒 먼저 P단계에서 그래프 예측';
+      document.getElementById('heat-btn-1').disabled = true;
+    }
     document.getElementById('status-1').classList.remove('heating');
     document.getElementById('status-text-1').textContent = '대기 중 — 질량 선택 후 가열을 시작하세요';
     document.getElementById('insight-1').classList.remove('show');
@@ -3087,6 +3215,7 @@ const Exp1 = {
     else if (this.phase === 'plateau') { badge.textContent = '융해 중'; badge.className = 'state-badge melting'; }
     else { badge.textContent = '액체'; badge.className = 'state-badge liquid'; }
     this.updateFill();
+    if (typeof updateCurrentStateLegend1 === 'function') updateCurrentStateLegend1(this.phase, this.running);
     drawGraph(document.getElementById('graph-melt'), {
       xMax: this.mass === 5 ? 80 : 120,
       yMin: 20, yMax: 100,
@@ -3096,6 +3225,51 @@ const Exp1 = {
     });
   }
 };
+
+function updateCurrentStateLegend1(phase, running) {
+  const svg = document.getElementById('current-state-svg-1');
+  const lbl = document.getElementById('current-state-label-1');
+  if (!svg || !lbl) return;
+  if (!running && phase === 'heating') {
+    // 실험 시작 전 - 고체 격자 (Exp1.t === 0)
+    svg.innerHTML = `<g fill="#6B8FB5" stroke="#2C5F7F" stroke-width="0.8">
+      <circle cx="15" cy="15" r="5"/><circle cx="30" cy="15" r="5"/><circle cx="45" cy="15" r="5"/><circle cx="60" cy="15" r="5"/>
+      <circle cx="15" cy="30" r="5"/><circle cx="30" cy="30" r="5"/><circle cx="45" cy="30" r="5"/><circle cx="60" cy="30" r="5"/>
+      <circle cx="15" cy="45" r="5"/><circle cx="30" cy="45" r="5"/><circle cx="45" cy="45" r="5"/><circle cx="60" cy="45" r="5"/>
+    </g>`;
+    lbl.textContent = '📍 현재 (실험 시작 전)';
+    return;
+  }
+  if (phase === 'heating') {
+    // 가열 중 (고체) - 격자 배열 (실험 시작 전과 동일하게 깔끔하게)
+    svg.innerHTML = `<g fill="#7A9BC0" stroke="#2C5F7F" stroke-width="0.8">
+      <circle cx="15" cy="15" r="5"/><circle cx="30" cy="15" r="5"/><circle cx="45" cy="15" r="5"/><circle cx="60" cy="15" r="5"/>
+      <circle cx="15" cy="30" r="5"/><circle cx="30" cy="30" r="5"/><circle cx="45" cy="30" r="5"/><circle cx="60" cy="30" r="5"/>
+      <circle cx="15" cy="45" r="5"/><circle cx="30" cy="45" r="5"/><circle cx="45" cy="45" r="5"/><circle cx="60" cy="45" r="5"/>
+    </g>`;
+    lbl.textContent = '📍 현재: 고체 (가열 중)';
+  } else if (phase === 'plateau') {
+    // 융해 중 (반은 격자, 반은 자유)
+    svg.innerHTML = `
+      <g fill="#7A9BC0" stroke="#2C5F7F" stroke-width="0.8">
+        <circle cx="15" cy="15" r="5"/><circle cx="30" cy="15" r="5"/><circle cx="45" cy="15" r="5"/><circle cx="60" cy="15" r="5"/>
+        <circle cx="15" cy="30" r="5"/><circle cx="30" cy="30" r="5"/>
+      </g>
+      <g fill="#4A90C2" stroke="#2C5F7F" stroke-width="0.8">
+        <circle cx="44" cy="32" r="5"/><circle cx="58" cy="29" r="5"/>
+        <circle cx="14" cy="46" r="5"/><circle cx="31" cy="48" r="5"/><circle cx="48" cy="46" r="5"/><circle cx="62" cy="48" r="5"/>
+      </g>`;
+    lbl.textContent = '📍 현재: 융해 중 (고체+액체)';
+  } else {
+    // postmelt - 자유 배열
+    svg.innerHTML = `<g fill="#4A90C2" stroke="#2C5F7F" stroke-width="0.8">
+      <circle cx="14" cy="18" r="5"/><circle cx="28" cy="22" r="5"/><circle cx="44" cy="14" r="5"/><circle cx="58" cy="20" r="5"/>
+      <circle cx="20" cy="34" r="5"/><circle cx="38" cy="36" r="5"/><circle cx="55" cy="34" r="5"/>
+      <circle cx="16" cy="48" r="5"/><circle cx="32" cy="50" r="5"/><circle cx="48" cy="46" r="5"/><circle cx="62" cy="48" r="5"/>
+    </g>`;
+    lbl.textContent = '📍 현재: 액체 (융해 완료)';
+  }
+}
 
 function formatTime(s) {
   const m = Math.floor(s / 60);
@@ -3110,13 +3284,34 @@ document.querySelectorAll('.mass-btn[data-exp="1"]').forEach(b => {
     b.classList.add('selected');
     Exp1.mass = parseInt(b.dataset.mass);
     Exp1.reset();
-    document.getElementById('heat-btn-1').disabled = false;
+    // 그래프 예측을 했을 때만 활성화
+    const heatBtn = document.getElementById('heat-btn-1');
+    if (pred1Graph) {
+      heatBtn.disabled = false;
+      heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
+    } else {
+      heatBtn.disabled = true;
+      heatBtn.querySelector('span').textContent = '🔒 먼저 P단계에서 그래프 예측';
+    }
   });
 });
-document.getElementById('heat-btn-1').addEventListener('click', () => Exp1.start());
+document.getElementById('heat-btn-1').addEventListener('click', () => {
+  // 첫 가열 시 1기압 알림
+  if (!Exp1.running && !seenPressureAlert[1]) {
+    showPressureAlert(1);
+  }
+  Exp1.start();
+});
 document.getElementById('reset-btn-1').addEventListener('click', () => {
   Exp1.reset();
-  document.getElementById('heat-btn-1').disabled = false;
+  const heatBtn = document.getElementById('heat-btn-1');
+  if (pred1Graph) {
+    heatBtn.disabled = false;
+    heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
+  } else {
+    heatBtn.disabled = true;
+    heatBtn.querySelector('span').textContent = '🔒 먼저 P단계에서 그래프 예측';
+  }
 });
 document.getElementById('speed-1').addEventListener('input', (e) => {
   Exp1.speed = parseFloat(e.target.value);
@@ -3128,6 +3323,113 @@ document.getElementById('pause-continue-1').addEventListener('click', () => Exp1
 Exp1.init();
 Exp1.render();
 if (typeof updateTabLocks === 'function') updateTabLocks();
+
+/* ===== Glossary (단어장) ===== */
+const GLOSSARY = [
+  { term: '물중탕 (湯煎)', def: '시험관을 직접 가열하지 않고 물에 담가서 가열하는 방법. 물이 시험관을 일정하게 둘러싸기 때문에 안의 물질이 <strong>천천히, 골고루, 안전하게</strong> 가열돼요. 직접 가열보다 정확한 실험이 가능합니다.' },
+  { term: '융해 (融解)', def: '<strong>고체가 액체로 변하는 상태 변화.</strong> 예: 얼음이 녹아 물이 되는 것, 양초의 왁스가 녹는 것.' },
+  { term: '기화 (氣化)', def: '<strong>액체가 기체로 변하는 상태 변화.</strong> 끓는 것뿐만 아니라 표면에서 천천히 증발하는 것도 기화에 포함됩니다.' },
+  { term: '녹는점', def: '고체가 융해되어 액체로 변하는 <strong>고유한 온도</strong>. 같은 물질이라면 양이 달라도 녹는점은 같습니다. 팔미트산: 62.5℃, 얼음: 0℃.' },
+  { term: '끓는점', def: '액체가 끓어서 기체가 되기 시작하는 <strong>고유한 온도</strong>. 양과 관계없이 물질에 따라 정해집니다. 1기압에서 물: 100℃, 에탄올: 78.3℃.' },
+  { term: '평탄 구간', def: '가열 곡선에서 <strong>가열을 계속해도 온도가 변하지 않는 구간</strong>. 이때 들어오는 열에너지는 모두 상태 변화에 사용되고 있어요.' },
+  { term: '가열 곡선', def: '시간(가로축)에 따른 온도(세로축) 변화를 나타낸 그래프. 평탄 구간이 있는 곡선과 없는 곡선의 차이로 물질을 구분할 수 있어요.' },
+  { term: '입자', def: '물질을 이루는 아주 작은 알갱이. <strong>고체</strong>는 입자가 격자처럼 규칙적으로 배열되고, <strong>액체</strong>는 자유롭게 흩어져 흐릅니다.' },
+  { term: '팔미트산', def: '야자유·팜유·동물성 기름에서 얻는 <strong>흰색 왁스 같은 고체</strong>. 비누·화장품·양초의 주재료. 녹는점 62.5℃.' },
+  { term: '에탄올', def: '술의 주성분이자 손소독제에도 들어있는 <strong>투명한 액체</strong>. 끓는점이 78.3℃로 물(100℃)보다 낮아서 더 잘 증발합니다.' },
+  { term: '1기압 (대기압)', def: '우리가 평소 살고 있는 공기의 압력. 해수면에서 약 <strong>1013 hPa(헥토파스칼)</strong>. 끓는점·녹는점은 압력에 따라 달라지기 때문에 실험할 때 "1기압"이라는 조건이 매우 중요합니다.' },
+  { term: '물질의 특성', def: '물질의 <strong>양과 관계없이 종류에 따라 결정</strong>되는 고유한 성질. 녹는점·끓는점·밀도·용해도 등이 있어요.' }
+];
+
+function showGlossary() {
+  const box = document.getElementById('modal-box');
+  box.innerHTML = `
+    <div class="modal-head">
+      <span class="pill" style="color:var(--accent);">📖 GLOSSARY</span>
+      <h2 style="font-size:20px;">단어장 — 실험 용어 풀이</h2>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        ${GLOSSARY.map(g => `
+          <div style="padding:11px 14px; background:var(--bg-elev); border-left:3px solid var(--accent); border-radius:8px;">
+            <div style="font-weight:700; font-size:13.5px; color:var(--accent); margin-bottom:4px;">${g.term}</div>
+            <div style="font-size:12.5px; line-height:1.6; color:var(--text);">${g.def}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-primary" onclick="closeWhyPopup()" style="width:auto;">닫기</button>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('show');
+}
+
+/* ===== 1기압 안내 알림 (실험 시작 시 한 번씩) ===== */
+const seenPressureAlert = { 1: false, 2: false };
+function showPressureAlert(expNum) {
+  if (seenPressureAlert[expNum]) return;
+  seenPressureAlert[expNum] = true;
+  const box = document.getElementById('modal-box');
+  box.innerHTML = `
+    <div class="modal-head">
+      <span class="pill" style="color:var(--accent);">🔬 실험 조건 안내</span>
+      <h2 style="font-size:20px;">실험실의 압력은 <strong style="color:var(--warm);">1기압</strong>입니다</h2>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px; line-height:1.7; margin-bottom:12px;">
+        오늘 실험은 우리가 평소 살고 있는 <strong>대기 환경(1기압)</strong>에서 진행됩니다.
+      </p>
+      <div style="padding:12px 14px; background:#FBE9DF; border-left:3px solid var(--warm); border-radius:8px; font-size:13px; line-height:1.65;">
+        💡 <strong>왜 압력이 중요할까요?</strong><br>
+        같은 물질이라도 <strong>압력이 달라지면 녹는점·끓는점이 달라집니다.</strong> 예를 들어 압력솥은 압력을 높여 끓는점을 120℃까지 올리고, 높은 산에서는 압력이 낮아져 물이 90℃에서도 끓어요.<br><br>
+        실험 결과를 비교할 때는 <strong>같은 압력에서 비교</strong>해야 정확합니다. 자세한 내용은 <strong>WHY 탭</strong>에서 다시 만나요!
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-primary" onclick="closeWhyPopup()" style="width:auto;">확인했어요 → 실험 시작</button>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('show');
+}
+
+/* ===== Tab 1: graph prediction ===== */
+let pred1Graph = null;
+// 초기 - 그래프 선택 전엔 가열 버튼 잠금
+(function lockHeatBtn1Initially() {
+  const heatBtn = document.getElementById('heat-btn-1');
+  if (heatBtn) {
+    heatBtn.disabled = true;
+    const spanEl = heatBtn.querySelector('span');
+    if (spanEl) spanEl.textContent = '🔒 먼저 P단계에서 그래프 예측';
+  }
+})();
+document.querySelectorAll('.graph-choice[data-pred-graph]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.graph-choice[data-pred-graph]').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    pred1Graph = btn.dataset.predGraph;
+    const map = { step: '평탄 구간이 있는 그래프', kink: '중간에 기울기가 꺾이는 그래프', linear: '계속 같은 속도로 증가하는 그래프' };
+    document.getElementById('pred-1-status').innerHTML = `<span style="color:var(--accent); font-weight:600;">✓ 선택 완료:</span> ${map[pred1Graph]} — 아래에서 실험을 시작해 보세요!`;
+    savePred1();
+    // 가열 버튼 잠금 해제
+    const heatBtn = document.getElementById('heat-btn-1');
+    if (heatBtn) {
+      heatBtn.disabled = false;
+      const spanEl = heatBtn.querySelector('span');
+      if (spanEl) spanEl.textContent = '물중탕 가열 시작';
+    }
+  });
+});
+function savePred1() {
+  const reason = document.getElementById('pred-reason-1');
+  const map = { step: '평탄 구간이 있는 그래프', kink: '중간에 기울기가 꺾이는 그래프', linear: '계속 같은 속도로 증가하는 그래프' };
+  const parts = [];
+  if (pred1Graph) parts.push(`선택한 그래프: ${map[pred1Graph]}`);
+  if (reason && reason.value.trim()) parts.push(`이유: ${reason.value.trim()}`);
+  if (parts.length) StudentData.predict.t1 = parts.join(' / ');
+}
+const pred1ReasonTA = document.getElementById('pred-reason-1');
+if (pred1ReasonTA) pred1ReasonTA.addEventListener('input', savePred1);
 // Render all POE question sets
 if (typeof POE_DATA !== 'undefined') {
   Object.keys(POE_DATA).forEach(setId => renderPOESet(setId));
@@ -3457,7 +3759,12 @@ document.querySelectorAll('.mass-btn[data-exp="2"]').forEach(b => {
     Exp2.reset();
   });
 });
-document.getElementById('heat-btn-2').addEventListener('click', () => Exp2.start());
+document.getElementById('heat-btn-2').addEventListener('click', () => {
+  if (!Exp2.running && !seenPressureAlert[2]) {
+    showPressureAlert(2);
+  }
+  Exp2.start();
+});
 document.getElementById('record-btn-2').addEventListener('click', () => Exp2.recordPoint());
 document.getElementById('reset-btn-2').addEventListener('click', () => Exp2.reset());
 document.getElementById('speed-2').addEventListener('input', (e) => {
@@ -3670,6 +3977,78 @@ function renderWhy1() {
     label.textContent = '액체 — 자유롭게 움직이는 입자';
     exp.innerHTML = '<strong style="color:var(--accent);">융해 완료 후 (액체)</strong> · 모든 결합이 끊겼으므로, 열에너지가 다시 <strong>온도를 올리는 데</strong> 쓰입니다. → <strong style="color:var(--warm);">온도가 다시 올라갑니다.</strong>';
   }
+
+  // Phase change popup (only when user interacted with slider)
+  if (why1UserInteracted && phase !== lastWhy1Phase) {
+    if (!seenWhy1Phases.has(phase)) {
+      seenWhy1Phases.add(phase);
+      showWhyPhasePopup(phase);
+    }
+  }
+  lastWhy1Phase = phase;
+}
+
+/* ===== WHY Q1 Phase Popup System ===== */
+let lastWhy1Phase = null;
+let why1UserInteracted = false;
+const seenWhy1Phases = new Set();
+
+const WHY1_PHASE_INFO = {
+  heating: {
+    title: '🔥 가열 중 (고체 단계)',
+    simple: '지금은 <strong>고체 팔미트산을 가열</strong>하고 있어요. 들어온 열에너지가 입자를 더 빠르게 움직이게 만들어 → <strong style="color:var(--warm);">온도가 점점 올라갑니다.</strong>',
+    detailed: '<strong>📚 더 자세히 알아보기</strong><br><br>가열 중에는 들어온 열에너지가 <strong>100%</strong> "입자를 빠르게 움직이게 하는 것(=온도 올리기)"에 쓰입니다.<br><br><strong>❓ 온도란 뭘까요?</strong><br>입자가 얼마나 빨리 움직이는지를 나타내는 값이에요. 입자가 더 활발하게 움직일수록 → 온도계 눈금이 올라갑니다.<br><br><strong>💡 일상 비유:</strong><br>추운 겨울날 두 손을 비비면 따뜻해지죠? 손이 빨리 움직일수록 따뜻해지는 것과 같은 원리입니다.<br><br><strong>✏️ 가열 곡선에서:</strong><br>그래프의 선이 오른쪽 위로 올라가는 구간이 바로 이 단계입니다.'
+  },
+  plateau: {
+    title: '🌟 평탄 구간 (융해 중)',
+    simple: '가열을 계속하는데도 <strong>온도가 안 올라가는 구간</strong>이에요. 들어온 열에너지가 <strong>온도를 올리지 않고, 입자 사이 결합을 끊는 데 모두 사용</strong>되기 때문입니다.',
+    detailed: '<strong>📚 더 자세히 알아보기</strong><br><br>고체 입자들은 서로 강하게 묶여 있어요(=결합). 액체로 변하려면 <strong>이 결합을 모두 끊어야 합니다.</strong><br><br>결합을 끊는 데는 큰 에너지가 필요해요. 그래서 평탄 구간 동안 들어온 열에너지는:<br>• <strong style="color:#2C5F7F;">100% → 결합 끊기 (배열 바꾸기)</strong><br>• <strong style="color:#8B91A3;">0% → 온도 올리기</strong><br><br>결과: 가열하고 있는데도 <strong>온도는 62.5℃ 그대로!</strong> (모든 결합이 끊길 때까지 계속)<br><br><strong>🧱 레고 비유:</strong><br>잘 조립된 레고 한 덩어리를 떼어내는 동안에는 손가락 힘이 "레고 떼어내기"에 다 쓰여서, 레고들이 더 빨라지지 않아요(=온도가 안 올라감). 다 떼어낸 후에야 자유롭게 흩어집니다.<br><br><strong>✏️ 가열 곡선에서:</strong><br>그래프가 수평으로 평평해지는 구간 — 가장 중요한 부분이에요!'
+  },
+  postmelt: {
+    title: '🌊 융해 완료 (액체 단계)',
+    simple: '이제 <strong>모두 액체</strong>가 됐어요. 더 이상 끊을 결합이 없으니, 들어온 열에너지가 다시 입자를 빠르게 움직이게 해서 → <strong style="color:var(--warm);">온도가 다시 올라갑니다.</strong>',
+    detailed: '<strong>📚 더 자세히 알아보기</strong><br><br>평탄 구간이 끝나면 <strong>모든 결합이 끊긴 상태</strong>가 됩니다(=액체).<br><br>더 이상 끊을 결합이 없으니, 들어온 열에너지는 다시:<br>• <strong style="color:var(--warm);">100% → 입자 운동 빠르게 (온도 올리기)</strong><br>• <strong style="color:#8B91A3;">0% → 결합 끊기</strong><br><br>결과: 다시 <strong>온도가 점점 올라갑니다.</strong><br><br><strong>💡 가열 곡선 전체 정리:</strong><br>① 처음 가열 (고체) → 온도 ↑<br>② 평탄 구간 → 온도 그대로 (결합 끊는 중)<br>③ 융해 후 (액체) → 온도 다시 ↑<br><br><strong>🎯 핵심:</strong><br>이게 바로 가열 곡선에 "평탄 구간"이 생기는 이유예요! 가열을 멈춘 게 아니라, 들어온 에너지가 다른 일(결합 끊기)을 하고 있었던 거죠.<br><br><strong>✏️ 가열 곡선에서:</strong><br>평탄 구간이 끝나고 그래프가 다시 오른쪽 위로 올라가는 구간입니다.'
+  }
+};
+
+function showWhyPhasePopup(phase) {
+  // 이미 다른 모달이 떠 있으면 건너뜀
+  if (document.getElementById('modal-backdrop').classList.contains('show')) return;
+  const info = WHY1_PHASE_INFO[phase];
+  if (!info) return;
+  const box = document.getElementById('modal-box');
+  box.innerHTML = `
+    <div class="modal-head">
+      <span class="pill" style="color: var(--accent);">📚 WHY 단계 안내</span>
+      <h2 style="font-size:20px;">${info.title}</h2>
+    </div>
+    <div class="modal-body">
+      <div id="why-popup-simple" style="font-size:14.5px; line-height:1.7; color:var(--text);">${info.simple}</div>
+      <div id="why-popup-detail" style="display:none; margin-top:14px; padding:14px 16px; background:#FBE9DF; border-left:3px solid var(--warm); border-radius:8px; font-size:13.5px; line-height:1.7; color:#5C2810;">
+        ${info.detailed}
+      </div>
+    </div>
+    <div class="modal-foot" style="display:block;">
+      <div id="why-popup-buttons" style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+        <button class="btn-secondary" onclick="showWhyDetail()" style="width:auto;">😕 모르겠어요 (자세한 설명 보기)</button>
+        <button class="btn-primary" onclick="closeWhyPopup()" style="width:auto;">✓ 이해했어요</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('show');
+}
+
+function showWhyDetail() {
+  const detail = document.getElementById('why-popup-detail');
+  if (detail) detail.style.display = 'block';
+  const buttons = document.getElementById('why-popup-buttons');
+  if (buttons) {
+    buttons.innerHTML = `<button class="btn-primary" onclick="closeWhyPopup()" style="width:auto;">✓ 이제 이해했어요</button>`;
+  }
+}
+
+function closeWhyPopup() {
+  document.getElementById('modal-backdrop').classList.remove('show');
 }
 
 let why1Particles = null;
@@ -3745,7 +4124,10 @@ function renderWhy1Particles(v, phase) {
   animate();
 }
 
-document.getElementById('why1-slider').addEventListener('input', renderWhy1);
+document.getElementById('why1-slider').addEventListener('input', () => {
+  why1UserInteracted = true;
+  renderWhy1();
+});
 
 /* ===== Tab 4: WHY Q2 — pressure & boiling point ===== */
 function pressureToBoilPt(P) {
@@ -4669,30 +5051,112 @@ function completeReport() {
 
 document.getElementById('complete-report-btn').addEventListener('click', completeReport);
 
-document.getElementById('download-cert').addEventListener('click', () => {
-  const cert = document.getElementById('certificate');
+/* ===== 보고서 저장 함수들 ===== */
+function getReportCaptureOptions() {
+  return {
+    scale: 2,
+    backgroundColor: '#ffffff',
+    ignoreElements: (el) => el.id === 'report-actions'
+  };
+}
+
+document.getElementById('download-report-png').addEventListener('click', async () => {
+  const reportEl = document.getElementById('report-content');
   if (typeof html2canvas === 'undefined') {
-    showGlobalAlert('이미지 라이브러리 로드 실패', '인터넷 연결을 확인해 주세요. 대신 「인쇄하기」를 사용해서 PDF로 저장할 수도 있습니다.');
+    showGlobalAlert('이미지 라이브러리 로드 실패', '인터넷 연결을 확인하고 페이지를 새로고침해 주세요.');
     return;
   }
-  html2canvas(cert, {scale: 2, backgroundColor: null}).then(canvas => {
+  try {
+    const canvas = await html2canvas(reportEl, getReportCaptureOptions());
     const link = document.createElement('a');
-    link.download = `물질분석기사_자격증_${StudentData.name || '학생'}.png`;
+    link.download = `POE보고서_${StudentData.name || '학생'}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
-  }).catch(err => {
-    showGlobalAlert('저장 실패', '이미지 생성 중 오류가 발생했습니다. 대신 「인쇄하기」를 시도해 보세요.');
-  });
+  } catch (e) {
+    showGlobalAlert('저장 실패', '이미지 생성 중 오류가 발생했습니다: ' + e.message);
+  }
 });
 
-document.getElementById('print-cert').addEventListener('click', () => {
+document.getElementById('download-report-pdf').addEventListener('click', async () => {
+  const reportEl = document.getElementById('report-content');
+  if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
+    showGlobalAlert('라이브러리 로드 실패', '인터넷 연결을 확인하고 페이지를 새로고침해 주세요.');
+    return;
+  }
+  try {
+    const canvas = await html2canvas(reportEl, getReportCaptureOptions());
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    const margin = 10;
+    const availW = pageW - 2 * margin;
+    const availH = pageH - 2 * margin;
+    // Fit-to-page: 한 페이지 안에 들어가도록 자동 축소
+    const canvasRatio = canvas.width / canvas.height;
+    const pageRatio = availW / availH;
+    let imgW, imgH;
+    if (canvasRatio > pageRatio) {
+      imgW = availW;
+      imgH = availW / canvasRatio;
+    } else {
+      imgH = availH;
+      imgW = availH * canvasRatio;
+    }
+    const x = (pageW - imgW) / 2;
+    const y = (pageH - imgH) / 2;
+    pdf.addImage(imgData, 'PNG', x, y, imgW, imgH);
+    pdf.save(`POE보고서_${StudentData.name || '학생'}.pdf`);
+  } catch (e) {
+    showGlobalAlert('PDF 저장 실패', '오류: ' + e.message + '<br><br>대신 「인쇄하기」를 사용해 브라우저에서 PDF로 저장할 수도 있습니다.');
+  }
+});
+
+document.getElementById('download-report-word').addEventListener('click', () => {
+  const reportEl = document.getElementById('report-content');
+  // Hide action buttons in cloned content
+  const clone = reportEl.cloneNode(true);
+  const actions = clone.querySelector('#report-actions');
+  if (actions) actions.remove();
+  const html = `<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset='utf-8'>
+<title>POE 보고서 — ${StudentData.name || '학생'}</title>
+<style>
+body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; padding: 20px; line-height: 1.6; color: #1A1F2E; }
+h1, h2, h3, h4 { font-family: inherit; margin: 0.5em 0; }
+.card, [class*="card"] { padding: 12px; margin-bottom: 12px; border: 1px solid #ccc; background: #FCFBF7; }
+.card-title { font-weight: bold; font-size: 14px; margin-bottom: 8px; color: #2C5F7F; }
+ol, ul { margin: 0.5em 0; padding-left: 24px; }
+strong { font-weight: 700; }
+em { font-style: italic; }
+table { border-collapse: collapse; }
+@page { size: A4 portrait; margin: 1cm; }
+</style>
+</head>
+<body>
+<h1 style="text-align:center; color:#1A1F2E; border-bottom:2px solid #C04E1A; padding-bottom:8px;">물질의 끓는점·녹는점 — POE 보고서</h1>
+<p style="text-align:center; color:#5B6178; margin-top:8px;">학생: ${StudentData.name || '학생'} ${StudentData.studentClass ? '(' + StudentData.studentClass + ')' : ''}</p>
+${clone.innerHTML}
+</body>
+</html>`;
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `POE보고서_${StudentData.name || '학생'}.doc`;
+  link.click();
+});
+
+document.getElementById('print-report').addEventListener('click', () => {
   window.print();
 });
 
 document.getElementById('show-cert-tip').addEventListener('click', () => {
   showGlobalAlert(
     '💬 선생님께 자랑하기',
-    '① <strong>📥 자격증 이미지로 저장</strong> 버튼을 눌러서 PNG 이미지로 자격증을 받으세요.<br><br>② 받은 이미지를 카카오톡, 패들렛, 클래스팅 등 선생님께 제출하는 곳에 첨부해서 자랑해 보세요!<br><br>③ 또는 <strong>🖨️ 인쇄하기</strong>로 종이로 출력해서 직접 보여드릴 수도 있어요.<br><br>오늘 정말 잘 했어요. 👏'
+    '다음 4가지 방법 중 편한 것으로 제출하세요:<br><br>① <strong>🖼️ PNG</strong> — 카카오톡, 패들렛, 클래스팅 등 이미지로 제출하기에 가장 편해요<br>② <strong>📄 PDF</strong> — 인쇄·이메일·구글 클래스룸 제출용으로 적합 (한 페이지로 자동 정리)<br>③ <strong>📝 Word</strong> — 직접 편집해서 추가 내용을 적고 싶을 때<br>④ <strong>🖨️ 인쇄</strong> — 종이로 출력해서 직접 가져가기<br><br>오늘 정말 잘 했어요. 👏'
   );
 });
 </script>
