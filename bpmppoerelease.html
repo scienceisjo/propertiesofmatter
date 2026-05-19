@@ -617,7 +617,154 @@ header.lab-head {
   cursor: pointer;
 }
 
-/* ====== Particle Legend ====== */
+/* ====== Label Game (가열 곡선 라벨 붙이기) ====== */
+.lbl-card {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: grab;
+  user-select: none;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.lbl-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.lbl-card.selected { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 0 0 3px rgba(44,95,127,0.15); }
+.lbl-card.placed { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+.lbl-card.dragging { opacity: 0.5; cursor: grabbing; }
+.lbl-card.state-card { color: var(--accent); }
+.lbl-card.change-card { color: var(--warm); border-color: #F5D3BA; }
+.lbl-card.change-card:hover { border-color: var(--warm); }
+
+.region-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.region-row .region-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+.region-drops {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.drop-slot {
+  flex: 1;
+  min-width: 120px;
+  min-height: 42px;
+  padding: 10px 12px;
+  background: white;
+  border: 2px dashed var(--border-strong);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--text-mute);
+  position: relative;
+}
+.drop-slot:hover { border-color: var(--accent); background: var(--accent-light); }
+.drop-slot.drag-over { border-color: var(--accent); background: var(--accent-light); border-style: solid; }
+.drop-slot.filled { border-style: solid; color: var(--text); }
+.drop-slot.filled .slot-hint { display: none; }
+.drop-slot.correct { background: #EAF7EF; border-color: #22C55E; color: #138a3e; }
+.drop-slot.wrong { background: #FBE9DF; border-color: var(--warm); color: var(--warm); }
+.slot-hint { font-size: 11px; font-weight: 500; color: var(--text-mute); font-style: italic; }
+
+/* ====== Progress Fab Button ====== */
+.progress-fab {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  background: white;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.15s;
+}
+.progress-fab:hover { background: var(--accent-light); transform: translateY(-1px); }
+.progress-fab .progress-count {
+  background: var(--accent);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+.progress-fab.all-done {
+  background: #22C55E;
+  border-color: #22C55E;
+  color: white;
+}
+.progress-fab.all-done .progress-count {
+  background: white;
+  color: #22C55E;
+}
+@media (max-width: 640px) {
+  .progress-fab { font-size: 11px; padding: 6px 10px; top: 10px; right: 10px; }
+  .progress-fab .progress-count { font-size: 10px; padding: 1px 6px; }
+}
+.progress-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--bg-elev);
+  border-left: 3px solid var(--border-strong);
+  border-radius: 6px;
+  font-size: 13px;
+}
+.progress-item.done { border-left-color: #22C55E; }
+.progress-item.todo { border-left-color: var(--warm); }
+.progress-item .check {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  color: white;
+}
+.progress-item.done .check { background: #22C55E; }
+.progress-item.todo .check { background: var(--warm); }
+.progress-item .label { flex: 1; }
+.progress-item .go-btn {
+  padding: 4px 10px;
+  background: white;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+.progress-item .go-btn:hover { background: var(--accent-light); }
+
 .particle-legend {
   display: flex;
   gap: 8px;
@@ -885,6 +1032,13 @@ header.lab-head {
   <div class="modal-box" id="modal-box"></div>
 </div>
 
+<!-- 우측 상단 진행상황 버튼 -->
+<button class="progress-fab" id="progress-fab-btn" onclick="showProgressModal()" title="진행상황 보기">
+  <span style="font-size:15px;">📊</span>
+  <span>진행상황</span>
+  <span class="progress-count" id="progress-count-fab">0/0</span>
+</button>
+
 <header class="lab-head">
   <div>
     <h1>물질의 끓는점·녹는점 — 예측하고, 관찰하고, 설명하기</h1>
@@ -901,7 +1055,8 @@ header.lab-head {
   <button class="tab" data-panel="t4"><span class="num">04</span> WHY?</button>
   <button class="tab" data-panel="t5"><span class="num">05</span> 가열 곡선 그리기</button>
   <button class="tab" data-panel="t6"><span class="num">06</span> 미지 물질 탐정</button>
-  <button class="tab" data-panel="t7"><span class="num">07</span> 📜 보고서 · 자격증</button>
+  <button class="tab" data-panel="t7"><span class="num">07</span> 🌍 실생활 응용</button>
+  <button class="tab" data-panel="t8"><span class="num">08</span> 📜 보고서 · 자격증</button>
 </nav>
 
 <!-- ============================= -->
@@ -1560,31 +1715,16 @@ header.lab-head {
             </div>
           </div>
           <div class="control-row">
-            <label>3 · 데이터 기록 방식 — 자동 / 수동?</label>
-            <div class="mode-toggle">
-              <button class="active" data-mode="manual" id="mode-manual-2">✋ 수동 점찍기</button>
-              <button data-mode="auto" id="mode-auto-2">⚙ 자동 기록</button>
-            </div>
-            <div id="auto-interval-row" style="display:none; margin-top:8px;">
-              <div class="speed-control" style="padding:8px 10px;">
-                <label style="margin:0;">간격</label>
-                <input type="range" id="interval-2" min="2" max="15" step="1" value="5">
-                <span class="speed-val" id="interval-val-2">5초</span>
-              </div>
+            <label>3 · 데이터 기록 간격</label>
+            <div style="padding:10px 12px; background:var(--bg-elev); border:1px solid var(--border); border-radius:8px; display:flex; align-items:center; gap:10px;">
+              <span style="font-size:13px; color:var(--text-dim);">현재 설정:</span>
+              <span class="mono" id="selected-interval-display" style="font-weight:700; color:var(--accent); font-size:15px;">— 초</span>
+              <span style="margin-left:auto; font-size:11px; color:var(--text-mute); font-style:italic;">가열 시작 시 선택할 수 있어요</span>
             </div>
           </div>
           <div class="control-row">
             <label>4 · 가열 시작</label>
             <button class="btn-primary" id="heat-btn-2"><span>물중탕 가열 시작</span></button>
-          </div>
-          <div class="control-row" id="manual-record-row">
-            <label>5 · 데이터 기록 (수동 모드일 때)</label>
-            <button class="btn-primary" id="record-btn-2" style="background:var(--accent); position:relative;" disabled>
-              <span style="display:flex; align-items:center; gap:8px;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>
-                점찍기 (현재 측정값 기록)
-              </span>
-            </button>
           </div>
           <button class="btn-secondary" id="reset-btn-2">실험 초기화</button>
         </div>
@@ -1721,6 +1861,21 @@ header.lab-head {
         <div class="mono" style="font-size:13px; color:var(--text-dim);">에탄올 78.3℃ · 물 100℃ · 수은 356.6℃</div>
       </div>
     </div>
+  </div>
+
+  <!-- 융해·기화 정의 한 문장 빈칸 -->
+  <div class="card" style="border-left: 3px solid var(--accent); margin-bottom:20px;">
+    <div class="card-title">한 문장으로 정리 — 빈칸 채우기</div>
+    <p style="font-size:15px; line-height:2; color:var(--text);">
+      고체가 융해하는 동안 온도가 일정하게 유지되는 구간의 온도를
+      <input type="text" class="fill-blank" data-answer="녹는점|녹는 점|melting point" data-hint="고체가 녹기 시작하는 그 온도 (○○○)" placeholder="???" style="width:90px;">
+      이라고 하고,<br>
+      액체가 기화하는 동안 일정하게 유지되는 구간의 온도를
+      <input type="text" class="fill-blank" data-answer="끓는점|끓는 점|boiling point" data-hint="액체가 끓기 시작하는 그 온도 (○○○)" placeholder="???" style="width:90px;">
+      이라고 한다.
+    </p>
+    <button class="btn-secondary" style="margin-top:10px; width:auto; padding:6px 12px; font-size:12px;" onclick="checkBlanks(this.parentElement)">정답 확인</button>
+    <button class="btn-secondary" style="margin-top:10px; margin-left:6px; width:auto; padding:6px 12px; font-size:12px;" onclick="showHints(this.parentElement)">💡 힌트 보기</button>
   </div>
 
   <div class="card" style="background: linear-gradient(135deg, #FBF3DC 0%, #FCFBF7 100%); border-color: var(--plateau); border-width:1.5px; margin-bottom: 20px;">
@@ -1918,6 +2073,24 @@ header.lab-head {
     <div id="why2-explain" style="margin-top:16px; padding:14px 16px; background:var(--accent-light); border-left:3px solid var(--accent); border-radius:8px; font-size:13.5px; line-height:1.65;">
       <strong style="color:var(--accent);">평지(1 atm)에서 물은 100℃에서 끓습니다.</strong> 액체 표면에서 입자가 기체로 튀어나오려면 공기가 누르는 힘을 이겨내야 합니다. 압력이 낮아지면(산 위) 입자가 쉽게 튀어나가므로 더 낮은 온도에서 끓고, 압력이 높아지면(압력솥) 입자가 빠져나가기 힘들어 더 높은 온도에서야 끓습니다. — 그래서 끓는점·녹는점을 '물질의 특성'이라고 할 때 반드시 <em>"일정한 압력에서"</em>라는 조건이 붙습니다.
     </div>
+
+    <!-- 압력에 대한 깊이 생각해 보기 -->
+    <div class="reflect-box" style="margin-top:16px; background:#FBE9DF; border-color: var(--warm);">
+      <label>🤔 깊이 생각해 보기 — 압력 조건</label>
+      <div style="font-size:13.5px; line-height:1.7; margin-bottom:10px; color:var(--text);">
+        우리는 녹는점과 끓는점을 <strong>항상 "일정한 압력에서"</strong> (보통 1기압) 정의합니다.<br>
+        <strong>왜 일정한 압력에서 정의해야 할까요?</strong> 위 슬라이더 시뮬레이션을 떠올리며 자신의 말로 적어보세요.
+      </div>
+      <textarea id="pressure-reflection" placeholder="예: 압력이 달라지면 끓는점·녹는점이 달라지기 때문에..." style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-family:inherit; font-size:13.5px; resize:vertical; min-height:70px; outline:none; background:white;"></textarea>
+      <div style="margin-top:8px; display:flex; gap:6px;">
+        <button type="button" onclick="togglePressureHint()" style="padding:4px 10px; font-size:11.5px; background:white; border:1px solid var(--border); border-radius:6px; cursor:pointer; font-family:inherit; color:var(--accent);">💡 힌트</button>
+        <button type="button" id="pressure-model-btn" onclick="showPressureModel()" style="padding:4px 10px; font-size:11.5px; background:var(--border-strong); color:white; border:none; border-radius:6px; cursor:not-allowed; font-family:inherit; opacity:0.6;" disabled>📖 모범답안 (답 적은 후)</button>
+      </div>
+      <div id="pressure-hint" style="display:none; margin-top:8px; padding:8px 10px; background:var(--accent-light); border-left:2px solid var(--accent); border-radius:4px; font-size:12px; line-height:1.55;">
+        💡 만약 압력 조건을 정하지 않으면 어떻게 될까요? 같은 물질인데도 어디서 측정하느냐(평지 vs 산 위 vs 압력솥)에 따라 끓는점이 모두 달라져서 비교할 수 없게 됩니다.
+      </div>
+      <div id="pressure-model" style="display:none; margin-top:8px; padding:8px 10px; background:#EAF7EF; border-left:2px solid #22C55E; border-radius:4px; font-size:12.5px; line-height:1.6;"><strong style="color:#138a3e;">✓ 모범답안:</strong> 압력이 달라지면 같은 물질이라도 녹는점·끓는점이 변하기 때문입니다. 일정한 압력(보통 1기압)을 기준으로 정의해야, 같은 물질의 녹는점·끓는점을 일관되게 비교할 수 있고 그것이 비로소 <strong>물질의 특성</strong>으로 인정될 수 있습니다.</div>
+    </div>
   </div>
 
   <style>
@@ -1988,6 +2161,105 @@ header.lab-head {
           <div id="draw-score-label" style="margin-top:4px; font-size:12px; color:var(--text-dim);">평가 중...</div>
         </div>
         <div id="draw-checklist" style="display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+
+      <!-- 라벨 붙이기 게임 -->
+      <div class="card" id="label-game-card" style="display:none; margin-top:14px; border:2px solid var(--accent);">
+        <div class="card-title" style="display:flex; align-items:center; gap:8px;">
+          🏷️ <span>각 구간에 라벨 붙이기</span>
+        </div>
+        <p style="font-size:13px; line-height:1.65; color:var(--text-dim); margin-bottom:14px;">
+          가열 곡선이 꺾이는 지점마다 <strong>점선으로 영역</strong>을 나눴어요. 아래 <strong>라벨 카드</strong>를 끌어 놓거나 클릭해서 각 구간에 알맞은 <strong>물질의 상태</strong>와 <strong>상태 변화</strong>를 표시해 보세요.
+        </p>
+
+        <!-- 정답 곡선 SVG (영역 표시) -->
+        <div style="background:white; border:1px solid var(--border); border-radius:10px; padding:10px; margin-bottom:14px;">
+          <svg viewBox="0 0 600 280" style="width:100%; height:auto; max-height:280px;">
+            <!-- 축 -->
+            <line x1="50" y1="240" x2="570" y2="240" stroke="#3A4252" stroke-width="1.5"/>
+            <line x1="50" y1="240" x2="50" y2="20" stroke="#3A4252" stroke-width="1.5"/>
+            <text x="575" y="245" font-size="10" font-family="JetBrains Mono,monospace" fill="#5B6178">시간</text>
+            <text x="20" y="20" font-size="10" font-family="JetBrains Mono,monospace" fill="#5B6178">℃</text>
+            <!-- 0℃ / 100℃ 보조선 -->
+            <line x1="50" y1="200" x2="570" y2="200" stroke="#C9C5BA" stroke-width="0.5" stroke-dasharray="2 3"/>
+            <text x="20" y="205" font-size="10" font-family="JetBrains Mono,monospace" fill="#5B6178">0°</text>
+            <line x1="50" y1="100" x2="570" y2="100" stroke="#C9C5BA" stroke-width="0.5" stroke-dasharray="2 3"/>
+            <text x="14" y="105" font-size="10" font-family="JetBrains Mono,monospace" fill="#5B6178">100°</text>
+            <text x="14" y="230" font-size="10" font-family="JetBrains Mono,monospace" fill="#5B6178">-20°</text>
+
+            <!-- 정답 곡선 -->
+            <polyline points="50,230 140,200 240,200 380,100 450,100 530,40" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- 꺾이는 지점 수선 (점선) -->
+            <line x1="140" y1="240" x2="140" y2="200" stroke="var(--warm)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <line x1="240" y1="240" x2="240" y2="200" stroke="var(--warm)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <line x1="380" y1="240" x2="380" y2="100" stroke="var(--warm)" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <line x1="450" y1="240" x2="450" y2="100" stroke="var(--warm)" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+            <!-- 영역 번호 ①~⑤ -->
+            <text x="95" y="262" font-size="14" font-weight="700" fill="var(--accent)" text-anchor="middle">①</text>
+            <text x="190" y="262" font-size="14" font-weight="700" fill="var(--accent)" text-anchor="middle">②</text>
+            <text x="310" y="262" font-size="14" font-weight="700" fill="var(--accent)" text-anchor="middle">③</text>
+            <text x="415" y="262" font-size="14" font-weight="700" fill="var(--accent)" text-anchor="middle">④</text>
+            <text x="500" y="262" font-size="14" font-weight="700" fill="var(--accent)" text-anchor="middle">⑤</text>
+          </svg>
+        </div>
+
+        <!-- 라벨 풀 (드래그 가능한 카드들) -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:11.5px; font-weight:600; color:var(--text-dim); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.04em;">📦 라벨 카드 (끌어다 놓거나, 먼저 클릭하고 영역을 클릭)</div>
+          <div id="label-bank" style="display:flex; flex-wrap:wrap; gap:8px;">
+            <div class="lbl-card state-card" draggable="true" data-text="고체" data-type="state">🧊 고체</div>
+            <div class="lbl-card state-card" draggable="true" data-text="고체+액체" data-type="state">🧊+💧 고체+액체</div>
+            <div class="lbl-card state-card" draggable="true" data-text="액체" data-type="state">💧 액체</div>
+            <div class="lbl-card state-card" draggable="true" data-text="액체+기체" data-type="state">💧+💨 액체+기체</div>
+            <div class="lbl-card state-card" draggable="true" data-text="기체" data-type="state">💨 기체</div>
+            <div class="lbl-card change-card" draggable="true" data-text="융해" data-type="change">🔥 융해</div>
+            <div class="lbl-card change-card" draggable="true" data-text="기화" data-type="change">💨 기화</div>
+          </div>
+        </div>
+
+        <!-- 5개 구간 드롭존 -->
+        <div id="region-grid" style="display:flex; flex-direction:column; gap:10px;">
+          <div class="region-row" data-region="1">
+            <div class="region-label">① 구간 1 — 얼음을 가열 (-20℃ → 0℃)</div>
+            <div class="region-drops">
+              <div class="drop-slot" data-slot="state-1" data-correct="고체"><span class="slot-hint">상태?</span></div>
+            </div>
+          </div>
+          <div class="region-row" data-region="2">
+            <div class="region-label">② 구간 2 — 0℃에서 평탄</div>
+            <div class="region-drops">
+              <div class="drop-slot" data-slot="state-2" data-correct="고체+액체"><span class="slot-hint">상태?</span></div>
+              <div class="drop-slot" data-slot="change-2" data-correct="융해"><span class="slot-hint">상태변화?</span></div>
+            </div>
+          </div>
+          <div class="region-row" data-region="3">
+            <div class="region-label">③ 구간 3 — 물을 가열 (0℃ → 100℃)</div>
+            <div class="region-drops">
+              <div class="drop-slot" data-slot="state-3" data-correct="액체"><span class="slot-hint">상태?</span></div>
+            </div>
+          </div>
+          <div class="region-row" data-region="4">
+            <div class="region-label">④ 구간 4 — 100℃에서 평탄</div>
+            <div class="region-drops">
+              <div class="drop-slot" data-slot="state-4" data-correct="액체+기체"><span class="slot-hint">상태?</span></div>
+              <div class="drop-slot" data-slot="change-4" data-correct="기화"><span class="slot-hint">상태변화?</span></div>
+            </div>
+          </div>
+          <div class="region-row" data-region="5">
+            <div class="region-label">⑤ 구간 5 — 수증기를 가열 (100℃ 이상)</div>
+            <div class="region-drops">
+              <div class="drop-slot" data-slot="state-5" data-correct="기체"><span class="slot-hint">상태?</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px; display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn-primary" id="check-labels-btn" style="flex:1; min-width:140px;">정답 확인</button>
+          <button class="btn-secondary" id="reset-labels-btn" style="flex:1; min-width:140px;">초기화</button>
+        </div>
+        <div id="label-result" style="margin-top:10px;"></div>
       </div>
 
       <div class="note">
@@ -2086,9 +2358,98 @@ header.lab-head {
 </section>
 
 <!-- ============================= -->
-<!-- TAB 7: 보고서 + 자격증 -->
+<!-- TAB 7: 실생활 응용 -->
 <!-- ============================= -->
 <section class="panel" id="t7">
+  <div class="panel-head" style="position:relative;">
+    <button onclick="showGlossary()" style="position:absolute; top:0; right:0; padding:8px 14px; background:var(--accent-light); color:var(--accent); border:1.5px solid var(--accent); border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit;">📖 단어장</button>
+    <div class="label">Real World 07 / Applications</div>
+    <h2>우리 생활 속의 녹는점·끓는점</h2>
+    <p class="desc">실험실에서 배운 개념은 일상 곳곳에 숨어 있습니다. 녹는점이나 끓는점이 <strong>높거나 낮은</strong> 성질을 우리는 어떻게 이용하고 있을까요? 직접 조사해 보세요.</p>
+  </div>
+
+  <!-- AI 활용 안내 -->
+  <div class="card" style="background: linear-gradient(135deg, #FBF3DC 0%, #FCFBF7 100%); border-color: var(--plateau); border-width:1.5px; margin-bottom:20px;">
+    <div style="display:flex; gap:14px; align-items:flex-start;">
+      <div style="font-size:30px;">🤖</div>
+      <div>
+        <div style="font-weight:700; font-size:14.5px; color:#8C6B12; margin-bottom:6px;">AI 도구를 활용해도 좋습니다 — 단, 꼭 자기 생각을 추가하세요!</div>
+        <div style="font-size:13px; line-height:1.65; color:#5C4710;">
+          ChatGPT나 Claude 같은 AI에게 질문할 수 있어요. 하지만 <strong>답변을 그대로 복사하기만 하는 것은 진짜 학습이 아니에요.</strong><br>
+          <strong>① AI 답변을 적어보고</strong> → <strong>② 그것이 정말 맞는지 직접 확인</strong>하고 → <strong>③ 자기 생각·경험·궁금증을 꼭 함께 적어주세요.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4가지 칸 -->
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin-bottom:20px;">
+
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <div style="font-size:22px;">🧊</div>
+        <div>
+          <div class="card-title" style="margin:0;">녹는점이 <strong style="color:var(--warm);">높은</strong> 물질의 활용</div>
+          <div style="font-size:11px; color:var(--text-mute);">예: 솥, 냄비, 도자기, 비행기 부품…</div>
+        </div>
+      </div>
+      <textarea id="apply-mp-high" placeholder="① 어떤 물질이? &#10;② 어디에 쓰이고 있나? &#10;③ 왜 녹는점이 높은 게 유리할까? &#10;(AI 답변 + 자기 생각 함께!)" style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-family:inherit; font-size:13px; resize:vertical; min-height:120px; outline:none;"></textarea>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <div style="font-size:22px;">🔥</div>
+        <div>
+          <div class="card-title" style="margin:0;">녹는점이 <strong style="color:var(--accent);">낮은</strong> 물질의 활용</div>
+          <div style="font-size:11px; color:var(--text-mute);">예: 양초, 납땜, 초콜릿, 퓨즈…</div>
+        </div>
+      </div>
+      <textarea id="apply-mp-low" placeholder="① 어떤 물질이? &#10;② 어디에 쓰이고 있나? &#10;③ 왜 녹는점이 낮은 게 유리할까? &#10;(AI 답변 + 자기 생각 함께!)" style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-family:inherit; font-size:13px; resize:vertical; min-height:120px; outline:none;"></textarea>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--warm);">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <div style="font-size:22px;">🔥</div>
+        <div>
+          <div class="card-title" style="margin:0;">끓는점이 <strong style="color:var(--warm);">높은</strong> 물질의 활용</div>
+          <div style="font-size:11px; color:var(--text-mute);">예: 부동액, 식용유, 자동차 엔진오일…</div>
+        </div>
+      </div>
+      <textarea id="apply-bp-high" placeholder="① 어떤 물질이? &#10;② 어디에 쓰이고 있나? &#10;③ 왜 끓는점이 높은 게 유리할까? &#10;(AI 답변 + 자기 생각 함께!)" style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-family:inherit; font-size:13px; resize:vertical; min-height:120px; outline:none;"></textarea>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--warm);">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <div style="font-size:22px;">❄️</div>
+        <div>
+          <div class="card-title" style="margin:0;">끓는점이 <strong style="color:var(--accent);">낮은</strong> 물질의 활용</div>
+          <div style="font-size:11px; color:var(--text-mute);">예: 알코올 소독제, LPG, 드라이아이스, 냉매…</div>
+        </div>
+      </div>
+      <textarea id="apply-bp-low" placeholder="① 어떤 물질이? &#10;② 어디에 쓰이고 있나? &#10;③ 왜 끓는점이 낮은 게 유리할까? &#10;(AI 답변 + 자기 생각 함께!)" style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-family:inherit; font-size:13px; resize:vertical; min-height:120px; outline:none;"></textarea>
+    </div>
+
+  </div>
+
+  <!-- 마무리 메시지 -->
+  <div class="card" style="background: linear-gradient(135deg, var(--accent) 0%, #1A1F2E 100%); color:white; border:none; padding:20px;">
+    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+      <div style="font-size:28px;">🎯</div>
+      <div style="flex:1; min-width:240px;">
+        <div style="font-size:11px; opacity:0.7; letter-spacing:0.1em; text-transform:uppercase; font-family:'JetBrains Mono',monospace;">Connect to Real Life</div>
+        <h3 style="font-size:17px; font-weight:700; margin-top:4px;">실험실 밖에도 과학이 있어요</h3>
+        <p style="margin-top:8px; font-size:13.5px; line-height:1.65; opacity:0.92;">
+          오늘 배운 녹는점·끓는점 개념이 우리 일상의 어떤 물건들을 가능하게 했는지 생각해 보세요. 작성한 내용은 마지막 보고서에 함께 정리됩니다.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= -->
+<!-- TAB 8: 보고서 + 자격증 -->
+<!-- ============================= -->
+<section class="panel" id="t8">
   <div class="panel-head">
     <div class="label">Final Report 07 / Certification</div>
     <h2>나의 실험 보고서 · 자격증 발급</h2>
@@ -2101,7 +2462,7 @@ header.lab-head {
     <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
       <input type="text" id="student-name" placeholder="이름을 적어주세요 (예: 김해누리)"
         style="flex:1; min-width:200px; padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:14px; outline:none;">
-      <input type="text" id="student-class" placeholder="학반 (예: 1학년 2반 15번)"
+      <input type="text" id="student-class" placeholder="학번 (예: 20101)"
         style="flex:1; min-width:200px; padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:14px; outline:none;">
     </div>
     <button class="btn-primary" id="complete-report-btn" style="margin-top:14px;">
@@ -2123,6 +2484,18 @@ header.lab-head {
     <div class="card" style="margin-bottom:20px;">
       <div class="card-title">단계 3 · POE 기록 요약</div>
       <div id="poe-summary" style="display:flex; flex-direction:column; gap:12px;"></div>
+    </div>
+
+    <!-- 압력 조건 reflection -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">단계 3-1 · 압력 조건에 대한 생각</div>
+      <div id="pressure-summary" style="padding:12px 14px; background:var(--bg-elev); border-left:3px solid var(--warm); border-radius:8px; font-size:13px; line-height:1.65;"></div>
+    </div>
+
+    <!-- 실생활 응용 -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">단계 3-2 · 우리 생활 속의 녹는점·끓는점</div>
+      <div id="apply-summary" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:10px;"></div>
     </div>
 
     <!-- Certificate -->
@@ -2360,6 +2733,8 @@ const StudentData = {
   observe: { t0:'', t1:'', t2:'', t4:'' },             // 관찰
   explain: { t0:'', t1:'', t2:'', t4:'' },             // 설명
   reflect: { t1:'', t3:'' },                    // 반성
+  pressureReflection: '',                       // 압력 조건 reflection (WHY 탭)
+  apply: { mpHigh:'', mpLow:'', bpHigh:'', bpLow:'' },  // 실생활 응용 (t7)
   galileo: { predicted: null, dropped: false, env: 'air' },
   exp1: { done5g: false, done10g: false, plateauT: null },
   exp2: { done10mL: false, done20mL: false, mode: null, points10: 0, points20: 0, plateauT: null },
@@ -2630,6 +3005,34 @@ function showAllPOEModels(setId) {
   const btn = document.querySelector(`button[data-show-models="${setId}"]`);
   if (btn) btn.textContent = '✓ 모범답안 표시됨';
 }
+
+/* ===== 압력 reflection 헬퍼 ===== */
+function togglePressureHint() {
+  const el = document.getElementById('pressure-hint');
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+function showPressureModel() {
+  const el = document.getElementById('pressure-model');
+  if (el) el.style.display = 'block';
+  const btn = document.getElementById('pressure-model-btn');
+  if (btn) btn.textContent = '✓ 모범답안 표시됨';
+}
+// 입력하면 모범답안 버튼 활성화
+window.addEventListener('load', () => {
+  const ta = document.getElementById('pressure-reflection');
+  const btn = document.getElementById('pressure-model-btn');
+  if (ta && btn) {
+    ta.addEventListener('input', () => {
+      if (ta.value.trim().length > 0) {
+        btn.disabled = false;
+        btn.style.background = '#22C55E';
+        btn.style.cursor = 'pointer';
+        btn.style.opacity = '1';
+        btn.textContent = '📖 모범답안 확인하기';
+      }
+    });
+  }
+});
 
 /* ===== Tab 0: Galileo POE Interactive ===== */
 let galileoEnv = 'air';
@@ -3052,7 +3455,7 @@ const Exp1 = {
     this.alertedDone = false;
     document.getElementById('flame-1').style.opacity = '0';
     document.getElementById('heat-btn-1').classList.remove('heating');
-    // 배포용: 가열 버튼 항상 활성화
+    // 배포용
     document.getElementById('heat-btn-1').querySelector('span').textContent = '물중탕 가열 시작';
     document.getElementById('heat-btn-1').disabled = false;
     document.getElementById('status-1').classList.remove('heating');
@@ -3274,7 +3677,7 @@ document.querySelectorAll('.mass-btn[data-exp="1"]').forEach(b => {
     b.classList.add('selected');
     Exp1.mass = parseInt(b.dataset.mass);
     Exp1.reset();
-    // 배포용: 그래프 예측 안 해도 가열 가능
+    // 배포용
     const heatBtn = document.getElementById('heat-btn-1');
     heatBtn.disabled = false;
     heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
@@ -3372,9 +3775,98 @@ function showPressureAlert(expNum) {
   document.getElementById('modal-backdrop').classList.add('show');
 }
 
+// 1기압 알림 → 다음 단계로 넘어가는 콜백 버전 (탐구 2의 가열 흐름용)
+function showPressureAlertThenNext(expNum, next) {
+  if (seenPressureAlert[expNum]) {
+    next();
+    return;
+  }
+  seenPressureAlert[expNum] = true;
+  const box = document.getElementById('modal-box');
+  box.innerHTML = `
+    <div class="modal-head">
+      <span class="pill" style="color:var(--accent);">🔬 실험 조건 안내</span>
+      <h2 style="font-size:20px;">실험실의 압력은 <strong style="color:var(--warm);">1기압</strong>입니다</h2>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px; line-height:1.7; margin-bottom:12px;">
+        오늘 실험은 우리가 평소 살고 있는 <strong>대기 환경(1기압)</strong>에서 진행됩니다.
+      </p>
+      <div style="padding:12px 14px; background:#FBE9DF; border-left:3px solid var(--warm); border-radius:8px; font-size:13px; line-height:1.65;">
+        💡 <strong>왜 압력이 중요할까요?</strong><br>
+        같은 물질이라도 <strong>압력이 달라지면 녹는점·끓는점이 달라집니다.</strong> 압력솥은 끓는점을 120℃까지 올리고, 높은 산에서는 90℃에서도 끓어요.<br><br>
+        자세한 내용은 <strong>WHY 탭</strong>에서 다시 만나요!
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-primary" id="pressure-next-btn" style="width:auto;">확인 → 다음으로</button>
+    </div>
+  `;
+  document.getElementById('pressure-next-btn').addEventListener('click', () => {
+    closeWhyPopup();
+    setTimeout(next, 80);
+  });
+  document.getElementById('modal-backdrop').classList.add('show');
+}
+
+/* ===== 데이터 기록 간격 설정 팝업 (탐구 2) ===== */
+function showIntervalSetup(onSelected) {
+  const box = document.getElementById('modal-box');
+  box.innerHTML = `
+    <div class="modal-head">
+      <span class="pill" style="color:var(--accent);">📊 데이터 기록 설정</span>
+      <h2 style="font-size:20px;">자동으로 데이터를 기록할 <strong style="color:var(--warm);">시간 간격</strong>을 선택하세요</h2>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px; line-height:1.7; margin-bottom:12px;">
+        실험이 시작되면 선택한 시간 간격마다 온도가 자동으로 기록되어 <strong>가열 곡선</strong>이 만들어집니다.
+      </p>
+      <div style="padding:10px 12px; background:var(--bg-elev); border-left:3px solid var(--accent); border-radius:8px; font-size:12.5px; line-height:1.65; margin-bottom:14px;">
+        💡 간격이 <strong>짧으면 정밀한 곡선</strong>, <strong>길면 단순한 곡선</strong>이 만들어져요. <strong>5초가 일반적인 학교 실험 간격</strong>입니다.
+      </div>
+      <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:10px;">
+        <button type="button" data-interval="2" class="interval-choice-btn" style="padding:14px 10px; background:white; border:2px solid var(--border); border-radius:10px; cursor:pointer; font-family:inherit; text-align:center;">
+          <div style="font-size:18px; font-weight:700; color:var(--text);">⏱️ 2초</div>
+          <div style="font-size:11px; color:var(--text-mute); margin-top:3px;">매우 정밀</div>
+        </button>
+        <button type="button" data-interval="5" class="interval-choice-btn" style="padding:14px 10px; background:var(--accent-light); border:2px solid var(--accent); border-radius:10px; cursor:pointer; font-family:inherit; text-align:center;">
+          <div style="font-size:18px; font-weight:700; color:var(--accent);">⏱️ 5초</div>
+          <div style="font-size:11px; color:var(--accent); margin-top:3px; font-weight:600;">👍 기본 권장</div>
+        </button>
+        <button type="button" data-interval="10" class="interval-choice-btn" style="padding:14px 10px; background:white; border:2px solid var(--border); border-radius:10px; cursor:pointer; font-family:inherit; text-align:center;">
+          <div style="font-size:18px; font-weight:700; color:var(--text);">⏱️ 10초</div>
+          <div style="font-size:11px; color:var(--text-mute); margin-top:3px;">간단</div>
+        </button>
+        <button type="button" data-interval="15" class="interval-choice-btn" style="padding:14px 10px; background:white; border:2px solid var(--border); border-radius:10px; cursor:pointer; font-family:inherit; text-align:center;">
+          <div style="font-size:18px; font-weight:700; color:var(--text);">⏱️ 15초</div>
+          <div style="font-size:11px; color:var(--text-mute); margin-top:3px;">매우 간단</div>
+        </button>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <span style="font-size:11.5px; color:var(--text-mute); font-style:italic;">버튼을 누르면 자동으로 실험이 시작됩니다</span>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('show');
+  // 버튼 핸들러
+  box.querySelectorAll('.interval-choice-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const seconds = parseInt(btn.dataset.interval);
+      Exp2.interval = seconds;
+      // UI 업데이트
+      const display = document.getElementById('selected-interval-display');
+      if (display) display.textContent = seconds + '초';
+      closeWhyPopup();
+      setTimeout(() => {
+        if (onSelected) onSelected();
+      }, 100);
+    });
+  });
+}
+
 /* ===== Tab 1: graph prediction ===== */
 let pred1Graph = null;
-// 배포용: 그래프 예측 잠금 해제 (lockHeatBtn1Initially 제거됨)
+// 배포용: 그래프 예측 잠금 해제
 document.querySelectorAll('.graph-choice[data-pred-graph]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.graph-choice[data-pred-graph]').forEach(b => b.classList.remove('selected'));
@@ -3406,6 +3898,125 @@ if (pred1ReasonTA) pred1ReasonTA.addEventListener('input', savePred1);
 if (typeof POE_DATA !== 'undefined') {
   Object.keys(POE_DATA).forEach(setId => renderPOESet(setId));
 }
+
+/* ===== 진행상황 시스템 ===== */
+function getProgressItems() {
+  collectStudentData(); // 최신 데이터 반영
+  const sd = StudentData;
+  // 정리 빈칸 채워졌는지 체크
+  let blanksDone = false;
+  const t3blanks = document.querySelectorAll('#t3 input.fill-blank');
+  if (t3blanks.length > 0) {
+    blanksDone = Array.from(t3blanks).every(inp => inp.value.trim().length > 0);
+  }
+  return [
+    { id: 'galileo', label: '✨ POE의 힘 — 갈릴레오 실험', done: !!(sd.galileo && sd.galileo.dropped), panel: 't0' },
+    { id: 'exp1', label: '🔥 탐구 1 — 팔미트산 5g·10g 두 번 실험', done: sd.exp1.done5g && sd.exp1.done10g, panel: 't1' },
+    { id: 'exp1-poe', label: '🔥 탐구 1 — 관찰·설명 작성', done: !!(sd.observe.t1 && sd.explain.t1), panel: 't1' },
+    { id: 'exp2', label: '💨 탐구 2 — 에탄올 10mL·20mL 두 번 실험', done: sd.exp2.done10mL && sd.exp2.done20mL, panel: 't2' },
+    { id: 'exp2-poe', label: '💨 탐구 2 — 관찰·설명 작성', done: !!(sd.observe.t2 && sd.explain.t2), panel: 't2' },
+    { id: 't3-blanks', label: '📝 정리 — 빈칸 채우기', done: blanksDone, panel: 't3' },
+    { id: 't4-poe', label: '🤔 WHY? — 관찰·설명 작성', done: !!(sd.observe.t4 && sd.explain.t4), panel: 't4' },
+    { id: 't4-pressure', label: '🤔 WHY? — 압력 조건 생각 작성', done: !!sd.pressureReflection, panel: 't4' },
+    { id: 't5-draw', label: '📈 가열 곡선 그리기 — 채점 완료', done: sd.draw.score !== null, panel: 't5' },
+    { id: 't6-mystery', label: '🔍 미지 물질 탐정 — A·B·C 모두', done: sd.mystery.A && sd.mystery.B && sd.mystery.C, panel: 't6' },
+    { id: 't7-apply', label: '🌍 실생활 응용 — 4개 칸 모두 작성', done: !!(sd.apply.mpHigh && sd.apply.mpLow && sd.apply.bpHigh && sd.apply.bpLow), panel: 't7' },
+    { id: 't8-name', label: '📜 보고서 — 이름 입력', done: !!(sd.name && sd.name.trim() && sd.name !== '학생'), panel: 't8' }
+  ];
+}
+
+function updateProgressFab() {
+  const items = getProgressItems();
+  const done = items.filter(i => i.done).length;
+  const total = items.length;
+  const countEl = document.getElementById('progress-count-fab');
+  const fab = document.getElementById('progress-fab-btn');
+  if (countEl) countEl.textContent = `${done}/${total}`;
+  if (fab) {
+    if (done === total) fab.classList.add('all-done');
+    else fab.classList.remove('all-done');
+  }
+}
+
+function showProgressModal() {
+  const items = getProgressItems();
+  const done = items.filter(i => i.done).length;
+  const total = items.length;
+  const percent = Math.round((done / total) * 100);
+  const box = document.getElementById('modal-box');
+  box.innerHTML = `
+    <div class="modal-head">
+      <span class="pill" style="color:var(--accent);">📊 PROGRESS</span>
+      <h2 style="font-size:20px;">나의 진행상황 <span class="mono" style="color:var(--accent);">${done}/${total}</span></h2>
+    </div>
+    <div class="modal-body">
+      <div style="margin-bottom:16px;">
+        <div style="height:10px; background:var(--bg-elev); border:1px solid var(--border); border-radius:999px; overflow:hidden;">
+          <div style="width:${percent}%; height:100%; background:linear-gradient(90deg, var(--accent) 0%, #22C55E 100%); transition:width 0.4s;"></div>
+        </div>
+        <div style="margin-top:6px; font-size:12px; color:var(--text-dim); text-align:center;">
+          ${done === total ? '🎉 모든 활동을 완료했어요! 보고서를 제출할 수 있습니다.' : `완료까지 <strong>${total - done}개</strong> 남았어요`}
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        ${items.map(it => `
+          <div class="progress-item ${it.done ? 'done' : 'todo'}">
+            <div class="check">${it.done ? '✓' : '!'}</div>
+            <div class="label">${it.label}</div>
+            ${it.done ? '' : `<button class="go-btn" onclick="goToPanel('${it.panel}')">이동 →</button>`}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-primary" onclick="closeWhyPopup()" style="width:auto;">닫기</button>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('show');
+}
+
+function goToPanel(panelId) {
+  closeWhyPopup();
+  setTimeout(() => {
+    const tabBtn = document.querySelector(`[data-panel="${panelId}"]`);
+    if (tabBtn) tabBtn.click();
+  }, 120);
+}
+
+// 5초마다 자동 업데이트 + 페이지 로드 후 초기 호출
+setInterval(updateProgressFab, 5000);
+window.addEventListener('load', () => setTimeout(updateProgressFab, 500));
+
+/* ===== 창 닫기 시 저장 안 됨 경고 ===== */
+function hasAnyStudentData() {
+  // 학생이 뭔가 입력했거나 활동을 했는지 확인
+  const textareas = document.querySelectorAll('textarea');
+  for (const ta of textareas) {
+    if (ta.value && ta.value.trim()) return true;
+  }
+  const inputs = document.querySelectorAll('input[type="text"]');
+  for (const inp of inputs) {
+    if (inp.value && inp.value.trim()) return true;
+  }
+  if (typeof StudentData !== 'undefined') {
+    if (StudentData.exp1 && (StudentData.exp1.done5g || StudentData.exp1.done10g)) return true;
+    if (StudentData.exp2 && (StudentData.exp2.done10mL || StudentData.exp2.done20mL)) return true;
+    if (StudentData.mystery && Object.values(StudentData.mystery).some(v => v)) return true;
+    if (StudentData.galileo && StudentData.galileo.dropped) return true;
+    if (StudentData.draw && StudentData.draw.score) return true;
+    if (StudentData.predict && Object.values(StudentData.predict).some(v => v && v.trim())) return true;
+  }
+  return false;
+}
+
+window.addEventListener('beforeunload', (e) => {
+  if (hasAnyStudentData()) {
+    const msg = '⚠️ 아직 보고서를 저장하지 않았어요!\n페이지를 닫으면 입력한 내용이 모두 사라집니다.';
+    e.preventDefault();
+    e.returnValue = msg;
+    return msg;
+  }
+});
 
 /* ===== Experiment 2: Ethanol boiling — point recording ===== */
 const Exp2 = {
@@ -3454,7 +4065,6 @@ const Exp2 = {
     document.getElementById('heat-btn-2').classList.remove('heating');
     document.getElementById('heat-btn-2').querySelector('span').textContent = '물중탕 가열 시작';
     document.getElementById('heat-btn-2').disabled = false;
-    document.getElementById('record-btn-2').disabled = true;
     document.getElementById('status-2').classList.remove('heating');
     document.getElementById('status-text-2').textContent = '대기 중 — 부피 선택 후 가열을 시작하세요';
     document.getElementById('insight-2').classList.remove('show');
@@ -3486,21 +4096,16 @@ const Exp2 = {
       document.getElementById('heat-btn-2').classList.remove('heating');
       document.getElementById('heat-btn-2').querySelector('span').textContent = '가열 재개';
       document.getElementById('status-2').classList.remove('heating');
-      document.getElementById('record-btn-2').disabled = true;
       return;
     }
     this.running = true;
     this.paused = false;
+    this.mode = 'auto'; // 항상 자동 모드
     document.getElementById('flame-2').style.opacity = '1';
     document.getElementById('heat-btn-2').classList.add('heating');
     document.getElementById('heat-btn-2').querySelector('span').textContent = '가열 정지';
     document.getElementById('status-2').classList.add('heating');
-    if (this.mode === 'manual') {
-      document.getElementById('status-text-2').textContent = '🔥 가열 중 — 시간 간격마다 「점찍기」를 누르세요';
-      document.getElementById('record-btn-2').disabled = false;
-    } else {
-      document.getElementById('status-text-2').textContent = `🔥 가열 중 — ${this.interval}초마다 자동으로 점이 찍힙니다`;
-    }
+    document.getElementById('status-text-2').textContent = `🔥 가열 중 — ${this.interval}초마다 자동으로 점이 찍힙니다`;
 
     const dt = 0.5;
     const tickMs = 100;
@@ -3531,7 +4136,6 @@ const Exp2 = {
         if (this.t - this.boilStart >= this.boilDuration) {
           this.phase = 'postboil';
           this.boilEnd = this.t;
-          // shrink the fill since most has evaporated
           const fill = document.getElementById('ethanol-fill');
           fill.setAttribute('opacity', 0.15);
           document.getElementById('status-text-2').textContent = '완전 기화 — 기체가 다시 가열되는 중';
@@ -3553,9 +4157,9 @@ const Exp2 = {
         }
       }
       this.t += dt;
-      // Auto-record
-      if (this.mode === 'auto' && this.t - this.lastAutoRecord >= this.interval) {
-        this.recordPoint(true);
+      // 자동 기록 (항상 자동 모드)
+      if (this.t - this.lastAutoRecord >= this.interval) {
+        this.recordPoint();
         this.lastAutoRecord = this.t;
       }
       this.render();
@@ -3570,7 +4174,6 @@ const Exp2 = {
     document.getElementById('heat-btn-2').classList.remove('heating');
     document.getElementById('heat-btn-2').querySelector('span').textContent = '실험 완료';
     document.getElementById('heat-btn-2').disabled = true;
-    document.getElementById('record-btn-2').disabled = true;
     document.getElementById('status-2').classList.remove('heating');
     document.getElementById('status-text-2').textContent = '✓ 실험 완료 — 끓는점은 78.3℃, 이후 기체가 가열되어 더 올라감';
     // mark completion + point count
@@ -3578,15 +4181,8 @@ const Exp2 = {
     if (this.volume === 10) { StudentData.exp2.done10mL = true; StudentData.exp2.points10 = pts; }
     if (this.volume === 20) { StudentData.exp2.done20mL = true; StudentData.exp2.points20 = pts; }
     StudentData.exp2.plateauT = 78.3;
-    StudentData.exp2.mode = this.mode;
+    StudentData.exp2.mode = 'auto';
     updateExp2Progress();
-    // Validate manual recording
-    if (this.mode === 'manual' && pts < 4) {
-      setTimeout(() => showGlobalAlert(
-        '⚠ 점이 너무 적어요!',
-        `이번 실험에서 「점찍기」 버튼을 <strong style="color:var(--warm);">${pts}번만</strong> 눌렀습니다.<br><br>가열 곡선을 제대로 만들려면 일정한 시간 간격마다(예: 5초마다) 점을 찍어야 합니다. <br><br>「실험 초기화」를 누르고 다시 해보세요. 또는 「자동 기록」 모드를 선택하면 자동으로 점이 찍힙니다.`
-      ), 800);
-    }
     // Show prediction recall
     if (StudentData.predict.t2) {
       const recall = document.getElementById('predict-recall-2');
@@ -3594,14 +4190,9 @@ const Exp2 = {
       recall.innerHTML = '<strong>📝 실험 전 내 예측:</strong> ' + StudentData.predict.t2;
     }
   },
-  recordPoint(silent) {
+  recordPoint() {
     this.recordedData.push({t: this.t, T: this.T, phase: this.phase});
     document.getElementById('point-count-2').textContent = this.recordedData.length;
-    if (!silent) {
-      const btn = document.getElementById('record-btn-2');
-      btn.style.transform = 'scale(0.96)';
-      setTimeout(() => btn.style.transform = '', 120);
-    }
     this.render();
   },
   animateBubbles() {
@@ -3732,34 +4323,25 @@ document.querySelectorAll('.mass-btn[data-exp="2"]').forEach(b => {
   });
 });
 document.getElementById('heat-btn-2').addEventListener('click', () => {
-  if (!Exp2.running && !seenPressureAlert[2]) {
-    showPressureAlert(2);
+  // 이미 가열 중인 경우 (일시정지/재개)
+  if (Exp2.running) {
+    Exp2.start();
+    return;
   }
-  Exp2.start();
+  // 첫 가열 시: 1기압 알림 → 간격 팝업 → 시작
+  const proceedToInterval = () => {
+    showIntervalSetup(() => Exp2.start());
+  };
+  if (!seenPressureAlert[2]) {
+    showPressureAlertThenNext(2, proceedToInterval);
+  } else {
+    proceedToInterval();
+  }
 });
-document.getElementById('record-btn-2').addEventListener('click', () => Exp2.recordPoint());
 document.getElementById('reset-btn-2').addEventListener('click', () => Exp2.reset());
 document.getElementById('speed-2').addEventListener('input', (e) => {
   Exp2.speed = parseFloat(e.target.value);
   document.getElementById('speed-val-2').textContent = '×' + Exp2.speed.toFixed(1);
-});
-document.getElementById('mode-manual-2').addEventListener('click', () => {
-  Exp2.mode = 'manual';
-  document.getElementById('mode-manual-2').classList.add('active');
-  document.getElementById('mode-auto-2').classList.remove('active');
-  document.getElementById('auto-interval-row').style.display = 'none';
-  document.getElementById('manual-record-row').style.display = '';
-});
-document.getElementById('mode-auto-2').addEventListener('click', () => {
-  Exp2.mode = 'auto';
-  document.getElementById('mode-auto-2').classList.add('active');
-  document.getElementById('mode-manual-2').classList.remove('active');
-  document.getElementById('auto-interval-row').style.display = '';
-  document.getElementById('manual-record-row').style.display = 'none';
-});
-document.getElementById('interval-2').addEventListener('input', (e) => {
-  Exp2.interval = parseInt(e.target.value);
-  document.getElementById('interval-val-2').textContent = Exp2.interval + '초';
 });
 document.getElementById('pause-continue-2').addEventListener('click', () => Exp2.resumeFromPause());
 
@@ -4515,7 +5097,143 @@ function gradeDrawing() {
     </div>
   `).join('');
   document.getElementById('draw-result-card').style.display = 'block';
+  // 라벨 게임도 함께 표시
+  document.getElementById('label-game-card').style.display = 'block';
+  initLabelGame();
 }
+
+/* ===== 라벨 붙이기 게임 ===== */
+let selectedLabelCard = null;
+let labelGameInited = false;
+
+function initLabelGame() {
+  if (labelGameInited) return;
+  labelGameInited = true;
+  // 라벨 카드 이벤트
+  document.querySelectorAll('.lbl-card[data-text]').forEach(card => {
+    // 드래그
+    card.addEventListener('dragstart', (e) => {
+      if (card.classList.contains('placed')) { e.preventDefault(); return; }
+      e.dataTransfer.setData('text/plain', card.dataset.text);
+      e.dataTransfer.setData('type', card.dataset.type);
+      e.dataTransfer.effectAllowed = 'move';
+      card.classList.add('dragging');
+    });
+    card.addEventListener('dragend', () => card.classList.remove('dragging'));
+    // 클릭 (모바일 대체)
+    card.addEventListener('click', () => {
+      if (card.classList.contains('placed')) return;
+      document.querySelectorAll('.lbl-card').forEach(c => c.classList.remove('selected'));
+      if (selectedLabelCard === card) {
+        selectedLabelCard = null;
+      } else {
+        card.classList.add('selected');
+        selectedLabelCard = card;
+      }
+    });
+  });
+  // 드롭존 이벤트
+  document.querySelectorAll('.drop-slot').forEach(slot => {
+    slot.addEventListener('dragover', (e) => { e.preventDefault(); slot.classList.add('drag-over'); });
+    slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
+    slot.addEventListener('drop', (e) => {
+      e.preventDefault();
+      slot.classList.remove('drag-over');
+      const text = e.dataTransfer.getData('text/plain');
+      const type = e.dataTransfer.getData('type');
+      if (!text) return;
+      placeLabel(slot, text, type);
+    });
+    // 클릭 (모바일)
+    slot.addEventListener('click', () => {
+      if (selectedLabelCard) {
+        placeLabel(slot, selectedLabelCard.dataset.text, selectedLabelCard.dataset.type);
+        selectedLabelCard.classList.remove('selected');
+        selectedLabelCard = null;
+      } else if (slot.classList.contains('filled')) {
+        // 이미 채워진 슬롯 클릭 → 비우기
+        clearSlot(slot);
+      }
+    });
+  });
+}
+
+function placeLabel(slot, text, type) {
+  // 슬롯 타입 확인 (state vs change)
+  const slotName = slot.dataset.slot;  // ex: state-1, change-2
+  const slotType = slotName.startsWith('state') ? 'state' : 'change';
+  if (type !== slotType) {
+    showGlobalAlert('⚠ 라벨 종류가 맞지 않아요',
+      slotType === 'state'
+        ? '이 칸은 <strong>물질의 상태</strong>(고체·액체·기체 등)를 놓는 곳입니다.'
+        : '이 칸은 <strong>상태 변화</strong>(융해·기화)를 놓는 곳입니다.'
+    );
+    return;
+  }
+  // 기존에 채워져 있으면 그 라벨을 해제
+  if (slot.classList.contains('filled') && slot.dataset.placed) {
+    const oldCard = document.querySelector(`.lbl-card[data-text="${slot.dataset.placed}"]`);
+    if (oldCard) oldCard.classList.remove('placed');
+  }
+  // 새 라벨 배치
+  slot.dataset.placed = text;
+  slot.textContent = text;
+  slot.classList.add('filled');
+  slot.classList.remove('correct', 'wrong');
+  // 해당 라벨 카드 비활성화
+  const targetCard = document.querySelector(`.lbl-card[data-text="${text}"]`);
+  if (targetCard) targetCard.classList.add('placed');
+  // 다른 슬롯에도 같은 라벨이 있으면 제거 (한 라벨은 한 슬롯만)
+  document.querySelectorAll('.drop-slot.filled').forEach(s => {
+    if (s !== slot && s.dataset.placed === text) {
+      clearSlot(s, true);
+    }
+  });
+}
+
+function clearSlot(slot, silent) {
+  if (!slot.classList.contains('filled')) return;
+  const text = slot.dataset.placed;
+  if (text && !silent) {
+    const card = document.querySelector(`.lbl-card[data-text="${text}"]`);
+    if (card) card.classList.remove('placed');
+  } else if (text && silent) {
+    // silent: 카드 활성화는 하지 않음 (다른 슬롯이 이미 가져갔으므로)
+  }
+  slot.dataset.placed = '';
+  slot.innerHTML = '<span class="slot-hint">' + (slot.dataset.slot.startsWith('state') ? '상태?' : '상태변화?') + '</span>';
+  slot.classList.remove('filled', 'correct', 'wrong');
+}
+
+document.getElementById('check-labels-btn').addEventListener('click', () => {
+  let correct = 0, total = 0;
+  document.querySelectorAll('.drop-slot').forEach(slot => {
+    total++;
+    const placed = slot.dataset.placed || '';
+    const ans = slot.dataset.correct;
+    if (placed === ans) {
+      slot.classList.add('correct');
+      slot.classList.remove('wrong');
+      correct++;
+    } else if (placed) {
+      slot.classList.add('wrong');
+      slot.classList.remove('correct');
+    }
+  });
+  const resBox = document.getElementById('label-result');
+  if (correct === total) {
+    resBox.innerHTML = `<div style="padding:12px 14px; background:#EAF7EF; border-left:3px solid #22C55E; border-radius:8px; font-size:13px; line-height:1.6; color:#138a3e;"><strong>🎉 모두 정답입니다!</strong> 가열 곡선의 5개 구간을 완벽하게 이해했어요. 각 구간에서 입자가 어떻게 움직이는지 함께 떠올려 보세요.</div>`;
+  } else {
+    resBox.innerHTML = `<div style="padding:12px 14px; background:#FBE9DF; border-left:3px solid var(--warm); border-radius:8px; font-size:13px; line-height:1.6; color:#5C2810;"><strong>${correct} / ${total} 정답</strong> · 빨간색으로 표시된 칸을 다시 확인해 보세요. 라벨을 다시 끌어다 놓거나, 그 자리를 클릭해 비울 수 있어요.</div>`;
+  }
+});
+
+document.getElementById('reset-labels-btn').addEventListener('click', () => {
+  document.querySelectorAll('.drop-slot').forEach(s => clearSlot(s));
+  document.querySelectorAll('.lbl-card').forEach(c => c.classList.remove('placed', 'selected'));
+  selectedLabelCard = null;
+  document.getElementById('label-result').innerHTML = '';
+});
 
 // Tab 5 canvas init is handled in handleTabClick
 window.addEventListener('resize', () => {
@@ -4579,7 +5297,7 @@ const MYSTERIES = [
 ];
 
 const mysteryState = {};
-let currentUnlocked = 2; // 배포용: 모든 시료 (A, B, C) 즉시 해제
+let currentUnlocked = 2; // 배포용
 const solvedSet = new Set();
 
 function updateProgress() {
@@ -4882,6 +5600,15 @@ function collectStudentData() {
       }
     });
   }
+  // 압력 reflection
+  const pr = document.getElementById('pressure-reflection');
+  if (pr) StudentData.pressureReflection = pr.value.trim();
+  // 실생활 응용 (4개 칸)
+  const applyMap = { 'apply-mp-high': 'mpHigh', 'apply-mp-low': 'mpLow', 'apply-bp-high': 'bpHigh', 'apply-bp-low': 'bpLow' };
+  Object.keys(applyMap).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) StudentData.apply[applyMap[id]] = el.value.trim();
+  });
   // Name
   const nm = document.getElementById('student-name');
   if (nm) StudentData.name = nm.value.trim() || '학생';
@@ -4896,6 +5623,55 @@ function completeReport() {
     showGlobalAlert('⚠ 이름을 적어주세요', '자격증에 이름이 들어가야 합니다. 위 입력란에 이름을 적은 후 다시 시도해 주세요.');
     return;
   }
+  // 미완료 항목 체크 - 있으면 팝업으로 안내
+  const items = getProgressItems();
+  const todo = items.filter(i => !i.done);
+  if (todo.length > 0) {
+    showIncompleteWarning(todo);
+    return;
+  }
+  // 모두 완료면 바로 보고서 생성
+  actuallyCompleteReport();
+}
+
+function showIncompleteWarning(todoItems) {
+  const box = document.getElementById('modal-box');
+  box.innerHTML = `
+    <div class="modal-head">
+      <span class="pill" style="color:var(--warm);">⚠ 미완료 항목 안내</span>
+      <h2 style="font-size:20px;">아직 <strong style="color:var(--warm);">${todoItems.length}개</strong> 항목이 미완료예요</h2>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13.5px; line-height:1.65; margin-bottom:12px;">
+        아래 항목들이 아직 끝나지 않았어요. 「수정하러 가기」를 눌러 마저 진행하면 더 완성도 높은 보고서가 됩니다.<br>
+        <span style="font-size:12px; color:var(--text-dim);">※ 그래도 지금 제출하면 미완료 항목은 빈 칸으로 보고서에 표시됩니다.</span>
+      </p>
+      <div style="display:flex; flex-direction:column; gap:6px; max-height:300px; overflow-y:auto;">
+        ${todoItems.map(it => `
+          <div class="progress-item todo">
+            <div class="check">!</div>
+            <div class="label">${it.label}</div>
+            <button class="go-btn" onclick="goToPanel('${it.panel}')">이동 →</button>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="modal-foot" style="display:block;">
+      <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+        <button class="btn-secondary" onclick="proceedWithIncomplete()" style="width:auto;">😅 그래도 제출하기</button>
+        <button class="btn-primary" onclick="closeWhyPopup()" style="width:auto;">✏️ 더 마무리하고 제출</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('show');
+}
+
+function proceedWithIncomplete() {
+  closeWhyPopup();
+  setTimeout(actuallyCompleteReport, 150);
+}
+
+function actuallyCompleteReport() {
 
   // ----- Determine completed badges -----
   const checks = [
@@ -4978,6 +5754,34 @@ function completeReport() {
       </div>
     `;
   }).join('');
+
+  // ----- 압력 reflection -----
+  const pressBox = document.getElementById('pressure-summary');
+  if (pressBox) {
+    pressBox.innerHTML = StudentData.pressureReflection
+      ? `<strong style="color:var(--warm);">왜 일정한 압력에서 정의해야 할까요?</strong><br>${StudentData.pressureReflection.replace(/\n/g, '<br>')}`
+      : '<em style="color:var(--text-mute);">WHY 탭에서 압력 조건에 대한 생각을 적어주세요.</em>';
+  }
+
+  // ----- 실생활 응용 -----
+  const applyBox = document.getElementById('apply-summary');
+  if (applyBox) {
+    const items = [
+      { key: 'mpHigh', icon: '🧊', title: '녹는점이 높은 물질', color: 'var(--warm)' },
+      { key: 'mpLow', icon: '🔥', title: '녹는점이 낮은 물질', color: 'var(--accent)' },
+      { key: 'bpHigh', icon: '🔥', title: '끓는점이 높은 물질', color: 'var(--warm)' },
+      { key: 'bpLow', icon: '❄️', title: '끓는점이 낮은 물질', color: 'var(--accent)' }
+    ];
+    applyBox.innerHTML = items.map(it => {
+      const val = (StudentData.apply && StudentData.apply[it.key]) || '';
+      return `
+        <div style="border:1px solid var(--border); border-left:3px solid ${it.color}; border-radius:8px; padding:10px 12px; background:var(--bg-elev);">
+          <div style="font-weight:600; font-size:12.5px; margin-bottom:4px;">${it.icon} ${it.title}</div>
+          <div style="font-size:12px; line-height:1.6; color:${val ? 'var(--text)' : 'var(--text-mute)'};">${val ? val.replace(/\n/g, '<br>') : '<em>미작성</em>'}</div>
+        </div>
+      `;
+    }).join('');
+  }
 
   // ----- Update Certificate -----
   document.getElementById('cert-name').textContent = name;
