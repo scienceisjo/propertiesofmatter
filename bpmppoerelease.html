@@ -765,6 +765,30 @@ header.lab-head {
 }
 .progress-item .go-btn:hover { background: var(--accent-light); }
 
+/* ====== Save Indicator (자동 저장 토스트) ====== */
+.save-indicator {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 70;
+  padding: 8px 16px;
+  background: #138a3e;
+  color: white;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+.save-indicator.show { opacity: 1; transform: translateY(0); }
+@media (max-width: 640px) {
+  .save-indicator { bottom: 14px; right: 14px; font-size: 11.5px; padding: 7px 12px; }
+}
+
 .particle-legend {
   display: flex;
   gap: 8px;
@@ -1038,6 +1062,9 @@ header.lab-head {
   <span>진행상황</span>
   <span class="progress-count" id="progress-count-fab">0/0</span>
 </button>
+
+<!-- 자동 저장 인디케이터 -->
+<div class="save-indicator" id="save-indicator">✓ 자동 저장됨</div>
 
 <header class="lab-head">
   <div>
@@ -2465,6 +2492,9 @@ header.lab-head {
       <input type="text" id="student-class" placeholder="학번 (예: 20101)"
         style="flex:1; min-width:200px; padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:14px; outline:none;">
     </div>
+    <div style="margin-top:10px; padding:8px 12px; background:var(--accent-light); border-left:3px solid var(--accent); border-radius:8px; font-size:12px; line-height:1.6; color:var(--text);">
+      💾 <strong>자동 저장 안내:</strong> 학번을 적으면 모든 입력 내용이 <strong>자동으로 저장</strong>돼요. 실수로 창을 닫아도, 다시 와서 같은 학번을 입력하면 <strong>이어서 할 수 있어요!</strong>
+    </div>
     <button class="btn-primary" id="complete-report-btn" style="margin-top:14px;">
       📋 보고서 완성하기
     </button>
@@ -2649,8 +2679,8 @@ document.querySelectorAll('.tab').forEach(btn => {
   btn.addEventListener('click', (e) => handleTabClick(btn, e));
 });
 
-/* ===== Tab Lock System (배포용 - 잠금 해제) ===== */
-const TAB_PREREQ = {}; // 배포용: 모든 탭 자유 접근 가능
+/* ===== Tab Lock System (배포용) ===== */
+const TAB_PREREQ = {};
 function isTabLocked(tabId) {
   const p = TAB_PREREQ[tabId];
   if (!p) return false;
@@ -3455,7 +3485,6 @@ const Exp1 = {
     this.alertedDone = false;
     document.getElementById('flame-1').style.opacity = '0';
     document.getElementById('heat-btn-1').classList.remove('heating');
-    // 배포용
     document.getElementById('heat-btn-1').querySelector('span').textContent = '물중탕 가열 시작';
     document.getElementById('heat-btn-1').disabled = false;
     document.getElementById('status-1').classList.remove('heating');
@@ -3677,7 +3706,6 @@ document.querySelectorAll('.mass-btn[data-exp="1"]').forEach(b => {
     b.classList.add('selected');
     Exp1.mass = parseInt(b.dataset.mass);
     Exp1.reset();
-    // 배포용
     const heatBtn = document.getElementById('heat-btn-1');
     heatBtn.disabled = false;
     heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
@@ -3866,7 +3894,7 @@ function showIntervalSetup(onSelected) {
 
 /* ===== Tab 1: graph prediction ===== */
 let pred1Graph = null;
-// 배포용: 그래프 예측 잠금 해제
+// 배포용: 잠금 해제
 document.querySelectorAll('.graph-choice[data-pred-graph]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.graph-choice[data-pred-graph]').forEach(b => b.classList.remove('selected'));
@@ -3898,6 +3926,258 @@ if (pred1ReasonTA) pred1ReasonTA.addEventListener('input', savePred1);
 if (typeof POE_DATA !== 'undefined') {
   Object.keys(POE_DATA).forEach(setId => renderPOESet(setId));
 }
+
+/* ===== localStorage 자동 저장 시스템 ===== */
+const STORAGE_PREFIX = 'palmitic_lab_';
+let currentSaveKey = STORAGE_PREFIX + 'temp';
+let saveTimeout = null;
+let didAutoRestore = false;
+
+function sanitizeKey(s) { return (s || '').trim().replace(/[^\w가-힣]/g, ''); }
+
+function getSaveKey() {
+  const cls = document.getElementById('student-class');
+  if (cls && cls.value.trim()) {
+    return STORAGE_PREFIX + sanitizeKey(cls.value);
+  }
+  return STORAGE_PREFIX + 'temp';
+}
+
+function captureAllData() {
+  try { collectStudentData(); } catch(e) {}
+  const data = {
+    studentData: JSON.parse(JSON.stringify(StudentData)),
+    inputs: {},
+    textareas: {},
+    poeAnswers: {},
+    selections: {
+      pred1Graph: typeof pred1Graph !== 'undefined' ? pred1Graph : null,
+      mysterySolved: typeof solvedSet !== 'undefined' ? Array.from(solvedSet) : [],
+      mysteryMeasurements: typeof measurements !== 'undefined' ? measurements : {}
+    },
+    labelSlots: {},
+    timestamp: Date.now()
+  };
+  // 모든 textarea
+  document.querySelectorAll('textarea').forEach(ta => {
+    if (ta.dataset.poeQ) {
+      data.poeAnswers[ta.dataset.poeQ] = ta.value;
+    } else if (ta.id) {
+      data.textareas[ta.id] = ta.value;
+    }
+  });
+  // 모든 text input
+  document.querySelectorAll('input[type="text"]').forEach(inp => {
+    if (inp.id) data.inputs[inp.id] = inp.value;
+  });
+  // 가열 곡선 라벨 슬롯 상태
+  document.querySelectorAll('.drop-slot').forEach(slot => {
+    if (slot.dataset.placed) data.labelSlots[slot.dataset.slot] = slot.dataset.placed;
+  });
+  return data;
+}
+
+function autoSave() {
+  try {
+    const key = getSaveKey();
+    const data = captureAllData();
+    localStorage.setItem(key, JSON.stringify(data));
+    // 학번 키로 저장됐으면 임시 키 제거
+    if (key !== STORAGE_PREFIX + 'temp') {
+      localStorage.removeItem(STORAGE_PREFIX + 'temp');
+      currentSaveKey = key;
+    }
+    showSaveIndicator(true);
+  } catch (e) {
+    console.warn('Save failed:', e);
+    showSaveIndicator(false);
+  }
+}
+
+function triggerAutoSave() {
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(autoSave, 1000);
+}
+
+function showSaveIndicator(success) {
+  const el = document.getElementById('save-indicator');
+  if (!el) return;
+  el.textContent = success ? '✓ 자동 저장됨' : '⚠ 저장 실패';
+  el.style.background = success ? '#138a3e' : 'var(--warm)';
+  el.classList.add('show');
+  clearTimeout(window._saveIndicatorTimeout);
+  window._saveIndicatorTimeout = setTimeout(() => el.classList.remove('show'), 1500);
+}
+
+function restoreFromKey(key) {
+  const raw = localStorage.getItem(key);
+  if (!raw) return false;
+  let data;
+  try { data = JSON.parse(raw); } catch(e) { return false; }
+  // textareas 복원
+  Object.entries(data.textareas || {}).forEach(([id, value]) => {
+    const ta = document.getElementById(id);
+    if (ta) ta.value = value;
+  });
+  // POE textareas 복원
+  Object.entries(data.poeAnswers || {}).forEach(([qId, value]) => {
+    const ta = document.querySelector(`textarea[data-poe-q="${qId}"]`);
+    if (ta) ta.value = value;
+  });
+  // inputs 복원
+  Object.entries(data.inputs || {}).forEach(([id, value]) => {
+    const inp = document.getElementById(id);
+    if (inp) inp.value = value;
+  });
+  // StudentData 복원 (deep merge)
+  if (data.studentData) {
+    Object.keys(data.studentData).forEach(k => {
+      if (typeof data.studentData[k] === 'object' && data.studentData[k] !== null && !Array.isArray(data.studentData[k])) {
+        StudentData[k] = Object.assign(StudentData[k] || {}, data.studentData[k]);
+      } else {
+        StudentData[k] = data.studentData[k];
+      }
+    });
+  }
+  // selections 복원
+  if (data.selections) {
+    if (data.selections.pred1Graph) {
+      window.pred1Graph = data.selections.pred1Graph;
+      const btn = document.querySelector(`.graph-choice[data-pred-graph="${data.selections.pred1Graph}"]`);
+      if (btn) btn.classList.add('selected');
+      // 가열 버튼 활성화 (학생용 잠금 해제 트리거)
+      const heatBtn = document.getElementById('heat-btn-1');
+      if (heatBtn) {
+        heatBtn.disabled = false;
+        const sp = heatBtn.querySelector('span');
+        if (sp) sp.textContent = '물중탕 가열 시작';
+      }
+    }
+  }
+  // POE 모범답안 버튼 상태 재계산
+  if (typeof POE_DATA !== 'undefined') {
+    setTimeout(() => Object.keys(POE_DATA).forEach(setId => {
+      if (typeof checkPOEComplete === 'function') checkPOEComplete(setId);
+    }), 200);
+  }
+  // 압력 모범답안 버튼
+  setTimeout(() => {
+    const pr = document.getElementById('pressure-reflection');
+    const prBtn = document.getElementById('pressure-model-btn');
+    if (pr && prBtn && pr.value.trim()) {
+      prBtn.disabled = false;
+      prBtn.style.background = '#22C55E';
+      prBtn.style.cursor = 'pointer';
+      prBtn.style.opacity = '1';
+      prBtn.textContent = '📖 모범답안 확인하기';
+    }
+  }, 200);
+  // 진행상황 fab 업데이트
+  setTimeout(() => { if (typeof updateProgressFab === 'function') updateProgressFab(); }, 300);
+  return true;
+}
+
+function showRestoreModal(key, data) {
+  const box = document.getElementById('modal-box');
+  const date = new Date(data.timestamp).toLocaleString('ko-KR');
+  const items = (data.studentData && typeof getProgressItems === 'function') ? null : null;
+  box.innerHTML = `
+    <div class="modal-head">
+      <span class="pill" style="color:var(--accent);">💾 SAVED DATA</span>
+      <h2 style="font-size:20px;">이전에 작성한 내용이 있어요!</h2>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px; line-height:1.7; margin-bottom:12px;">
+        학번 <strong>${data.studentData && data.studentData.studentClass ? data.studentData.studentClass : '(미입력)'}</strong>로 저장된 자료가 있어요.<br>
+        <span style="font-size:12px; color:var(--text-dim);">저장 시각: ${date}</span>
+      </p>
+      <div style="padding:12px 14px; background:var(--accent-light); border-left:3px solid var(--accent); border-radius:8px; font-size:13px; line-height:1.65;">
+        💡 「이어서 하기」를 누르면 이전에 작성한 모든 답과 진행 상태를 그대로 불러옵니다.<br>
+        다시 처음부터 시작하고 싶으면 「새로 시작」을 누르세요.
+      </div>
+    </div>
+    <div class="modal-foot" style="display:block;">
+      <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+        <button class="btn-secondary" onclick="discardAndRestart('${key}')" style="width:auto;">🗑 새로 시작</button>
+        <button class="btn-primary" onclick="restoreAndClose('${key}')" style="width:auto;">↩️ 이어서 하기</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('modal-backdrop').classList.add('show');
+}
+
+function restoreAndClose(key) {
+  restoreFromKey(key);
+  closeWhyPopup();
+  didAutoRestore = true;
+  currentSaveKey = key;
+  setTimeout(() => showGlobalAlert('✓ 복원 완료', '이전 작성 내용을 모두 불러왔어요. 이어서 진행해 주세요!'), 200);
+}
+
+function discardAndRestart(key) {
+  if (confirm('정말 이전 데이터를 삭제할까요? 이 작업은 되돌릴 수 없습니다.')) {
+    localStorage.removeItem(key);
+    closeWhyPopup();
+    showGlobalAlert('🆕 새로 시작', '이전 데이터를 삭제했어요. 새로 시작합니다!');
+  }
+}
+
+// 학번 입력 시 → 해당 키 데이터 있는지 체크
+function checkRestoreOnClassChange() {
+  if (didAutoRestore) {
+    // 이미 복원했으면 단순히 키만 업데이트
+    autoSave();
+    return;
+  }
+  const key = getSaveKey();
+  if (key === STORAGE_PREFIX + 'temp') return;
+  const raw = localStorage.getItem(key);
+  if (!raw) {
+    // 새 학번 → 임시 데이터를 이 키로 이전
+    autoSave();
+    return;
+  }
+  // 기존 데이터 발견 → 복원 모달
+  try {
+    const data = JSON.parse(raw);
+    showRestoreModal(key, data);
+  } catch(e) {
+    autoSave();
+  }
+}
+
+// 자동 저장 트리거: input 이벤트 위임
+document.addEventListener('input', (e) => {
+  if (e.target.matches('input, textarea')) {
+    triggerAutoSave();
+  }
+});
+
+// 학번 입력란에서 blur 시 복원 체크
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const classInput = document.getElementById('student-class');
+    if (classInput) {
+      classInput.addEventListener('blur', checkRestoreOnClassChange);
+      classInput.addEventListener('change', checkRestoreOnClassChange);
+    }
+    // 페이지 로드 시 임시 키에 데이터 있으면 자동 복원
+    const tempKey = STORAGE_PREFIX + 'temp';
+    if (localStorage.getItem(tempKey)) {
+      // 임시 키는 조용히 복원 (모달 X)
+      restoreFromKey(tempKey);
+      didAutoRestore = true;
+    }
+  }, 600);
+});
+
+// 1분마다 강제 저장 (안전망)
+setInterval(autoSave, 60000);
+
+// 페이지 닫기 직전에도 한 번 더 저장
+window.addEventListener('beforeunload', () => {
+  try { autoSave(); } catch(e) {}
+});
 
 /* ===== 진행상황 시스템 ===== */
 function getProgressItems() {
@@ -4011,7 +4291,13 @@ function hasAnyStudentData() {
 
 window.addEventListener('beforeunload', (e) => {
   if (hasAnyStudentData()) {
-    const msg = '⚠️ 아직 보고서를 저장하지 않았어요!\n페이지를 닫으면 입력한 내용이 모두 사라집니다.';
+    // 마지막 저장 강제
+    try { autoSave(); } catch(err) {}
+    const cls = document.getElementById('student-class');
+    const hasClass = cls && cls.value.trim();
+    const msg = hasClass
+      ? '자동 저장됐어요. 같은 학번으로 다시 오면 이어서 할 수 있습니다.'
+      : '⚠️ 학번을 적지 않아 저장이 안 될 수 있어요!\n학번을 먼저 입력하면 모든 내용이 자동 저장됩니다.';
     e.preventDefault();
     e.returnValue = msg;
     return msg;
@@ -5297,7 +5583,7 @@ const MYSTERIES = [
 ];
 
 const mysteryState = {};
-let currentUnlocked = 2; // 배포용
+let currentUnlocked = 2;
 const solvedSet = new Set();
 
 function updateProgress() {
