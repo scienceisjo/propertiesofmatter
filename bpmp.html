@@ -122,6 +122,17 @@ header.lab-head {
   background: var(--text);
   color: white;
 }
+.tab.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.tab.locked::after {
+  content: ' 🔒';
+  font-size: 11px;
+  margin-left: 2px;
+}
+.tab.locked:hover { background: transparent; color: var(--text-dim); }
+.tab.locked.active { background: var(--text); color: white; opacity: 1; }
 .tab .num {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
@@ -903,6 +914,15 @@ header.lab-head {
         <div style="width:24px; height:24px; background:var(--accent); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:11px;">P</div>
         <div style="font-weight:700; font-size:14px; color:var(--accent);">먼저 예측해 보세요</div>
       </div>
+
+      <!-- 선행조직자 -->
+      <div style="background:white; border:1px dashed var(--plateau); border-radius:8px; padding:11px 13px; margin-bottom:12px; font-size:12.5px; line-height:1.7;">
+        <strong style="color:#8C6B12;">🧭 예측을 돕는 단서</strong><br>
+        <span style="color:#5C4710;">2,000년 동안 모두가 믿었습니다 — <em>"무거울수록 빨리 떨어진다"</em> (아리스토텔레스).<br>
+        그런데 갈릴레오는 이런 의문을 가졌어요: <strong>무거운 돌과 가벼운 돌을 묶어서</strong> 떨어뜨리면 어떻게 될까? 묶었으니 <em>더 무거워졌으니까</em> 더 빨리 떨어질까? 아니면 <em>가벼운 돌이 무거운 돌을 잡아당겨</em> 늦출까?<br>
+        — 이 모순을 알아챈 순간이 위대한 과학의 시작이었습니다.</span>
+      </div>
+
       <p style="font-size:13.5px; line-height:1.65; margin-bottom:12px;">
         <strong>10kg 쇠공</strong>과 <strong>1kg 나무공</strong>을 피사의 사탑 꼭대기에서 동시에 떨어뜨립니다.<br>
         어느 것이 먼저 땅에 닿을까요? (공기가 있는 평소 환경에서)
@@ -1110,10 +1130,24 @@ header.lab-head {
     .poe-predict-btn.selected { border-color: var(--accent) !important; background: var(--accent-light) !important; }
   </style>
 </section>
+
+<!-- ============================= -->
+<!-- TAB 1: 팔미트산 녹는점 -->
+<!-- ============================= -->
+<section class="panel" id="t1">
   <div class="panel-head">
     <div class="label">Experiment 01 / Melting Point</div>
     <h2>팔미트산의 녹는점 측정</h2>
     <p class="desc">시험관에 담긴 팔미트산을 물중탕으로 가열하면서 시간에 따른 온도 변화를 기록합니다. <strong>5g</strong>과 <strong>10g</strong> 중 하나를 골라 실험을 진행해 보세요.</p>
+    <div style="margin-top:14px; padding:14px 16px; background:var(--bg-card); border:1px solid var(--border); border-radius:10px; display:flex; gap:14px; align-items:flex-start;">
+      <div style="font-size:28px; flex-shrink:0;">🕯️</div>
+      <div>
+        <div style="font-size:11px; color:var(--accent); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:3px;">팔미트산이 뭐예요?</div>
+        <div style="font-size:13.5px; line-height:1.65; color:var(--text);">
+          야자유·팜유·동물성 기름에서 얻는 <strong>흰색 왁스 같은 고체</strong>예요. 옛날부터 지금까지 <strong>비누·화장품·양초</strong>의 핵심 재료로 쓰이고 있죠. 녹는점이 비교적 낮아서 교실 실험에서 안전하게 융해 현상을 관찰하기에 딱 좋은 물질입니다.
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="exp-grid">
@@ -1289,15 +1323,13 @@ header.lab-head {
 
       <div class="reflect-box" id="reflect-1">
         <label>🔬 POE — Observe (관찰)</label>
-        <div style="font-size:13.5px; margin-bottom:10px; color:var(--text);"><strong>실험에서 무엇을 봤나요?</strong> 평탄 구간의 온도, 평탄 구간의 길이, 입자 모양 변화 — 본 그대로 적어보세요.</div>
-        <textarea id="observe-1" placeholder="예: 온도가 25℃에서 시작해서... 62.5℃에서 멈췄고..."></textarea>
+        <div data-poe-set="observe-1"></div>
       </div>
 
       <div class="reflect-box" style="margin-top:14px; background:#FBF3DC; border-color: var(--plateau);">
         <label>💡 POE — Explain (설명: 예측 vs 결과)</label>
-        <div style="font-size:13.5px; margin-bottom:10px; color:var(--text);"><strong>내 예측과 실제 결과를 비교해 보세요.</strong> 같았다면 왜 같았을지, 달랐다면 어디가 어떻게 달랐고 왜 달랐을지 설명해 보세요.</div>
         <div id="predict-recall-1" style="display:none; padding:8px 10px; background:rgba(255,255,255,0.6); border-radius:6px; font-size:12px; margin-bottom:10px; color:#5C4710;"></div>
-        <textarea id="explain-1" placeholder="내 예측: ...&#10;실제 결과: ...&#10;차이/이유: ..."></textarea>
+        <div data-poe-set="explain-1"></div>
       </div>
 
       <!-- 진행 상태 안내 -->
@@ -1485,15 +1517,13 @@ header.lab-head {
 
       <div class="reflect-box">
         <label>🔬 POE — Observe (관찰)</label>
-        <div style="font-size:13.5px; margin-bottom:10px; color:var(--text);"><strong>실험에서 무엇을 봤나요?</strong> 끓기 시작한 온도, 평탄 구간 모습, 기화 후 온도 변화 — 본 그대로 적어보세요.</div>
-        <textarea id="observe-2" placeholder="예: 온도가 점점 올라가다가 78.3℃에서 멈췄고..."></textarea>
+        <div data-poe-set="observe-2"></div>
       </div>
 
       <div class="reflect-box" style="margin-top:14px; background:#FBF3DC; border-color: var(--plateau);">
         <label>💡 POE — Explain (설명: 예측 vs 결과)</label>
-        <div style="font-size:13.5px; margin-bottom:10px; color:var(--text);"><strong>내 예측과 실제 결과를 비교해 보세요.</strong> 에탄올의 끓는점이 물보다 낮을 거라 예측했나요? 결과는 어땠고, 왜 그럴까요?</div>
         <div id="predict-recall-2" style="display:none; padding:8px 10px; background:rgba(255,255,255,0.6); border-radius:6px; font-size:12px; margin-bottom:10px; color:#5C4710;"></div>
-        <textarea id="explain-2" placeholder="내 예측: ...&#10;실제 결과: ...&#10;차이/이유: ..."></textarea>
+        <div data-poe-set="explain-2"></div>
       </div>
 
       <!-- 진행 상태 안내 -->
@@ -1660,10 +1690,10 @@ header.lab-head {
         </div>
         <!-- B: particle model -->
         <div style="background:var(--bg-elev); border:1px solid var(--border); border-radius:12px; padding:14px;">
-          <div style="font-size:11px; font-weight:600; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">B · 입자 모델</div>
-          <div style="position:relative; height:180px; background:#FFFFFF; border-radius:8px; overflow:hidden; border:1px solid var(--border);">
+          <div style="font-size:11px; font-weight:600; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px;">B · 입자 모형</div>
+          <div id="why1-particle-label" style="text-align:center; font-size:11.5px; color:var(--text); font-weight:600; padding:6px 8px; background:white; border:1px solid var(--border); border-radius:6px; margin-bottom:6px;">고체 격자</div>
+          <div style="position:relative; height:160px; background:#FFFFFF; border-radius:8px; overflow:hidden; border:1px solid var(--border);">
             <svg id="why1-particles" viewBox="0 0 200 180" style="width:100%; height:100%;"></svg>
-            <div id="why1-particle-label" style="position:absolute; bottom:8px; left:8px; right:8px; text-align:center; font-size:11px; color:var(--text-dim); font-weight:500;">고체 격자</div>
           </div>
         </div>
         <!-- C: energy bars -->
@@ -1672,7 +1702,7 @@ header.lab-head {
           <div style="display:flex; flex-direction:column; gap:10px; padding:8px 0;">
             <div>
               <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
-                <span style="color:var(--text-dim);">입자 운동 빠르게 하기</span>
+                <span style="color:var(--text-dim);">온도 올리는 데 사용</span>
                 <span class="mono" id="why1-bar1-val" style="color:var(--warm); font-weight:600;">100%</span>
               </div>
               <div style="height:14px; background:#F0EDE5; border-radius:7px; overflow:hidden;">
@@ -1682,7 +1712,7 @@ header.lab-head {
             </div>
             <div>
               <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:4px;">
-                <span style="color:var(--text-dim);">입자 배열 바꾸기</span>
+                <span style="color:var(--text-dim);">입자 배열 바꾸기에 사용</span>
                 <span class="mono" id="why1-bar2-val" style="color:var(--accent); font-weight:600;">0%</span>
               </div>
               <div style="height:14px; background:#F0EDE5; border-radius:7px; overflow:hidden;">
@@ -1699,21 +1729,19 @@ header.lab-head {
       </div>
 
       <div style="margin-top:14px; padding:14px 16px; background:#FBF3DC; border-left:3px solid var(--plateau); border-radius:8px; font-size:13.5px; line-height:1.65;">
-        <strong style="color:#8C6B12;">🎒 비유로 이해하기 — 가방 속 책 정리하기</strong><br>
-        교실에 들어가서 책상에 앉을 때(=온도 올리기)와, 가방에서 책을 꺼내 정리할 때(=배열 바꾸기)는 <strong>같은 시간</strong>이라도 다른 일을 하고 있죠. 가열 중에도 같습니다 — 평탄 구간에서는 열에너지가 "입자 배열을 흩뜨리는 일"에 쓰이느라, 입자 속도(=온도)는 그대로입니다.
+        <strong style="color:#8C6B12;">🧱 비유로 이해하기 — 레고 블록 분해하기</strong><br>
+        잘 조립된 레고 블록 한 덩어리(=고체 격자)를 떠올려 보세요. 블록을 모두 떼어내려면 손가락 힘과 시간이 필요하죠. <strong>떼어내는 동안</strong> 들어간 모든 에너지는 <strong>"블록 분리하기"</strong>에 다 쓰여서, 블록들이 더 빨라지거나 흩어지지 못해요. 블록들을 완전히 다 떼어낸 <strong>다음에야</strong> 비로소 자유롭게 흩어지고 빠르게 움직일 수 있게 됩니다. → 가열 곡선의 평탄 구간이 바로 "블록 분리 시간"입니다.
       </div>
 
       <div class="reflect-box" style="margin-top:14px;">
         <label>🔬 POE — Observe (관찰)</label>
-        <div style="font-size:13.5px; margin-bottom:10px; color:var(--text);">슬라이더를 움직이면서 <strong>어떤 변화를 관찰</strong>했나요? 가열 곡선·입자 모델·에너지 막대가 평탄 구간에서 각각 어떻게 변하던가요?</div>
-        <textarea id="observe-4" placeholder="평탄 구간에 들어가면... 입자는... 에너지 막대는..."></textarea>
+        <div data-poe-set="observe-4"></div>
       </div>
 
       <div class="reflect-box" style="margin-top:14px; background:#FBF3DC; border-color: var(--plateau);">
         <label>💡 POE — Explain (설명: 예측 vs 결과)</label>
-        <div style="font-size:13.5px; margin-bottom:10px; color:var(--text);">평탄 구간에서 가열을 멈추지 않았는데도 왜 온도가 안 올라갈까요? <strong>실험 전 예측</strong>과 비교하면서, 친구에게 설명한다고 생각하고 적어보세요.</div>
         <div id="predict-recall-4" style="display:none; padding:8px 10px; background:rgba(255,255,255,0.6); border-radius:6px; font-size:12px; margin-bottom:10px; color:#5C4710;"></div>
-        <textarea id="explain-4" placeholder="내 예측: ...&#10;실제로는: ...&#10;이유: 열에너지가 ~을 하느라..."></textarea>
+        <div data-poe-set="explain-4"></div>
       </div>
     </div>
   </div>
@@ -2071,15 +2099,84 @@ header.lab-head {
 </section>
 
 <script>
-/* ===== Tab switching ===== */
+/* ===== Tab switching (single unified handler) ===== */
+function switchToTab(tabId, btn) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const panel = document.getElementById(tabId);
+  if (panel) panel.classList.add('active');
+}
+
+function handleTabClick(btn, e) {
+  const tabId = btn.dataset.panel;
+  // Lock check
+  if (typeof isTabLocked === 'function' && isTabLocked(tabId)) {
+    if (e) e.preventDefault();
+    const lockMsg = (typeof TAB_PREREQ !== 'undefined' && TAB_PREREQ[tabId])
+      ? TAB_PREREQ[tabId].msg
+      : '아직 잠겨있는 탭입니다.';
+    showGlobalAlert('🔒 아직 잠긴 탭입니다', lockMsg);
+    return;
+  }
+  // Switch
+  switchToTab(tabId, btn);
+  // Tab-specific updates
+  try {
+    if (tabId === 't3' && typeof updateSummary === 'function') updateSummary();
+    if (tabId === 't4') {
+      if (typeof renderWhy1 === 'function') renderWhy1();
+      if (typeof renderWhy2 === 'function') renderWhy2();
+      if (StudentData.predict.t4) {
+        const recall = document.getElementById('predict-recall-4');
+        if (recall) {
+          recall.style.display = 'block';
+          recall.innerHTML = '<strong>📝 실험 전 내 예측:</strong> ' + StudentData.predict.t4;
+        }
+      }
+    }
+    if (tabId === 't5') {
+      setTimeout(() => {
+        if (typeof setupDrawCanvas === 'function') setupDrawCanvas();
+        if (typeof drawPoints !== 'undefined' && drawPoints.length > 1 && typeof redrawPath === 'function') redrawPath();
+      }, 50);
+    }
+    if (tabId === 't6') {
+      const grid = document.getElementById('mystery-grid');
+      if (grid && grid.style.opacity === '1' && !grid.innerHTML.trim() && typeof renderMysteryGrid === 'function') {
+        renderMysteryGrid();
+      }
+    }
+  } catch(err) { console.warn('Tab action error:', err); }
+  // Intro modal
+  if (typeof TAB_INTROS !== 'undefined' && TAB_INTROS[tabId]) {
+    setTimeout(() => showIntroModal(tabId), 200);
+  }
+}
+
 document.querySelectorAll('.tab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.panel).classList.add('active');
-  });
+  btn.addEventListener('click', (e) => handleTabClick(btn, e));
 });
+
+/* ===== Tab Lock System ===== */
+const TAB_PREREQ = {
+  t2: {
+    check: () => StudentData.exp1.done5g && StudentData.exp1.done10g,
+    msg: '먼저 <strong>탐구 1 (팔미트산 녹는점)</strong>을 완료해야 해요!<br><br>탐구 1에서 <strong>5g</strong>과 <strong>10g</strong> 두 가지 질량으로 모두 실험해서 평탄 구간의 온도가 정말 같은지 확인해야 합니다.'
+  }
+};
+function isTabLocked(tabId) {
+  const p = TAB_PREREQ[tabId];
+  if (!p) return false;
+  try { return !p.check(); } catch(e) { return false; }
+}
+function updateTabLocks() {
+  document.querySelectorAll('.tab').forEach(btn => {
+    const tabId = btn.dataset.panel;
+    if (isTabLocked(tabId)) btn.classList.add('locked');
+    else btn.classList.remove('locked');
+  });
+}
 
 function updateExp1Progress() {
   const dot5 = document.querySelector('#prog-5g span:first-child');
@@ -2164,6 +2261,259 @@ const StudentData = {
 
 function saveInputValue(key, subkey, val) {
   if (StudentData[key]) StudentData[key][subkey] = val;
+}
+
+/* ===== POE Question Data (Observe/Explain - 질문, 힌트, 모범답안) ===== */
+const POE_DATA = {
+  'observe-1': {
+    color: '#FBF3DC', borderColor: 'var(--plateau)', headerColor: '#8C6B12', textColor: '#5C4710',
+    intro: '📋 다음 항목별로 구체적으로 적어보세요:',
+    questions: [
+      {
+        id: 'o1-1',
+        text: '<strong>가열 시작 ~ 62.5℃ 도달까지</strong>: 시험관 안 입자의 <em>배열</em>은? <em>온도 변화</em>는?',
+        hint: '가열 전에 입자들이 어떻게 정렬되어 있었는지(가지런한 격자 vs 자유 배열), 그리고 온도계 눈금이 시간에 따라 어떻게 변했는지 떠올려 보세요.',
+        model: '입자들이 <strong>격자처럼 가지런히 배열</strong>되어 진동하고 있었고, 시간이 지날수록 진동이 빨라졌습니다. 온도는 약 25℃에서 시작해 점점 올라가 <strong>62.5℃</strong>에 도달했습니다.'
+      },
+      {
+        id: 'o1-2',
+        text: '<strong>평탄 구간 (62.5℃)</strong>: 입자의 <em>움직임</em>은? <em>온도</em>는?',
+        hint: '격자 구조가 무너지면서 입자들이 어떻게 변해가는지, 그리고 가열을 계속하는데도 온도계 눈금은 어떻게 됐는지 살펴보세요.',
+        model: '격자 구조가 무너지면서 입자들이 점점 <strong>자유롭게 움직이기 시작</strong>했습니다(고체→액체로 변하는 중). 가열을 계속하는데도 <strong>온도는 62.5℃에서 변하지 않았습니다</strong>.'
+      },
+      {
+        id: 'o1-3',
+        text: '<strong>완전 융해 후</strong>: 입자 <em>배열</em>은? <em>온도 변화</em>는?',
+        hint: '모든 고체가 녹아 액체가 된 후, 입자는 어떻게 움직이는지, 그리고 온도계는 어떻게 변하는지 보세요.',
+        model: '모든 입자가 <strong>자유롭게 흐르듯</strong> 움직이는 액체 상태가 되었고, 온도가 다시 <strong>62.5℃에서 점점 올라가</strong> 95℃까지 상승했습니다.'
+      },
+      {
+        id: 'o1-4',
+        text: '<strong>5g vs 10g 비교</strong>: 무엇이 <em>같았고</em>, 무엇이 <em>달랐나요</em>?',
+        hint: '평탄 구간의 두 가지 — 온도값(℃)과 길이(초) — 를 각각 비교해 보세요.',
+        model: '평탄 구간의 <strong>온도값은 두 경우 모두 62.5℃</strong>로 같았지만, 평탄 구간의 <strong>길이는 10g(약 36초)이 5g(약 18초)의 두 배</strong>였습니다.'
+      }
+    ]
+  },
+  'explain-1': {
+    color: '#FBE9DF', borderColor: 'var(--warm)', headerColor: '#8E3812', textColor: '#5C2810',
+    intro: '🤔 다음 질문에 답해보세요:',
+    questions: [
+      {
+        id: 'e1-1',
+        text: '평탄 구간에서 열을 계속 가했는데 <strong>왜 온도가 변하지 않았을까요?</strong> (입자의 입장에서)',
+        hint: '온도가 안 올라간다는 건 → 열에너지가 온도를 올리는 데 안 쓰였다는 뜻. 그렇다면 어디로 갔을까요? 입자들이 격자(고체)에서 벗어나려면 무엇을 해야 할까요?',
+        model: '가열은 계속되었지만, 들어온 열에너지가 <strong>입자 사이의 결합을 끊어 입자 배열을 바꾸는 데</strong>(고체 격자→자유로운 액체) 모두 사용되었기 때문입니다. 온도를 올리는 데는 쓰이지 않았으므로 온도가 변하지 않았습니다.'
+      },
+      {
+        id: 'e1-2',
+        text: '5g과 10g에서 평탄 구간의 <strong>온도값이 같은 이유</strong>는 무엇일까요?',
+        hint: '녹는점은 물질의 어떤 성질일까요 — 물질의 "양"에 따라 달라질까요, 물질의 "종류"에 따라 달라질까요?',
+        model: '녹는점은 물질의 <strong>양과 관계없이 종류에 따라 결정되는 고유한 특성</strong>이기 때문입니다. 5g이든 10g이든 모두 같은 팔미트산이므로 녹는점도 같은 62.5℃입니다.'
+      },
+      {
+        id: 'e1-3',
+        text: '평탄 구간의 <strong>길이가 5g과 10g에서 다른 이유</strong>는?',
+        hint: '양이 2배가 되면 결합을 끊어야 할 입자 수는 몇 배가 될까요? 같은 화력으로 가열하면?',
+        model: '양이 2배(5g→10g)가 되면 끊어야 할 <strong>결합 수도 2배</strong>가 됩니다. 같은 세기로 가열하므로 결합을 모두 끊는 데 약 <strong>2배의 시간</strong>이 걸려서 평탄 구간이 더 길어집니다.'
+      },
+      {
+        id: 'e1-4',
+        text: '실험 전 <strong>예측과 실제 결과</strong>를 비교하면 어땠나요?',
+        hint: '예측이 맞았다면 "왜 그렇게 예상했는지"를, 달랐다면 "어디가 어떻게 달랐고 왜 그런지"를 적어보세요.',
+        model: '(예측에 따라 답이 다름) 예: 가열할 때 온도가 일정한 속도로 쭉 올라갈 것이라고 예측했다면, 실제로는 <strong>중간에 멈추는 평탄 구간이 있다</strong>는 점이 달랐을 것입니다.'
+      }
+    ]
+  },
+  'observe-2': {
+    color: '#FBF3DC', borderColor: 'var(--plateau)', headerColor: '#8C6B12', textColor: '#5C4710',
+    intro: '📋 다음 항목별로 구체적으로 적어보세요:',
+    questions: [
+      {
+        id: 'o2-1',
+        text: '<strong>가열 시작 ~ 78.3℃ 도달까지</strong>: 에탄올 <em>입자 움직임</em>은? <em>온도 변화</em>는?',
+        hint: '에탄올은 처음부터 액체입니다. 가열될수록 입자들이 어떻게 변하는지, 온도는 어떻게 변하는지 보세요.',
+        model: '에탄올 입자들이 액체 상태로 자유롭게 움직이며 가열될수록 더 활발해졌습니다. 온도는 25℃에서 시작해 <strong>78.3℃까지 점점 올라갔습니다</strong>.'
+      },
+      {
+        id: 'o2-2',
+        text: '<strong>평탄 구간 (78.3℃)</strong>: <em>기포</em>는 어디서 어떻게 생겼나요? <em>온도</em>는?',
+        hint: '시험관 안에서 작은 기포가 어디에서 생겨 어디로 가는지, 그리고 가열을 계속하는데도 온도계 눈금은 어떻게 됐는지 살펴보세요.',
+        model: '시험관 안에서 <strong>작은 기포(기체 에탄올)들이 활발히 올라왔고</strong>, 가열을 계속하는데도 <strong>온도는 78.3℃에서 변하지 않았습니다</strong>.'
+      },
+      {
+        id: 'o2-3',
+        text: '<strong>완전 기화 후</strong>: <em>온도</em>는 어떻게 변했나요?',
+        hint: '모든 에탄올이 기화되어 사라진 후, 온도계 눈금은 그대로였나요 다시 올라갔나요?',
+        model: '에탄올이 모두 기화한 후에는 <strong>온도가 다시 올라가기 시작</strong>해 78.3℃에서 110℃까지 상승했습니다(기체가 가열되는 단계).'
+      },
+      {
+        id: 'o2-4',
+        text: '<strong>10mL vs 20mL 비교</strong>: 끓는점, 평탄 구간 길이 — 무엇이 같고 무엇이 달랐나요?',
+        hint: '두 부피로 실험한 결과를 비교하세요. 어떤 값은 같고, 어떤 값은 달랐나요?',
+        model: '<strong>끓는점은 둘 다 78.3℃</strong>로 같았지만, <strong>평탄 구간 길이는 20mL가 10mL의 약 2배</strong>였습니다. 부피가 늘어나도 끓는 온도 자체는 변하지 않았습니다.'
+      }
+    ]
+  },
+  'explain-2': {
+    color: '#FBE9DF', borderColor: 'var(--warm)', headerColor: '#8E3812', textColor: '#5C2810',
+    intro: '🤔 다음 질문에 답해보세요:',
+    questions: [
+      {
+        id: 'e2-1',
+        text: '평탄 구간에서 <strong>왜 온도가 일정</strong>했을까요? 들어온 열에너지는 어디로 갔을까요?',
+        hint: '액체→기체로 변할 때, 입자들이 액체 상태의 결합에서 벗어나야 합니다. 그러려면 에너지가 필요하지 않을까요?',
+        model: '들어온 열에너지가 <strong>액체 입자들 사이의 결합을 끊어 기체로 흩어지게 하는 데 모두 사용</strong>되었기 때문에, 온도를 올리는 데 쓰이지 않아 일정했습니다.'
+      },
+      {
+        id: 'e2-2',
+        text: '10mL와 20mL의 <strong>끓는점이 같은 이유</strong>는?',
+        hint: '끓는점은 물질의 양과 관계가 있을까요, 종류와 관계가 있을까요?',
+        model: '끓는점은 물질의 <strong>양과 관계없이 종류에 따라 결정되는 고유한 특성</strong>이기 때문입니다. 부피가 달라도 같은 에탄올이므로 끓는점도 같은 78.3℃입니다.'
+      },
+      {
+        id: 'e2-3',
+        text: '평탄 구간 <strong>길이가 다른 이유</strong>는?',
+        hint: '부피가 두 배가 되면 기화시켜야 할 입자 수도 두 배가 됩니다. 같은 화력이면 시간은?',
+        model: '부피가 2배(10→20mL)가 되면 기화시켜야 할 입자 수도 2배. 같은 화력으로 가열하므로 모든 입자를 기화시키는 데 약 <strong>2배의 시간</strong>이 필요합니다.'
+      },
+      {
+        id: 'e2-4',
+        text: '완전히 기화한 뒤 <strong>왜 온도가 다시 올라간</strong> 걸까요?',
+        hint: '모든 결합이 끊겼으니, 이제 들어오는 열에너지는 어디로 갈까요?',
+        model: '모든 액체 입자가 기체로 변해 끊을 결합이 더 이상 없으므로, 들어온 열에너지가 다시 <strong>온도를 올리는 데 사용</strong>되어 기체의 온도가 다시 올라갔습니다.'
+      },
+      {
+        id: 'e2-5',
+        text: '실험 전 <strong>예측과 결과를 비교</strong>하면 어땠나요?',
+        hint: '에탄올 끓는점이 물(100℃)보다 높을지 낮을지 예측한 것과 비교해 보세요.',
+        model: '에탄올의 끓는점이 <strong>물(100℃)보다 낮은 78.3℃</strong>로 나왔습니다. 에탄올이 물보다 빨리 증발한다는 일상 경험과 일치하는 결과입니다.'
+      }
+    ]
+  },
+  'observe-4': {
+    color: '#FBF3DC', borderColor: 'var(--plateau)', headerColor: '#8C6B12', textColor: '#5C4710',
+    intro: '📋 슬라이더를 움직이며 다음 항목들을 관찰하세요:',
+    questions: [
+      {
+        id: 'o4-1',
+        text: '<strong>슬라이더 왼쪽 (가열 중, 고체)</strong>: 가열곡선의 모양은? 입자의 진동 정도는? 두 에너지 막대(온도 올리기·결합 끊기)는?',
+        hint: '슬라이더를 왼쪽 끝까지 끌어보세요. 세 패널(A 가열곡선, B 입자 모형, C 에너지 막대)이 각각 어떻게 보이는지 차례로 살펴보세요.',
+        model: '가열곡선이 <strong>오른쪽 위로 올라가고 있었고</strong>, 입자들은 격자 배열로 진동했습니다. 에너지 막대는 <strong>"온도 올리기" 100%</strong>, "결합 끊기" 0%였습니다.'
+      },
+      {
+        id: 'o4-2',
+        text: '<strong>슬라이더 가운데 (평탄 구간)</strong>: 세 패널이 어떻게 변했나요?',
+        hint: '평탄 구간에서 세 패널이 가열 중일 때와 어떻게 달라지는지 비교해 보세요. 특히 에너지 막대가 어떻게 뒤바뀌었는지 주목.',
+        model: '가열곡선이 <strong>수평으로 평평해졌고</strong>, 입자들은 격자가 무너지며 자유롭게 움직이기 시작했습니다. 에너지 막대가 뒤바뀌어 <strong>"결합 끊기" 100%, "온도 올리기" 0%</strong>가 되었습니다.'
+      },
+      {
+        id: 'o4-3',
+        text: '<strong>슬라이더 오른쪽 (융해 후, 액체)</strong>: 다시 어떻게 변했나요?',
+        hint: '액체가 된 후 세 패널이 다시 어떻게 보이는지 — 처음 가열 중 상태와 비교해 보세요.',
+        model: '가열곡선이 <strong>다시 오른쪽 위로 올라가고 있었고</strong>, 입자들은 자유롭게 흐르듯 움직였습니다. 에너지 막대는 다시 "온도 올리기" 100%로 돌아왔습니다.'
+      }
+    ]
+  },
+  'explain-4': {
+    color: '#FBE9DF', borderColor: 'var(--warm)', headerColor: '#8E3812', textColor: '#5C2810',
+    intro: '🤔 다음 질문에 답해보세요 (힌트를 충분히 활용하세요):',
+    questions: [
+      {
+        id: 'e4-1',
+        text: '평탄 구간에서 들어온 <strong>열에너지는 어디로 갔나요?</strong>',
+        hint: '에너지 막대 그래프 C를 다시 보세요. 평탄 구간일 때 어느 막대가 가득 차 있었나요? 그게 바로 답입니다 — "입자 배열을 바꾸기"란 곧 입자 사이의 결합을 끊는다는 뜻이에요.',
+        model: '들어온 열에너지가 모두 <strong>입자 사이의 결합을 끊어 입자 배열을 바꾸는 데</strong>(격자→자유 배열) 사용되었습니다. 온도를 올리는 데는 전혀 쓰이지 않았어요.'
+      },
+      {
+        id: 'e4-2',
+        text: '그렇다면 그 때 <strong>온도</strong>는 왜 변하지 않았을까요?',
+        hint: '온도는 입자가 얼마나 빨리 진동(움직임)하는지를 나타냅니다. 평탄 구간에서 입자들이 더 빨리 움직였나요, 아니면 같은 속도로 움직였나요? B 패널을 다시 보세요. 입자가 빨라지지 않았다면 온도도 변하지 않은 거죠.',
+        model: '들어온 열에너지가 <strong>온도를 올리는 데 쓰이지 않고</strong> 입자 배열을 바꾸는 데 모두 쓰였기 때문에, 입자의 진동 속도가 그대로 유지되어 온도가 변하지 않았습니다.'
+      },
+      {
+        id: 'e4-3',
+        text: '🧱 <strong>레고 블록 분해 비유</strong>를 자기 말로 풀어 보세요. 어떤 점이 가열·융해 상황과 닮았나요?',
+        hint: '비유의 대응 관계: 잘 조립된 레고 = 고체 격자 / 레고 떼어내기 = 결합 끊기 / 손가락 힘 = 열에너지 / 레고들이 빨라지는 것 = 온도 상승. 이 셋의 관계로 풀어보세요. "떼어내는 동안" 무슨 일이 일어나나요?',
+        model: '잘 조립된 레고 덩어리(=고체 격자)를 모두 떼어내는 동안 들어간 손가락 힘(=열에너지)은 "블록 떼어내기"에 다 쓰여서, 그 동안 레고들이 더 빨라지지 못합니다(=온도 안 올라감). 다 떼어낸 후에야 자유롭게 흩어집니다(=액체로 자유 운동).'
+      },
+      {
+        id: 'e4-4',
+        text: '실험 전 <strong>예측과 결과를 비교</strong>해 보세요.',
+        hint: '자신의 가설을 솔직하게 돌아보세요 — "열은 모두 온도를 올리는 데 쓰일 것"이라 예측했다면 어디가 달랐나요?',
+        model: '(예측에 따라 답이 다름) "열은 모두 온도를 올리는 데 쓰인다"고 예측했다면 — 실제로는 평탄 구간에서 <strong>결합 끊기에 쓰인다</strong>는 점이 달랐을 것입니다.'
+      }
+    ]
+  }
+};
+
+function renderPOESet(setId) {
+  const container = document.querySelector(`[data-poe-set="${setId}"]`);
+  if (!container) return;
+  const data = POE_DATA[setId];
+  if (!data) return;
+  let html = `<div style="background:${data.color}; border:1px solid ${data.borderColor}; border-radius:10px; padding:14px;">
+    <strong style="display:block; margin-bottom:12px; color:${data.headerColor}; font-size:13px;">${data.intro}</strong>`;
+  data.questions.forEach((q, idx) => {
+    html += `<div class="poe-q" data-q="${q.id}" style="margin-bottom:14px; ${idx < data.questions.length-1 ? 'padding-bottom:14px; border-bottom:1px dashed rgba(0,0,0,0.12);' : ''}">
+      <div style="font-size:12.5px; line-height:1.6; margin-bottom:6px; color:${data.textColor};"><strong>${idx+1}.</strong> ${q.text}</div>
+      <textarea data-poe-q="${q.id}" placeholder="여기에 답을 적어보세요..." style="width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-family:inherit; font-size:13px; min-height:50px; outline:none; resize:vertical; background:white;"></textarea>
+      <div style="display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;">
+        <button type="button" onclick="togglePOEHint('${q.id}')" style="padding:4px 10px; font-size:11.5px; background:white; border:1px solid var(--border); border-radius:6px; cursor:pointer; font-family:inherit; color:var(--accent);">💡 힌트</button>
+      </div>
+      <div id="hint-${q.id}" style="display:none; margin-top:6px; padding:8px 10px; background:var(--accent-light); border-left:2px solid var(--accent); border-radius:4px; font-size:12px; line-height:1.55; color:var(--text);">${q.hint}</div>
+      <div id="model-${q.id}" style="display:none; margin-top:6px; padding:8px 10px; background:#EAF7EF; border-left:2px solid #22C55E; border-radius:4px; font-size:12.5px; line-height:1.6; color:#1C4F2E;"><strong style="color:#138a3e;">✓ 모범답안:</strong> ${q.model}</div>
+    </div>`;
+  });
+  html += `<div style="margin-top:4px;">
+    <button type="button" data-show-models="${setId}" onclick="showAllPOEModels('${setId}')" style="padding:8px 14px; background:var(--border-strong); color:white; border:none; border-radius:8px; cursor:not-allowed; font-family:inherit; font-size:12.5px; font-weight:600; opacity:0.6;" disabled>📖 모든 칸을 채우면 모범답안을 볼 수 있어요</button>
+  </div></div>`;
+  container.innerHTML = html;
+  // Listen for input to enable model button
+  container.querySelectorAll('textarea[data-poe-q]').forEach(ta => {
+    ta.addEventListener('input', () => checkPOEComplete(setId));
+  });
+}
+
+function togglePOEHint(qid) {
+  const el = document.getElementById('hint-' + qid);
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+function checkPOEComplete(setId) {
+  const data = POE_DATA[setId];
+  if (!data) return;
+  const allFilled = data.questions.every(q => {
+    const ta = document.querySelector(`textarea[data-poe-q="${q.id}"]`);
+    return ta && ta.value.trim().length > 3;
+  });
+  const btn = document.querySelector(`button[data-show-models="${setId}"]`);
+  if (btn) {
+    if (allFilled) {
+      btn.disabled = false;
+      btn.style.background = '#22C55E';
+      btn.style.cursor = 'pointer';
+      btn.style.opacity = '1';
+      btn.textContent = '📖 모범답안 확인하기';
+    } else {
+      btn.disabled = true;
+      btn.style.background = 'var(--border-strong)';
+      btn.style.cursor = 'not-allowed';
+      btn.style.opacity = '0.6';
+      btn.textContent = '📖 모든 칸을 채우면 모범답안을 볼 수 있어요';
+    }
+  }
+}
+
+function showAllPOEModels(setId) {
+  const data = POE_DATA[setId];
+  if (!data) return;
+  data.questions.forEach(q => {
+    const m = document.getElementById('model-' + q.id);
+    if (m) m.style.display = 'block';
+  });
+  const btn = document.querySelector(`button[data-show-models="${setId}"]`);
+  if (btn) btn.textContent = '✓ 모범답안 표시됨';
 }
 
 /* ===== Tab 0: Galileo POE Interactive ===== */
@@ -2318,6 +2668,7 @@ const TAB_INTROS = {
       '온도가 일정하게 유지되는 <strong>평탄 구간</strong>을 찾아내는 것이 목표입니다',
       '<strong>5g</strong>과 <strong>10g</strong> 두 가지 양으로 비교해 보세요'
     ],
+    advanceOrganizer: '겨울 아침에 <strong>−10℃ 얼음</strong>을 가지고 와서 천천히 가열한다고 떠올려 보세요. 가열 시간에 따라 온도계 눈금이 <em>일정한 속도로 쭉</em> 올라갈까요? 일상 경험을 떠올리면서 예측해 보세요.',
     question: '실험 전 예측 — 고체 팔미트산을 계속 가열하면 시간에 따라 온도가 어떻게 변할까요? 예상한 모양을 글로 적어보세요.'
   },
   t2: {
@@ -2329,6 +2680,7 @@ const TAB_INTROS = {
       '에탄올이 완전히 다 기화한 뒤에는 어떻게 될지 함께 관찰하세요',
       '10mL와 20mL — 양을 다르게 했을 때 결과를 비교해 보세요'
     ],
+    advanceOrganizer: '<strong>에탄올</strong>은 술의 주성분이고 손소독제에도 들어 있는 액체예요. <em>물보다 빨리 증발</em>한다는 특징이 있죠. 물은 100℃에서 끓는데 — 에탄올이라면? 더 빨리 증발한다면, 끓는점은 100℃보다 높을까요, 낮을까요?',
     question: '실험 전 예측 — 에탄올의 끓는점은 물(100℃)보다 높을까요, 낮을까요? 왜 그렇게 생각하나요?'
   },
   t4: {
@@ -2340,6 +2692,7 @@ const TAB_INTROS = {
       '슬라이더를 직접 움직여 보면서 관계를 발견해 보세요',
       '두 번째 질문에서는 압력의 역할도 확인할 수 있어요'
     ],
+    advanceOrganizer: '평탄 구간에서 <strong>가열은 계속되는데 온도는 안 올라간다</strong>는 사실은 — 들어온 열에너지가 <em>온도를 올리는 데 쓰이지 않고 있다</em>는 뜻이에요. 그렇다면 그 에너지는 어디로 가고 있을까요? 입자의 입장에서 생각해 보세요.',
     question: '미리 생각해 보기 — 들어오는 열에너지가 분명히 있는데, 왜 평탄 구간에서는 온도가 안 올라갈까요? 자신의 가설을 적어보세요.'
   },
   t5: {
@@ -2351,6 +2704,7 @@ const TAB_INTROS = {
       '5단계가 모두 들어있어야 만점입니다 (얼음 가열 → 녹는 평탄 구간 → 물 가열 → 끓는 평탄 구간 → 수증기 가열)',
       '잘못 그렸으면 「지우고 다시」 버튼으로 다시 시도하세요'
     ],
+    advanceOrganizer: '물의 <strong>세 가지 상태</strong>를 떠올려 보세요 — 고체(얼음), 액체(물), 기체(수증기). 그리고 두 가지 변화 온도: <strong>녹는점 0℃</strong>, <strong>끓는점 100℃</strong>. 탐구 1·2에서 본 평탄 구간이 여기서는 몇 개 나타날까요?',
     question: '시작 전 — −20℃ 얼음을 가열해서 수증기까지 만든다고 할 때, 평탄 구간은 몇 개 생길까요? 그리고 어느 온도에서요?'
   }
 };
@@ -2372,15 +2726,24 @@ function showIntroModal(tabId) {
       <p>${intro.objective}</p>
       <h3>👀 알아둘 점</h3>
       <ul>${intro.points.map(p => `<li>${p}</li>`).join('')}</ul>
+      ${intro.advanceOrganizer ? `
+        <div style="margin-top:18px; padding:14px 16px; background:#FBF3DC; border-left:3px solid var(--plateau); border-radius:8px;">
+          <div style="font-size:11px; font-weight:600; color:#8C6B12; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;">🧭 예측을 돕는 단서</div>
+          <div style="font-size:13.5px; line-height:1.7; color:#5C4710;">${intro.advanceOrganizer}</div>
+        </div>
+      ` : ''}
       <div class="modal-question">
         <label>✍️ 시작하기 전에 — 답을 적어보세요</label>
         <div class="q-text">${intro.question}</div>
         <textarea id="intro-answer-${tabId}" placeholder="여기에 자신의 생각을 적어보세요..."></textarea>
       </div>
     </div>
-    <div class="modal-foot">
-      <button class="btn-secondary" onclick="closeModal()" style="width:auto;">건너뛰기</button>
-      <button class="btn-primary" onclick="closeModal()" style="width:auto;">실험 시작 →</button>
+    <div class="modal-foot" style="display:block;">
+      <div style="font-size:11.5px; color:var(--warm); margin-bottom:10px; text-align:right; font-weight:500;">⚠️ 「건너뛰기」를 누르면 보고서에 빈 공간이 생겨요!</div>
+      <div style="display:flex; gap:10px; justify-content:flex-end;">
+        <button class="btn-secondary" onclick="closeModal()" style="width:auto;">건너뛰기</button>
+        <button class="btn-primary" onclick="closeModal()" style="width:auto;">실험 시작 →</button>
+      </div>
     </div>
   `;
   document.getElementById('modal-backdrop').classList.add('show');
@@ -2399,15 +2762,7 @@ document.getElementById('modal-backdrop').addEventListener('click', (e) => {
   if (e.target.id === 'modal-backdrop') closeModal();
 });
 
-// Hook into tab clicks for intro popups
-document.querySelectorAll('.tab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tabId = btn.dataset.panel;
-    if (TAB_INTROS[tabId]) {
-      setTimeout(() => showIntroModal(tabId), 200);
-    }
-  });
-});
+// Intro modal trigger is handled in handleTabClick
 
 /* ===== Reusable graph drawer ===== */
 function drawGraph(svgEl, opts) {
@@ -2712,6 +3067,7 @@ const Exp1 = {
     if (this.mass === 10) StudentData.exp1.done10g = true;
     StudentData.exp1.plateauT = 62.5;
     updateExp1Progress();
+    if (typeof updateTabLocks === 'function') updateTabLocks();
     // show prediction recall in Explain box
     if (StudentData.predict.t1) {
       const recall = document.getElementById('predict-recall-1');
@@ -2771,6 +3127,11 @@ document.getElementById('pause-continue-1').addEventListener('click', () => Exp1
 // init
 Exp1.init();
 Exp1.render();
+if (typeof updateTabLocks === 'function') updateTabLocks();
+// Render all POE question sets
+if (typeof POE_DATA !== 'undefined') {
+  Object.keys(POE_DATA).forEach(setId => renderPOESet(setId));
+}
 
 /* ===== Experiment 2: Ethanol boiling — point recording ===== */
 const Exp2 = {
@@ -3232,22 +3593,7 @@ function updateSummary() {
       `<span class="indicator" style="background:#22C55E;"></span><span>✓ ${Exp2.volume}mL 실험 — 기록 점 ${Exp2.recordedData.length}개 · 평탄 구간 온도: 78.3℃</span>`;
   }
 }
-// Hook: update summary whenever tab 3 is opened
-document.querySelectorAll('.tab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (btn.dataset.panel === 't3') updateSummary();
-    if (btn.dataset.panel === 't4') {
-      renderWhy1(); renderWhy2();
-      if (StudentData.predict.t4) {
-        const recall = document.getElementById('predict-recall-4');
-        if (recall) {
-          recall.style.display = 'block';
-          recall.innerHTML = '<strong>📝 실험 전 내 예측:</strong> ' + StudentData.predict.t4;
-        }
-      }
-    }
-  });
-});
+// Hook: tab actions are handled in handleTabClick (unified)
 
 /* ===== Tab 4: WHY Q1 — energy distribution ===== */
 function renderWhy1() {
@@ -3316,13 +3662,13 @@ function renderWhy1() {
   const exp = document.getElementById('why1-explain');
   if (phase === 'heating') {
     label.textContent = '고체 격자 (점점 빠르게 진동)';
-    exp.innerHTML = '<strong style="color:var(--accent);">가열 중 (고체)</strong> · 들어온 열에너지가 <strong>전부 입자의 운동에너지로</strong> 전환되어 입자가 더 빠르게 진동합니다. → <strong style="color:var(--warm);">온도가 올라갑니다.</strong>';
+    exp.innerHTML = '<strong style="color:var(--accent);">가열 중 (고체)</strong> · 들어온 열에너지가 <strong>전부 온도를 올리는 데</strong> 쓰여서 입자가 더 빠르게 진동합니다. → <strong style="color:var(--warm);">온도가 올라갑니다.</strong>';
   } else if (phase === 'plateau') {
     label.textContent = '융해 중 — 격자 구조가 무너지는 중';
-    exp.innerHTML = '<strong style="color:var(--plateau);">평탄 구간 (융해 중)</strong> · 가열은 계속되지만, 열에너지가 <strong>입자 사이 결합을 끊는 데 모두 사용</strong>됩니다. 입자 운동에너지는 변하지 않습니다. → <strong style="color:var(--warm);">온도가 일정합니다.</strong>';
+    exp.innerHTML = '<strong style="color:var(--plateau);">평탄 구간 (융해 중)</strong> · 가열은 계속되지만, 열에너지가 <strong>입자 사이 결합을 끊는 데 모두 사용</strong>됩니다. 그래서 <strong style="color:var(--warm);">온도는 변하지 않습니다.</strong>';
   } else {
     label.textContent = '액체 — 자유롭게 움직이는 입자';
-    exp.innerHTML = '<strong style="color:var(--accent);">융해 완료 후 (액체)</strong> · 모든 결합이 끊겼으므로, 열에너지가 다시 운동에너지로 전환됩니다. → <strong style="color:var(--warm);">온도가 다시 올라갑니다.</strong>';
+    exp.innerHTML = '<strong style="color:var(--accent);">융해 완료 후 (액체)</strong> · 모든 결합이 끊겼으므로, 열에너지가 다시 <strong>온도를 올리는 데</strong> 쓰입니다. → <strong style="color:var(--warm);">온도가 다시 올라갑니다.</strong>';
   }
 }
 
@@ -3817,13 +4163,7 @@ function gradeDrawing() {
   document.getElementById('draw-result-card').style.display = 'block';
 }
 
-// Init canvas when tab opened
-document.querySelector('[data-panel="t5"]').addEventListener('click', () => {
-  setTimeout(() => {
-    setupDrawCanvas();
-    if (drawPoints.length > 1) redrawPath();
-  }, 50);
-});
+// Tab 5 canvas init is handled in handleTabClick
 window.addEventListener('resize', () => {
   if (document.getElementById('t5').classList.contains('active')) {
     setupDrawCanvas();
@@ -4161,27 +4501,33 @@ document.getElementById('case-start-btn').addEventListener('click', () => {
   renderMysteryGrid();
 });
 
-document.querySelector('[data-panel="t6"]').addEventListener('click', () => {
-  // Re-render if grid is visible
-  if (document.getElementById('mystery-grid').style.opacity === '1' &&
-      !document.getElementById('mystery-grid').innerHTML.trim()) {
-    renderMysteryGrid();
-  }
-});
+// Tab 6 mystery rendering is handled in handleTabClick
 
 /* ===== Tab 7: Report + Certificate ===== */
 function collectStudentData() {
-  // Collect all textareas
+  // Collect predictions from intro modals
   ['t1','t2','t4','t5'].forEach(t => {
     const pred = document.getElementById('intro-answer-' + t);
     if (pred && pred.value.trim()) StudentData.predict[t] = pred.value.trim();
   });
-  ['1','2','4'].forEach(n => {
-    const obs = document.getElementById('observe-' + n);
-    if (obs && obs.value.trim()) StudentData.observe['t'+n] = obs.value.trim();
-    const exp = document.getElementById('explain-' + n);
-    if (exp && exp.value.trim()) StudentData.explain['t'+n] = exp.value.trim();
-  });
+  // Collect POE individual answers and combine
+  if (typeof POE_DATA !== 'undefined') {
+    Object.keys(POE_DATA).forEach(setId => {
+      const data = POE_DATA[setId];
+      const parts = [];
+      data.questions.forEach((q, idx) => {
+        const ta = document.querySelector(`textarea[data-poe-q="${q.id}"]`);
+        if (ta && ta.value.trim()) parts.push(`${idx+1}) ${ta.value.trim()}`);
+      });
+      const combined = parts.join('\n');
+      const m = setId.match(/^(observe|explain)-(\d+)$/);
+      if (m && combined) {
+        const stage = m[1];
+        const tabKey = 't' + m[2];
+        if (StudentData[stage]) StudentData[stage][tabKey] = combined;
+      }
+    });
+  }
   // Name
   const nm = document.getElementById('student-name');
   if (nm) StudentData.name = nm.value.trim() || '학생';
