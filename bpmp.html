@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/quiple/galmuri/dist/galmuri.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -1163,6 +1164,163 @@ header.lab-head {
   color: var(--text);
 }
 .graph-choice svg { width: 100%; height: 110px; background: var(--bg-elev); border-radius: 6px; }
+
+/* ============================================================ */
+/* ===== ⛏️ MINECRAFT THEME OVERRIDE (픽셀 테마) ===== */
+/* ============================================================ */
+
+/* 픽셀 폰트 — 제목·버튼·라벨·UI 요소에 적용, 본문은 가독성 위해 Pretendard 유지 */
+h1, h2, h3, h4,
+.tab, .btn-primary, .btn-secondary, .card-title, .label, .pill,
+.nxt-btn, .welcome-title, .progress-fab, .achievement-toast,
+.mono, .num {
+  font-family: 'Galmuri11', 'Pretendard', sans-serif !important;
+  letter-spacing: 0 !important;
+}
+
+/* 픽셀 격자 배경 */
+body {
+  background-color: #C9D6B0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* 각진 모서리 — 둥근 거 다 제거 */
+.card, .btn-primary, .btn-secondary, .tab, .panel, .pill,
+.modal-box, input[type="text"], textarea, .fill-blank,
+.drop-slot, .lbl-card, .graph-choice, .nxt-btn, .next-step-nav,
+.progress-fab, .progress-item, .welcome-card, #welcome-mascot img,
+.particle-legend, .apparatus, .mode-toggle, .control-row input {
+  border-radius: 0 !important;
+}
+
+/* 카드 — 픽셀 베벨 박스 */
+.card {
+  border: 3px solid #3A3A3A !important;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.18), inset 3px 3px 0 rgba(255,255,255,0.55) !important;
+}
+
+/* 버튼 — 마인크래프트 돌버튼 베벨 */
+.btn-primary {
+  background: #6BA644 !important;
+  color: #fff !important;
+  border: 3px solid #2C4A1C !important;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.32), inset 3px 3px 0 rgba(255,255,255,0.32) !important;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.35);
+  font-size: 13px !important;
+}
+.btn-primary:hover { background: #79B850 !important; }
+.btn-primary:active { box-shadow: inset 3px 3px 0 rgba(0,0,0,0.32) !important; transform: translateY(1px); }
+.btn-primary:disabled { background: #9AA88C !important; border-color: #6A7560 !important; }
+
+.btn-secondary {
+  background: #B8B8B8 !important;
+  color: #2A2A2A !important;
+  border: 3px solid #5A5A5A !important;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.22), inset 3px 3px 0 rgba(255,255,255,0.6) !important;
+  font-size: 12.5px !important;
+}
+.btn-secondary:hover { background: #C8C8C8 !important; }
+.btn-secondary:active { box-shadow: inset 3px 3px 0 rgba(0,0,0,0.22) !important; transform: translateY(1px); }
+
+/* 탭 — 픽셀 베벨 */
+.tabs { gap: 4px !important; }
+.tab {
+  border: 3px solid #3A3A3A !important;
+  background: #D8D2C0 !important;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.18), inset 2px 2px 0 rgba(255,255,255,0.55) !important;
+  font-size: 11.5px !important;
+}
+.tab.active {
+  background: #6BA644 !important;
+  color: #fff !important;
+  border-color: #2C4A1C !important;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+}
+.tab.locked { background: #A8A496 !important; opacity: 0.7; }
+
+/* 입력창 — 움푹 들어간 픽셀 인풋 */
+input[type="text"], textarea, .fill-blank {
+  border: 3px solid #5A5A5A !important;
+  box-shadow: inset 2px 2px 0 rgba(0,0,0,0.18) !important;
+  background: #F4F2E8 !important;
+}
+input[type="text"]:focus, textarea:focus, .fill-blank:focus {
+  border-color: #6BA644 !important;
+}
+
+/* 픽셀 pill 배지 */
+.pill {
+  border: 2px solid #3A3A3A !important;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.15), inset 2px 2px 0 rgba(255,255,255,0.5) !important;
+}
+
+/* 진행상황 버튼 — 다이아 블록 느낌 */
+.progress-fab {
+  background: #4AC4B8 !important;
+  color: #0C3A36 !important;
+  border: 3px solid #1E6B63 !important;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.25), inset 3px 3px 0 rgba(255,255,255,0.45) !important;
+  font-size: 11px !important;
+}
+.progress-fab.all-done { background: #6BA644 !important; border-color:#2C4A1C !important; color:#fff !important; }
+.progress-fab .progress-count { border-radius: 0 !important; border:2px solid rgba(0,0,0,0.3); }
+
+/* 다음 단계 네비 — 나무 표지판 느낌 */
+.next-step-nav {
+  border: 3px solid #6B4D2E !important;
+  background: linear-gradient(135deg, #E8D9BE 0%, #DCC9A4 100%) !important;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.18), inset 3px 3px 0 rgba(255,255,255,0.45) !important;
+}
+.next-step-nav .nxt-btn {
+  background: #6BA644 !important; color:#fff !important;
+  border: 3px solid #2C4A1C !important;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.3), inset 2px 2px 0 rgba(255,255,255,0.3) !important;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+}
+
+/* 시작화면 카드 — 픽셀 박스 */
+.welcome-card {
+  border: 4px solid #2C2C2C !important;
+  box-shadow: inset -4px -4px 0 rgba(0,0,0,0.2), inset 4px 4px 0 rgba(255,255,255,0.5), 0 12px 40px rgba(0,0,0,0.4) !important;
+}
+#welcome-mascot img { border: 4px solid #2C2C2C !important; image-rendering: pixelated; }
+
+/* ===== 🏆 도전 과제 토스트 (응원 멘트) ===== */
+.achievement-toast {
+  position: fixed;
+  top: 64px;
+  right: -420px;
+  width: 330px;
+  max-width: calc(100vw - 32px);
+  background: #2A2A2A;
+  border: 3px solid #1A1A1A;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,0.4), inset 3px 3px 0 rgba(255,255,255,0.12), 0 6px 20px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  z-index: 250;
+  transition: right 0.45s cubic-bezier(0.2, 0.9, 0.3, 1);
+  font-family: 'Galmuri11', sans-serif;
+}
+.achievement-toast.show { right: 18px; }
+.achievement-toast .ach-icon {
+  font-size: 26px; flex-shrink: 0;
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  background: #4A4A4A;
+  border: 2px solid #1A1A1A;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,0.4), inset 2px 2px 0 rgba(255,255,255,0.15);
+}
+.achievement-toast .ach-title { color: #FFE34D; font-size: 12px; margin-bottom: 3px; line-height:1.3; }
+.achievement-toast .ach-desc { color: #fff; font-size: 13px; line-height:1.35; }
+@media (max-width: 640px) {
+  .achievement-toast { top: 56px; width: 280px; }
+  .achievement-toast.show { right: 10px; }
+}
 </style>
 </head>
 <body>
@@ -1238,6 +1396,15 @@ header.lab-head {
 <!-- 자동 저장 인디케이터 -->
 <div class="save-indicator" id="save-indicator">✓ 자동 저장됨</div>
 
+<!-- 🏆 도전 과제 / 응원 토스트 -->
+<div class="achievement-toast" id="achievement-toast">
+  <div class="ach-icon" id="ach-icon">🏆</div>
+  <div>
+    <div class="ach-title" id="ach-title">도전 과제 달성!</div>
+    <div class="ach-desc" id="ach-desc"></div>
+  </div>
+</div>
+
 <header class="lab-head">
   <div>
     <h1>물질의 끓는점·녹는점 — 예측하고, 관찰하고, 설명하기</h1>
@@ -1267,6 +1434,19 @@ header.lab-head {
     <div class="label">Foundation 00 / The Power of POE</div>
     <h2>위대한 발견은 예측에서 시작된다</h2>
     <p class="desc">오늘 우리가 따라갈 학습 방법 — <strong>POE</strong>. 과학자들이 수백 년 동안 사용해온 가장 강력한 사고 방식을 직접 체험해 봅시다.</p>
+  </div>
+
+  <!-- 🔑 오늘의 핵심 질문 배너 -->
+  <div style="margin-bottom:24px; padding:22px 24px; background: linear-gradient(135deg, #2A2A2A 0%, #3A4A2C 100%); border:4px solid #1A1A1A; box-shadow: inset -4px -4px 0 rgba(0,0,0,0.3), inset 4px 4px 0 rgba(255,255,255,0.12); position:relative; overflow:hidden;">
+    <div style="font-family:'Galmuri11',sans-serif; font-size:12px; color:#FFE34D; letter-spacing:1px; margin-bottom:10px;">🔑 오늘의 핵심 질문</div>
+    <div style="font-size:18px; line-height:1.65; color:#fff; font-weight:700; text-shadow:1px 1px 0 rgba(0,0,0,0.4);">
+      녹는 초콜릿, 끓는 라면 국물… 물질마다 녹고 끓는 온도가 다 달라요.<br>
+      그렇다면 — <span style="color:#6FE89A;">정체불명의 '하얀 가루'</span>가 있을 때,<br>
+      <strong style="color:#FFE34D;">맛도 안 보고, 냄새도 안 맡고</strong> 그게 소금인지 설탕인지 어떻게 알아낼까?
+    </div>
+    <div style="margin-top:14px; font-size:13px; color:#C9D6B0; font-style:italic; line-height:1.6;">
+      💭 지금 답이 떠오르지 않아도 괜찮아요. 오늘 여러분은 <strong style="color:#fff;">과학 탐정</strong>이 되어 직접 답을 찾아낼 거예요. 마지막에 이 질문으로 다시 돌아옵니다!
+    </div>
   </div>
 
   <!-- POE 개념 카드 -->
@@ -2793,6 +2973,17 @@ header.lab-head {
     <p class="desc">지금까지의 모든 실험 활동을 정리해서 보고서를 만들고, 「물질분석기사」 자격증을 받아갑니다. 완성된 자격증은 이미지로 저장해 선생님께 자랑할 수 있어요!</p>
   </div>
 
+  <!-- 🔑 핵심 질문 회수 배너 -->
+  <div style="margin-bottom:20px; padding:18px 22px; background: linear-gradient(135deg, #2A2A2A 0%, #3A4A2C 100%); border:4px solid #1A1A1A; box-shadow: inset -4px -4px 0 rgba(0,0,0,0.3), inset 4px 4px 0 rgba(255,255,255,0.12);">
+    <div style="font-family:'Galmuri11',sans-serif; font-size:12px; color:#FFE34D; letter-spacing:1px; margin-bottom:10px;">🔑 처음 질문, 기억나요?</div>
+    <div style="font-size:15.5px; line-height:1.65; color:#fff; font-weight:700;">
+      맛도 안 보고, 냄새도 안 맡고 — <span style="color:#6FE89A;">'하얀 가루'</span>가 소금인지 설탕인지 어떻게 알아낼까?
+    </div>
+    <div style="margin-top:12px; font-size:13.5px; color:#C9D6B0; line-height:1.65;">
+      🕵️ 이제 여러분은 답을 알아요. <strong style="color:#fff;">녹는점·끓는점은 물질마다 정해진 '이름표(지문)'</strong>예요. 그 가루를 가열해서 <strong style="color:#fff;">녹는 온도</strong>를 재고, 알려진 물질의 녹는점과 비교하면 정체를 밝힐 수 있죠. 보고서에 이 깨달음을 꼭 담아보세요!
+    </div>
+  </div>
+
   <!-- Name input + complete button -->
   <div class="card" style="margin-bottom:20px;">
     <div class="card-title">단계 1 · 학교·학번·이름 확인</div>
@@ -2946,6 +3137,7 @@ function switchToTab(tabId, btn) {
   if (btn) btn.classList.add('active');
   const panel = document.getElementById(tabId);
   if (panel) panel.classList.add('active');
+  if (typeof cheerOnTab === 'function') cheerOnTab(tabId);
 }
 
 function handleTabClick(btn, e) {
@@ -3481,6 +3673,7 @@ document.getElementById('drop-btn').addEventListener('click', () => {
   };
   galileoAnimId = requestAnimationFrame(animate);
   StudentData.galileo.dropped = true;
+  if (typeof unlockAchievement === 'function') unlockAchievement('galileo', '🍎', '도전 과제 달성!', '첫 발견 — 갈릴레오의 눈을 얻었다');
 });
 
 function revealGalileoPOE(tH, tL) {
@@ -3979,6 +4172,7 @@ const Exp1 = {
     // mark completion
     if (this.mass === 5) StudentData.exp1.done5g = true;
     if (this.mass === 10) StudentData.exp1.done10g = true;
+    if (typeof unlockAchievement === 'function') unlockAchievement('exp1', '🔥', '도전 과제 달성!', '녹는점 정복 — 팔미트산을 녹였다');
     StudentData.exp1.plateauT = 62.5;
     updateExp1Progress();
     if (typeof updateTabLocks === 'function') updateTabLocks();
@@ -4357,6 +4551,51 @@ function addNextStepNav() {
   });
 }
 window.addEventListener('load', () => setTimeout(addNextStepNav, 400));
+
+/* ===== 🏆 도전 과제 / 응원 멘트 시스템 ===== */
+let _achTimer = null;
+function showAchievement(icon, title, desc) {
+  const toast = document.getElementById('achievement-toast');
+  if (!toast) return;
+  document.getElementById('ach-icon').textContent = icon || '🏆';
+  document.getElementById('ach-title').textContent = title || '도전 과제 달성!';
+  document.getElementById('ach-desc').textContent = desc || '';
+  // 재생 중이면 리셋 후 다시
+  toast.classList.remove('show');
+  clearTimeout(_achTimer);
+  void toast.offsetWidth; // reflow
+  requestAnimationFrame(() => toast.classList.add('show'));
+  _achTimer = setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// 마일스톤 도전과제 (한 번만 뜨도록 기록)
+const _achDone = {};
+function unlockAchievement(key, icon, title, desc) {
+  if (_achDone[key]) return;
+  _achDone[key] = true;
+  showAchievement(icon, title, desc);
+}
+
+// 랜덤 응원 멘트 (탭 첫 방문 시)
+const CHEER_LINES = [
+  '잘하고 있어요! 계속 가봅시다 ⛏️',
+  '한 칸씩 차근차근, 좋아요! 🟩',
+  '과학자의 길을 파내려가는 중! 💎',
+  '오늘도 한 블록씩 쌓는 중이에요 🧱',
+  '집중력이 다이아급이네요! 💠',
+  '예측하고 관찰하는 그 자세, 멋져요! 🔬',
+  '여기까지 온 것만으로 대단해요! ✨',
+  '호기심이 레벨업 중입니다 📈'
+];
+const _cheeredTabs = {};
+function cheerOnTab(tabId) {
+  if (_cheeredTabs[tabId]) return;
+  _cheeredTabs[tabId] = true;
+  // t0는 시작하자마자라 생략, 너무 자주 뜨지 않게
+  if (tabId === 't0') return;
+  const line = CHEER_LINES[Math.floor(Math.random() * CHEER_LINES.length)];
+  setTimeout(() => showAchievement('🎮', '힘내요!', line), 500);
+}
 
 /* ===== 시작화면 (Welcome Screen) 로직 ===== */
 function makeKeyFrom(school, cls, name) {
@@ -4991,6 +5230,7 @@ const Exp2 = {
     const pts = this.recordedData.length;
     if (this.volume === 10) { StudentData.exp2.done10mL = true; StudentData.exp2.points10 = pts; }
     if (this.volume === 20) { StudentData.exp2.done20mL = true; StudentData.exp2.points20 = pts; }
+    if (typeof unlockAchievement === 'function') unlockAchievement('exp2', '💨', '도전 과제 달성!', '끓는점 정복 — 에탄올을 끓였다');
     StudentData.exp2.plateauT = 78.3;
     StudentData.exp2.mode = 'auto';
     updateExp2Progress();
@@ -5889,6 +6129,7 @@ function gradeDrawing() {
   const total = checks.reduce((s, c) => s + (c.pass ? c.score : 0), 0);
   StudentData.draw.score = total;
   StudentData.draw.checks = checks.map(c => ({label: c.label, pass: c.pass}));
+  if (typeof unlockAchievement === 'function' && total >= 70) unlockAchievement('draw', '📈', '도전 과제 달성!', '곡선 마스터 — 가열 곡선을 완성했다');
   document.getElementById('draw-score-val').textContent = total;
   const lbl = document.getElementById('draw-score-label');
   if (total === 100) lbl.textContent = '🎉 완벽합니다!';
@@ -6351,6 +6592,9 @@ function checkMystery(id) {
     solvedSet.add(id);
     StudentData.mystery[id] = true;
     updateProgress();
+    if (typeof unlockAchievement === 'function' && StudentData.mystery.A && StudentData.mystery.B && StudentData.mystery.C) {
+      unlockAchievement('mystery', '🔍', '도전 과제 달성!', '명탐정 — 미지 물질을 모두 밝혀냈다');
+    }
     if (currentUnlocked < MYSTERIES.length - 1) {
       currentUnlocked++;
       setTimeout(() => {
@@ -6500,6 +6744,7 @@ function proceedWithIncomplete() {
 }
 
 function actuallyCompleteReport() {
+  if (typeof showAchievement === 'function') showAchievement('📜', '도전 과제 달성!', '물질 분석가 — 보고서를 완성했다!');
 
   // ----- Determine completed badges -----
   const checks = [
