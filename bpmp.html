@@ -685,6 +685,39 @@ header.lab-head {
 .drop-slot.wrong { background: #FBE9DF; border-color: var(--warm); color: var(--warm); }
 .slot-hint { font-size: 11px; font-weight: 500; color: var(--text-mute); font-style: italic; }
 
+/* ====== Next-step navigation (각 탭 끝) ====== */
+.next-step-nav {
+  margin-top: 28px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, var(--accent-light) 0%, #FCFBF7 100%);
+  border: 1.5px solid var(--accent);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.next-step-nav .nxt-text { font-size: 13.5px; line-height: 1.5; color: var(--text); }
+.next-step-nav .nxt-text .nxt-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 2px; }
+.next-step-nav .nxt-text strong { color: var(--accent); font-size: 15px; }
+.next-step-nav .nxt-btn {
+  padding: 11px 20px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.next-step-nav .nxt-btn:hover { background: #1A4763; transform: translateX(2px); }
+.next-step-nav.finish { background: linear-gradient(135deg, #EAF7EF 0%, #FCFBF7 100%); border-color: #22C55E; }
+.next-step-nav.finish strong { color: #138a3e; }
+
 /* ====== Progress Fab Button ====== */
 .progress-fab {
   position: fixed;
@@ -1226,8 +1259,17 @@ header.lab-head {
     </div>
 
     <div class="welcome-info">
-      <strong>💾 시작하기 전에 학교·학번·이름을 적어주세요.</strong><br>
-      입력한 내용은 자동으로 저장되어, 실수로 창을 닫아도 같은 정보로 돌아오면 <strong>이어서 진행</strong>할 수 있어요.
+      <strong>💾 입력한 내용은 이 기기에 자동으로 저장돼요.</strong><br>
+      실수로 창을 닫아도, <strong>같은 기기에서 같은 학교·학번·이름으로 다시 들어오면</strong> 작성하던 내용을 그대로 이어서 할 수 있어요.
+      <details style="margin-top:8px;">
+        <summary style="cursor:pointer; font-size:12px; color:#8C6B12; font-weight:600;">ℹ️ 저장은 어떻게 되나요? (자세히)</summary>
+        <div style="margin-top:6px; font-size:12px; line-height:1.6; font-weight:400;">
+          • 내 답은 <strong>이 컴퓨터(브라우저) 안에만</strong> 저장돼요 (로컬 저장).<br>
+          • 입력할 때마다 자동 저장되고, 우측 아래 「✓ 자동 저장됨」 표시가 떠요.<br>
+          • <strong>다른 기기로 옮기면</strong> 저장된 내용을 불러올 수 없어요. 가능하면 같은 기기로 진행하세요.<br>
+          • 끝나면 꼭 <strong>보고서를 PDF·이미지로 저장</strong>해서 제출하세요!
+        </div>
+      </details>
     </div>
 
     <div class="welcome-form">
@@ -1285,6 +1327,7 @@ header.lab-head {
 
 <nav class="tabs" id="tabs">
   <button class="tab active" data-panel="t0"><span class="num">00</span> ✨ POE의 힘</button>
+  <button class="tab" data-panel="tR"><span class="num">📖</span> 중1 복습</button>
   <button class="tab" data-panel="t1"><span class="num">01</span> 탐구 1 · 녹는점</button>
   <button class="tab" data-panel="t2"><span class="num">02</span> 탐구 2 · 끓는점</button>
   <button class="tab" data-panel="t3"><span class="num">03</span> 정리</button>
@@ -1566,6 +1609,140 @@ header.lab-head {
 </section>
 
 <!-- ============================= -->
+<!-- TAB R: 중1 복습 -->
+<!-- ============================= -->
+<section class="panel" id="tR">
+  <div class="panel-head" style="position:relative;">
+    <button onclick="showGlossary()" style="position:absolute; top:0; right:0; padding:8px 14px; background:var(--accent-light); color:var(--accent); border:1.5px solid var(--accent); border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit;">📖 단어장</button>
+    <div class="label">Review / 중1 과학 복습</div>
+    <h2>상태 변화 한눈에 복습하기</h2>
+    <p class="desc">예측하다가 막히거나 헷갈릴 때, 언제든 이 탭으로 돌아와서 <strong>중학교 1학년 때 배운 상태 변화</strong>를 다시 확인하세요. 탐구의 힌트가 여기 다 들어 있어요!</p>
+  </div>
+
+  <!-- 상태 변화 삼각형 -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">① 상태 변화의 종류</div>
+    <p style="font-size:13.5px; line-height:1.65; color:var(--text-dim); margin-bottom:14px;">
+      물질은 <strong>고체·액체·기체</strong> 세 가지 상태로 존재하고, 서로 변할 수 있어요. 각 변화에는 이름이 있습니다.
+    </p>
+    <div style="background:var(--bg-elev); border-radius:12px; padding:16px;">
+      <svg viewBox="0 0 440 300" style="width:100%; height:auto; max-width:480px; display:block; margin:0 auto;">
+        <!-- 꼭짓점 박스 -->
+        <g>
+          <rect x="170" y="20" width="100" height="44" rx="10" fill="#FBE9DF" stroke="var(--warm)" stroke-width="2"/>
+          <text x="220" y="40" font-size="15" font-weight="700" fill="var(--warm)" text-anchor="middle">기체</text>
+          <text x="220" y="56" font-size="10" fill="#8C5230" text-anchor="middle">입자 가장 자유로움</text>
+        </g>
+        <g>
+          <rect x="20" y="236" width="100" height="44" rx="10" fill="#E8EEF3" stroke="var(--accent)" stroke-width="2"/>
+          <text x="70" y="256" font-size="15" font-weight="700" fill="var(--accent)" text-anchor="middle">고체</text>
+          <text x="70" y="272" font-size="10" fill="#3A6280" text-anchor="middle">입자 규칙적 배열</text>
+        </g>
+        <g>
+          <rect x="320" y="236" width="100" height="44" rx="10" fill="#E8F2EE" stroke="#2E8B6F" stroke-width="2"/>
+          <text x="370" y="256" font-size="15" font-weight="700" fill="#2E8B6F" text-anchor="middle">액체</text>
+          <text x="370" y="272" font-size="10" fill="#1F6B53" text-anchor="middle">입자 자유롭게 흐름</text>
+        </g>
+
+        <!-- 고체 ↔ 액체 (아래 변) -->
+        <line x1="120" y1="258" x2="320" y2="258" stroke="#C9C5BA" stroke-width="1.5"/>
+        <text x="220" y="250" font-size="12" font-weight="700" fill="var(--warm)" text-anchor="middle">융해 →</text>
+        <text x="220" y="278" font-size="12" font-weight="700" fill="var(--accent)" text-anchor="middle">← 응고</text>
+
+        <!-- 고체 ↔ 기체 (왼쪽 변) -->
+        <line x1="90" y1="236" x2="195" y2="64" stroke="#C9C5BA" stroke-width="1.5"/>
+        <text x="110" y="150" font-size="12" font-weight="700" fill="var(--warm)" text-anchor="middle" transform="rotate(-58 110 150)">승화 ↗</text>
+
+        <!-- 액체 ↔ 기체 (오른쪽 변) -->
+        <line x1="350" y1="236" x2="245" y2="64" stroke="#C9C5BA" stroke-width="1.5"/>
+        <text x="330" y="150" font-size="12" font-weight="700" fill="var(--warm)" text-anchor="middle" transform="rotate(58 330 150)">기화 ↗</text>
+        <text x="358" y="155" font-size="12" font-weight="700" fill="var(--accent)" text-anchor="middle" transform="rotate(58 358 155)">↙ 액화</text>
+      </svg>
+      <div style="display:flex; gap:16px; justify-content:center; margin-top:10px; flex-wrap:wrap; font-size:12px;">
+        <span style="color:var(--warm); font-weight:600;">🔴 열 흡수: 융해 · 기화 · 승화(고→기)</span>
+        <span style="color:var(--accent); font-weight:600;">🔵 열 방출: 응고 · 액화 · 승화(기→고)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 열에너지 표 -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">② 상태 변화와 입자의 변화</div>
+    <p style="font-size:13.5px; line-height:1.65; color:var(--text-dim); margin-bottom:14px;">
+      물질이 상태 변화를 할 때는 <strong>열에너지를 흡수하거나 방출</strong>하며, 이에 따라 입자의 운동·배열·거리가 달라집니다.
+    </p>
+    <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:13px; min-width:480px;">
+        <thead>
+          <tr style="background:#DDE8C8;">
+            <th style="padding:10px 8px; border:1px solid var(--border); text-align:center;">상태 변화</th>
+            <th style="padding:10px 8px; border:1px solid var(--border); text-align:center;">열에너지</th>
+            <th style="padding:10px 8px; border:1px solid var(--border); text-align:center;">입자 운동</th>
+            <th style="padding:10px 8px; border:1px solid var(--border); text-align:center;">입자 배열</th>
+            <th style="padding:10px 8px; border:1px solid var(--border); text-align:center;">입자 사이의 거리</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:10px 8px; border:1px solid var(--border); text-align:center; font-weight:600;">융해, 기화, 승화<br>(고체 → 기체)</td>
+            <td style="padding:10px 8px; border:1px solid var(--border); text-align:center; color:var(--warm); font-weight:700;">흡수</td>
+            <td style="padding:10px 8px; border:1px solid var(--border); text-align:center;">활발해짐</td>
+            <td style="padding:10px 8px; border:1px solid var(--border); text-align:center;">불규칙적으로 됨</td>
+            <td style="padding:10px 8px; border:1px solid var(--border); text-align:center;">멀어짐</td>
+          </tr>
+          <tr style="background:var(--bg-elev);">
+            <td style="padding:10px 8px; border:1px solid var(--border); text-align:center; font-weight:600;">응고, 액화, 승화<br>(기체 → 고체)</td>
+            <td style="padding:10px 8px; border:1px solid var(--border); text-align:center; color:var(--accent); font-weight:700;">방출</td>
+            <td style="padding:10px 8px; border:1px solid var(--border); text-align:center;">둔해짐</td>
+            <td style="padding:10px 8px; border:1px solid var(--border); text-align:center;">규칙적으로 됨</td>
+            <td style="padding:10px 8px; border:1px solid var(--border); text-align:center;">가까워짐</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 흡수 / 방출 실생활 -->
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:14px; margin-bottom:20px;">
+    <div class="card" style="border-left:3px solid var(--warm);">
+      <div style="font-weight:700; font-size:14px; color:var(--warm); margin-bottom:8px;">🔴 열을 흡수하는 경우 (융해·기화)</div>
+      <p style="font-size:13px; line-height:1.65; color:var(--text);">
+        입자 사이의 거리가 <strong>멀어지며</strong>, 주변의 열을 빼앗아 주변 온도를 <strong>낮춥니다.</strong>
+      </p>
+      <div style="margin-top:8px; padding:8px 10px; background:#FBE9DF; border-radius:6px; font-size:12px; line-height:1.55; color:#5C2810;">
+        💡 예: 얼음팩, 더운 날 마당이나 도로에 물 뿌리기
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <div style="font-weight:700; font-size:14px; color:var(--accent); margin-bottom:8px;">🔵 열을 방출하는 경우 (액화·응고)</div>
+      <p style="font-size:13px; line-height:1.65; color:var(--text);">
+        입자 사이의 거리가 <strong>가까워지며</strong>, 열을 내보내 주변 온도를 <strong>높입니다.</strong>
+      </p>
+      <div style="margin-top:8px; padding:8px 10px; background:var(--accent-light); border-radius:6px; font-size:12px; line-height:1.55; color:#1A3A4F;">
+        💡 예: 겨울철 과일 농가에 물 뿌리기, 이글루 내부
+      </div>
+    </div>
+  </div>
+
+  <!-- 상태 변화와 열에너지 사용 -->
+  <div class="card" style="background: linear-gradient(135deg, #FBF3DC 0%, #FCFBF7 100%); border-color: var(--plateau); border-width:1.5px;">
+    <div style="display:flex; gap:14px; align-items:flex-start;">
+      <div style="font-size:28px;">🔑</div>
+      <div>
+        <div style="font-weight:700; font-size:14.5px; color:#8C6B12; margin-bottom:8px;">상태 변화 중 열에너지는 어디에 쓰일까?</div>
+        <p style="font-size:13.5px; line-height:1.7; color:#5C4710; margin-bottom:10px;">
+          상태 변화를 하는 동안 <strong>잃거나 얻은 열에너지는 모두 입자의 배열을 바꾸는 데 사용</strong>됩니다.
+        </p>
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:13px; line-height:1.6; color:#5C4710;">
+          <div>🔥 <strong>가열할 때:</strong> 공급되는 열에너지가 <strong>입자 사이의 인력을 끊어내는 데</strong> 사용됩니다.</div>
+          <div>❄️ <strong>냉각할 때:</strong> 입자들이 다시 가까워지며 인력이 작용하고, 이 과정에서 <strong>열이 방출</strong>됩니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= -->
 <!-- TAB 1: 팔미트산 녹는점 -->
 <!-- ============================= -->
 <section class="panel" id="t1">
@@ -1643,6 +1820,9 @@ header.lab-head {
       <textarea id="pred-reason-1" placeholder="왜 그 그래프를 선택했나요? 자신의 생각을 적어보세요..." style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-family:inherit; font-size:13.5px; resize:vertical; min-height:60px; outline:none; background:white;"></textarea>
     </div>
     <div id="pred-1-status" style="margin-top:8px; font-size:12px; color:var(--text-dim); font-style:italic;">예측을 한 후 아래에서 실험을 진행해 보세요.</div>
+    <div style="margin-top:10px; padding:8px 12px; background:var(--bg-elev); border-radius:8px; font-size:12px; color:var(--text-dim); display:flex; align-items:center; gap:6px;">
+      📖 예측이 막히거나 헷갈리면 위쪽 <strong style="color:var(--accent);">「중1 복습」</strong> 탭에서 상태 변화 힌트를 찾아보세요!
+    </div>
   </div>
 
   <div class="exp-grid">
@@ -2704,6 +2884,15 @@ header.lab-head {
         style="flex:1; min-width:140px; padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:14px; outline:none;">
     </div>
     <div style="margin-top:8px; font-size:12px; color:var(--text-dim);">※ 시작화면에서 입력한 정보가 자동으로 채워져 있어요. 수정하면 저장 위치도 함께 바뀝니다.</div>
+
+    <div style="margin-top:14px; padding:14px 16px; background: linear-gradient(135deg, var(--accent-light) 0%, #FCFBF7 100%); border-left:4px solid var(--accent); border-radius:10px;">
+      <div style="font-weight:700; font-size:14px; color:var(--accent); margin-bottom:8px;">⏱️ 시간이 부족하다면?</div>
+      <div style="font-size:13px; line-height:1.7; color:var(--text);">
+        <strong>① WHY 탭 전까지</strong>(탐구 1·2 + 정리)만 완성해도 <strong>보고서를 생성·제출할 수 있어요.</strong><br>
+        <strong>② 시간이 남으면</strong> WHY 탭부터 마지막 탭까지 마저 완성해서 업로드해 주세요. — <strong style="color:var(--warm);">끝까지 완성하면 성취도(자격증 등급)가 더 높게 부여돼요!</strong> 🏅
+      </div>
+    </div>
+
     <button class="btn-primary" id="complete-report-btn" style="margin-top:14px;">
       📋 보고서 완성하기
     </button>
@@ -3433,7 +3622,7 @@ const TAB_INTROS = {
       '<strong>5g</strong>과 <strong>10g</strong> 두 가지 양으로 비교해 보세요',
       '실험 시작 전에 — 화면 아래쪽 <strong>P단계 영역에서 그래프 모양을 예측</strong>하고 이유를 적어주세요!'
     ],
-    advanceOrganizer: '겨울 아침에 <strong>−10℃ 얼음</strong>을 가지고 와서 천천히 가열한다고 떠올려 보세요. 가열 시간에 따라 온도계 눈금이 <em>일정한 속도로 쭉</em> 올라갈까요? 일상 경험을 떠올리면서 예측해 보세요.'
+    advanceOrganizer: '<strong>중학교 1학년 과학 시간</strong>을 떠올려 보세요. 선생님이 열심히 설명하셨죠.<br><br>"물질이 상태변화를 할 때는 <strong>입자 배열이 바뀌어요!</strong> 고체에서 액체로 변하면 규칙적이던 입자 배열이 불규칙해지죠. 또 물을 계속 가열하면 끓어서 수증기가 되는데, 물(액체)보다 수증기(기체)의 입자 배열이 더 불규칙하고 입자 사이 거리도 훨씬 멀어요."<br><br>그리고 이런 말씀도 하셨어요. 👉 <strong>"열에너지는 멀티태스킹을 못해요!"</strong> 들어온 열에너지는 <em>입자 운동을 활발하게 하거나</em>, <em>입자 배열을 바꾸거나</em> — <strong>둘 중 하나에만</strong> 쓰인다고요.<br><br>자, 그렇다면 — <strong>고체 팔미트산을 가열해서 녹일 때(고체→액체)</strong> 시간에 따라 온도가 어떻게 변할까요? 그때의 기억을 떠올리며 예측해 보세요.'
   },
   t2: {
     label: 'Experiment 02',
@@ -3444,7 +3633,7 @@ const TAB_INTROS = {
       '에탄올이 완전히 다 기화한 뒤에는 어떻게 될지 함께 관찰하세요',
       '10mL와 20mL — 양을 다르게 했을 때 결과를 비교해 보세요'
     ],
-    advanceOrganizer: '<strong>에탄올</strong>은 술의 주성분이고 손소독제에도 들어 있는 액체예요. <em>물보다 빨리 증발</em>한다는 특징이 있죠. 물은 100℃에서 끓는데 — 에탄올이라면? 더 빨리 증발한다면, 끓는점은 100℃보다 높을까요, 낮을까요?',
+    advanceOrganizer: '<strong>에탄올</strong>은 술의 주성분이자 손소독제에도 들어 있는 액체예요. 손등에 발라 보면 물보다 훨씬 빨리 마르죠(증발). 이렇게 <strong>쉽게 날아가는 성질</strong>을 떠올리면 — 에탄올의 끓는점은 물(100℃)과 비교해서 어느 쪽일지 예측해 볼까요?',
     question: '실험 전 예측 — 에탄올의 끓는점은 물(100℃)보다 높을까요, 낮을까요? 왜 그렇게 생각하나요?'
   },
   t4: {
@@ -3456,7 +3645,7 @@ const TAB_INTROS = {
       '슬라이더를 직접 움직여 보면서 관계를 발견해 보세요',
       '두 번째 질문에서는 압력의 역할도 확인할 수 있어요'
     ],
-    advanceOrganizer: '평탄 구간에서 <strong>가열은 계속되는데 온도는 안 올라간다</strong>는 사실은 — 들어온 열에너지가 <em>온도를 올리는 데 쓰이지 않고 있다</em>는 뜻이에요. 그렇다면 그 에너지는 어디로 가고 있을까요? 입자의 입장에서 생각해 보세요.',
+    advanceOrganizer: '평탄 구간에서는 <strong>가열은 계속되는데 온도는 안 올라가요.</strong> 이건 들어온 열에너지가 <em>온도를 올리는 데 쓰이지 않고 있다</em>는 뜻이에요. 그렇다면 그 에너지는 어디로 가고 있을까요?<br><br><strong>🔬 입자의 입장에서 생각해 볼까요?</strong><br>고체일 때 입자들은 서로 강하게 붙잡고(결합) 규칙적인 격자로 배열되어 있어요. 이 입자들이 자유롭게 움직이는 <strong>액체</strong>가 되려면, 서로 붙잡고 있던 손을 놓아야겠죠? 그런데 그렇게 결합을 끊는 데에도 <strong>에너지가 필요</strong>해요.<br><br>그렇다면 평탄 구간에서 들어온 열에너지는 <strong>「온도를 올리는 일」</strong>과 <strong>「입자들의 결합을 끊는 일」</strong> 중 어디에 쓰이고 있을까요? 자신의 가설을 적어보세요.',
     question: '미리 생각해 보기 — 들어오는 열에너지가 분명히 있는데, 왜 평탄 구간에서는 온도가 안 올라갈까요? 자신의 가설을 적어보세요.'
   },
   t5: {
@@ -3468,7 +3657,7 @@ const TAB_INTROS = {
       '5단계가 모두 들어있어야 만점입니다 (얼음 가열 → 녹는 평탄 구간 → 물 가열 → 끓는 평탄 구간 → 수증기 가열)',
       '잘못 그렸으면 「지우고 다시」 버튼으로 다시 시도하세요'
     ],
-    advanceOrganizer: '물의 <strong>세 가지 상태</strong>를 떠올려 보세요 — 고체(얼음), 액체(물), 기체(수증기). 그리고 두 가지 변화 온도: <strong>녹는점 0℃</strong>, <strong>끓는점 100℃</strong>. 탐구 1·2에서 본 평탄 구간이 여기서는 몇 개 나타날까요?',
+    advanceOrganizer: '탐구 1에서는 고체가 액체로 <strong>녹았고</strong>, 탐구 2에서는 액체가 기체로 <strong>끓었어요.</strong> 그때마다 가열 곡선에 어떤 특징이 나타났는지 떠올려 보세요. 이번엔 <strong>−20℃ 얼음 → 물 → 수증기</strong>까지, 상태가 <strong>두 번</strong> 바뀝니다. 그렇다면 평탄 구간은 몇 개, 어느 온도쯤에서 생길까요?',
     question: '시작 전 — −20℃ 얼음을 가열해서 수증기까지 만든다고 할 때, 평탄 구간은 몇 개 생길까요? 그리고 어느 온도에서요?'
   }
 };
@@ -3503,6 +3692,9 @@ function showIntroModal(tabId) {
           <textarea id="intro-answer-${tabId}" placeholder="여기에 자신의 생각을 적어보세요..."></textarea>
         </div>
       ` : ''}
+      <div style="margin-top:14px; padding:9px 12px; background:var(--bg-elev); border-radius:8px; font-size:12px; color:var(--text-dim); display:flex; align-items:center; gap:6px;">
+        📖 예측이 막히면 <strong style="color:var(--accent);">「중1 복습」</strong> 탭에서 상태 변화 힌트를 찾을 수 있어요!
+      </div>
     </div>
     <div class="modal-foot" style="display:block;">
       <div style="font-size:11.5px; color:var(--warm); margin-bottom:10px; text-align:right; font-weight:500;">⚠️ 「건너뛰기」를 누르면 보고서에 빈 공간이 생겨요!</div>
@@ -4167,6 +4359,54 @@ if (pred1ReasonTA) pred1ReasonTA.addEventListener('input', savePred1);
 if (typeof POE_DATA !== 'undefined') {
   Object.keys(POE_DATA).forEach(setId => renderPOESet(setId));
 }
+
+/* ===== 다음 단계 네비게이션 (각 탭 끝 자동 삽입) ===== */
+const TAB_FLOW = ['t0','tR','t1','t2','t3','t4','t5','t6','t7','t8'];
+const TAB_FLOW_NAMES = {
+  t0:'✨ POE의 힘', tR:'📖 중1 복습', t1:'🔥 탐구 1 · 녹는점', t2:'💨 탐구 2 · 끓는점',
+  t3:'📝 정리', t4:'🤔 WHY?', t5:'📈 가열 곡선 그리기', t6:'🔍 미지 물질 탐정',
+  t7:'🌍 실생활 응용', t8:'📜 보고서 · 자격증'
+};
+const TAB_FLOW_HINT = {
+  t0:'POE(예측·관찰·설명)가 왜 중요한지 체험했어요.',
+  tR:'상태 변화 개념을 복습했어요. 이제 직접 탐구해 볼까요?',
+  t1:'팔미트산의 녹는점을 측정했어요.',
+  t2:'에탄올의 끓는점을 측정했어요.',
+  t3:'두 실험을 정리했어요.',
+  t4:'평탄 구간이 생기는 이유를 알아봤어요.',
+  t5:'가열 곡선을 직접 그려봤어요.',
+  t6:'배운 개념으로 미지 물질을 추리했어요.',
+  t7:'실생활 속 녹는점·끓는점을 조사했어요.'
+};
+
+function addNextStepNav() {
+  TAB_FLOW.forEach((tab, i) => {
+    const panel = document.getElementById(tab);
+    if (!panel || panel.querySelector('.next-step-nav')) return;
+    const next = TAB_FLOW[i + 1];
+    const nav = document.createElement('div');
+    if (next) {
+      nav.className = 'next-step-nav';
+      const shortName = TAB_FLOW_NAMES[next].replace(/^[^ ]+ /, '');
+      nav.innerHTML = '<div class="nxt-text"><span class="nxt-label">' + (TAB_FLOW_HINT[tab] || '여기까지 완료했어요!') + '</span>다음 단계는 <strong>' + TAB_FLOW_NAMES[next] + '</strong> 예요.</div>' +
+        '<button class="nxt-btn" data-goto="' + next + '">' + shortName + ' →</button>';
+    } else {
+      nav.className = 'next-step-nav finish';
+      nav.innerHTML = '<div class="nxt-text"><span class="nxt-label">🎉 모든 활동의 마지막 단계예요!</span>위에서 <strong>보고서를 완성</strong>하고 제출하면 끝이에요. 수고했어요!</div>';
+    }
+    panel.appendChild(nav);
+  });
+  // 버튼 이벤트 연결
+  document.querySelectorAll('.nxt-btn[data-goto]').forEach(btn => {
+    if (btn._wired) return;
+    btn._wired = true;
+    btn.addEventListener('click', () => {
+      const tabBtn = document.querySelector('[data-panel="' + btn.dataset.goto + '"]');
+      if (tabBtn) { tabBtn.click(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    });
+  });
+}
+window.addEventListener('load', () => setTimeout(addNextStepNav, 400));
 
 /* ===== 시작화면 (Welcome Screen) 로직 ===== */
 function makeKeyFrom(school, cls, name) {
@@ -6259,30 +6499,45 @@ function completeReport() {
 
 function showIncompleteWarning(todoItems) {
   const box = document.getElementById('modal-box');
+  // WHY 전 필수(t1,t2,t3) vs WHY 후 추가(t4~t8) 구분
+  const corePanels = ['t1','t2','t3'];
+  const coreTodo = todoItems.filter(it => corePanels.includes(it.panel));
+  const bonusTodo = todoItems.filter(it => !corePanels.includes(it.panel));
   box.innerHTML = `
     <div class="modal-head">
       <span class="pill" style="color:var(--warm);">⚠ 미완료 항목 안내</span>
-      <h2 style="font-size:20px;">아직 <strong style="color:var(--warm);">${todoItems.length}개</strong> 항목이 미완료예요</h2>
+      <h2 style="font-size:20px;">아직 <strong style="color:var(--warm);">${todoItems.length}개</strong> 항목이 남았어요</h2>
     </div>
     <div class="modal-body">
       <p style="font-size:13.5px; line-height:1.65; margin-bottom:12px;">
-        아래 항목들이 아직 끝나지 않았어요. 「수정하러 가기」를 눌러 마저 진행하면 더 완성도 높은 보고서가 됩니다.<br>
-        <span style="font-size:12px; color:var(--text-dim);">※ 그래도 지금 제출하면 미완료 항목은 빈 칸으로 보고서에 표시됩니다.</span>
+        ${coreTodo.length > 0
+          ? '먼저 아래 <strong style="color:var(--warm);">필수 항목(WHY 탭 전)</strong>을 끝내면 보고서를 제출할 수 있어요.'
+          : '<strong style="color:#22C55E;">필수 항목은 모두 완료</strong>했어요! 지금 제출해도 됩니다. 시간이 남으면 아래 <strong>추가 항목</strong>까지 완성하면 <strong style="color:var(--warm);">성취도가 더 높아져요.</strong>'}
+        <br><span style="font-size:12px; color:var(--text-dim);">※ 지금 제출하면 미완료 항목은 빈 칸으로 표시됩니다.</span>
       </p>
-      <div style="display:flex; flex-direction:column; gap:6px; max-height:300px; overflow-y:auto;">
-        ${todoItems.map(it => `
-          <div class="progress-item todo">
-            <div class="check">!</div>
-            <div class="label">${it.label}</div>
-            <button class="go-btn" onclick="goToPanel('${it.panel}')">이동 →</button>
-          </div>
-        `).join('')}
-      </div>
+      ${coreTodo.length > 0 ? `
+        <div style="font-size:12px; font-weight:700; color:var(--warm); margin:10px 0 6px;">📌 필수 (WHY 탭 전까지)</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          ${coreTodo.map(it => `
+            <div class="progress-item todo">
+              <div class="check">!</div><div class="label">${it.label}</div>
+              <button class="go-btn" onclick="goToPanel('${it.panel}')">이동 →</button>
+            </div>`).join('')}
+        </div>` : ''}
+      ${bonusTodo.length > 0 ? `
+        <div style="font-size:12px; font-weight:700; color:var(--accent); margin:12px 0 6px;">🏅 추가 (완성 시 성취도 ↑)</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          ${bonusTodo.map(it => `
+            <div class="progress-item todo" style="border-left-color:var(--accent);">
+              <div class="check" style="background:var(--accent);">+</div><div class="label">${it.label}</div>
+              <button class="go-btn" onclick="goToPanel('${it.panel}')">이동 →</button>
+            </div>`).join('')}
+        </div>` : ''}
     </div>
     <div class="modal-foot" style="display:block;">
       <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
-        <button class="btn-secondary" onclick="proceedWithIncomplete()" style="width:auto;">😅 그래도 제출하기</button>
-        <button class="btn-primary" onclick="closeWhyPopup()" style="width:auto;">✏️ 더 마무리하고 제출</button>
+        <button class="btn-secondary" onclick="proceedWithIncomplete()" style="width:auto;">${coreTodo.length > 0 ? '😅 그래도 제출하기' : '📋 지금 제출하기'}</button>
+        <button class="btn-primary" onclick="closeWhyPopup()" style="width:auto;">✏️ 더 마무리하기</button>
       </div>
     </div>
   `;
