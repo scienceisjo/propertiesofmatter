@@ -3521,6 +3521,35 @@ function revealGalileoPOE(tH, tL) {
   `;
   StudentData.explain.t0 = expResult.textContent;
   expBox.style.display = 'block';
+
+  // E단계 textarea에 예시 답안 미리 채워주기 (학생 선택에 따라)
+  const ta = document.getElementById('galileo-explain');
+  if (ta) {
+    const predLabel = predMap[galileoPrediction] || '';
+    let sample;
+    if (galileoEnv === 'vacuum') {
+      if (galileoPrediction === 'same') {
+        sample = `나는 '${predLabel}'고 예측했는데, 실제로도 두 공이 동시에 떨어졌다. 공기 저항이 없는 진공에서는 무게와 상관없이 모든 물체가 같은 속도로 떨어진다는 것을 알게 되었다. 내 예측이 맞아서 뿌듯했다.`;
+      } else {
+        sample = `나는 '${predLabel}'고 예측했는데, 실제로는 두 공이 동시에 떨어졌다. 무게가 10배나 차이 나는데도 진공에서는 같은 속도로 떨어진다는 것이 놀라웠다. 2,000년 동안 사람들이 믿었던 생각이 실험으로 뒤집힐 수 있다는 게 신기했다.`;
+      }
+    } else {
+      if (galileoPrediction === 'heavy') {
+        sample = `나는 '${predLabel}'고 예측했고, 실제로도 쇠공이 살짝 먼저 떨어졌다. 하지만 차이가 거의 없었고, 이건 공기 저항 때문이라는 걸 알게 되었다. 진공으로 바꾸면 동시에 떨어진다는 점이 더 놀라웠다.`;
+      } else if (galileoPrediction === 'same') {
+        sample = `나는 '${predLabel}'고 예측했는데, 실제로는 쇠공이 아주 살짝 먼저 떨어졌다. 차이가 거의 없는 것을 보니 무게보다 공기 저항이 영향을 준다는 걸 알 수 있었다. 진공에서는 정말 동시에 떨어졌다.`;
+      } else {
+        sample = `나는 '${predLabel}'고 예측했는데, 실제로는 쇠공이 먼저 떨어졌다. 가벼운 물체가 공기 저항을 더 크게 받는다는 것을 알게 되었다. 예측과 결과가 달라서 더 기억에 남았다.`;
+      }
+    }
+    ta.value = sample;
+    StudentData.explain.t0 = sample;
+    // 안내 라벨도 살짝 변경
+    const lbl = ta.previousElementSibling;
+    if (lbl && lbl.tagName === 'LABEL') {
+      lbl.innerHTML = '✍️ 예시 답안이 채워져 있어요 — 읽어보고, 내 생각이 다르면 자유롭게 고쳐도 좋아요';
+    }
+  }
 }
 
 // Save explanation textarea to StudentData
