@@ -1326,7 +1326,7 @@ input[type="text"]:focus, textarea:focus, .fill-blank:focus {
 <body>
 
 <!-- ============ 시작화면 (Welcome Screen) ============ -->
-<div id="welcome-screen" class="hidden">
+<div id="welcome-screen">
   <div class="welcome-card">
     <div class="welcome-pill">🧪 LAB ENTRY</div>
     <h1 class="welcome-title">물질의 끓는점·녹는점<br>가상 실험실에 오신 것을 환영해요</h1>
@@ -2168,6 +2168,22 @@ input[type="text"]:focus, textarea:focus, .fill-blank:focus {
     <p class="desc">에탄올을 가열하면서 일정한 간격마다 <strong>「점찍기」 버튼</strong>을 눌러 직접 데이터를 기록합니다. 양을 다르게 해도 끓는점은 같은지 확인해 보세요.</p>
   </div>
 
+  <!-- 예측(P) 영역 — 항상 표시 -->
+  <div class="card" id="pred-2-card" style="margin-bottom:20px; border-left:4px solid var(--accent);">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+      <div style="width:30px; height:30px; background:var(--accent); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px;">P</div>
+      <div style="font-weight:700; font-size:15px; color:var(--accent);">먼저 예측해 보세요</div>
+    </div>
+    <div style="padding:12px 14px; background:#FBF3DC; border-left:3px solid var(--plateau); border-radius:8px; font-size:13px; line-height:1.65; color:#5C4710; margin-bottom:12px;">
+      🧭 <strong>예측을 돕는 단서:</strong> 에탄올은 술의 주성분이자 손소독제에도 들어 있는 액체예요. 손등에 발라 보면 물보다 훨씬 빨리 마르죠(증발). 이렇게 <strong>쉽게 날아가는 성질</strong>을 떠올리면 — 에탄올의 끓는점은 물(100℃)과 비교해서 어느 쪽일지 예측해 볼까요?
+    </div>
+    <div style="font-size:14px; font-weight:600; color:var(--text); margin-bottom:8px;">✍️ 실험 전 예측 — 에탄올의 끓는점은 물(100℃)보다 높을까요, 낮을까요? 왜 그렇게 생각하나요?</div>
+    <textarea id="pred-2-answer" placeholder="여기에 자신의 생각을 적어보세요..." style="width:100%; padding:10px 12px; font-family:inherit; font-size:13.5px; resize:vertical; min-height:70px; outline:none;"></textarea>
+    <div style="margin-top:10px; padding:8px 12px; background:var(--bg-elev); border-radius:8px; font-size:12px; color:var(--text-dim); display:flex; align-items:center; gap:6px;">
+      📖 예측이 막히면 위쪽 <strong style="color:var(--accent);">「중1 복습」</strong> 탭에서 힌트를 찾아보세요!
+    </div>
+  </div>
+
   <div class="exp-grid">
     <div style="display:flex; flex-direction:column; gap:20px;">
 
@@ -2420,7 +2436,7 @@ input[type="text"]:focus, textarea:focus, .fill-blank:focus {
     <button class="btn-secondary" style="margin-top:10px; margin-left:6px; width:auto; padding:6px 12px; font-size:12px;" onclick="showHints(this.parentElement)">💡 힌트 보기</button>
   </div>
 
-  <div class="card" style="background: linear-gradient(135deg, #FBF3DC 0%, #FCFBF7 100%); border-color: var(--plateau); border-width:1.5px; margin-bottom: 20px;">
+  <div class="card" id="core-concept-blanks" style="background: linear-gradient(135deg, #FBF3DC 0%, #FCFBF7 100%); border-color: var(--plateau); border-width:1.5px; margin-bottom: 20px;">
     <div style="display:flex; align-items:center; gap:14px; margin-bottom:10px;">
       <div style="width:40px; height:40px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--plateau); font-size:18px; border:2px solid var(--plateau);">★</div>
       <div style="font-size:11px; color:#8C6B12; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;">Core Concept — 빈칸 완성하기</div>
@@ -2434,12 +2450,12 @@ input[type="text"]:focus, textarea:focus, .fill-blank:focus {
       <input type="text" class="fill-blank" data-answer="일정|일정함|항상 일정" data-hint="변하지 않음 (○○)" placeholder="???" style="width:100px; font-size:17px;">
       하므로,<br>
       <strong style="color:var(--warm); font-weight:700;">물질의 
-      <input type="text" class="fill-blank" data-answer="특성|고유한 특성" data-hint="물질을 구분할 수 있는 그 물질만의 성질 (○○)" placeholder="???" style="width:100px; font-size:17px; color:var(--warm); font-weight:700;">
+      <input type="text" class="fill-blank" data-answer="특성|고유한 특성|고유의 특성|고유특성" data-hint="물질을 구분할 수 있는 그 물질만의 성질 (○○)" placeholder="???" style="width:100px; font-size:17px; color:var(--warm); font-weight:700;">
       </strong>입니다.
     </p>
     <div style="margin-top:14px;">
-      <button class="btn-secondary" style="width:auto; padding:6px 14px; font-size:12.5px;" onclick="checkBlanks(this.parentElement.parentElement)">정답 확인</button>
-      <button class="btn-secondary" style="width:auto; padding:6px 14px; font-size:12.5px; margin-left:6px;" onclick="showHints(this.parentElement.parentElement)">💡 힌트 보기</button>
+      <button class="btn-secondary" style="width:auto; padding:6px 14px; font-size:12.5px;" onclick="checkBlanks(document.getElementById('core-concept-blanks'))">정답 확인</button>
+      <button class="btn-secondary" style="width:auto; padding:6px 14px; font-size:12.5px; margin-left:6px;" onclick="showHints(document.getElementById('core-concept-blanks'))">💡 힌트 보기</button>
     </div>
   </div>
 
@@ -3222,8 +3238,13 @@ document.querySelectorAll('.tab').forEach(btn => {
   btn.addEventListener('click', (e) => handleTabClick(btn, e));
 });
 
-/* 배포용 */
-const TAB_PREREQ = {};
+/* ===== Tab Lock System ===== */
+const TAB_PREREQ = {
+  t2: {
+    check: () => StudentData.exp1.done5g && StudentData.exp1.done10g,
+    msg: '먼저 <strong>탐구 1 (팔미트산 녹는점)</strong>을 완료해야 해요!<br><br>탐구 1에서 <strong>5g</strong>과 <strong>10g</strong> 두 가지 질량으로 모두 실험해서 평탄 구간의 온도가 정말 같은지 확인해야 합니다.'
+  }
+};
 function isTabLocked(tabId) {
   const p = TAB_PREREQ[tabId];
   if (!p) return false;
@@ -3800,12 +3821,11 @@ const TAB_INTROS = {
     title: '🧪 에탄올의 끓는점 측정 — 실험 안내',
     objective: '<strong>액체 에탄올</strong>을 가열하면서, 끓기 시작하는 온도(끓는점)와 끓는 동안 온도 변화를 관찰합니다.',
     points: [
+      '먼저 화면 맨 위 <strong>P단계에서 끓는점을 예측</strong>하고 이유를 적어주세요!',
       '「점찍기」 버튼으로 직접 데이터를 기록할 수도 있고, 자동 기록도 선택할 수 있어요',
       '에탄올이 완전히 다 기화한 뒤에는 어떻게 될지 함께 관찰하세요',
       '10mL와 20mL — 양을 다르게 했을 때 결과를 비교해 보세요'
-    ],
-    advanceOrganizer: '<strong>에탄올</strong>은 술의 주성분이자 손소독제에도 들어 있는 액체예요. 손등에 발라 보면 물보다 훨씬 빨리 마르죠(증발). 이렇게 <strong>쉽게 날아가는 성질</strong>을 떠올리면 — 에탄올의 끓는점은 물(100℃)과 비교해서 어느 쪽일지 예측해 볼까요?',
-    question: '실험 전 예측 — 에탄올의 끓는점은 물(100℃)보다 높을까요, 낮을까요? 왜 그렇게 생각하나요?'
+    ]
   },
   t4: {
     label: 'Why? — Inquiry',
@@ -4064,8 +4084,14 @@ const Exp1 = {
     this.alertedDone = false;
     document.getElementById('flame-1').style.opacity = '0';
     document.getElementById('heat-btn-1').classList.remove('heating');
-    document.getElementById('heat-btn-1').querySelector('span').textContent = '물중탕 가열 시작';
-    document.getElementById('heat-btn-1').disabled = false;
+    // 그래프 예측을 했는지 따라 가열 버튼 상태 결정
+    if (typeof pred1Graph !== 'undefined' && pred1Graph) {
+      document.getElementById('heat-btn-1').querySelector('span').textContent = '물중탕 가열 시작';
+      document.getElementById('heat-btn-1').disabled = false;
+    } else {
+      document.getElementById('heat-btn-1').querySelector('span').textContent = '🔒 먼저 P단계에서 그래프 예측';
+      document.getElementById('heat-btn-1').disabled = true;
+    }
     document.getElementById('status-1').classList.remove('heating');
     document.getElementById('status-text-1').textContent = '대기 중 — 질량 선택 후 가열을 시작하세요';
     document.getElementById('insight-1').classList.remove('show');
@@ -4286,9 +4312,15 @@ document.querySelectorAll('.mass-btn[data-exp="1"]').forEach(b => {
     b.classList.add('selected');
     Exp1.mass = parseInt(b.dataset.mass);
     Exp1.reset();
+    // 그래프 예측을 했을 때만 활성화
     const heatBtn = document.getElementById('heat-btn-1');
-    heatBtn.disabled = false;
-    heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
+    if (pred1Graph) {
+      heatBtn.disabled = false;
+      heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
+    } else {
+      heatBtn.disabled = true;
+      heatBtn.querySelector('span').textContent = '🔒 먼저 P단계에서 그래프 예측';
+    }
   });
 });
 document.getElementById('heat-btn-1').addEventListener('click', () => {
@@ -4301,8 +4333,13 @@ document.getElementById('heat-btn-1').addEventListener('click', () => {
 document.getElementById('reset-btn-1').addEventListener('click', () => {
   Exp1.reset();
   const heatBtn = document.getElementById('heat-btn-1');
-  heatBtn.disabled = false;
-  heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
+  if (pred1Graph) {
+    heatBtn.disabled = false;
+    heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
+  } else {
+    heatBtn.disabled = true;
+    heatBtn.querySelector('span').textContent = '🔒 먼저 P단계에서 그래프 예측';
+  }
 });
 document.getElementById('speed-1').addEventListener('input', (e) => {
   Exp1.speed = parseFloat(e.target.value);
@@ -4474,7 +4511,15 @@ function showIntervalSetup(onSelected) {
 
 /* ===== Tab 1: graph prediction ===== */
 let pred1Graph = null;
-// 배포용
+// 초기 - 그래프 선택 전엔 가열 버튼 잠금
+(function lockHeatBtn1Initially() {
+  const heatBtn = document.getElementById('heat-btn-1');
+  if (heatBtn) {
+    heatBtn.disabled = true;
+    const spanEl = heatBtn.querySelector('span');
+    if (spanEl) spanEl.textContent = '🔒 먼저 P단계에서 그래프 예측';
+  }
+})();
 document.querySelectorAll('.graph-choice[data-pred-graph]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.graph-choice[data-pred-graph]').forEach(b => b.classList.remove('selected'));
@@ -5408,19 +5453,78 @@ Exp2.render();
 function normalize(s) {
   return (s || '').replace(/\s+/g, '').toLowerCase();
 }
+// 유사답안 인정: 사용자가 정답을 포함하거나, 정답이 사용자 답을 포함하면 정답 처리
+function isAnswerMatch(userAns, answers) {
+  if (!userAns) return false;
+  for (const a of answers) {
+    if (!a) continue;
+    if (userAns === a) return true;
+    // 유사 인정: 한쪽이 다른 쪽을 포함 (예: "물질의특성" ⊃ "특성", "녹는점이다" ⊃ "녹는점")
+    if (userAns.includes(a) || a.includes(userAns)) return true;
+  }
+  return false;
+}
 function checkBlanks(container) {
   const inputs = container.querySelectorAll('.fill-blank');
+  let total = 0, correctCount = 0;
   inputs.forEach(inp => {
     const userAns = normalize(inp.value);
     const answers = inp.dataset.answer.split('|').map(a => normalize(a));
     inp.classList.remove('correct', 'wrong');
     if (!userAns) return;
-    if (answers.includes(userAns)) {
+    total++;
+    if (isAnswerMatch(userAns, answers)) {
       inp.classList.add('correct');
+      correctCount++;
     } else {
       inp.classList.add('wrong');
     }
   });
+  // 피드백 메시지 + 소리
+  if (total > 0) {
+    if (correctCount === total) {
+      playCorrectSound();
+      showAnswerFeedback(container, true, `🎉 정답입니다! (${correctCount}/${total})`);
+    } else if (correctCount > 0) {
+      showAnswerFeedback(container, false, `${correctCount}/${total} 맞았어요. 빨간 칸을 다시 확인해 보세요!`);
+    } else {
+      showAnswerFeedback(container, false, `아직 정답이 아니에요. 💡 힌트를 참고해 보세요!`);
+    }
+  }
+}
+// 정답 피드백 배지 (입력란 영역 아래에 잠깐 표시)
+function showAnswerFeedback(container, ok, msg) {
+  let fb = container.querySelector('.answer-feedback');
+  if (!fb) {
+    fb = document.createElement('div');
+    fb.className = 'answer-feedback';
+    container.appendChild(fb);
+  }
+  fb.style.cssText = 'margin-top:10px; padding:8px 14px; border-radius:0; font-size:13px; font-weight:700; font-family:"Galmuri11",sans-serif; border:3px solid ' +
+    (ok ? '#2C4A1C' : '#9A5A2C') + '; background:' + (ok ? '#6BA644' : '#F2C94C') + '; color:' + (ok ? '#fff' : '#5C3A10') +
+    '; box-shadow: inset -2px -2px 0 rgba(0,0,0,0.2), inset 2px 2px 0 rgba(255,255,255,0.3);';
+  fb.textContent = msg;
+  fb.style.display = 'block';
+}
+// 정답 효과음 (Web Audio API — 외부 파일 불필요)
+function playCorrectSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [523.25, 659.25, 783.99]; // 도-미-솔 (마인크래프트 레벨업 느낌)
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'square';
+      osc.frequency.value = freq;
+      osc.connect(gain); gain.connect(ctx.destination);
+      const t = ctx.currentTime + i * 0.09;
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.12, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+      osc.start(t); osc.stop(t + 0.15);
+    });
+    setTimeout(() => ctx.close(), 600);
+  } catch (e) {}
 }
 function showHints(container) {
   const inputs = container.querySelectorAll('.fill-blank');
@@ -6354,7 +6458,7 @@ const MYSTERIES = [
 ];
 
 const mysteryState = {};
-let currentUnlocked = 2;
+let currentUnlocked = 0;
 const solvedSet = new Set();
 
 function updateProgress() {
@@ -6642,6 +6746,9 @@ function collectStudentData() {
     const pred = document.getElementById('intro-answer-' + t);
     if (pred && pred.value.trim()) StudentData.predict[t] = pred.value.trim();
   });
+  // t2 예측은 탭 본문 고정 영역에서 수집
+  const pred2 = document.getElementById('pred-2-answer');
+  if (pred2 && pred2.value.trim()) StudentData.predict.t2 = pred2.value.trim();
   // Collect POE individual answers and combine
   if (typeof POE_DATA !== 'undefined') {
     Object.keys(POE_DATA).forEach(setId => {
