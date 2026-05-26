@@ -833,6 +833,8 @@ header.lab-head {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   animation: welcomeFadeIn 0.4s ease;
 }
 @keyframes welcomeFadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -840,11 +842,24 @@ header.lab-head {
 .welcome-card {
   background: var(--bg);
   border-radius: 18px;
-  padding: 38px 32px;
+  padding: 32px 30px;
   max-width: 520px;
   width: 100%;
+  margin: auto;
   box-shadow: 0 24px 60px rgba(0,0,0,0.35);
   animation: welcomeSlideUp 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+/* 화면이 낮을 때(가로 모드 등) 마스코트 이미지 축소 + 여백 줄이기 */
+@media (max-height: 720px) {
+  .welcome-card { padding: 22px 26px; }
+  #welcome-mascot { max-width: 220px !important; margin-bottom: 12px !important; }
+  .welcome-title { font-size: 18px !important; }
+  .welcome-sub { margin-bottom: 12px !important; }
+  .welcome-info { margin-bottom: 12px !important; }
+}
+@media (max-height: 560px) {
+  #welcome-mascot { max-width: 150px !important; }
+  .welcome-sub { display: none; }
 }
 @keyframes welcomeSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .welcome-pill {
