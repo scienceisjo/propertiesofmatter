@@ -833,6 +833,8 @@ header.lab-head {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   animation: welcomeFadeIn 0.4s ease;
 }
 @keyframes welcomeFadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -840,11 +842,24 @@ header.lab-head {
 .welcome-card {
   background: var(--bg);
   border-radius: 18px;
-  padding: 38px 32px;
+  padding: 32px 30px;
   max-width: 520px;
   width: 100%;
+  margin: auto;
   box-shadow: 0 24px 60px rgba(0,0,0,0.35);
   animation: welcomeSlideUp 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+/* 화면이 낮을 때(가로 모드 등) 마스코트 이미지 축소 + 여백 줄이기 */
+@media (max-height: 720px) {
+  .welcome-card { padding: 22px 26px; }
+  #welcome-mascot { max-width: 220px !important; margin-bottom: 12px !important; }
+  .welcome-title { font-size: 18px !important; }
+  .welcome-sub { margin-bottom: 12px !important; }
+  .welcome-info { margin-bottom: 12px !important; }
+}
+@media (max-height: 560px) {
+  #welcome-mascot { max-width: 150px !important; }
+  .welcome-sub { display: none; }
 }
 @keyframes welcomeSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .welcome-pill {
@@ -1326,7 +1341,7 @@ input[type="text"]:focus, textarea:focus, .fill-blank:focus {
 <body>
 
 <!-- ============ 시작화면 (Welcome Screen) ============ -->
-<div id="welcome-screen">
+<div id="welcome-screen" class="hidden">
   <div class="welcome-card">
     <div class="welcome-pill">🧪 LAB ENTRY</div>
     <h1 class="welcome-title">물질의 끓는점·녹는점<br>가상 실험실에 오신 것을 환영해요</h1>
@@ -3238,13 +3253,8 @@ document.querySelectorAll('.tab').forEach(btn => {
   btn.addEventListener('click', (e) => handleTabClick(btn, e));
 });
 
-/* ===== Tab Lock System ===== */
-const TAB_PREREQ = {
-  t2: {
-    check: () => StudentData.exp1.done5g && StudentData.exp1.done10g,
-    msg: '먼저 <strong>탐구 1 (팔미트산 녹는점)</strong>을 완료해야 해요!<br><br>탐구 1에서 <strong>5g</strong>과 <strong>10g</strong> 두 가지 질량으로 모두 실험해서 평탄 구간의 온도가 정말 같은지 확인해야 합니다.'
-  }
-};
+/* 배포용 */
+const TAB_PREREQ = {};
 function isTabLocked(tabId) {
   const p = TAB_PREREQ[tabId];
   if (!p) return false;
@@ -3424,9 +3434,9 @@ const POE_DATA = {
       },
       {
         id: 'o2-2',
-        text: '<strong>평탄 구간 (78.3℃)</strong>: <em>기포</em>는 어디서 어떻게 생겼나요? <em>온도</em>는?',
-        hint: '시험관 안에서 작은 기포가 어디에서 생겨 어디로 가는지, 그리고 가열을 계속하는데도 온도계 눈금은 어떻게 됐는지 살펴보세요.',
-        model: '시험관 안에서 <strong>작은 기포(기체 에탄올)들이 활발히 올라왔고</strong>, 가열을 계속하는데도 <strong>온도는 78.3℃에서 변하지 않았습니다</strong>.'
+        text: '<strong>끓는 중 (78.3℃ 평탄 구간)</strong>: 에탄올이 끓는 동안, 계속 가열하는데도 <em>온도계 눈금</em>은 어떻게 변했나요?',
+        hint: '끓기 시작한 뒤에도 불을 계속 켜 두었어요. 그런데 온도계 숫자는 올라갔나요, 멈췄나요? 그래프의 평평한 부분을 보세요.',
+        model: '끓는 동안에는 계속 가열했는데도 <strong>온도가 78.3℃에서 더 이상 오르지 않고 일정하게 유지</strong>되었습니다. 그래서 그래프에 평평한 평탄 구간이 나타났습니다.'
       },
       {
         id: 'o2-3',
@@ -4084,14 +4094,8 @@ const Exp1 = {
     this.alertedDone = false;
     document.getElementById('flame-1').style.opacity = '0';
     document.getElementById('heat-btn-1').classList.remove('heating');
-    // 그래프 예측을 했는지 따라 가열 버튼 상태 결정
-    if (typeof pred1Graph !== 'undefined' && pred1Graph) {
-      document.getElementById('heat-btn-1').querySelector('span').textContent = '물중탕 가열 시작';
-      document.getElementById('heat-btn-1').disabled = false;
-    } else {
-      document.getElementById('heat-btn-1').querySelector('span').textContent = '🔒 먼저 P단계에서 그래프 예측';
-      document.getElementById('heat-btn-1').disabled = true;
-    }
+    document.getElementById('heat-btn-1').querySelector('span').textContent = '물중탕 가열 시작';
+    document.getElementById('heat-btn-1').disabled = false;
     document.getElementById('status-1').classList.remove('heating');
     document.getElementById('status-text-1').textContent = '대기 중 — 질량 선택 후 가열을 시작하세요';
     document.getElementById('insight-1').classList.remove('show');
@@ -4312,15 +4316,9 @@ document.querySelectorAll('.mass-btn[data-exp="1"]').forEach(b => {
     b.classList.add('selected');
     Exp1.mass = parseInt(b.dataset.mass);
     Exp1.reset();
-    // 그래프 예측을 했을 때만 활성화
     const heatBtn = document.getElementById('heat-btn-1');
-    if (pred1Graph) {
-      heatBtn.disabled = false;
-      heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
-    } else {
-      heatBtn.disabled = true;
-      heatBtn.querySelector('span').textContent = '🔒 먼저 P단계에서 그래프 예측';
-    }
+    heatBtn.disabled = false;
+    heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
   });
 });
 document.getElementById('heat-btn-1').addEventListener('click', () => {
@@ -4333,13 +4331,8 @@ document.getElementById('heat-btn-1').addEventListener('click', () => {
 document.getElementById('reset-btn-1').addEventListener('click', () => {
   Exp1.reset();
   const heatBtn = document.getElementById('heat-btn-1');
-  if (pred1Graph) {
-    heatBtn.disabled = false;
-    heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
-  } else {
-    heatBtn.disabled = true;
-    heatBtn.querySelector('span').textContent = '🔒 먼저 P단계에서 그래프 예측';
-  }
+  heatBtn.disabled = false;
+  heatBtn.querySelector('span').textContent = '물중탕 가열 시작';
 });
 document.getElementById('speed-1').addEventListener('input', (e) => {
   Exp1.speed = parseFloat(e.target.value);
@@ -4511,15 +4504,7 @@ function showIntervalSetup(onSelected) {
 
 /* ===== Tab 1: graph prediction ===== */
 let pred1Graph = null;
-// 초기 - 그래프 선택 전엔 가열 버튼 잠금
-(function lockHeatBtn1Initially() {
-  const heatBtn = document.getElementById('heat-btn-1');
-  if (heatBtn) {
-    heatBtn.disabled = true;
-    const spanEl = heatBtn.querySelector('span');
-    if (spanEl) spanEl.textContent = '🔒 먼저 P단계에서 그래프 예측';
-  }
-})();
+// 배포용
 document.querySelectorAll('.graph-choice[data-pred-graph]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.graph-choice[data-pred-graph]').forEach(b => b.classList.remove('selected'));
@@ -6458,7 +6443,7 @@ const MYSTERIES = [
 ];
 
 const mysteryState = {};
-let currentUnlocked = 0;
+let currentUnlocked = 2;
 const solvedSet = new Set();
 
 function updateProgress() {
