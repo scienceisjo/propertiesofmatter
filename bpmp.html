@@ -4752,6 +4752,29 @@ window.addEventListener('load', () => setTimeout(initWelcomeScreen, 100));
 /* ===== localStorage 자동 저장 시스템 ===== */
 const STORAGE_PREFIX = 'palmitic_lab_';
 let currentSaveKey = STORAGE_PREFIX + 'temp';
+
+// localStorage 사용 가능 여부 점검 (시크릿 모드/데이터 차단 감지)
+function isStorageAvailable() {
+  try {
+    const t = '__test__';
+    localStorage.setItem(t, '1');
+    localStorage.removeItem(t);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+// 페이지 로드 시 저장 불가능하면 경고 (계정 로그인과 무관, 시크릿/차단만 문제)
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    if (!isStorageAvailable()) {
+      const warn = document.createElement('div');
+      warn.style.cssText = 'position:fixed; bottom:0; left:0; right:0; z-index:300; background:#C0392B; color:#fff; padding:12px 16px; font-size:13px; text-align:center; font-family:inherit; line-height:1.5;';
+      warn.innerHTML = '⚠️ <strong>저장이 불가능한 환경이에요!</strong> 시크릿(InPrivate) 모드이거나 브라우저가 사이트 데이터를 차단하고 있어요. 일반 창에서 열거나, 끝나면 꼭 <strong>보고서를 PDF·이미지로 저장</strong>하세요. <button onclick="this.parentElement.remove()" style="margin-left:10px; padding:3px 10px; background:#fff; color:#C0392B; border:none; border-radius:4px; cursor:pointer; font-weight:700;">확인</button>';
+      document.body.appendChild(warn);
+    }
+  }, 1200);
+});
 let saveTimeout = null;
 let didAutoRestore = false;
 
@@ -4778,12 +4801,15 @@ function captureAllData() {
     inputs: {},
     textareas: {},
     poeAnswers: {},
+    fillBlanks: [],
     selections: {
       pred1Graph: typeof pred1Graph !== 'undefined' ? pred1Graph : null,
       mysterySolved: typeof solvedSet !== 'undefined' ? Array.from(solvedSet) : [],
       mysteryMeasurements: typeof measurements !== 'undefined' ? measurements : {}
     },
     labelSlots: {},
+    radios: {},
+    drawImage: null,
     timestamp: Date.now()
   };
   // 모든 textarea
@@ -4794,14 +4820,34 @@ function captureAllData() {
       data.textareas[ta.id] = ta.value;
     }
   });
-  // 모든 text input
+  // 모든 text input (id 있는 것)
   document.querySelectorAll('input[type="text"]').forEach(inp => {
     if (inp.id) data.inputs[inp.id] = inp.value;
+  });
+  // 빈칸(.fill-blank) — id 없이 순서(index)로 저장
+  document.querySelectorAll('.fill-blank').forEach((inp, idx) => {
+    data.fillBlanks.push({
+      i: idx,
+      v: inp.value,
+      correct: inp.classList.contains('correct'),
+      wrong: inp.classList.contains('wrong')
+    });
+  });
+  // 라디오/체크박스 선택 상태
+  document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach((inp, idx) => {
+    if (inp.checked) data.radios[(inp.name || '') + '__' + idx] = true;
   });
   // 가열 곡선 라벨 슬롯 상태
   document.querySelectorAll('.drop-slot').forEach(slot => {
     if (slot.dataset.placed) data.labelSlots[slot.dataset.slot] = slot.dataset.placed;
   });
+  // 그래프 캔버스 그림 (있으면 PNG로 저장)
+  try {
+    const dc = document.getElementById('draw-canvas');
+    if (dc && StudentData.draw && (StudentData.draw.hasDrawing || StudentData.draw.score != null)) {
+      data.drawImage = dc.toDataURL('image/png');
+    }
+  } catch(e) {}
   return data;
 }
 
@@ -4857,6 +4903,45 @@ function restoreFromKey(key) {
     const inp = document.getElementById(id);
     if (inp) inp.value = value;
   });
+  // 빈칸(.fill-blank) 복원 — 순서(index) 기준
+  if (Array.isArray(data.fillBlanks)) {
+    const blanks = document.querySelectorAll('.fill-blank');
+    data.fillBlanks.forEach(fb => {
+      const inp = blanks[fb.i];
+      if (inp) {
+        inp.value = fb.v || '';
+        inp.classList.remove('correct', 'wrong');
+        if (fb.correct) inp.classList.add('correct');
+        else if (fb.wrong) inp.classList.add('wrong');
+      }
+    });
+  }
+  // 라벨 슬롯 복원
+  if (data.labelSlots) {
+    Object.entries(data.labelSlots).forEach(([slotName, placed]) => {
+      const slot = document.querySelector('.drop-slot[data-slot="' + slotName + '"]');
+      if (slot && placed) {
+        slot.dataset.placed = placed;
+        slot.textContent = placed;
+        slot.classList.add('filled');
+      }
+    });
+  }
+  // 그래프 캔버스 그림 복원
+  if (data.drawImage) {
+    setTimeout(() => {
+      try {
+        const dc = document.getElementById('draw-canvas');
+        if (dc) {
+          const ctx = dc.getContext('2d');
+          const img = new Image();
+          img.onload = () => ctx.drawImage(img, 0, 0);
+          img.src = data.drawImage;
+          if (StudentData.draw) StudentData.draw.hasDrawing = true;
+        }
+      } catch(e) {}
+    }, 300);
+  }
   // StudentData 복원 (deep merge)
   if (data.studentData) {
     Object.keys(data.studentData).forEach(k => {
@@ -5505,6 +5590,7 @@ function checkBlanks(container) {
     } else {
       showAnswerFeedback(container, false, `아직 정답이 아니에요. 💡 힌트를 참고해 보세요!`);
     }
+    if (typeof autoSave === 'function') autoSave(); // 빈칸 결과 즉시 저장
   }
 }
 // 정답 피드백 배지 (입력란 영역 아래에 잠깐 표시)
@@ -6160,6 +6246,8 @@ function endDraw() {
   drawing = false;
   if (drawPoints.length > 5) {
     document.getElementById('draw-status').innerHTML = '<span class="indicator" style="background:#22C55E;"></span><span>그리기 완료 — 「채점하기」 버튼을 눌러보세요</span>';
+    if (StudentData.draw) StudentData.draw.hasDrawing = true;
+    if (typeof autoSave === 'function') autoSave(); // 그림 즉시 저장
   } else {
     document.getElementById('draw-status').innerHTML = '<span class="indicator"></span><span>선이 너무 짧습니다. 다시 그려주세요</span>';
   }
@@ -6254,6 +6342,7 @@ function gradeDrawing() {
   StudentData.draw.score = total;
   StudentData.draw.checks = checks.map(c => ({label: c.label, pass: c.pass}));
   if (typeof unlockAchievement === 'function' && total >= 70) unlockAchievement('draw', '📈', '도전 과제 달성!', '곡선 마스터 — 가열 곡선을 완성했다');
+  if (typeof autoSave === 'function') autoSave(); // 채점 결과 + 그림 즉시 저장
   document.getElementById('draw-score-val').textContent = total;
   const lbl = document.getElementById('draw-score-label');
   if (total === 100) lbl.textContent = '🎉 완벽합니다!';
