@@ -6331,56 +6331,56 @@ function gradeDrawing() {
       const dist = Math.abs(d.t - t);
       if (dist < minDist) { minDist = dist; closest = d; }
     }
-    if (closest && minDist < 5) bins.push({t: t, T: closest.T});
+    if (closest && minDist < 7) bins.push({t: t, T: closest.T});
   }
   // Criteria
   const checks = [];
   const startT = data[0].T;
   const endT = data[data.length-1].T;
 
-  // 1. Start temperature below 0 (ice region)
+  // 1. Start temperature below 0 (ice region) — 영하에서 시작했으면 통과 (하한 제한 없음)
   checks.push({
     label: '얼음(영하)에서 시작했나요?',
-    pass: startT < -5 && startT > -30,
+    pass: startT < 0,
     detail: `시작 온도: ${startT.toFixed(1)}℃`,
     score: 20
   });
 
-  // 2. Plateau near 0℃ exists (melting)
-  const plateauNear0 = bins.filter(b => Math.abs(b.T - 0) < 5);
-  const plateau0Long = plateauNear0.length >= 4;
+  // 2. Plateau near 0℃ exists (melting) — 허용 오차 ±8℃, 길이 기준 완화
+  const plateauNear0 = bins.filter(b => Math.abs(b.T - 0) < 8);
+  const plateau0Long = plateauNear0.length >= 2;
   checks.push({
-    label: '0℃에서 평탄 구간이 있나요? (얼음 → 물)',
+    label: '0℃ 부근에서 평탄 구간이 있나요? (얼음 → 물)',
     pass: plateau0Long,
-    detail: plateau0Long ? `약 ${plateauNear0.length*2}초간 유지됨` : '평탄 구간을 더 길게 그려주세요',
+    detail: plateau0Long ? `약 ${plateauNear0.length*2}초간 유지됨` : '0℃ 근처에서 잠깐 평평한 구간을 그려보세요',
     score: 20
   });
 
-  // 3. Rising from 0 to 100
+  // 3. Rising from 0 to 100 — 기준 완화
   const between0And100 = bins.filter(b => b.T > 5 && b.T < 95).length;
   checks.push({
     label: '0℃ → 100℃ 상승 구간이 있나요?',
-    pass: between0And100 >= 5,
-    detail: between0And100 >= 5 ? '액체 구간 OK' : '상승 부분이 부족합니다',
+    pass: between0And100 >= 3,
+    detail: between0And100 >= 3 ? '액체 구간 OK' : '0℃와 100℃ 사이를 올라가는 부분을 그려보세요',
     score: 20
   });
 
-  // 4. Plateau near 100℃
-  const plateauNear100 = bins.filter(b => Math.abs(b.T - 100) < 5);
-  const plateau100Long = plateauNear100.length >= 4;
+  // 4. Plateau near 100℃ — 허용 오차 ±8℃, 길이 기준 완화
+  const plateauNear100 = bins.filter(b => Math.abs(b.T - 100) < 8);
+  const plateau100Long = plateauNear100.length >= 2;
   checks.push({
-    label: '100℃에서 평탄 구간이 있나요? (물 → 수증기)',
+    label: '100℃ 부근에서 평탄 구간이 있나요? (물 → 수증기)',
     pass: plateau100Long,
-    detail: plateau100Long ? `약 ${plateauNear100.length*2}초간 유지됨` : '평탄 구간을 더 길게 그려주세요',
+    detail: plateau100Long ? `약 ${plateauNear100.length*2}초간 유지됨` : '100℃ 근처에서 잠깐 평평한 구간을 그려보세요',
     score: 20
   });
 
-  // 5. Rises above 100 at the end
-  const above100 = bins.filter(b => b.T > 102).length;
+  // 5. Rises above 100 at the end — 기준 완화 (95℃ 이상 도달)
+  const above100 = bins.filter(b => b.T > 95).length;
   checks.push({
-    label: '100℃ 이상으로 상승 구간이 있나요?',
-    pass: above100 >= 2,
-    detail: above100 >= 2 ? `최종 온도: ${endT.toFixed(1)}℃` : '수증기 가열 구간을 추가해 보세요',
+    label: '100℃ 부근 이상으로 상승 구간이 있나요?',
+    pass: above100 >= 1,
+    detail: above100 >= 1 ? `최종 온도: ${endT.toFixed(1)}℃` : '마지막에 수증기가 더 뜨거워지는 구간을 추가해 보세요',
     score: 20
   });
 
