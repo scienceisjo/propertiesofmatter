@@ -117,7 +117,7 @@
   @keyframes bob{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(-2deg) translateY(-9px)}}
 
   /* 이야기 모달 */
-  .story-modal{max-width:540px;width:100%;padding:30px 28px;text-align:left}
+  .story-modal{max-width:540px;width:100%;padding:30px 28px;text-align:left;margin:auto}
   .story-modal .chap{font-family:'Gaegu',cursive;color:var(--accent-deep);font-weight:700;font-size:1rem;letter-spacing:.04em}
   .story-modal h2{font-size:1.55rem;margin:2px 0 12px;text-align:center}
   .story-modal .place{text-align:center;font-size:.85rem;color:var(--ink-faint);margin-bottom:14px}
@@ -265,8 +265,8 @@
   .suspect .nm{font-weight:700;margin-top:4px}
 
   /* 결과 모달 */
-  .modal-bg{position:fixed;inset:0;background:rgba(50,35,18,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
-  .modal{max-width:440px;width:100%;padding:28px 26px;text-align:center}
+  .modal-bg{position:fixed;inset:0;background:rgba(50,35,18,.55);display:flex;align-items:flex-start;justify-content:center;z-index:50;padding:20px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .modal{max-width:440px;width:100%;padding:28px 26px;text-align:center;margin:auto}
   .modal h2{font-size:1.8rem;margin-bottom:8px}
   .verdict-stamp{font-family:'Gaegu',cursive;font-weight:700;font-size:2.4rem;transform:rotate(-6deg);display:inline-block;margin:6px 0}
   .v-good{color:var(--good)} .v-bad{color:var(--bad)}
@@ -275,6 +275,28 @@
     background:var(--ink);color:#f4e9cf;padding:10px 20px;border-radius:10px;font-weight:700;z-index:60;transition:.3s;pointer-events:none}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   .footnote{text-align:center;font-size:.78rem;color:var(--ink-faint);margin-top:26px}
+
+  /* ===== 모바일(작은 화면) 대응 ===== */
+  @media(max-width:560px){
+    .wrap{padding:14px 12px 56px}
+    #screen-title{min-height:auto;padding:16px 0 8px}
+    .title-scene{height:46vw;max-height:240px;min-height:170px;margin-bottom:14px}
+    .big-title{font-size:clamp(2.3rem,12vw,3.4rem)}
+    .title-emblem{font-size:.72rem;letter-spacing:.3em}
+    .title-tagline{font-size:.9rem;padding:14px 16px;line-height:1.7;margin-bottom:16px}
+    .genre-badge{font-size:.86rem;padding:6px 14px}
+    .modal,.story-modal{padding:22px 18px}
+    .story-modal h2{font-size:1.32rem}
+    .story-modal p{font-size:.96rem;line-height:1.8}
+    .accuse-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+    .lab-illus{width:88px;height:88px}
+    .verdict-stamp{font-size:1.5rem}
+    .title-actions{flex-direction:column;width:100%;max-width:280px}
+    .title-actions .btn{width:100%}
+    #topbar{flex-wrap:wrap;gap:10px;padding:10px 12px}
+    .tab{padding:8px 12px 10px;font-size:.9rem}
+    .tabs{gap:4px;padding-left:4px}
+  }
 </style>
 </head>
 <body>
