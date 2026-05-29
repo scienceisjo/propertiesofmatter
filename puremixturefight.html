@@ -89,21 +89,24 @@
   .token.grab{transform:scale(1.13) rotate(-3deg); z-index:9000; box-shadow:inset 3px 3px 0 rgba(255,255,255,.55), inset -3px -3px 0 rgba(0,0,0,.28), 0 0 0 3px #FFE14D;}
   .msvg text{font-family:'DGM',monospace; fill:#fff; text-anchor:middle; dominant-baseline:central; paint-order:stroke; stroke:rgba(0,0,0,.45); stroke-width:2px;}
 
+  #aimLayer{position:absolute; inset:0; z-index:9500; pointer-events:none;}
+
   .controls{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:50; text-align:center;}
-  .modepick{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+  .modepick{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
   .opppick{display:flex; gap:8px; justify-content:center; align-items:center; flex-wrap:wrap; margin-bottom:14px;}
   .opplab{font-size:15px; color:#2c2010; background:rgba(237,228,207,.9); padding:7px 10px; border:3px solid var(--ink);}
   .opp{font-family:'DGM',monospace; font-size:15px; color:#fff; background:var(--stone); padding:8px 12px; cursor:pointer; border:3px solid var(--ink); box-shadow:inset 2px 2px 0 rgba(255,255,255,.3), inset -3px -3px 0 rgba(0,0,0,.32); text-shadow:1px 1px 0 rgba(0,0,0,.4); line-height:1.1;}
   .opp small{display:block; font-size:10px; opacity:.95;}
   .opp.sel{background:var(--p2); box-shadow:inset 2px 2px 0 rgba(255,255,255,.3), inset -3px -3px 0 rgba(0,0,0,.32), 0 0 0 3px #FFE14D;}
-  .btn{font-family:'DGM',monospace; font-size:24px; color:#fff; background:var(--stone); padding:15px 30px; cursor:pointer; border:3px solid var(--ink); box-shadow:inset 3px 3px 0 rgba(255,255,255,.35), inset -4px -4px 0 rgba(0,0,0,.35); text-shadow:2px 2px 0 rgba(0,0,0,.4); transition:transform .06s steps(2);}
+  .btn{font-family:'DGM',monospace; font-size:22px; color:#fff; background:var(--stone); padding:15px 26px; cursor:pointer; border:3px solid var(--ink); box-shadow:inset 3px 3px 0 rgba(255,255,255,.35), inset -4px -4px 0 rgba(0,0,0,.35); text-shadow:2px 2px 0 rgba(0,0,0,.4); transition:transform .06s steps(2);}
   .btn:active{transform:translateY(3px); box-shadow:inset 3px 3px 0 rgba(0,0,0,.3);}
   .btn small{display:block; font-size:12px; opacity:.95; margin-top:5px; text-shadow:1px 1px 0 rgba(0,0,0,.4);}
   .btn.go{background:#3C9A4E;}
+  .btn.alk{background:#D98324;}
   .btn.quiz{background:var(--quiz);}
   .hint{font-size:14px; color:#2c2010; background:rgba(237,228,207,.9); display:inline-block; padding:7px 12px; margin-top:14px; border:3px solid var(--ink);}
 
-  .flash{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:96px; color:#fff; z-index:1500; pointer-events:none; text-shadow:4px 4px 0 rgba(0,0,0,.5);}
+  .flash{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:84px; color:#fff; z-index:1500; pointer-events:none; text-shadow:4px 4px 0 rgba(0,0,0,.5); text-align:center;}
 
   #quizband{position:absolute; left:0; right:0; bottom:0; height:40%; background:var(--quiz-soft); border:5px solid var(--quiz-deep); display:none; flex-direction:column; align-items:center; padding:10px 14px; z-index:1200; box-shadow:inset 4px 4px 0 rgba(255,255,255,.5), inset -4px -4px 0 rgba(0,0,0,.2);}
   #quizband.show{display:flex;}
@@ -142,13 +145,14 @@
   .winner{font-size:30px; color:#FFE14D; text-shadow:3px 3px 0 rgba(0,0,0,.5); text-align:center;}
   .winner small{display:block; font-size:15px; color:#fff; margin-top:5px; text-shadow:2px 2px 0 rgba(0,0,0,.4);}
 
-  #howto .howcard{background:var(--paper); padding:22px 26px; max-width:600px; border:4px solid var(--ink); box-shadow:inset 3px 3px 0 rgba(255,255,255,.5), inset -4px -4px 0 rgba(0,0,0,.25);}
+  #howto .howcard{background:var(--paper); padding:22px 26px; max-width:640px; max-height:90%; overflow:auto; border:4px solid var(--ink); box-shadow:inset 3px 3px 0 rgba(255,255,255,.5), inset -4px -4px 0 rgba(0,0,0,.25);}
   #howto h2{margin:0 0 12px; font-size:26px; text-align:center;}
   #howto ul{font-size:15px; line-height:1.5; color:#3a2c18; margin:0 0 16px; padding-left:20px;}
   #howto li{margin:8px 0;}
   #howto li b{color:var(--p1-deep);}
   #howto li.hl, #howto li.hl b{color:var(--p2-deep);}
   #howto li.q, #howto li.q b{color:var(--quiz-deep);}
+  #howto li.alk, #howto li.alk b{color:#A35A12;}
 </style>
 </head>
 <body>
@@ -198,6 +202,7 @@
     </div>
     <div class="modepick">
       <button class="btn go" id="startFree">자유 대결<small>10초 난장판</small></button>
+      <button class="btn alk" id="startAlk">알까기 대결<small>입자를 튕겨라!</small></button>
       <button class="btn quiz" id="startQuiz">퀴즈 대결<small>맞히면 5초 조작권</small></button>
     </div>
     <div class="hint">처음이면 오른쪽 위 ? 버튼에서 게임 방법 보기</div>
@@ -224,7 +229,8 @@
         <li>내 바구니 위 목표! <b>순물질</b>은 한 종류만 남기기, <b>혼합물</b>은 다른 종류 섞기.</li>
         <li class="hl">상대 바구니도 만질 수 있어요! 몰래 넣거나 빼서 훼방.</li>
         <li><b>자유 대결</b>: 10초 난장판. 정답은 끝나고 한 번에 공개!</li>
-        <li class="q"><b>퀴즈 대결</b>: 물질의 특성 퀴즈를 먼저 맞힌 팀만 <b>5초</b> 조작권! 5문제 끝나면 공개.</li>
+        <li class="alk"><b>알까기 대결</b>: 입자를 손가락으로 끌었다 놓으면 그 방향으로 <b>휙</b> 날아가요! 입자끼리 부딪히면 알까기처럼 튕깁니다. 15초 동안 내 바구니를 채우거나 상대 걸 망쳐요.</li>
+        <li class="q"><b>퀴즈 대결</b>: 물질의 특성 퀴즈! 먼저 <b>읽는 시간</b>이 끝나면 먼저 맞힌 팀만 <b>5초</b> 조작권. 5문제 끝나면 공개.</li>
         <li>바구니가 목표대로면 +1점. 둘 다 성공이면 둘 다 득점.</li>
         <li class="hl">혼자 한다면 상대를 <b>봇(하·중·상)</b>으로 골라 보세요. 빨강팀을 로봇이 맡아요.</li>
       </ul>
@@ -311,37 +317,49 @@ const SPRITE={}; DEC.forEach(o=>SPRITE[o.n]=o.s); for(const k in MIXSPR)SPRITE[k
 const PURE=[{n:'산소',f:'O₂'},{n:'물',f:'H₂O'},{n:'소금',f:'NaCl'},{n:'설탕',f:'C12H22O11'},{n:'금',f:'Au'},{n:'철',f:'Fe'},{n:'다이아',f:'탄소 C'}];
 const MIX=[{n:'공기',f:'질소+산소+…'},{n:'소금물',f:'물+소금'},{n:'바닷물',f:'물+여러 물질'},{n:'우유',f:'물+지방+…'},{n:'콜라',f:'물+설탕+탄산'},{n:'흙탕물',f:'물+흙'},{n:'주스',f:'물+과즙+…'}];
 
-/* ===== 퀴즈 (물질의 특성) ===== */
+/* ===== 퀴즈 (물질의 특성: 밀도·용해도·녹는점·끓는점 / 교과서) ===== */
 const QUIZ=[
+  // ── 물질의 특성 개념 ──
   {q:'다음 중 물질의 특성이 아닌 것은?', c:['밀도','녹는점','질량','끓는점'], a:2},
-  {q:'순물질은 녹는점이 일정한데 혼합물은?', c:['일정하지 않다','똑같이 일정하다'], a:0},
-  {q:'같은 물질은 양이 많아져도 녹는점이?', c:['높아진다','일정하다'], a:1},
-  {q:'물질의 양이 늘어나면 밀도는?', c:['변하지 않는다','커진다'], a:0},
-  {q:'밀도를 구하는 식은?', c:['부피 ÷ 질량','질량 ÷ 부피'], a:1},
-  {q:'물보다 밀도가 작은 물질은 물에?', c:['가라앉는다','뜬다'], a:1},
-  {q:'물과 기름은 무엇의 차이로 분리될까?', c:['밀도','색깔'], a:0},
-  {q:'일정 온도에서 물에 녹을 수 있는 최대량은?', c:['밀도','용해도'], a:1},
-  {q:'대부분 고체는 온도가 높아지면 용해도가?', c:['커진다','작아진다'], a:0},
+  {q:'양이 달라져도 변하지 않아 물질을 구별할 수 있는 성질을 무엇이라 할까?', c:['물질의 특성','물질의 양'], a:0},
+  {q:'질량과 부피는 물질의 특성일까?', c:['특성이다','특성이 아니다'], a:1},
+  // ── 밀도 ──
+  {q:'밀도를 구하는 식은?', c:['질량 ÷ 부피','부피 ÷ 질량'], a:0},
+  {q:'밀도의 단위로 알맞은 것은?', c:['g/cm³','cm³/g'], a:0},
+  {q:'같은 물질이면 양이 많아져도 밀도는?', c:['일정하다','커진다'], a:0},
+  {q:'물(1g/cm³)보다 밀도가 작은 물질은 물에?', c:['뜬다','가라앉는다'], a:0},
+  {q:'물보다 밀도가 큰 물질은 물에?', c:['뜬다','가라앉는다'], a:1},
+  {q:'섞이지 않는 물과 기름은 무엇의 차이로 층이 나뉠까?', c:['색깔','밀도'], a:1},
+  {q:'[계산] 질량 40g, 부피 10cm³ 물질의 밀도는?', c:['4 g/cm³','0.25 g/cm³'], a:0},
+  {q:'[계산] 질량 27g, 부피 9cm³ 물질의 밀도는?', c:['3 g/cm³','9 g/cm³'], a:0},
+  {q:'[계산] 밀도 2g/cm³, 부피 5cm³ 물질의 질량은?', c:['10 g','2.5 g'], a:0},
+  {q:'[계산] 밀도 0.8g/cm³ 인 나무토막은 물에?', c:['뜬다','가라앉는다'], a:0},
+  // ── 녹는점 · 끓는점 ──
+  {q:'순물질을 가열할 때 끓는점은?', c:['일정하다','계속 변한다'], a:0},
+  {q:'혼합물을 가열할 때 끓는점은?', c:['일정하다','일정하지 않다'], a:1},
+  {q:'같은 물질이면 양이 많아질 때 끓는점은?', c:['높아진다','일정하다(끓는 시간만 길어짐)'], a:1},
+  {q:'1기압에서 순수한 물의 끓는점은?', c:['100℃','50℃'], a:0},
+  {q:'얼음이 녹는 온도(물의 녹는점)는?', c:['0℃','-10℃'], a:0},
+  {q:'끓는점 차이를 이용해 액체 혼합물을 분리하는 방법은?', c:['증류','거름'], a:0},
+  {q:'고체와 액체 혼합물을 거름종이로 걸러내는 분리법은?', c:['거름','증류'], a:0},
+  // ── 용해도 ──
+  {q:'일정 온도에서 용매 100g에 녹을 수 있는 용질의 최대 g수를 무엇이라 할까?', c:['용해도','밀도'], a:0},
+  {q:'대부분의 고체는 온도가 높아지면 용해도가?', c:['커진다','작아진다'], a:0},
   {q:'기체는 온도가 높아지면 용해도가?', c:['커진다','작아진다'], a:1},
   {q:'기체는 압력이 높아지면 용해도가?', c:['커진다','작아진다'], a:0},
-  {q:'1기압에서 물의 끓는점은?', c:['0℃','100℃'], a:1},
-  {q:'물의 어는점(녹는점)은?', c:['0℃','100℃'], a:0},
-  {q:'소금물은 순수한 물보다 끓는점이?', c:['낮다','높다'], a:1},
-  {q:'"바닷물은 0℃보다 낮아야 언다"', c:['맞다 (O)','틀리다 (X)'], a:0},
-  {q:'끓는점 차이로 혼합물을 분리하는 방법은?', c:['거름','증류'], a:1},
-  {q:'[계산] 질량 40g, 부피 10cm³인 물질의 밀도는?', c:['2 g/cm³','4 g/cm³'], a:1},
-  {q:'[계산] 질량 30g, 부피 6cm³인 물질의 밀도는?', c:['5 g/cm³','6 g/cm³'], a:0},
-  {q:'[계산] 밀도 3g/cm³, 부피 5cm³인 물질의 질량은?', c:['15 g','8 g'], a:0},
-  {q:'[계산] 밀도 0.9g/cm³인 물질은 물(1g/cm³)에?', c:['뜬다','가라앉는다'], a:0},
-  {q:'[계산] 80℃ 물 100g에 고체 50g이 모두 녹았다. 용해도는?', c:['50','100'], a:0}
+  {q:'사이다 뚜껑을 열 때 기포가 올라오는 까닭은? (압력이 낮아져서)', c:['기체 용해도가 작아져서','기체 용해도가 커져서'], a:0},
+  {q:'[계산] 어떤 온도에서 물 100g에 고체 38g이 모두 녹아 포화됐다. 이 온도의 용해도는?', c:['38','62'], a:0},
+  {q:'[계산] 용해도가 25(물 100g 기준)일 때, 물 200g에 최대로 녹는 용질의 양은?', c:['50 g','25 g'], a:0}
 ];
 
 /* ===== 상태 ===== */
 const stage=document.getElementById('stage'), b1=document.getElementById('b1'), b2=document.getElementById('b2');
 let tokens=[], phase='ready', mode='free';
 let goal1='pure', goal2='mix', score1=0, score2=0, zTop=10;
-let quizDeck=[], quizIdx=0, qCorrect1=0, qCorrect2=0;
+let quizDeck=[], quizIdx=0, qCorrect1=0, qCorrect2=0, qStreak1=0, qStreak2=0;
+let curCorrect=0;
 const TOTAL_QUIZ=5;
+const GRACE=2000; // 읽는 시간(ms)
 const drags=new Map();
 const canDrag=()=> phase==='free' || (phase==='turn' && !(vsBot && turnTeam===2));
 
@@ -349,12 +367,19 @@ const canDrag=()=> phase==='free' || (phase==='turn' && !(vsBot && turnTeam===2)
 let vsBot=false, botLevel='mid', turnTeam=0, botMoveTimer=null, botQuizTO=null;
 const BOTNAME={low:'밤티 로봇', mid:'좀 치는 로봇', high:'휴먼 치는 로봇'};
 const BOT={
-  low:{interval:1300, mistake:0.45, sab:0,   qd:[3500,6500], qok:0.45},
-  mid:{interval:850,  mistake:0.10, sab:0.35, qd:[1700,3200], qok:0.80},
-  high:{interval:470, mistake:0.00, sab:1.0,  qd:[600,1500],  qok:0.97}
+  /* qd: 읽는 시간(GRACE)이 끝난 "뒤"의 응답 지연(ms). 사람이 읽을 틈을 보장. */
+  low:{interval:1300, mistake:0.45, sab:0,   qd:[3000,5500], qok:0.45},
+  mid:{interval:850,  mistake:0.10, sab:0.35, qd:[1500,3000], qok:0.80},
+  high:{interval:470, mistake:0.00, sab:1.0,  qd:[900,1900],  qok:0.97}
 };
 function p2Name(){ return vsBot?BOTNAME[botLevel]:'빨강팀'; }
 function applyP2Name(){ document.getElementById('p2name').textContent=p2Name(); }
+
+/* ===== 알까기(물리) 설정 ===== */
+let physRaf=null, lastPhys=0, aimLayer=null;
+const aimMap=new Map(); // pointerId -> {t,line,dot,curlen,dx,dy}
+const FLICK_K=6.4, MAXV=2000, DAMP=2.1, REST=0.62, STOPV=10;
+const R_MID={x0:.30,y0:.14,x1:.70,y1:.86};
 
 /* ===== 도감/장식 렌더 ===== */
 (function setupDock(){
@@ -371,6 +396,13 @@ function applyP2Name(){ document.getElementById('p2name').textContent=p2Name(); 
   const pos=[['47%','5%'],['46%','22%'],['48%','40%'],['46%','58%'],['47%','75%']];
   pos.forEach((p,i)=>{ const o=DEC[i%DEC.length]; const el=document.createElement('div'); el.className='d'; el.style.left=p[0]; el.style.top=p[1]; el.innerHTML=o.s; dec.appendChild(el); });
 })();
+(function setupAim(){
+  aimLayer=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  aimLayer.setAttribute('id','aimLayer');
+  stage.appendChild(aimLayer);
+  resizeAimLayer();
+})();
+function resizeAimLayer(){ if(!aimLayer)return; aimLayer.setAttribute('width',stage.clientWidth); aimLayer.setAttribute('height',stage.clientHeight); }
 
 /* ===== 토큰 ===== */
 function makeToken(type,fx,fy){
@@ -379,7 +411,8 @@ function makeToken(type,fx,fy){
   el._fx=fx; el._fy=fy; stage.appendChild(el);
   el.addEventListener('pointerdown',onDown); el.addEventListener('pointermove',onMove);
   el.addEventListener('pointerup',onUp); el.addEventListener('pointercancel',onUp);
-  tokens.push({el,type}); placeToken(el); return el;
+  const obj={el,type,x:0,y:0,vx:0,vy:0,w:84,h:90,r:39};
+  tokens.push(obj); placeToken(el); return el;
 }
 function placeToken(el){
   const sw=stage.clientWidth, sh=stage.clientHeight, tw=el.offsetWidth||84, th=el.offsetHeight||90;
@@ -391,12 +424,13 @@ const R_B1={x0:.03,y0:.18,x1:.33,y1:.78}, R_B2={x0:.63,y0:.18,x1:.93,y1:.78}, R_
 
 /* ===== 라운드 ===== */
 function newRound(){
-  stopBotMove(); clearTimeout(botQuizTO); turnTeam=0; applyP2Name();
+  stopBotMove(); clearTimeout(botQuizTO); clearGrace(); stopPhysics(); clearAim();
+  turnTeam=0; applyP2Name();
   tokens.forEach(t=>t.el.remove()); tokens=[]; drags.clear(); zTop=10;
   goal1=Math.random()<.5?'pure':'mix'; goal2=goal1;
   setGoalUI(); prefill(goal1,R_B1); prefill(goal2,R_B2);
   TYPES.forEach(t=>{ for(let k=0;k<2;k++){ const s=spot(R_POOL); makeToken(t,s.fx,s.fy);} });
-  updateCounts(); qCorrect1=0; qCorrect2=0; quizIdx=0; phase='ready';
+  updateCounts(); qCorrect1=0; qCorrect2=0; qStreak1=0; qStreak2=0; quizIdx=0; phase='ready';
   document.getElementById('controls').style.display='block';
   document.getElementById('overlay').classList.remove('show');
   document.getElementById('quizband').classList.remove('show');
@@ -415,14 +449,24 @@ function setGoalUI(){
   document.getElementById('g2').innerHTML=b.l; document.getElementById('g2s').textContent=b.s;
 }
 
-/* ===== 드래그 ===== */
-function onDown(e){ if(!canDrag())return; e.preventDefault(); const el=e.currentTarget, tr=el.getBoundingClientRect();
-  drags.set(e.pointerId,{el,dx:e.clientX-tr.left,dy:e.clientY-tr.top}); el.setPointerCapture(e.pointerId); el.classList.add('grab'); el.style.zIndex=++zTop; }
-function onMove(e){ const d=drags.get(e.pointerId); if(!d)return; const sr=stage.getBoundingClientRect(), tw=d.el.offsetWidth, th=d.el.offsetHeight;
+/* ===== 드래그 / 알까기 입력 ===== */
+function onDown(e){
+  if(mode==='alkkagi' && phase==='alkkagi'){ startAim(e); return; }
+  if(!canDrag())return; e.preventDefault();
+  const el=e.currentTarget, tr=el.getBoundingClientRect();
+  drags.set(e.pointerId,{el,dx:e.clientX-tr.left,dy:e.clientY-tr.top}); el.setPointerCapture(e.pointerId); el.classList.add('grab'); el.style.zIndex=++zTop;
+}
+function onMove(e){
+  if(aimMap.has(e.pointerId)){ const sr=stage.getBoundingClientRect(); updateAim(e.pointerId, e.clientX-sr.left, e.clientY-sr.top); return; }
+  const d=drags.get(e.pointerId); if(!d)return; const sr=stage.getBoundingClientRect(), tw=d.el.offsetWidth, th=d.el.offsetHeight;
   let left=Math.max(0,Math.min(e.clientX-sr.left-d.dx, sr.width-tw)); let top=Math.max(0,Math.min(e.clientY-sr.top-d.dy, sr.height-th));
-  d.el.style.left=left+'px'; d.el.style.top=top+'px'; d.el._fx=left/Math.max(1,sr.width-tw); d.el._fy=top/Math.max(1,sr.height-th); updateCounts(); }
-function onUp(e){ const d=drags.get(e.pointerId); if(!d)return; d.el.classList.remove('grab'); try{d.el.releasePointerCapture(e.pointerId);}catch(_){}
-  drags.delete(e.pointerId); updateCounts(); }
+  d.el.style.left=left+'px'; d.el.style.top=top+'px'; d.el._fx=left/Math.max(1,sr.width-tw); d.el._fy=top/Math.max(1,sr.height-th); updateCounts();
+}
+function onUp(e){
+  if(aimMap.has(e.pointerId)){ launchAim(e); return; }
+  const d=drags.get(e.pointerId); if(!d)return; d.el.classList.remove('grab'); try{d.el.releasePointerCapture(e.pointerId);}catch(_){}
+  drags.delete(e.pointerId); updateCounts();
+}
 
 /* ===== 판정 ===== */
 function inBasket(el){ const br=el.getBoundingClientRect();
@@ -439,17 +483,53 @@ function runClock(ms,onEnd){ if(clockRaf)cancelAnimationFrame(clockRaf);
 
 /* ===== 모드 ===== */
 function startFree(){ mode='free'; ensureAudio(); document.getElementById('controls').style.display='none'; flashText('시작!'); setTimeout(()=>{ phase='free'; if(vsBot)startBotMove(); runClock(10000,reveal); },650); }
+function startAlkkagi(){ mode='alkkagi'; ensureAudio(); document.getElementById('controls').style.display='none'; flashText('알까기!'); setTimeout(()=>{ arrangeForAlkkagi(); phase='alkkagi'; initPhysics(); startPhysics(); if(vsBot)startBotMove(); runClock(15000,reveal); },650); }
 function startQuiz(){ mode='quiz'; ensureAudio(); document.getElementById('controls').style.display='none'; quizDeck=[...QUIZ].sort(()=>Math.random()-0.5).slice(0,TOTAL_QUIZ); quizIdx=0; flashText('퀴즈!'); setTimeout(nextQuiz,650); }
-function nextQuiz(){ stopBotMove(); clearTimeout(botQuizTO); document.getElementById('turnban').classList.remove('show'); if(quizIdx>=TOTAL_QUIZ){ reveal(); return; }
-  phase='quiz'; const Q=quizDeck[quizIdx]; document.getElementById('qtext').textContent=Q.q; document.getElementById('qprog').textContent='퀴즈 '+(quizIdx+1)+' / '+TOTAL_QUIZ;
-  ['qb1','qb2'].forEach((id,ti)=>{ const box=document.getElementById(id); box.innerHTML=''; box.parentElement.classList.remove('locked');
-    Q.c.forEach((txt,ci)=>{ const btn=document.createElement('button'); btn.className='qopt'; btn.textContent=txt; btn.addEventListener('click',()=>answer(ti+1,ci,Q.a,btn,box.parentElement)); box.appendChild(btn); }); });
+
+let graceTO=null, graceIv=null;
+function clearGrace(){ if(graceTO){clearTimeout(graceTO);graceTO=null;} if(graceIv){clearInterval(graceIv);graceIv=null;} }
+function nextQuiz(){
+  stopBotMove(); clearTimeout(botQuizTO); clearGrace();
+  document.getElementById('turnban').classList.remove('show');
+  if(quizIdx>=TOTAL_QUIZ){ reveal(); return; }
+  phase='quiz';
+  const Q=quizDeck[quizIdx];
+  // 보기 순서 섞기 (정답 위치 고정 방지)
+  const order=Q.c.map((_,i)=>i).sort(()=>Math.random()-0.5);
+  const choices=order.map(i=>Q.c[i]);
+  curCorrect=order.indexOf(Q.a);
+  document.getElementById('qtext').textContent=Q.q;
+  ['qb1','qb2'].forEach((id,ti)=>{ const box=document.getElementById(id); box.innerHTML='';
+    const side=box.parentElement; side.classList.add('locked'); // 읽는 시간 동안 잠금
+    choices.forEach((txt,ci)=>{ const btn=document.createElement('button'); btn.className='qopt'; btn.textContent=txt; btn.addEventListener('click',()=>answer(ti+1,ci,btn,side)); box.appendChild(btn); }); });
   document.querySelector('.qside.p2 .qlab').textContent=p2Name();
-  document.getElementById('timer').textContent='?'; document.getElementById('tbar').style.width='100%'; document.getElementById('quizband').classList.add('show');
-  if(vsBot) scheduleBotQuiz(); }
-function answer(team,choice,correct,btn,sideEl){ if(phase!=='quiz')return;
-  if(choice===correct){ clearTimeout(botQuizTO); if(team===1)qCorrect1++; else qCorrect2++; playCorrect(); document.getElementById('quizband').classList.remove('show'); startTurn(team); }
-  else { playWrong(); btn.classList.add('wrong'); sideEl.classList.add('locked'); setTimeout(()=>{ btn.classList.remove('wrong'); sideEl.classList.remove('locked'); },1100); } }
+  document.getElementById('timer').textContent='?'; document.getElementById('tbar').style.width='100%';
+  document.getElementById('quizband').classList.add('show');
+  // 읽는 시간
+  const prog=document.getElementById('qprog'); let g=Math.ceil(GRACE/1000);
+  const head='퀴즈 '+(quizIdx+1)+' / '+TOTAL_QUIZ;
+  prog.textContent=head+' — 읽는 시간 '+g+'…';
+  graceIv=setInterval(()=>{ g--; if(g>0) prog.textContent=head+' — 읽는 시간 '+g+'…'; },1000);
+  graceTO=setTimeout(()=>{
+    clearGrace();
+    document.querySelectorAll('.qside').forEach(s=>s.classList.remove('locked'));
+    prog.textContent=head+' — 먼저 누르는 팀이 조작권!';
+    if(vsBot) scheduleBotQuiz();
+  }, GRACE);
+}
+function answer(team,choice,btn,sideEl){
+  if(phase!=='quiz')return;
+  if(sideEl.classList.contains('locked'))return; // 읽는 시간/오답 잠금 중
+  if(choice===curCorrect){
+    clearTimeout(botQuizTO); clearGrace();
+    if(team===1){ qCorrect1++; qStreak1++; qStreak2=0; if(qStreak1>=2) flashText('파랑 콤보 x'+qStreak1+' ★'); }
+    else { qCorrect2++; qStreak2++; qStreak1=0; if(qStreak2>=2) flashText(p2Name()+' 콤보 x'+qStreak2+' ★'); }
+    playCorrect(); document.getElementById('quizband').classList.remove('show'); startTurn(team);
+  } else {
+    playWrong(); btn.classList.add('wrong'); sideEl.classList.add('locked');
+    setTimeout(()=>{ btn.classList.remove('wrong'); if(phase==='quiz') sideEl.classList.remove('locked'); },1100);
+  }
+}
 function startTurn(team){ phase='turn'; turnTeam=team; const ban=document.getElementById('turnban'); ban.className=''; ban.classList.add('show','t'+team);
   document.getElementById('turnteam').textContent=team===1?'파랑팀':p2Name();
   if(vsBot && team===2) startBotMove(); else stopBotMove();
@@ -458,7 +538,7 @@ function startTurn(team){ phase='turn'; turnTeam=team; const ban=document.getEle
 /* ===== 결과 ===== */
 function classify(goal,list){ const set=new Set(list.map(t=>t.type)); const success=goal==='pure'?(list.length>=1&&set.size===1):(set.size>=2); return {success,types:[...set],n:list.length}; }
 function chipHTML(types){ if(!types.length) return '<span style="color:#aaa;align-self:center">텅 비었어요</span>'; return types.map(t=>`<span class="mini">${MOL[t].svg}<span>${MOL[t].name}</span></span>`).join(''); }
-function reveal(){ phase='reveal'; if(clockRaf)cancelAnimationFrame(clockRaf); stopBotMove(); clearTimeout(botQuizTO);
+function reveal(){ phase='reveal'; if(clockRaf)cancelAnimationFrame(clockRaf); stopBotMove(); clearTimeout(botQuizTO); clearGrace(); stopPhysics(); clearAim();
   document.getElementById('quizband').classList.remove('show'); document.getElementById('turnban').classList.remove('show'); document.getElementById('timer').textContent='0';
   document.getElementById('rp2name').textContent=p2Name();
   const r1=classify(goal1,inBasket(b1)), r2=classify(goal2,inBasket(b2));
@@ -471,16 +551,137 @@ function reveal(){ phase='reveal'; if(clockRaf)cancelAnimationFrame(clockRaf); s
   let win; if(r1.success&&r2.success){win='둘 다 성공! 무승부 ★'; score1++; score2++; playFanfare();}
   else if(r1.success){win='파랑팀 승리! ★'; score1++; playFanfare();}
   else if(r2.success){win=p2Name()+' 승리! ★'; score2++; playFanfare();} else {win='둘 다 실패… 다시!';}
+  if(r1.success) burst(b1.offsetLeft+b1.offsetWidth/2, b1.offsetTop+b1.offsetHeight*0.4);
+  if(r2.success) burst(b2.offsetLeft+b2.offsetWidth/2, b2.offsetTop+b2.offsetHeight*0.4);
   document.getElementById('winner').innerHTML=win+(mode==='quiz'?`<small>퀴즈 정답 — 파랑 ${qCorrect1} · ${p2Name()} ${qCorrect2}</small>`:'');
   document.getElementById('s1').textContent=score1; document.getElementById('s2').textContent=score2; document.getElementById('overlay').classList.add('show'); }
 
 /* ===== 연출 ===== */
 function flashText(txt){ const f=document.getElementById('flash'); f.style.display='flex'; f.textContent=txt;
   f.animate([{opacity:0,transform:'scale(.6)'},{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(1.3)'}],{duration:700}); setTimeout(()=>f.style.display='none',650); }
+function burst(cx,cy){
+  const colors=['#FFE14D','#E24B4A','#378ADD','#1D9E75','#F2922A','#fff'];
+  for(let i=0;i<20;i++){
+    const s=document.createElement('div');
+    s.style.cssText='position:absolute;width:9px;height:9px;z-index:10001;pointer-events:none;border:1px solid rgba(0,0,0,.3);';
+    s.style.background=colors[i%colors.length]; s.style.left=cx+'px'; s.style.top=cy+'px';
+    stage.appendChild(s);
+    const ang=Math.random()*Math.PI*2, dist=50+Math.random()*150;
+    s.animate([{transform:'translate(-4px,-4px) scale(1) rotate(0deg)',opacity:1},
+               {transform:`translate(${Math.cos(ang)*dist}px,${Math.sin(ang)*dist-40}px) scale(.3) rotate(${Math.random()*360}deg)`,opacity:0}],
+              {duration:700+Math.random()*400,easing:'ease-out'});
+    setTimeout(()=>s.remove(),1150);
+  }
+}
+
+/* ===== 알까기 물리 ===== */
+function arrangeForAlkkagi(){
+  const n=tokens.length, cols=Math.max(1,Math.ceil(Math.sqrt(n*0.8))), rows=Math.ceil(n/cols);
+  tokens.forEach((t,i)=>{
+    const c=i%cols, r=Math.floor(i/cols);
+    const fx=R_MID.x0 + (cols<=1?0.5:(c/(cols-1)))*(R_MID.x1-R_MID.x0);
+    const fy=R_MID.y0 + (rows<=1?0.5:(r/(rows-1)))*(R_MID.y1-R_MID.y0);
+    t.el._fx=fx; t.el._fy=fy; placeToken(t.el);
+  });
+}
+function initPhysics(){
+  tokens.forEach(t=>{ t.w=t.el.offsetWidth||84; t.h=t.el.offsetHeight||90; t.r=Math.min(t.w,t.h)*0.45;
+    t.x=parseFloat(t.el.style.left)||0; t.y=parseFloat(t.el.style.top)||0; t.vx=0; t.vy=0; });
+  for(let k=0;k<10;k++) separate();
+  writeBack();
+}
+function isAiming(t){ for(const a of aimMap.values()) if(a.t===t) return true; return false; }
+function separate(){
+  const sw=stage.clientWidth, sh=stage.clientHeight;
+  for(let i=0;i<tokens.length;i++)for(let j=i+1;j<tokens.length;j++){
+    const a=tokens[i],b=tokens[j];
+    let acx=a.x+a.w/2,acy=a.y+a.h/2,bcx=b.x+b.w/2,bcy=b.y+b.h/2;
+    let dx=bcx-acx,dy=bcy-acy,dist=Math.hypot(dx,dy),min=a.r+b.r;
+    if(dist===0){dx=Math.random()-.5;dy=Math.random()-.5;dist=.01;}
+    if(dist<min){const nx=dx/dist,ny=dy/dist,ov=(min-dist)/2; a.x-=nx*ov;a.y-=ny*ov;b.x+=nx*ov;b.y+=ny*ov;}
+  }
+  tokens.forEach(t=>{ t.x=Math.max(0,Math.min(t.x,sw-t.w)); t.y=Math.max(0,Math.min(t.y,sh-t.h)); });
+}
+function collide(a,b){
+  let acx=a.x+a.w/2,acy=a.y+a.h/2,bcx=b.x+b.w/2,bcy=b.y+b.h/2;
+  let dx=bcx-acx,dy=bcy-acy,dist=Math.hypot(dx,dy),min=a.r+b.r;
+  if(dist===0){dx=Math.random()-.5;dy=Math.random()-.5;dist=.01;}
+  if(dist<min){
+    const nx=dx/dist,ny=dy/dist,ov=min-dist;
+    const aHeld=isAiming(a), bHeld=isAiming(b);
+    if(!aHeld&&!bHeld){ acx-=nx*ov/2; acy-=ny*ov/2; bcx+=nx*ov/2; bcy+=ny*ov/2; }
+    else if(aHeld&&!bHeld){ bcx+=nx*ov; bcy+=ny*ov; }
+    else if(!aHeld&&bHeld){ acx-=nx*ov; acy-=ny*ov; }
+    a.x=acx-a.w/2; a.y=acy-a.h/2; b.x=bcx-b.w/2; b.y=bcy-b.h/2;
+    const rvx=b.vx-a.vx, rvy=b.vy-a.vy, vn=rvx*nx+rvy*ny;
+    if(vn<0){ const imp=-(1+REST)*vn/2;
+      if(!aHeld){ a.vx-=imp*nx; a.vy-=imp*ny; }
+      if(!bHeld){ b.vx+=imp*nx; b.vy+=imp*ny; }
+      if(Math.abs(vn)>120) playClack();
+    }
+  }
+}
+function physStep(now){
+  if(phase!=='alkkagi'){ physRaf=null; return; }
+  let dt=(now-lastPhys)/1000; if(dt>0.034)dt=0.034; lastPhys=now;
+  const sw=stage.clientWidth, sh=stage.clientHeight, damp=Math.exp(-DAMP*dt);
+  tokens.forEach(t=>{
+    if(isAiming(t)) return;
+    t.x+=t.vx*dt; t.y+=t.vy*dt; t.vx*=damp; t.vy*=damp;
+    if(Math.hypot(t.vx,t.vy)<STOPV){ t.vx=0; t.vy=0; }
+    let cx=t.x+t.w/2, cy=t.y+t.h/2;
+    if(cx-t.r<0){ cx=t.r; t.vx=Math.abs(t.vx)*REST; }
+    if(cx+t.r>sw){ cx=sw-t.r; t.vx=-Math.abs(t.vx)*REST; }
+    if(cy-t.r<0){ cy=t.r; t.vy=Math.abs(t.vy)*REST; }
+    if(cy+t.r>sh){ cy=sh-t.r; t.vy=-Math.abs(t.vy)*REST; }
+    t.x=cx-t.w/2; t.y=cy-t.h/2;
+  });
+  for(let i=0;i<tokens.length;i++)for(let j=i+1;j<tokens.length;j++) collide(tokens[i],tokens[j]);
+  writeBack(); updateCounts();
+  physRaf=requestAnimationFrame(physStep);
+}
+function startPhysics(){ if(physRaf)cancelAnimationFrame(physRaf); lastPhys=performance.now(); physRaf=requestAnimationFrame(physStep); }
+function stopPhysics(){ if(physRaf){ cancelAnimationFrame(physRaf); physRaf=null; } }
+function writeBack(){ const sw=stage.clientWidth, sh=stage.clientHeight;
+  tokens.forEach(t=>{ t.el.style.left=t.x+'px'; t.el.style.top=t.y+'px'; t.el._fx=t.x/Math.max(1,sw-t.w); t.el._fy=t.y/Math.max(1,sh-t.h); }); }
+
+/* 조준/발사 */
+function startAim(e){
+  e.preventDefault();
+  const el=e.currentTarget, t=tokens.find(x=>x.el===el); if(!t)return;
+  t.vx=0; t.vy=0; // 움직이는 입자를 잡으면 멈춤
+  try{ el.setPointerCapture(e.pointerId); }catch(_){}
+  el.classList.add('grab'); el.style.zIndex=++zTop;
+  const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+  line.setAttribute('stroke-width','7'); line.setAttribute('stroke-linecap','round');
+  const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  dot.setAttribute('r','10'); dot.setAttribute('stroke','rgba(0,0,0,.35)'); dot.setAttribute('stroke-width','2');
+  aimLayer.appendChild(line); aimLayer.appendChild(dot);
+  aimMap.set(e.pointerId,{t,line,dot,curlen:0,dx:0,dy:0});
+  const sr=stage.getBoundingClientRect(); updateAim(e.pointerId, e.clientX-sr.left, e.clientY-sr.top);
+}
+function updateAim(pid,px,py){
+  const a=aimMap.get(pid); if(!a)return;
+  const cx=a.t.x+a.t.w/2, cy=a.t.y+a.t.h/2;
+  let dx=px-cx, dy=py-cy, len=Math.hypot(dx,dy); const maxLen=240;
+  if(len>maxLen){ const s=maxLen/len; px=cx+dx*s; py=cy+dy*s; dx*=s; dy*=s; len=maxLen; }
+  const pw=len/maxLen, col= pw<.5?'#FFE14D':(pw<.8?'#F39C12':'#E24B4A');
+  a.line.setAttribute('x1',cx); a.line.setAttribute('y1',cy); a.line.setAttribute('x2',px); a.line.setAttribute('y2',py); a.line.setAttribute('stroke',col);
+  a.dot.setAttribute('cx',px); a.dot.setAttribute('cy',py); a.dot.setAttribute('fill',col);
+  a.curlen=len; a.dx=dx; a.dy=dy;
+}
+function launchAim(e){
+  const a=aimMap.get(e.pointerId); if(!a)return;
+  const t=a.t, len=a.curlen||0;
+  if(len>10){ const power=Math.min(len*FLICK_K,MAXV), nx=a.dx/len, ny=a.dy/len; t.vx=nx*power; t.vy=ny*power; playSwoosh(); }
+  try{ t.el.releasePointerCapture(e.pointerId); }catch(_){}
+  t.el.classList.remove('grab'); a.line.remove(); a.dot.remove(); aimMap.delete(e.pointerId);
+}
+function clearAim(){ aimMap.forEach(a=>{ try{a.line.remove();a.dot.remove();}catch(_){} a.t.el.classList.remove('grab'); }); aimMap.clear(); }
 
 /* ===== 봇 엔진 ===== */
 function isDragging(el){ for(const d of drags.values()) if(d.el===el) return true; return false; }
-function draggable(t){ return !isDragging(t.el); }
+function draggable(t){ return !isDragging(t.el) && !isAiming(t); }
 function notIn(list,t){ return list.indexOf(t)<0; }
 function poolToks(){ const a=inBasket(b1), b=inBasket(b2); return tokens.filter(t=>notIn(a,t)&&notIn(b,t)); }
 function animateMove(t, region){
@@ -533,34 +734,51 @@ function doMistake(){
   const t=pool[Math.floor(Math.random()*pool.length)];
   animateMove(t, Math.random()<0.5?R_B2:R_POOL);
 }
-function actableByBot(){ return mode==='free' ? phase==='free' : (phase==='turn' && turnTeam===2); }
+function actableByBot(){ return (mode==='free'&&phase==='free') || (mode==='alkkagi'&&phase==='alkkagi') || (mode==='quiz'&&phase==='turn'&&turnTeam===2); }
 function botStep(){
   if(!(vsBot && actableByBot())) return;
+  if(mode==='alkkagi'){ botFlick(); return; }
   const p=BOT[botLevel];
   if(Math.random()<p.mistake){ doMistake(); return; }
   let action=fixOwn();
   if(!action && Math.random()<=p.sab) action=sabotage();
   if(action) animateMove(action.t, action.region);
 }
+function botFlick(){
+  const p=BOT[botLevel];
+  let action=fixOwn();
+  if(!action && Math.random()<=p.sab) action=sabotage();
+  if(!action){ const cand=poolToks().concat(inBasket(b1)).filter(t=>draggable(t)&&t.vx===0&&t.vy===0); if(cand.length) action={t:cand[Math.floor(Math.random()*cand.length)], region:R_B2}; }
+  if(!action) return;
+  const t=action.t; if(isAiming(t))return;
+  const sw=stage.clientWidth, sh=stage.clientHeight;
+  const tx=(action.region.x0+action.region.x1)/2*sw;
+  const ty=((action.region.y0+action.region.y1)/2 + (Math.random()-.5)*0.25)*sh;
+  let dx=tx-(t.x+t.w/2), dy=ty-(t.y+t.h/2), len=Math.hypot(dx,dy)||1;
+  const err=(1-p.qok)*0.7, ang=Math.atan2(dy,dx)+(Math.random()-.5)*err*2;
+  const speed=Math.min(len*1.7,MAXV)*(0.78+Math.random()*0.3);
+  t.vx=Math.cos(ang)*speed; t.vy=Math.sin(ang)*speed; playSwoosh();
+}
 function startBotMove(){ if(!vsBot)return; stopBotMove(); botMoveTimer=setInterval(botStep, BOT[botLevel].interval); }
 function stopBotMove(){ if(botMoveTimer){ clearInterval(botMoveTimer); botMoveTimer=null; } }
 function scheduleBotQuiz(){
   if(!vsBot) return;
-  const p=BOT[botLevel], Q=quizDeck[quizIdx], myIdx=quizIdx;
-  const delay=rand(p.qd[0], p.qd[1]);
+  const p=BOT[botLevel], myIdx=quizIdx, delay=rand(p.qd[0], p.qd[1]);
   botQuizTO=setTimeout(function attempt(){
     if(phase!=='quiz' || quizIdx!==myIdx) return;
-    const ok=Math.random()<p.qok;
-    let choice;
-    if(ok) choice=Q.a; else { const wrong=Q.c.map((_,i)=>i).filter(i=>i!==Q.a); choice=wrong[Math.floor(Math.random()*wrong.length)]; }
-    const btns=document.querySelectorAll('#qb2 .qopt'); const sideEl=document.querySelector('.qside.p2');
-    if(btns[choice]) answer(2, choice, Q.a, btns[choice], sideEl);
+    const side=document.querySelector('.qside.p2');
+    if(side.classList.contains('locked')){ botQuizTO=setTimeout(attempt,500); return; } // 읽는 시간/오답 잠금 대기
+    const nOpt=document.querySelectorAll('#qb2 .qopt').length;
+    const ok=Math.random()<p.qok; let choice;
+    if(ok) choice=curCorrect; else { const wrong=[]; for(let i=0;i<nOpt;i++) if(i!==curCorrect) wrong.push(i); choice=wrong[Math.floor(Math.random()*wrong.length)]; }
+    const btns=document.querySelectorAll('#qb2 .qopt');
+    if(btns[choice]) answer(2, choice, btns[choice], side);
     if(!ok && phase==='quiz' && quizIdx===myIdx) botQuizTO=setTimeout(attempt, 1400);
   }, delay);
 }
 
 /* ===== 오디오 ===== */
-let actx=null, bgmGain=null, sfxGain=null, bgmOn=true, audioReady=false, nextNote=0, step=0;
+let actx=null, bgmGain=null, sfxGain=null, bgmOn=true, audioReady=false, nextNote=0, step=0, lastClack=0;
 const TEMPO=132, STEP=60/TEMPO/2;
 const MEL=[523,659,784,659, 880,784,659,587, 523,659,784,1046, 880,784,659,523];
 const BASS=[131,131,196,196, 175,175,220,220, 131,131,196,196, 175,175,196,196];
@@ -576,9 +794,12 @@ function playCorrect(){ if(!actx)return; const t=actx.currentTime; tone(784,t,.1
 function playWrong(){ if(!actx)return; tone(150,actx.currentTime,.28,'sawtooth',.2); }
 function playTick(){ if(!actx)return; tone(1200,actx.currentTime,.05,'square',.16); }
 function playFanfare(){ if(!actx)return; const t=actx.currentTime; [523,659,784,1046].forEach((f,i)=>tone(f,t+i*0.1,.18,'square',.2)); }
+function playSwoosh(){ if(!actx)return; const t=actx.currentTime; tone(620,t,.10,'sawtooth',.10); tone(320,t+.02,.10,'square',.07); }
+function playClack(){ if(!actx)return; const n=performance.now(); if(n-lastClack<45)return; lastClack=n; tone(190+Math.random()*140,actx.currentTime,.05,'square',.14); }
 
 /* ===== 버튼 ===== */
 document.getElementById('startFree').addEventListener('click',startFree);
+document.getElementById('startAlk').addEventListener('click',startAlkkagi);
 document.getElementById('startQuiz').addEventListener('click',startQuiz);
 document.getElementById('againBtn').addEventListener('click',newRound);
 const howtoEl=document.getElementById('howto');
@@ -588,7 +809,7 @@ const dexEl=document.getElementById('dex');
 document.getElementById('dexBtn').addEventListener('click',()=>{ensureAudio();dexEl.classList.add('show');});
 document.getElementById('dexClose').addEventListener('click',()=>dexEl.classList.remove('show'));
 document.getElementById('muteBtn').addEventListener('click',function(){ ensureAudio(); bgmOn=!bgmOn; if(bgmGain)bgmGain.gain.value=bgmOn?0.9:0; this.textContent=bgmOn?'BGM ON':'BGM OFF'; this.classList.toggle('off',!bgmOn); });
-window.addEventListener('resize',()=>tokens.forEach(t=>placeToken(t.el)));
+window.addEventListener('resize',()=>{ tokens.forEach(t=>placeToken(t.el)); resizeAimLayer(); if(mode==='alkkagi'){ tokens.forEach(t=>{ t.x=parseFloat(t.el.style.left)||0; t.y=parseFloat(t.el.style.top)||0; }); } });
 document.querySelectorAll('#oppPick .opp').forEach(btn=>{
   btn.addEventListener('click',function(){
     document.querySelectorAll('#oppPick .opp').forEach(b=>b.classList.remove('sel'));
